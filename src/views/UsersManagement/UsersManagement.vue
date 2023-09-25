@@ -271,6 +271,7 @@ import GenderBadge from "@/components/GenderBadge.vue";
 import debounce from "lodash/debounce";
 import ClippedText from "@/components/ClippedText.vue";
 import NotificationsModal from "./NotificationsModal.vue";
+import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
 
 const { t } = useI18n();
 const usersManagementStore = useUsersStore();
@@ -295,6 +296,7 @@ const createUser = async (data: NewUserData) => {
     Toaster.Success("Success", "sucess");
   } catch (error) {
     console.log(error);
+    Toaster.error((error as Error).message);
   }
 };
 
@@ -318,9 +320,10 @@ const updateUser = async (data: NewUserData) => {
 
     usersManagementStore.unselectUser();
 
-    Toaster.Success("asdf", "asdfa");
+    Toaster.Success(t("operationDone"), t("upatedItemSuccessfully"));
   } catch (error) {
     console.log(error);
+    Toaster.error((error as Error).message);
   }
 };
 const formatter = (key: "createdAt" | "lastUpdated" | "birthDate") => {
@@ -344,7 +347,7 @@ const handleToggleUser = async (user: User) => {
     Toaster.Success("Success", "sucess");
     return true;
   } catch (error) {
-    Toaster.error("Error", "Error");
+    Toaster.error((error as Error).message);
     return false;
   }
 };

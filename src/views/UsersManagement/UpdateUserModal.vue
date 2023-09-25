@@ -38,143 +38,145 @@
               data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
               data-kt-scroll-offset="300px"
             >
-              <div class="fv-row mb-7">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("firstName") }}
-                </label>
-                <!--end::Label-->
+              <div class="row">
+                <div class="col-md-6 fv-row mb-7">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("firstName") }}
+                  </label>
+                  <!--end::Label-->
 
-                <!--begin::Input-->
-                <el-form-item prop="firstName">
-                  <el-input
-                    v-model="formData.firstName"
-                    type="text"
-                    :placeholder="$t('firstName')"
-                  />
-                </el-form-item>
-                <!--end::Input-->
-              </div>
-              <div class="fv-row mb-7">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("fatherName") }}
-                </label>
-                <!--end::Label-->
+                  <!--begin::Input-->
+                  <el-form-item prop="firstName">
+                    <el-input
+                      v-model="formData.firstName"
+                      type="text"
+                      :placeholder="$t('firstName')"
+                    />
+                  </el-form-item>
+                  <!--end::Input-->
+                </div>
+                <div class="col-md-6 fv-row mb-7">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("fatherName") }}
+                  </label>
+                  <!--end::Label-->
 
-                <!--begin::Input-->
-                <el-form-item prop="fatherName">
-                  <el-input
-                    v-model="formData.fatherName"
-                    type="text"
-                    :placeholder="$t('fatherName')"
-                  />
-                </el-form-item>
-                <!--end::Input-->
-              </div>
-              <div class="fv-row mb-7">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("surName") }}
-                </label>
-                <!--end::Label-->
+                  <!--begin::Input-->
+                  <el-form-item prop="fatherName">
+                    <el-input
+                      v-model="formData.fatherName"
+                      type="text"
+                      :placeholder="$t('fatherName')"
+                    />
+                  </el-form-item>
+                  <!--end::Input-->
+                </div>
+                <div class="col-md-6 fv-row mb-7">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("surName") }}
+                  </label>
+                  <!--end::Label-->
 
-                <!--begin::Input-->
-                <el-form-item prop="surName">
-                  <el-input
-                    v-model="formData.surName"
-                    type="text"
-                    :placeholder="$t('surName')"
-                  />
-                </el-form-item>
-                <!--end::Input-->
-              </div>
+                  <!--begin::Input-->
+                  <el-form-item prop="surName">
+                    <el-input
+                      v-model="formData.surName"
+                      type="text"
+                      :placeholder="$t('surName')"
+                    />
+                  </el-form-item>
+                  <!--end::Input-->
+                </div>
 
-              <div class="d-flex flex-column mb-7 fv-row">
-                <!--begin::Label-->
-                <label class="fs-6 fw-bold mb-2">
-                  <span class="required"> {{ $t("gender") }}</span>
+                <div class="col-md-6 fv-row mb-7">
+                  <!--begin::Label-->
+                  <label class="fs-6 fw-bold mb-2">
+                    <span class="required"> {{ $t("gender") }}</span>
 
-                  <!--                  <i-->
-                  <!--                    class="fas fa-exclamation-circle ms-1 fs-7"-->
-                  <!--                    data-bs-toggle="tooltip"-->
-                  <!--                    title="Country of origination"-->
-                  <!--                  ></i>-->
-                </label>
-                <el-select v-model="formData.gender">
-                  <el-option
-                    :value="AppConstants.USER_GENDER.Male"
-                    :label="$t('male')"
+                    <!--                  <i-->
+                    <!--                    class="fas fa-exclamation-circle ms-1 fs-7"-->
+                    <!--                    data-bs-toggle="tooltip"-->
+                    <!--                    title="Country of origination"-->
+                    <!--                  ></i>-->
+                  </label>
+                  <el-select v-model="formData.gender">
+                    <el-option
+                      :value="AppConstants.USER_GENDER.Male"
+                      :label="$t('male')"
+                    >
+                    </el-option>
+                    <el-option
+                      :value="AppConstants.USER_GENDER.Female"
+                      :label="$t('female')"
+                    >
+                    </el-option>
+                  </el-select>
+                  <!--end::Input-->
+                </div>
+
+                <div class="col-md-6 fv-row mb-7">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("phone") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-form-item prop="phoneNumber">
+                    <el-input
+                      v-model="formData.phoneNumber"
+                      type="text"
+                      :placeholder="$t('phone')"
+                    />
+                  </el-form-item>
+
+                  <!--end::Input-->
+                </div>
+                <div class="col-md-6 fv-row mb-7">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("otherPhone") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-form-item prop="otherPhone">
+                    <el-input
+                      v-model="formData.otherPhone"
+                      type="text"
+                      :placeholder="$t('otherPhone')"
+                    />
+                  </el-form-item>
+
+                  <!--end::Input-->
+                </div>
+
+                <div class="col-md-6 fv-row mb-7">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("permissions") }}
+                  </label>
+                  <el-select
+                    v-model="formData.permissions"
+                    filterable
+                    multiple
+                    collapse-tags
+                    collapse-tags-tooltip
+                    :max-collapse-tags="3"
+                    placeholder="Select"
                   >
-                  </el-option>
-                  <el-option
-                    :value="AppConstants.USER_GENDER.Female"
-                    :label="$t('female')"
-                  >
-                  </el-option>
-                </el-select>
-                <!--end::Input-->
-              </div>
-
-              <div class="fv-row mb-7">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("phone") }}
-                </label>
-                <!--end::Label-->
-
-                <!--begin::Input-->
-                <el-form-item prop="phoneNumber">
-                  <el-input
-                    v-model="formData.phoneNumber"
-                    type="text"
-                    :placeholder="$t('phone')"
-                  />
-                </el-form-item>
-
-                <!--end::Input-->
-              </div>
-              <div class="fv-row mb-7">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("otherPhone") }}
-                </label>
-                <!--end::Label-->
-
-                <!--begin::Input-->
-                <el-form-item prop="otherPhone">
-                  <el-input
-                    v-model="formData.otherPhone"
-                    type="text"
-                    :placeholder="$t('otherPhone')"
-                  />
-                </el-form-item>
-
-                <!--end::Input-->
-              </div>
-
-              <div class="fv-row mb-7">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("permissions") }}
-                </label>
-                <el-select
-                  v-model="formData.permissions"
-                  filterable
-                  multiple
-                  collapse-tags
-                  collapse-tags-tooltip
-                  :max-collapse-tags="3"
-                  placeholder="Select"
-                >
-                  <el-option
-                    v-for="PermissionKey in Object.keys(permissions)"
-                    :key="PermissionKey"
-                    :label="PermissionKey"
-                    :value="permissions[PermissionKey]"
-                  />
-                </el-select>
-                <!--end::Label-->
+                    <el-option
+                      v-for="PermissionKey in Object.keys(permissions)"
+                      :key="PermissionKey"
+                      :label="PermissionKey"
+                      :value="permissions[PermissionKey]"
+                    />
+                  </el-select>
+                  <!--end::Label-->
+                </div>
               </div>
             </div>
             <!--end::Scroll-->

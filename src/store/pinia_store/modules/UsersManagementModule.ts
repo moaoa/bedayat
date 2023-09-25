@@ -1,3 +1,4 @@
+import { useI18n } from "vue-i18n";
 import { defineStore } from "pinia";
 import {
   User,
@@ -8,12 +9,54 @@ import {
 
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import UsersService from "@/core/services/UsersService";
+import Toaster from "@/core/services/Toaster";
 
 export const useUsersStore = defineStore({
   id: "usersStore",
 
   state: () => ({
-    users: [] as User[],
+    users: [
+      {
+        address: "",
+        academicQualification: "",
+        avatar: "",
+        birthDate: "",
+        children: [],
+        cityId: "",
+        code: "",
+        countryId: "",
+        email: "",
+        createdAt: "",
+        faceBookId: "",
+        fatherName: "",
+        firstName: "",
+        fullName: "",
+        gender: 2,
+        gradeId: "2",
+        id: "academicQualification",
+        isAccepted: true,
+        isActivated: true,
+        isDisabled: true,
+        isAdmin: true,
+        isChild: true,
+        isParent: true,
+        isCompleteProfile: true,
+        isTeacher: true,
+        lastUpdated: "",
+        localityId: "",
+        motherName: "motherName",
+        nationalNumber: "",
+        occupation: "",
+        otherPhone: "",
+        parentId: "",
+        parents: [],
+        permissions: [],
+        qualificationDate: "",
+        resume: "",
+        role: "",
+        schoolManager: "",
+      },
+    ] as User[],
     pagination: {
       total: 0,
       currentPage: 1,
@@ -51,9 +94,8 @@ export const useUsersStore = defineStore({
           this.users = res.data.data;
         }
       } catch (e) {
-        this.errorLoadingData = true;
-        this.errorMessage =
-          (e as Error).message ?? "حدث خطأ أثناء محاولة تحميل البيانات";
+        console.log(e);
+        Toaster.error("حدث خطأ أثناء محاولة تحميل البيانات");
       } finally {
         this.dataIsLoading = false;
       }
@@ -72,9 +114,8 @@ export const useUsersStore = defineStore({
           this.users = res.data.data;
         }
       } catch (e) {
-        this.errorLoadingData = true;
-        this.errorMessage =
-          (e as Error).message ?? "حدث خطأ أثناء محاولة تحميل البيانات";
+        console.log(e);
+        Toaster.error("حدث خطأ أثناء محاولة تحميل البيانات");
       } finally {
         this.dataIsLoading = false;
       }
@@ -84,10 +125,9 @@ export const useUsersStore = defineStore({
       try {
         await UsersService.changeUserStatus(user, user.isDisabled);
         this.isSwitchingUserStatus = false;
-        return true;
       } catch (error) {
         this.isSwitchingUserStatus = false;
-        return false;
+        throw error;
       }
     },
     unselectUser() {
@@ -96,7 +136,7 @@ export const useUsersStore = defineStore({
     selectUser(selectedUser: User) {
       this.selectedUser = selectedUser;
     },
-    updateItem(newValues: NewUserData) {
+    async updateItem(newValues: NewUserData) {
       this.isUpdatingItem = true;
       try {
         if (!this.selectedUser) {
@@ -107,7 +147,7 @@ export const useUsersStore = defineStore({
           (user) => user.id === this.selectedUser!.id
         );
 
-        UsersService.updateUser(this.selectedUser.id, newValues);
+        await UsersService.updateUser(this.selectedUser.id, newValues);
 
         this.users[index] = { ...this.selectedUser, ...newValues };
         this.isUpdatingItem = false;
