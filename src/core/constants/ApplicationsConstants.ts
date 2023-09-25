@@ -10,6 +10,7 @@ export class AppConstants {
   static SYSTEMSETTINGS_URL = `${AppConstants.COMMON}/SystemSetting`;
   static COMMON_TERMS_AND_PRIVACY_URL = `${AppConstants.COMMON}/TermsAndPrivacy`;
   static COMMON_SUBSCRIPTION_URL = `${AppConstants.COMMON}/Subscription`;
+  static AUTH_URL = `${AppConstants.COMMON}/SignIn/SignIn`;
 
   static FILTER_ADMIN_BY_OPTIONS = {
     ByPhoneNumber: 0,
