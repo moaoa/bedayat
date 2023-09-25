@@ -1,0 +1,14 @@
+.el-icon {
+  cursor: pointer;
+}
+.el-form-item__error {
+  right: 0;
+  left: unset;
+}
+
+.el-pagination .btn-prev {
+  transform: rotate(180deg);
+}
+.el-pagination .btn-next {
+  transform: rotate(180deg);
+}
