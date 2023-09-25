@@ -70,16 +70,7 @@
   </div>
 </template>
 
-<style lang="scss">
-.el-select {
-  width: 100%;
-}
 
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  width: 100%;
-}
-</style>
 
 <script lang="ts" setup>
 import { useCountriesStore } from "@/store/pinia_store/modules/CountriesModule";
@@ -111,3 +102,13 @@ const deleteCountry = async () => {
     emit("countryDeleted", countriesStore.selectedCountry!);
 };
 </script>
+<style lang="scss">
+.el-select {
+  width: 100%;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100%;
+}
+</style>

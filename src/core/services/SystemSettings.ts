@@ -16,7 +16,7 @@ class SystemSettingsService {
 
   public static async updateSystemSettings(data: AddSettingsRequestDto):Promise<ApiResponse<systemSettingsResponse>> {
     const result =  await ApiService.put<ApiResponse<systemSettingsResponse>>(
-      `${AppConstants.COMMON_SUBSCRIPTION_URL}`,data
+      `${AppConstants.SUBSCRIPTION_URL}`,data
     );
     return result.data;
   }

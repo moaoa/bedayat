@@ -125,8 +125,8 @@
 
     <!-- begin::dialog -->
     <DeleteCountry
-      @countryDeleted="countryDeleted"
       ref="deleteCountryModalRef"
+      @countryDeleted="countryDeleted"
     ></DeleteCountry>
     <!-- end::dialog -->
   </div>
@@ -177,12 +177,12 @@ const createCountry = async (countryData: Country) => {
 
 const countryUpdated = async () => {
   hideModal(updateCountryModalRef.value!.modalRef);
-  Toaster.Success("success", "asasdsds");
+  Toaster.Success("Success!", "Country Updated Successfully");
 };
 
 const countryDeleted = async () => {
   hideModal(deleteCountryModalRef.value!.modalRef!);
-  Toaster.Success("success", "asasdsds");
+  Toaster.Success("Success!", "Country Deleted Successfully");
 };
 
 const formatter = (key: keyof Country) => {

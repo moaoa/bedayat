@@ -100,8 +100,6 @@ class ApiService {
     resource: string,
     params: Record<string, unknown>
   ): Promise<AxiosResponse<T>> {
-    console.log("llskdjflk");
-
     return ApiService.vueInstance.axios.put(`${resource}`, params);
   }
 

@@ -5,7 +5,7 @@ import { AddTermsData, TermsAndPrivacy, UpdateTermsData } from "@/types/TermsAnd
 class TermsAndPrivacyService {
 
     public static async getTermsAndPrivacy() {
-        const result =  await ApiService.get(`${AppConstants.COMMON_TERMS_AND_PRIVACY_URL}`);
+        const result =  await ApiService.get(`${AppConstants.TERMS_AND_PRIVACY_URL}`);
 
         const data = result.data as ApiResponse<TermsAndPrivacy[]>;
 
@@ -14,13 +14,13 @@ class TermsAndPrivacyService {
 
   public static async deleteTermsAndPrivacy(termId: string) {
     return await ApiService.delete<ApiResponse<unknown>>(
-      `${AppConstants.COMMON_TERMS_AND_PRIVACY_URL}/${termId}`
+      `${AppConstants.TERMS_AND_PRIVACY_URL}/${termId}`
     );
   }
   public static async updateTermsAndPrivacy(termId: string, data: UpdateTermsData) : Promise<ApiResponse<TermsAndPrivacy>> {
    
     const  result =  await ApiService.put<ApiResponse<TermsAndPrivacy>>(
-      `${AppConstants.COMMON_TERMS_AND_PRIVACY_URL}/${termId}`, data
+      `${AppConstants.TERMS_AND_PRIVACY_URL}/${termId}`, data
     );
 
     return result.data;
@@ -29,7 +29,7 @@ class TermsAndPrivacyService {
   public static async addTermsAndPrivacy( data: AddTermsData) : Promise<ApiResponse<TermsAndPrivacy>> {
    
     const  result =  await ApiService.post<ApiResponse<TermsAndPrivacy>>(
-      `${AppConstants.COMMON_TERMS_AND_PRIVACY_URL}`, data
+      `${AppConstants.TERMS_AND_PRIVACY_URL}`, data
     );
 
     return result.data;
