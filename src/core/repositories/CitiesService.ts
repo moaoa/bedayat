@@ -1,7 +1,6 @@
 import { City, NewCityData } from "@/types/Cities";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
-import Toaster from "./Toaster";
 
 import ApiService from "../services/ApiService";
 
@@ -10,7 +9,6 @@ class CitiesService {
     const result =  await ApiService.post<ApiResponse<City>>(
       `${AppConstants.CITIES_URL}/${data.countryId}`,
       {
-        parentId: data.countryId,
         name: data.name,
         englishName: data.englishName,
       }

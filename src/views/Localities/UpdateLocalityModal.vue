@@ -170,24 +170,19 @@ const rules = ref({
   name: [
     { required: true, message: t("required"), trigger: "blur" },
     {
-      max: 10,
-      min: 3,
-      message: t("stringLength", { min: 3, max: 10 }),
-      trigger: "change",
-    },
+      required: true,
+      pattern:  /^[ء-ي\s]+$/,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    }
   ],
   englishName: [
     {
       required: true,
-      message: t("englishName"),
-      trigger: "blur",
-    },
-    {
-      max: 10,
-      min: 3,
-      message: t("englishName"),
-      trigger: "change",
-    },
+      pattern: /^[A-Za-z\s]+$/,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    }
   ],
 });
 

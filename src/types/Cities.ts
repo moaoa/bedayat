@@ -12,5 +12,5 @@ export type City = {
 
 export type NewCityData = Omit<
   City,
-  "id" | "createdAt" | "lastUpdated" | "localities"
+  "id" | "createdAt" | "lastUpdated" | "localities" 
 >;

@@ -1,11 +1,14 @@
 import { defineStore } from "pinia";
 import { Locality, NewLocalityData } from "@/types/Localities";
 import { City } from "@/types/Cities";
+import LocalitiesService from "@/core/services/LocalitiesService";
+import Toaster from "@/core/services/Toaster";
 export const useLocalitiesStore = defineStore({
   id: "localitiesStore",
 
   state: () => ({
     localities: [] as Locality[],
+    selectedCityId: "",
     total: 0,
     currentPage: 1,
     currentSize: 0,
@@ -19,56 +22,25 @@ export const useLocalitiesStore = defineStore({
   }),
 
   actions: {
-    async loadLocalities() {
+    async loadLocalities(cityId: string) {
       try {
         this.dataIsLoading = true;
         this.errorLoadingData = false;
 
-        // const result = await ApiService.get(AppConstants.localities_URL);
-        // const data = result.data as ApiResponse<PagedList<Locality>>;
-
-        setTimeout(() => {
-          //TODO: REMOVE THIS
-          const data = {
-            isSuccess: true,
-            total: 100,
-            currentPage: 1,
-            currentSize: 10,
-            localities: [
-              {
-                id: "1",
-                name: "asdf",
-                englishName: "asdf",
-                cityId: "1asdf",
-                createdAt: new Date().toISOString(),
-                lastUpdated: new Date().toISOString(),
-              },
-              {
-                id: "2",
-                name: "asdf",
-                englishName: "asdf",
-                cityId: "1asdf",
-                createdAt: new Date().toISOString(),
-                lastUpdated: new Date().toISOString(),
-              },
-            ] as Locality[],
-            message: "",
-          };
-
-          this.total = data.total;
-          this.currentPage = data.currentPage;
-          this.currentSize = data.currentSize;
-
-          this.localities = data.localities;
-          this.dataIsLoading = false;
-        }, 2000);
+        const result = await LocalitiesService.loadLocalities(cityId);
+        console.log(result);
+        
+        this.localities = result;
+        
+        this.dataIsLoading = false;
+        // Toaster.Success("")
       } catch (e) {
         this.errorLoadingData = true;
         this.errorMessage =
           (e as Error).message ?? "حدث خطأ أثناء محاولة تحميل البيانات";
       } finally {
         //TODO: uncomment this
-        // this.dataIsLoading = false;
+        this.dataIsLoading = false;
       }
     },
     unselectLocality() {

@@ -103,7 +103,7 @@
                 {{ $t("save") }}
                 <span class="svg-icon svg-icon-3 ms-2 me-0">
                   <inline-svg src="icons/duotune/arrows/arr064.svg" />
-                </span>
+                </span>z
               </span>
               <span v-if="loading" class="indicator-progress">
                 {{ $t("pleaseWait") }}...

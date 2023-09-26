@@ -5,6 +5,7 @@ export class AppConstants {
   static USERS_URL = `${AppConstants.MANAGEMENT_URL}/UsersManagement`;
   static FAMILY_URL = `${AppConstants.MANAGEMENT_URL}/Family`;
   static CITIES_URL = `${AppConstants.MANAGEMENT_URL}/Cities`;
+  static LOCALITIES_URL = `${AppConstants.MANAGEMENT_URL}/Localities`;
   static COUNTRIES_URL = `${AppConstants.MANAGEMENT_URL}/Countries`;
   static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
   static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;

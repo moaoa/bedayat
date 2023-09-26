@@ -193,6 +193,7 @@ const messages = {
   },
   ar: {
     
+    localities: "الأحياء",
     addSubscriptionSettings:"إضافة جديدة",
     submit:"تأكيد",
     systemSettings:"إعدادات النظام",
