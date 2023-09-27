@@ -203,6 +203,7 @@
             width="90"
             align="center"
             header-align="center"
+            fixed="right"
           >
             <template #default="scope: { row: User, $index: number }">
               <div class="flex">
@@ -365,3 +366,8 @@ watch(
   background-color: rgba(255, 0, 0, 0.261);
 }
 </style>
+
+<!-- .el-table td.is-hidden > *,
+.el-table th.is-hidden > * {
+  visibility: visible !important;
+} -->

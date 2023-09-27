@@ -47,6 +47,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/UsersManagement/FamilyMembers.vue"),
       },
       {
+        path: "/dashboard/Grades",
+        name: "Grades",
+        component: () => import("@/views/Grades/Grades.vue"),
+      },
+      {
         path: "/dashboard/Countries",
         name: "Countries",
         component: () => import("@/views/Countries/Countries.vue"),
@@ -60,7 +65,8 @@ const routes: Array<RouteRecordRaw> = [
         path: "/dashboard/bugReports",
         name: "bugReports",
         component: () => import("@/views/BugReport/BugReport.vue"),
-      },{
+      },
+      {
         path: "/dashboard/faqs",
         name: "faqs",
         component: () => import("@/views/Faqs/Faqs.vue"),
@@ -94,14 +100,12 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/dashboard/SystemSettings",
         name: "systemSettings",
-        component: () =>
-          import("@/views/SystemSettings/SystemSettings.vue"),
+        component: () => import("@/views/SystemSettings/SystemSettings.vue"),
       },
       {
         path: "/dashboard/TermsAndPrivacy",
         name: "TermsAndPrivacy",
-        component: () =>
-          import("@/views/TermsAndPrivacy/TermsAndPrivacy.vue"),
+        component: () => import("@/views/TermsAndPrivacy/TermsAndPrivacy.vue"),
       },
     ],
   },

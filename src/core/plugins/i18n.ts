@@ -190,6 +190,7 @@ const messages = {
     submit: "Submit",
     addSubscriptionSettings: "Add Subscription Settings",
     notify: "Notify",
+    addNewGrade: "Add New Grade",
   },
   ar: {
     addSubscriptionSettings: "إضافة جديدة",
@@ -368,6 +369,7 @@ const messages = {
     startOfYearDate: "تاريخ بداية السنة الدراسية",
     endOfYearDate: "تاريخ نهاية السنة الدراسية",
     notify: "إشعار",
+    addNewGrade: "إضافة صف جديد",
   },
 };
 
