@@ -1,5 +1,6 @@
 import store from "@/store";
 import { Mutations, Actions } from "@/store/enums/StoreEnums";
+import { useAuthenticationStore } from "@/store/pinia_store/modules/AuthModule";
 
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
@@ -136,13 +137,50 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(() => {
-  store.commit(Mutations.RESET_LAYOUT_CONFIG);
+// router.beforeEach(() => {
+//   store.commit(Mutations.RESET_LAYOUT_CONFIG);
 
-  // store.dispatch(Actions.VERIFY_AUTH);
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-  }, 100);
-});
+//   // store.dispatch(Actions.VERIFY_AUTH);
+//   setTimeout(() => {
+// window.scrollTo(0, 0);
+// }, 100);
+// });
 
+
+// router.beforeEach(async (to, from, next) => {
+//   const auth = useAuthenticationStore();
+//   const { has } = useHasRole();
+
+//   if (!auth.user.signedIn) {
+//     if (auth.checkIsLoggedIn()) {
+
+//       if (!has(to.meta.permission as number)) {
+//         return next("/Forbidden");
+//       }
+
+//       // the user is logged in and trying to access the login page then redirect to dashboard
+//       if (to.meta.guest) {
+//         return next("/dashboard");
+//       }
+
+//       // continue to the route
+//       document.getElementById("InitScreenDOM")?.remove();
+//       return next();
+//     }
+
+//     // if the user is not logged in and the route is not guest only then redirect to login
+//     if (to.meta.guest) {
+//       return next();
+//     }
+
+//     return next("/");
+//   }
+//   // otherwise continue to the route
+//   next();
+
+//   // Scroll page to top on every route change
+//   setTimeout(() => {
+//     window.scrollTo(0, 0);
+//   }, 100);
+// });
 export default router;

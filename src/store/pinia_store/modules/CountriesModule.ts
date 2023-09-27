@@ -65,7 +65,6 @@ export const useCountriesStore = defineStore({
         this.countries.push(data.data);
       } catch (error) {
         console.log(error);
-        alert(error.errorMessage)
         throw error;
       } finally {
         this.isCreatingNewItem = false;

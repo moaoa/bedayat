@@ -46,7 +46,7 @@ export const useCitiesStore = defineStore({
       this.selectedCity = null;
     },
     selectCity(selectedCity: City) {
-      this.selectedCity = selectedCity;
+      this.selectedCity =  {...selectedCity};
     },
     updateItem(newValues: NewCityData) {
       this.isUpdatingItem = true;
@@ -65,7 +65,7 @@ export const useCitiesStore = defineStore({
         this.cities[index] = { ...this.selectedCity, ...updateResult };
         this.cities[index] = { ...this.selectedCity, ...newValues };
       } catch (error) {
-        Toaster.error(error || "Error" , error.errorMessage ||" Error Message")
+        Toaster.error("failed to update city",(error as Error).message);
       } finally {
         this.isUpdatingItem = false;
       }
@@ -74,11 +74,9 @@ export const useCitiesStore = defineStore({
       this.isCreatingNewItem = true;
       try {
         const res = await CitiesService.createCity(cityData);
-
-        this.cities.push(res.data.data);
-        // eslint-disable-next-line no-useless-catch
-      } catch (error: unknown) {
-        throw error;
+        this.cities.push(res);
+      } catch (error) {
+        Toaster.error("failed to add city",(error as Error).message);
       } finally {
         this.isCreatingNewItem = false;
       }
@@ -98,7 +96,7 @@ export const useCitiesStore = defineStore({
 
         this.cities.splice(index, 1);
       } catch (error) {
-        Toaster.error(error || "Error" , error.errorMessage ||" Error Message")
+        Toaster.error("failed to add city", (error as Error).message);
       } finally {
         this.isDeletingItem = false;
       }

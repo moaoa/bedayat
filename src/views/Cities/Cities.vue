@@ -10,17 +10,12 @@
         <!--begin::Menu-->
 
         <!-- TODO: add the load cities button -->
-        <a class="btn btn-icon btn-light-primary btn-sm me-3">
+        <a class="btn btn-icon btn-light-primary btn-sm me-3"
+          @click="citiesStore.loadCities({ countryId: citiesStore.selectedCountryId })">
           <i class="bi bi-arrow-repeat"></i>
         </a>
-
-        <a
-          href="#"
-          class="btn btn-sm btn-primary mx-1"
-          target="#"
-          data-bs-toggle="modal"
-          :data-bs-target="`#kt_modal_add_customer`"
-        >
+        <a href="#" class="btn btn-sm btn-primary mx-1" target="#" data-bs-toggle="modal"
+          :data-bs-target="`#kt_modal_add_customer`">
           <span class="svg-icon svg-icon-3">
             <inline-svg src="/media/icons/duotune/arrows/arr075.svg" />
           </span>
@@ -36,144 +31,82 @@
     <div class="card-body pt-2">
       <!-- begin::table -->
 
-      <ErrorAlert
-        v-if="citiesStore.errorLoadingData"
-        :title="citiesStore.errorMessage"
-      />
-      <SuccessAlert
+      <ErrorAlert v-if="citiesStore.errorLoadingData" :title="citiesStore.errorMessage" />
+      <!-- <SuccessAlert
         v-else-if="citiesStore.dataIsLoading"
         title="جاري تحميل البيانات المــدن  ..."
-      />
+      /> -->
 
-      <div v-else>
-        <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
-          <el-option
-            v-for="country in countriesStore.countries"
-            :key="country.id"
-            :value="country.id"
-            :label="country.englishName"
-          >
-          </el-option>
-        </el-select>
+      <div v-else class="row ">
 
-        <el-table :data="citiesTable" height="400">
-          >
-          <el-table-column
-            index="scope.$index"
-            :label="t('noNumber')"
-            width="55"
-            align="center"
-            header-align="center"
-          >
-            <template #default="scope">
-              {{ scope.$index + 1 }}
-            </template>
-          </el-table-column>
+        <div class="col-md-5 col-lg-4 col-7">
 
-          <el-table-column
-            prop="name"
-            :label="$t('arabicName')"
-            width="200"
-            align="center"
-            header-align="center"
-          >
-            <template #default="scope">
-              <b> {{ scope.row.name }}</b>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="englishName"
-            :label="$t('englishName')"
-            width="200"
-            align="center"
-            header-align="center"
-          >
-            <template #default="scope">
-              <b> {{ scope.row.englishName }}</b>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="createdAt"
-            :label="$t('createdAt')"
-            width="100"
-            :formatter="formatter('createdAt')"
-            align="center"
-            header-align="center"
-          />
-          <el-table-column
-            prop="lastUpdated"
-            :label="$t('lastUpdated')"
-            width="120"
-            :formatter="formatter('lastUpdated')"
-            align="center"
-            header-align="center"
-          />
-          <el-table-column
-            :label="$t('remove')"
-            width="90"
-            align="center"
-            header-align="center"
-          >
-            <template #default="scope: { row: City, $index: number }">
-              <div class="flex">
-                <a
-                  class="btn btn-icon btn-light-success btn-sm"
-                  @click="selectCity(scope.row)"
-                  data-bs-toggle="modal"
-                  :data-bs-target="`#update_city_modal`"
-                >
-                  <i class="bi bi-pencil"></i>
-                </a>
-              </div>
-            </template>
-          </el-table-column>
+          <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
+            <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
+              :label="country.name">
+            </el-option>
+          </el-select>
+        </div>
 
-          <el-table-column
-            :label="$t('remove')"
-            width="90"
-            align="center"
-            header-align="center"
-          >
-            <template #default="scope: { row: City, $index: number }">
-              <div class="flex">
-                <a
-                  class="btn btn-icon btn-light-danger btn-sm"
-                  data-bs-toggle="modal"
-                  :data-bs-target="`#kt_modal_delete_city`"
-                  @click="citiesStore.selectCity(scope.row)"
-                >
-                  <i class="bi bi-trash"></i>
-                </a>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
+        <div v-loading="citiesStore.dataIsLoading" class="card-body pt-2">
+          <el-table class="table-responsive" max-width :data="citiesTable">
+            <el-table-column index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
+              <template #default="scope">
+                {{ scope.$index + 1 }}
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="name" :label="$t('arabicName')" align="center" header-align="center">
+              <template #default="scope">
+                <b> {{ scope.row.name }}</b>
+              </template>
+            </el-table-column>
+            <el-table-column prop="englishName" :label="$t('englishName')" align="center" header-align="center">
+              <template #default="scope">
+                <b> {{ scope.row.englishName }}</b>
+              </template>
+            </el-table-column>
+            <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')" align="center"
+              header-align="center" />
+            <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"
+              align="center" header-align="center" />
+            <el-table-column :label="$t('edit')" align="center" header-align="center">
+              <template #default="scope: { row: City, $index: number }">
+                <div class="flex">
+                  <a class="btn btn-icon btn-light-success btn-sm" @click="selectCity(scope.row)" data-bs-toggle="modal"
+                    :data-bs-target="`#update_city_modal`">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                </div>
+              </template>
+            </el-table-column>
+
+            <el-table-column :label="$t('remove')" align="center" header-align="center">
+              <template #default="scope: { row: City, $index: number }">
+                <div class="flex">
+                  <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
+                    :data-bs-target="`#kt_modal_delete_city`" @click="citiesStore.selectCity(scope.row)">
+                    <i class="bi bi-trash"></i>
+                  </a>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
       </div>
       <!-- end::table -->
 
       <br />
       <!-- start::pagination -->
-      <el-pagination
-        v-if="!citiesStore.dataIsLoading && !citiesStore.errorLoadingData"
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="citiesStore.total"
-        current-page="{{currentPage}}"
-        page-size="{{currentSize}}"
-        pager-count="{{pageCount}}"
-        :page-sizes="[25, 100, 200, 300, 400]"
-      />
+      <el-pagination v-if="!citiesStore.dataIsLoading && !citiesStore.errorLoadingData" background
+        layout="total, sizes, prev, pager, next, jumper" :total="citiesStore.total" current-page="{{currentPage}}"
+        page-size="{{currentSize}}" pager-count="{{pageCount}}" :page-sizes="[25, 100, 200, 300, 400]" />
       <!-- end::pagination -->
     </div>
-
     <AddCityForm ref="addCityModalRef" @submit="createCity"></AddCityForm>
-
     <UpdateCityModal ref="updateCityModalRef" @submit="updateCity" />
     <!-- <AddCityForm @submit="cityAdded"></AddCityForm> -->
-    <DeleteCity
-      ref="deleteCityModalRef"
-      @cityDeleted="cityDeleted"
-    ></DeleteCity>
+    <DeleteCity ref="deleteCityModalRef" @cityDeleted="cityDeleted"></DeleteCity>
   </div>
   <!--end:List Widget 3-->
 </template>
@@ -190,7 +123,6 @@ import AddCityForm from "@/views/Cities/AddCityForm.vue";
 import UpdateCityModal from "./updateCityModal.vue";
 import Toaster from "@/core/services/Toaster";
 import ErrorAlert from "@/components/alerts/ErrorAlert.vue";
-import SuccessAlert from "@/components/alerts/SuccessAlert.vue";
 import { hideModal } from "@/core/helpers/dom";
 import DeleteCity from "@/views/Cities/DeleteCity.vue";
 import { ElSelect, ElOption } from "element-plus";
@@ -207,10 +139,9 @@ const citiesTable = computed(() => citiesStore.cities);
 const createCity = async (data: NewCityData) => {
   try {
     await citiesStore.createNewItem(data);
-
     hideModal(addCityModalRef.value!.modalRef!);
 
-    Toaster.Success("Success", "sucess");
+    Toaster.Success("نجاح", "تمت اضافة المدينة بنجاح");
   } catch (error) {
     console.log(error);
   }

@@ -24,15 +24,15 @@
           <!--end::Close-->
         </div>
         <el-form
-          @submit.prevent="submit()"
-          :model="formData"
-          :rules="rules"
-          ref="formRef"
+        ref="formRef"
+        :model="formData"
+        :rules="rules"
+        @submit.prevent="submit()"
         >
           <div class="modal-body py-10 px-lg-17">
             <div
+            id="kt_modal_add_customer_scroll"
               class="scroll-y me-n7 pe-7"
-              id="kt_modal_add_customer_scroll"
               data-kt-scroll="true"
               data-kt-scroll-activate="{default: false, lg: true}"
               data-kt-scroll-max-height="auto"
@@ -149,19 +149,6 @@ const formData = reactive<NewCountryData>({
 // eslint-disable-next-line no-undef
 const emit = defineEmits(["close", "submit"]);
 
-const rules = ref({
-  name: [
-    { required: true, message: t("required"), trigger: "blur" },
-  ],
-  englishName: [
-    {
-      required: true,
-      message: t("englishName"),
-      trigger: "blur",
-    }
-  ],
-});
-
 const submit = () => {
   if (!formRef.value) {
     return;
@@ -192,6 +179,7 @@ onMounted(() => {
   });
 });
 
+//todo: what is this ? 
 watch(
   () => countriesStore.selectedCountry,
   (value : Country) => {
@@ -199,6 +187,34 @@ watch(
     formData.englishName = value?.englishName;
   }
 );
+
+
+///////////////////////////////////////////// validation rules 
+
+const rules = ref({
+  name: [
+    { required: true, message: t("required"), trigger: "blur" },
+    {
+      pattern:  /^[ء-ي\s]+$/,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  englishName: [
+    {
+      required: true,
+      message: t("englishName"),
+      trigger: "blur",
+    },
+    {
+      pattern: /^[A-Za-z\s]+$/,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    },
+  ],
+});
+
+
 </script>
 <style lang="scss">
 .el-select {

@@ -103,7 +103,7 @@
                 {{ $t("save") }}
                 <span class="svg-icon svg-icon-3 ms-2 me-0">
                   <inline-svg src="icons/duotune/arrows/arr064.svg" />
-                </span>
+                </span>z
               </span>
               <span v-if="loading" class="indicator-progress">
                 {{ $t("pleaseWait") }}...
@@ -127,9 +127,9 @@
 import { reactive, ref, onMounted, watch, computed } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useCountriesStore } from "@/store/pinia_store/modules/CountriesModule";
-import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { useI18n } from "vue-i18n";
+import * as Yup from "yup";
 import { NewCountryData } from "@/types/Countries";
 
 const { t } = useI18n();
@@ -145,22 +145,13 @@ const formData = reactive<NewCountryData>({
 // eslint-disable-next-line no-undef
 const emit = defineEmits<{ (event: "submit", data: NewCountryData) }>();
 
+const validationSchema = Yup.object().shape({
+      name: Yup.string().required().label("name"),
+      englishName: Yup.string().required().label("englishName"),
+    });
 // eslint-disable-next-line no-undef
 defineExpose({ modalRef });
 
-const rules = ref({
-  name: [
-    { required: true, message: t("required"), trigger: "blur" },
-
-  ],
-  englishName: [
-    {
-      required: true,
-      message: t("englishName"),
-      trigger: "blur",
-    }
-  ],
-});
 
 const submit = () => {
   if (!formRef.value) {
@@ -178,8 +169,35 @@ const submit = () => {
 
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
-    formRef.value.resetFields();
+    if(formRef.value)
+      formRef.value.resetFields();
   });
+});
+
+
+///////////////////////////////////////////// validation rules 
+
+const rules = ref({
+  name: [
+    { required: true, message: t("required"), trigger: "blur" },
+    {
+      pattern:  /^[ء-ي\s]+$/,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  englishName: [
+    {
+      required: true,
+      message: t("englishName"),
+      trigger: "blur",
+    },
+    {
+      pattern: /^[A-Za-z\s]+$/,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    },
+  ],
 });
 </script>
 

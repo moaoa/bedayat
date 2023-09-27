@@ -196,6 +196,8 @@ const messages = {
     addSubscriptionSettings: "إضافة جديدة",
     submit: "تأكيد",
     systemSettings: "إعدادات النظام",
+
+    localities: "الأحياء",
     termsAndPrivacy: "الشروط العامة و الخصوصية",
     termsAndConditions: "الشروط العامة ",
     privacy: "الخصوصيه",

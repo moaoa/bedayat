@@ -1,9 +1,10 @@
 import { App } from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import JwtService from "@/core/services/JwtService";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import Toaster from "./Toaster";
+import AuthenticationService from "./AuthenticationService";
 
 class ApiService {
   public static vueInstance: App;
@@ -16,9 +17,47 @@ class ApiService {
   }
 
   public static setHeader(): void {
-    // ApiService.vueInstance.axios.defaults.headers.common[
-    //   "Authorization"
-    // ] = `Bearer ${JwtService.getToken()}`;
+    // ApiService.vueInstance.axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
+    ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] =
+      "application/json";
+    ApiService.vueInstance.axios.defaults.headers.common["Accept"] =
+      "application/json";
+  }
+
+  private setInterceptor(): void {
+    ApiService.vueInstance.axios.interceptors.request.use((config) => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      return config;
+    });
+
+    ApiService.vueInstance.axios.interceptors.response.use(
+      (response) => response,
+      async (error: any) => {
+        console.log("error", error);
+
+        if (error.response?.status === 401) {
+          // refresh token then call api then if fails, sign out
+
+          await AuthenticationService.refreshToken();
+
+          axios.request(error.config).catch(async (responseError) => {
+            if (responseError?.response?.status === 401) {
+              localStorage.removeItem("token");
+            }
+          });
+        }
+        if (error.response?.data?.message) {
+          Toaster.error(error.response?.data?.message);
+        }
+
+        return Promise.reject(error);
+      }
+    );
   }
 
   public static query<T>(
@@ -61,8 +100,6 @@ class ApiService {
     resource: string,
     params: Record<string, unknown>
   ): Promise<AxiosResponse<T>> {
-    console.log("llskdjflk");
-
     return ApiService.vueInstance.axios.put(`${resource}`, params);
   }
 
