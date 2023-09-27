@@ -1,15 +1,15 @@
 export class AppConstants {
   static BASE_URL = import.meta.env.VITE_URL;
-  static MANAGEMENT_URL = `${AppConstants.BASE_URL}/Management`;
+  static MANAGEMENT_URL = `${AppConstants.BASE_URL}/v1/Management`;
   static COMMON = `${AppConstants.BASE_URL}/v1/Common`;
-  static USERS_URL = `${AppConstants.COMMON}/UsersManagement`;
+  static USERS_URL = `${AppConstants.MANAGEMENT_URL}/UsersManagement`;
   static FAMILY_URL = `${AppConstants.COMMON}/Family`;
-  static CITIES_URL = `${AppConstants.COMMON}/Cities`;
-  static COUNTRIES_URL = `${AppConstants.COMMON}/Countries`;
-  static FAQS_URL = `${AppConstants.COMMON}/Faqs`;
-  static SYSTEMSETTINGS_URL = `${AppConstants.COMMON}/SystemSetting`;
-  static COMMON_TERMS_AND_PRIVACY_URL = `${AppConstants.COMMON}/TermsAndPrivacy`;
-  static COMMON_SUBSCRIPTION_URL = `${AppConstants.COMMON}/Subscription`;
+  static CITIES_URL = `${AppConstants.MANAGEMENT_URL}/Cities`;
+  static COUNTRIES_URL = `${AppConstants.MANAGEMENT_URL}/Countries`;
+  static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
+  static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;
+  static COMMON_TERMS_AND_PRIVACY_URL = `${AppConstants.MANAGEMENT_URL}/TermsAndPrivacy`;
+  static COMMON_SUBSCRIPTION_URL = `${AppConstants.MANAGEMENT_URL}/Subscription`;
 
   static FILTER_ADMIN_BY_OPTIONS = {
     ByPhoneNumber: 0,

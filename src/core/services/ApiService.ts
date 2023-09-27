@@ -16,9 +16,9 @@ class ApiService {
   }
 
   public static setHeader(): void {
-    // ApiService.vueInstance.axios.defaults.headers.common[
-    //   "Authorization"
-    // ] = `Bearer ${JwtService.getToken()}`;
+    ApiService.vueInstance.axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${JwtService.getToken()}`;
   }
 
   public static query<T>(
@@ -36,8 +36,7 @@ class ApiService {
     slug = "" as string
   ): Promise<AxiosResponse<T>> {
     return ApiService.vueInstance.axios
-      .get(`${resource}/${slug}`
-      )
+      .get(`${resource}/${slug}`)
       .catch((error) => {
         throw new Error("حدث خطأ أثناء محاولة تحميل البيانات");
       });
@@ -47,8 +46,7 @@ class ApiService {
     resource: string,
     params: Record<string, unknown>
   ): Promise<AxiosResponse<T>> {
-    return ApiService.vueInstance.axios.post(`${resource}`, params
-  );
+    return ApiService.vueInstance.axios.post(`${resource}`, params);
   }
 
   public static update(
@@ -65,16 +63,13 @@ class ApiService {
   ): Promise<AxiosResponse<T>> {
     console.log("llskdjflk");
 
-    return ApiService.vueInstance.axios.put(`${resource}`,params
-    );
+    return ApiService.vueInstance.axios.put(`${resource}`, params);
   }
 
   public static delete<T>(resource: string): Promise<AxiosResponse<T>> {
-    return ApiService.vueInstance.axios
-      .delete(resource)
-      .catch((error) => {
-        throw new Error(`[RWV] ApiService ${error}`);
-      });
+    return ApiService.vueInstance.axios.delete(resource).catch((error) => {
+      throw new Error(`[RWV] ApiService ${error}`);
+    });
   }
 }
 
