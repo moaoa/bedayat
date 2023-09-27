@@ -31,9 +31,9 @@ class LocalitiesService {
     return result.data.data;
   }
 
-  public static async updateLocality(cityId: string, data: NewCityData):Promise<ApiResponse<City>> {
+  public static async updateLocality(localityId: string,  data: NewLocalityData):Promise<ApiResponse<City>> {
     const result = await ApiService.put<ApiResponse<City>>(
-      `${AppConstants.LOCALITIES_URL}/${cityId}`,
+      `${AppConstants.LOCALITIES_URL}/${localityId}`,
       {
         name: data.name,
         englishName: data.englishName,

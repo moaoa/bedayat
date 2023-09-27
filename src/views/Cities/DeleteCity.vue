@@ -104,8 +104,6 @@ defineExpose({ modalRef: deleteCityModalRef });
 
 const deleteCity = () => {
   deleting.value = !deleting.value;
-  citiesStore.deleteItem( citiesStore.selectedCity!)
-  deleting.value = !deleting.value;
   emit("cityDeleted", citiesStore.selectedCity!);
 };
 </script>

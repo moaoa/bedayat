@@ -92,11 +92,11 @@ export const useCitiesStore = defineStore({
           Toaster.error("this item was not deleted", "this item was not deleted")
           return;
         }
-        await CitiesService.deleteCity(cityToDelete.id);
+        const result = await CitiesService.deleteCity(cityToDelete.id);
 
-        this.cities.splice(index, 1);
+
       } catch (error) {
-        Toaster.error("failed to add city", (error as Error).message);
+        Toaster.error("failed to delete city", (error as Error).message);
       } finally {
         this.isDeletingItem = false;
       }

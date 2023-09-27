@@ -22,8 +22,8 @@
           <!--end::Close-->
         </div>
 
-        <div class="modal-body py-10 px-lg-17">
-          <h3>Ask About Confirm?</h3>
+        <div class="modal-body  py-10 px-lg-17 px-20">
+          <h3 class="fs-1">{{ t("areYouSure") }}</h3>
         </div>
         <!--end::Modal body-->
 

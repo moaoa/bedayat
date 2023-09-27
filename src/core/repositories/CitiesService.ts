@@ -16,7 +16,8 @@ class CitiesService {
 
     return result.data.data;
   }
-  public static async deleteCity(cityId: string) {
+  public static async deleteCity(cityId: string)
+  {
     return await ApiService.delete<ApiResponse<unknown>>(
       `${AppConstants.CITIES_URL}/${cityId}`
     );

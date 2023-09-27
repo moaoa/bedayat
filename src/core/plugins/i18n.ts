@@ -23,15 +23,12 @@ const messages = {
     deleteCity: "Delete City",
     addNewCountry: "Add New Country",
     addNewLocality: "Add New Locality",
+    deleteLocality: "Deleting a locality",
 
     noNumber: "NO",
     hash: "#",
     at: "@",
 
-
-    noNumber:"NO",
-    hash:"#",
-    at:"@",
     someFieldsNotFill:" Please make sure to fill in the required fields",
 
     deleteCancelation: "item was not deleted",
@@ -189,11 +186,12 @@ const messages = {
     termsAndPrivacy:"Terms And Privacy",
     systemSettings: "SystemSettings",
     submit:"Submit",
-    addSubscriptionSettings:"Add Subscription Settings"
+    addSubscriptionSettings:"Add Subscription Settings",
+    areYouSure: "Are you Sure?",
   },
   ar: {
-    
-    localities: "الأحياء",
+    areYouSure: "هل انت متأكد ؟",
+    deleteLocality: "حذف حي",
     addSubscriptionSettings:"إضافة جديدة",
     submit:"تأكيد",
     systemSettings:"إعدادات النظام",

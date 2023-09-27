@@ -38,26 +38,30 @@
               data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
               data-kt-scroll-offset="300px"
             >
+
+              <div class="d-flex flex-column mb-7 fv-row">
+                <!--begin::Label-->
+                <label class="fs-6 fw-bold mb-2">
+                  <span class="required"> {{ $t("pickUpCountry") }}</span>
+                </label>
+                <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
+                  <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
+                             :label="country.name">
+                  </el-option>
+                </el-select>
+              </div>
+
               <div class="d-flex flex-column mb-7 fv-row">
                 <!--begin::Label-->
                 <label class="fs-6 fw-bold mb-2">
                   <span class="required"> {{ $t("pickUpCity") }}</span>
-
-                  <!--                  <i-->
-                  <!--                    class="fas fa-exclamation-circle ms-1 fs-7"-->
-                  <!--                    data-bs-toggle="tooltip"-->
-                  <!--                    title="City of origination"-->
-                  <!--                  ></i>-->
                 </label>
-                <el-select v-model="formData.cityId">
-                  <el-option value="" disabled>Select a City...</el-option>
-                  <el-option value="AF">Afghanistan</el-option>
-                  <el-option value="AX">Aland Islands</el-option>
-                  <el-option value="AL">Albania</el-option>
-                  <el-option value="DZ">Algeria</el-option>
+
+                <el-select v-model="formData.cityId" clearable filterable>
+                  <el-option v-for="city in citiesStore.cities" :key="city.id" :value="city.id"
+                             :label="city.name">
+                  </el-option>
                 </el-select>
-                <!--end::Input-->
-                {{ formData.cityId }}
               </div>
 
               <div class="fv-row mb-7">
@@ -144,27 +148,22 @@
   </div>
 </template>
 
-<style lang="scss">
-.el-select {
-  width: 100%;
-}
 
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  width: 100%;
-}
-</style>
 
 <script lang="ts" setup>
-import { ref, computed, reactive } from "vue";
+import {ref, computed, reactive, onMounted, watch} from "vue";
 
 import { useI18n } from "vue-i18n";
 import { NewLocalityData } from "@/types/Localities";
 import { useLocalitiesStore } from "@/store/pinia_store/modules/LocalitiesModule";
+import {useCitiesStore} from "@/store/pinia_store/modules/CitiesModule";
+import {useCountriesStore} from "@/store/pinia_store/modules/CountriesModule";
 
 const { t } = useI18n();
 
 const localitiesStore = useLocalitiesStore();
+const citiesStore = useCitiesStore();
+const countriesStore = useCountriesStore();
 
 const loading = computed(() => localitiesStore.isCreatingNewItem);
 
@@ -218,4 +217,48 @@ const submit = () => {
     }
   });
 };
+
+onMounted(() => {
+
+
+  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
+    if (formRef.value)
+      localitiesStore.unselectLocality();
+
+    countriesStore.loadCountries();
+  });
+});
+
+
+
+watch(
+    () => citiesStore.selectedCountryId,
+    (id) => {
+      console.log(id);
+      if (id) {
+        citiesStore.loadCities({ countryId: id });
+      }
+    }
+);
+
+watch(
+    () => localitiesStore.selectedCityId,
+    (id) => {
+      if (id) {
+        localitiesStore.loadLocalities(id);
+      }
+    }
+);
+
+
 </script>
+<style lang="scss">
+.el-select {
+  width: 100%;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100%;
+}
+</style>

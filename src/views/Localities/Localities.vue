@@ -4,16 +4,16 @@
   <div class="card card-xxl-stretch mb-xl-3">
     <!--begin::Header-->
     <div class="card-header border-0">
-      <h3 class="card-title fw-bolder text-dark">{{ t("Localities") }}</h3>
 
-      <div class="card-toolbar">
-        <!--begin::Menu-->
+      <div class="card-toolbar d-flex flex-row justify-content-between">
+
+        <h3 class="card-title fw-bolder text-dark">{{ t("Localities") }}</h3>
 
         <div class="col-md-5 col-lg-4 col-7">
 
           <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
             <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
-              :label="country.name">
+                       :label="country.name">
             </el-option>
           </el-select>
         </div>
@@ -22,34 +22,39 @@
 
           <el-select v-model="localitiesStore.selectedCityId" clearable filterable>
             <el-option v-for="city in citiesStore.cities" :key="city.id" :value="city.id"
-              :label="city.name">
+                       :label="city.name">
             </el-option>
           </el-select>
         </div>
 
-
-        <a class="btn btn-icon btn-light-primary btn-sm me-3" @click="localitiesStore.loadLocalities(localitiesStore.selectedCityId)">
+        <a class="btn btn-icon btn-light-primary btn-sm me-3"
+           @click="localitiesStore.loadLocalities(localitiesStore.selectedCityId)">
           <i class="bi bi-arrow-repeat"></i>
         </a>
 
         <a href="#" class="btn btn-sm btn-primary mx-1" target="#" data-bs-toggle="modal"
-          :data-bs-target="`#kt_modal_add_customer`">
+           :data-bs-target="`#kt_modal_add_customer`">
           <span class="svg-icon svg-icon-3">
-            <inline-svg src="/media/icons/duotune/arrows/arr075.svg" />
+            <inline-svg src="/media/icons/duotune/arrows/arr075.svg"/>
           </span>
           {{ $t("addLocality") }}
         </a>
 
-        <!--end::Menu-->
       </div>
+
+
+
+
+
+
+
     </div>
     <!--end::Header-->
 
     <!--begin::Body-->
     <div class="card-body pt-2">
-      <!-- begin::table -->
 
-      <ErrorAlert v-if="localitiesStore.errorLoadingData" :title="localitiesStore.errorMessage" />
+      <!--      <ErrorAlert v-if="localitiesStore.errorLoadingData" :title="localitiesStore.errorMessage" />-->
       <!-- <SuccessAlert
         v-else-if="LocalitiesStore.dataIsLoading"
         title="جاري تحميل البيانات المــدن  ..."
@@ -78,13 +83,13 @@
             </template>
           </el-table-column>
           <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')" align="center"
-            header-align="center" />
+                           header-align="center"/>
           <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"
-            align="center" header-align="center" />
+                           align="center" header-align="center"/>
           <el-table-column :label="$t('edit')" align="center" header-align="center">
             <template #default="scope">
               <a class="btn btn-icon btn-light-success btn-sm" @click="openUpdateLocalityDialog(scope.row)"
-                data-bs-toggle="modal" :data-bs-target="`#update_locality_modal`">
+                 data-bs-toggle="modal" :data-bs-target="`#update_locality_modal`">
                 <i class="bi bi-pencil"></i>
               </a>
             </template>
@@ -94,7 +99,7 @@
             <template #default="scope: { row: Locality, $index: number }">
               <div class="flex">
                 <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
-                  :data-bs-target="`#kt_modal_delete_locality`" @click="localitiesStore.selectLocality(scope.row)">
+                   :data-bs-target="`#kt_modal_delete_locality`" @click="localitiesStore.selectLocality(scope.row)">
                   <i class="bi bi-trash"></i>
                 </a>
               </div>
@@ -104,18 +109,18 @@
         <!-- end::table -->
 
       </div>
-      <br />
+      <br/>
       <!-- start::pagination -->
       <el-pagination v-if="!localitiesStore.dataIsLoading && !localitiesStore.errorLoadingData
         " background layout="total, sizes, prev, pager, next, jumper" :total="localitiesStore.total"
-        current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"
-        :page-sizes="[25, 100, 200, 300, 400]" />
+                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"
+                     :page-sizes="[25, 100, 200, 300, 400]"/>
       <!-- end::pagination -->
     </div>
 
     <AddLocalityForm @submit="createLocality" ref="addLocalityModalRef"></AddLocalityForm>
 
-    <UpdateLocalityModal @submit="updateLocality" ref="updateLocalityModalRef" />
+    <UpdateLocalityModal @submit="updateLocality" ref="updateLocalityModalRef"/>
     <!-- <AddLocalityForm @submit="localityAdded"></AddLocalityForm> -->
     <DeleteLocality @localityDeleted="localityDeleted" ref="deleteLocalityModalRef"></DeleteLocality>
   </div>
@@ -123,22 +128,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
-import { Locality, NewLocalityData } from "@/types/Localities";
-import { formatDate } from "@/core/helpers/formatDate";
-import { useLocalitiesStore } from "@/store/pinia_store/modules/LocalitiesModule";
-import { useI18n } from "vue-i18n";
-import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
+import {computed, onMounted, ref, watch} from "vue";
+import {Locality, NewLocalityData} from "@/types/Localities";
+import {formatDate} from "@/core/helpers/formatDate";
+import {useLocalitiesStore} from "@/store/pinia_store/modules/LocalitiesModule";
+import {useI18n} from "vue-i18n";
+import {setCurrentPageBreadcrumbs} from "@/core/helpers/breadcrumb";
 import AddLocalityForm from "@/views/Localities/AddLocalityModal.vue";
 import UpdateLocalityModal from "@/views/Localities/UpdateLocalityModal.vue";
 import DeleteLocality from "@/views/Localities/DeleteLocality.vue";
 import Toaster from "@/core/services/Toaster";
 import ErrorAlert from "@/components/alerts/ErrorAlert.vue";
-import { hideModal } from "@/core/helpers/dom";
-import { useCountriesStore } from "@/store/pinia_store/modules/CountriesModule";
-import { useCitiesStore } from "@/store/pinia_store/modules/CitiesModule";
+import {hideModal} from "@/core/helpers/dom";
+import {useCountriesStore} from "@/store/pinia_store/modules/CountriesModule";
+import {useCitiesStore} from "@/store/pinia_store/modules/CitiesModule";
 
-const { t } = useI18n();
+const {t} = useI18n();
 const localitiesStore = useLocalitiesStore();
 const countriesStore = useCountriesStore();
 const citiesStore = useCitiesStore();
@@ -155,7 +160,7 @@ const createLocality = async (data: NewLocalityData) => {
 
     hideModal(addLocalityModalRef.value?.modalRef!);
 
-    Toaster.Success("Success", "sucess");
+    localitiesStore.unselectLocality();
   } catch (error) {
     console.log(error);
   }
@@ -187,39 +192,34 @@ setCurrentPageBreadcrumbs(t("Localities"), [t("Localities")]);
 const localityDeleted = (locality: Locality) => {
   hideModal(deleteLocalityModalRef.value?.modalRef!);
   localitiesStore.deleteItem(locality);
-  Toaster.Success("success", "asasdsds");
 };
 
 setCurrentPageBreadcrumbs(t("Localities"), [t("Localities")]);
 
 
 onMounted(() => {
-
   countriesStore.loadCountries();
 });
 
 
-
 watch(
-  () => citiesStore.selectedCountryId,
-  (id) => {
-    console.log(id);
-    if (id) {
-      citiesStore.loadCities({ countryId: id });
+    () => citiesStore.selectedCountryId,
+    (id) => {
+      console.log(id);
+      if (id) {
+        citiesStore.loadCities({countryId: id});
+      }
     }
-  }
 );
 
 watch(
-  () => localitiesStore.selectedCityId,
-  (id) => {
-    if (id) {
-      localitiesStore.loadLocalities(id);
+    () => localitiesStore.selectedCityId,
+    (id) => {
+      if (id) {
+        localitiesStore.loadLocalities(id);
+      }
     }
-  }
 );
-
-
 
 
 </script>
