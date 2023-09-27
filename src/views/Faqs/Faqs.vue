@@ -11,11 +11,10 @@
 
         <a
           class="btn btn-icon btn-light-primary btn-sm me-3"
-          @click="faqsStore.loadFaqs()"
+          @click="faqsStore.loadFaqs(faqsStore.selectedCategory)"
         >
           <i class="bi bi-arrow-repeat"></i>
         </a>
-
         <a
           href="#"
           class="btn btn-sm btn-primary mx-1"
@@ -33,6 +32,18 @@
     </div>
 
     <div v-loading="faqsStore.dataIsLoading" class="card-body pt-2">
+
+      <div class="row">
+        <div class="col-md-3 col-lg-2 col-7">
+
+          <el-select v-model="faqsStore.selectedCategory" clearable filterable>
+            <el-option v-for="category in Object.values(FaqCategory).slice(0,Object.values(FaqCategory).length/2 )" :key="category" :value="FaqCategory[category]"
+                       :label="category">
+            </el-option>
+          </el-select>
+
+        </div>
+      </div>
 
       <el-table :data="faqsTable" height="400">
         >
@@ -88,7 +99,7 @@
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
-          width="100"
+          width="120"
           :formatter="formatter('createdAt')"
           align="center"
           header-align="center"
@@ -166,18 +177,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { City } from "@/types/Cities";
-import { formatDate } from "@/core/helpers/formatDate";
-import { useI18n } from "vue-i18n";
-import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
-import { useFaqsStore } from "@/store/pinia_store/modules/FaqsModule";
-import { Faq, FaqCategory } from "@/types/Faq";
+import {computed, onMounted, ref, watch} from "vue";
+import {City} from "@/types/Cities";
+import {formatDate} from "@/core/helpers/formatDate";
+import {useI18n} from "vue-i18n";
+import {setCurrentPageBreadcrumbs} from "@/core/helpers/breadcrumb";
+import {useFaqsStore} from "@/store/pinia_store/modules/FaqsModule";
+import {Faq, FaqCategory, NewFaqData} from "@/types/Faq";
 import AddFaq from "@/views/Faqs/AddFaq.vue";
 import UpdateFaq from "@/views/Faqs/UpdateFaq.vue";
 import DeleteFaq from "@/views/Faqs/DeleteFaq.vue";
-import { hide } from "@popperjs/core";
-import { hideModal } from "@/core/helpers/dom";
+import faqService from "@/core/services/FaqService";
 
 const { t } = useI18n();
 const faqsStore = useFaqsStore();
@@ -202,25 +212,32 @@ const faqCategoryTitle = (category : FaqCategory)=>{
     case FaqCategory.Subscription:
       return "subscription"
   }
-
 };
 
 const formatter = (key: keyof City) => {
   return (city: City) => formatDate(city[key]);
 };
 
-watch(
-  () => faqsStore.dataIsLoading,
-  (newVal) => {
-    console.log(newVal);
-  }
-);
 setCurrentPageBreadcrumbs(t("faqs"), [t("faqs")]);
-const faqUpdated=()=>{
+const faqUpdated= async (data: NewFaqData) => {
+  await faqsStore.updateFaq(data)
 }
 const faqDeleted=(faq:Faq)=>{
 }
-const faqAdded=(faq:Faq)=>{
+const faqAdded = async (faq:NewFaqData) =>{
+
+  await faqsStore.addFaq(faq);
+
 }
-faqsStore.loadFaqs();
+onMounted(()=> {
+  faqsStore.selectedCategory =0;
+})
+
+watch(
+    () => faqsStore.selectedCategory,
+    (id) => {
+      faqsStore.loadFaqs(id)
+
+    }
+);
 </script>

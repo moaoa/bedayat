@@ -7,6 +7,21 @@ export type BugReport = {
   bugResponse: string;
   issueStatus: IssueStatus;
 };
+export enum BugStatusSearch {
+  Pending,
+  Solved ,
+  All,
+}
+
+
+export enum BugDepartmentType
+{
+  Technical = 0,
+  Support,
+  Financial,
+  Admin
+}
+
 
 export enum IssueStatusValues {
   Pending = "Pending",

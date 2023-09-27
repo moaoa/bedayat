@@ -21,8 +21,8 @@ export const useCountriesStore = defineStore({
 
   actions: {
     async loadCountries() {
-      this.dataIsLoading = true;
       try {
+      this.dataIsLoading = true;
         const result = await ApiService.get(AppConstants.COUNTRIES_URL);
         const data = result.data as ApiResponse<Country[]>;
 

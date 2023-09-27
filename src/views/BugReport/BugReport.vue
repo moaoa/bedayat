@@ -7,15 +7,29 @@
       <h3 class="card-title fw-bolder text-dark">البلدان</h3>
 
       <div class="card-toolbar">
-        <a class="btn btn-icon btn-light-success btn-sm me-3">
+        <a class="btn btn-icon btn-light-success btn-sm me-3" @click="bugReportStore.loadBugReports()">
           <i class="bi bi-arrow-repeat"></i>
         </a>
       </div>
     </div>
     <!--end::Header-->
-
     <!--begin::Body-->
     <div class="card-body pt-2">
+      <div class="row">
+        <div class="col-md-3 col-lg-2 col-7">
+
+          <el-select v-model="bugReportStore.selectedBugCategory" clearable filterable>
+            <el-option v-for="category in Object.values(BugStatusSearch).slice(0,Object.values(BugStatusSearch).length/2 )" :key="category" :value="BugStatusSearch[category]"
+                       :label="category">
+            </el-option>
+          </el-select>
+
+        </div>
+      </div>
+
+
+
+      <div v-loading="bugReportStore.dataIsLoading">
       <!-- begin::table -->
       <el-table :data="bugReportsTable" style="width: 100%" height="250">
         <!-- <el-table-column
@@ -94,6 +108,7 @@
       <!-- start::pagination -->
       <el-pagination layout="prev, pager, next" :total="1000" />
       <!-- end::pagination -->
+      </div>
     </div>
     <!--end::Body-->
 
@@ -129,13 +144,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { BugReport } from "@/types/BugReports";
+import {computed, onMounted, ref, watch} from "vue";
+import {BugDepartmentType, BugReport, BugStatusSearch} from "@/types/BugReports";
 import RespondToBugReportForm from "@/views/BugReport/RespondToBugModal.vue";
 import { useBugReportsStore } from "@/store/pinia_store/modules/BugReportModule";
 import { ElMessageBox, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
+import {FaqCategory} from "@/types/Faq";
+import bugReportService from "@/core/services/BugReportService";
 
 const { t } = useI18n();
 const bugReportStore = useBugReportsStore();
@@ -176,7 +193,12 @@ const openRespondToBugReportDialog = (bug: BugReport) => {
   respondToBugDialogIsVisible.value = true;
   bugReportStore.selectBugReportId(bug.id);
 };
+onMounted(()=> {
+  bugReportStore.selectedBugCategory = 2
+})
 
+watch(()=> bugReportStore.selectedBugCategory,
+    ()=> bugReportStore.loadBugReports())
 setCurrentPageBreadcrumbs(t("bugReport"), [t("bugReport")]);
 </script>
 

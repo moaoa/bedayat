@@ -223,40 +223,45 @@ const rules =reactive<FormRules<Faq>>({
   faqCategory: [
     {
       required: true,
-      message: t("theFieldIsRequired", { field: t("faqCategory") }),
+      message: t("theFieldIsRequired", {field: t("faqCategory")}),
       trigger: "change",
       validator: isValidCategory
     }
   ],
   question: [
     {
+      message: t("nameMustBeArabic", {field: t("question")}),
       required: true,
-      message: t("theFieldIsRequired", { field: t("question") }),
-      trigger: "blur"
+      pattern: /^[ء-ي\s]+$/,
+      trigger: ["blur", "change"],
     }
   ], answer: [
     {
+      message: t("nameMustBeArabic", {field: t("answer")}),
       required: true,
-      message: t("theFieldIsRequired", { field: t("answer") }),
-      trigger: "blur"
+      pattern: /^[ء-ي\s]+$/,
+      trigger: ["blur", "change"],
     }
   ], englishQuestion: [
     {
+      message: t("nameMustBeEnglish", {field: t("englishQuestion")}),
       required: true,
-      message: t("theFieldIsRequired", { field: t("englishQuestion") }),
-      trigger: "blur"
+      pattern: /^[A-Za-z\s]+$/,
+      trigger: ["blur", "change"],
     }
   ], englishAnswer: [
     {
+      message: t("nameMustBeEnglish", {field: t("englishAnswer")}),
       required: true,
-      message: t("theFieldIsRequired", { field: t("englishAnswer") }),
-      trigger: "blur"
+      pattern: /^[A-Za-z\s]+$/,
+      trigger: ["blur", "change"],
     }
   ]
 });
 
 watch(
-  () => faqsStore.selectedFaq,
+  (s) => faqsStore.selectedFaq,
+
   (value : Faq) => {
     formData.faqCategory = value?.faqCategory ?? "";
     formData.question = value?.question;
@@ -265,6 +270,7 @@ watch(
     formData.englishAnswer = value?.englishAnswer;
   }
 );
+
 const submit = () => {
   if (!formRef.value) {
     return;

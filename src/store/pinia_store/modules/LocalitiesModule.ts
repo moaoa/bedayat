@@ -47,6 +47,8 @@ export const useLocalitiesStore = defineStore({
       this.selectedLocality = null;
     },
     selectLocality(selectedLocality: Locality) {
+
+      // @ts-ignore
       this.selectedLocality = structuredClone({ ...selectedLocality });
     },
      async updateItem(newValues: NewLocalityData)  {

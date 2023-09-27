@@ -5,27 +5,11 @@
     <!--begin::Header-->
     <div class="card-header border-0">
 
-      <div class="card-toolbar d-flex flex-row justify-content-between">
-
         <h3 class="card-title fw-bolder text-dark">{{ t("Localities") }}</h3>
+      <div class="card-toolbar d-flex flex-row">
 
-        <div class="col-md-5 col-lg-4 col-7">
 
-          <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
-            <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
-                       :label="country.name">
-            </el-option>
-          </el-select>
-        </div>
 
-        <div class="col-md-5 col-lg-4 col-7">
-
-          <el-select v-model="localitiesStore.selectedCityId" clearable filterable>
-            <el-option v-for="city in citiesStore.cities" :key="city.id" :value="city.id"
-                       :label="city.name">
-            </el-option>
-          </el-select>
-        </div>
 
         <a class="btn btn-icon btn-light-primary btn-sm me-3"
            @click="localitiesStore.loadLocalities(localitiesStore.selectedCityId)">
@@ -40,20 +24,32 @@
           {{ $t("addLocality") }}
         </a>
 
+
       </div>
-
-
-
-
-
-
-
     </div>
     <!--end::Header-->
 
     <!--begin::Body-->
     <div class="card-body pt-2">
+              <div class="row">
+                <div class="col-md-3 col-lg-2 col-7">
 
+                  <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
+                    <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
+                               :label="country.name">
+                    </el-option>
+                  </el-select>
+                </div>
+
+                <div class="col-md-3 col-lg-2 col-7">
+
+                  <el-select v-model="localitiesStore.selectedCityId" clearable filterable>
+                    <el-option v-for="city in citiesStore.cities" :key="city.id" :value="city.id"
+                               :label="city.name">
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
       <!--      <ErrorAlert v-if="localitiesStore.errorLoadingData" :title="localitiesStore.errorMessage" />-->
       <!-- <SuccessAlert
         v-else-if="LocalitiesStore.dataIsLoading"
@@ -199,9 +195,16 @@ setCurrentPageBreadcrumbs(t("Localities"), [t("Localities")]);
 
 onMounted(() => {
   countriesStore.loadCountries();
+
+
 });
 
-
+watch(
+    () => countriesStore.countries,
+    (id) => {
+      citiesStore.selectedCountryId = countriesStore.countries[0].id
+    }
+);
 watch(
     () => citiesStore.selectedCountryId,
     (id) => {
@@ -209,6 +212,12 @@ watch(
       if (id) {
         citiesStore.loadCities({countryId: id});
       }
+    }
+);
+watch(
+    () => citiesStore.cities,
+    (id) => {
+      localitiesStore.selectedCityId = citiesStore.cities[0].id;
     }
 );
 
