@@ -22,7 +22,7 @@ export const useCitiesStore = defineStore({
     isUpdatingItem: false,
     isDeletingItem: false,
     errorMessage: "",
-    errorLoadingData: false
+    errorLoadingData: false,
   }),
 
   actions: {
@@ -46,13 +46,16 @@ export const useCitiesStore = defineStore({
       this.selectedCity = null;
     },
     selectCity(selectedCity: City) {
-      this.selectedCity =  {...selectedCity};
+      this.selectedCity = { ...selectedCity };
     },
     updateItem(newValues: NewCityData) {
       this.isUpdatingItem = true;
       try {
         if (!this.selectedCity) {
-          Toaster.error("this item was not deleted", "this item was not deleted")
+          Toaster.error(
+            "this item was not deleted",
+            "this item was not deleted"
+          );
           return;
         }
 
@@ -60,12 +63,15 @@ export const useCitiesStore = defineStore({
           (city) => city.id === this.selectedCity?.id
         );
 
-        const updateResult=CitiesService.updateCity(this.selectedCity.id, newValues);
+        const updateResult = CitiesService.updateCity(
+          this.selectedCity.id,
+          newValues
+        );
 
         this.cities[index] = { ...this.selectedCity, ...updateResult };
         this.cities[index] = { ...this.selectedCity, ...newValues };
       } catch (error) {
-        Toaster.error("failed to update city",(error as Error).message);
+        console.log(error);
       } finally {
         this.isUpdatingItem = false;
       }
@@ -76,7 +82,7 @@ export const useCitiesStore = defineStore({
         const res = await CitiesService.createCity(cityData);
         this.cities.push(res);
       } catch (error) {
-        Toaster.error("failed to add city",(error as Error).message);
+        console.log(error);
       } finally {
         this.isCreatingNewItem = false;
       }
@@ -89,17 +95,21 @@ export const useCitiesStore = defineStore({
         );
 
         if (index === -1) {
-          Toaster.error("this item was not deleted", "this item was not deleted")
+          Toaster.error(
+            "this item was not deleted",
+            "this item was not deleted"
+          );
           return;
         }
         const result = await CitiesService.deleteCity(cityToDelete.id);
 
 
       } catch (error) {
-        Toaster.error("failed to delete city", (error as Error).message);
+        console.log(error);
+
       } finally {
         this.isDeletingItem = false;
       }
-    }
-  }
+    },
+  },
 });

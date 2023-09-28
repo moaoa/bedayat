@@ -24,7 +24,6 @@ export const useAuthenticationStore = defineStore({
         console.log("test test");
       } catch (error) {
         console.log(error);
-        Toaster.error((error as Error).message);
       } finally {
         this.dataLoading = false;
       }
@@ -43,14 +42,11 @@ export const useAuthenticationStore = defineStore({
         console.log("test test");
       } catch (error) {
         console.log(error);
-        Toaster.error((error as Error).message);
       } finally {
         this.dataLoading = false;
       }
 
       return;
     },
-
-
   },
 });

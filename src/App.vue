@@ -1,6 +1,8 @@
 <template>
   <el-config-provider :locale="langStore.elementPlusLocale">
-    <router-view />
+    <transition name="fade">
+      <router-view />
+    </transition>
   </el-config-provider>
 </template>
 

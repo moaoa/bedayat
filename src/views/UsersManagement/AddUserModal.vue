@@ -91,26 +91,6 @@
                   <!--end::Input-->
                 </div>
 
-                <div class="col-md-6 d-flex flex-column mb-7 fv-row">
-                  <!--begin::Label-->
-                  <label class="fs-6 fw-bold mb-2">
-                    <span class="required"> {{ $t("gender") }}</span>
-                  </label>
-                  <el-select v-model="formData.gender">
-                    <el-option
-                      :value="AppConstants.USER_GENDER.Male"
-                      :label="$t('male')"
-                    >
-                    </el-option>
-                    <el-option
-                      :value="AppConstants.USER_GENDER.Female"
-                      :label="$t('female')"
-                    >
-                    </el-option>
-                  </el-select>
-                  <!--end::Input-->
-                </div>
-
                 <div class="col-md-6 fv-row mb-7">
                   <!--begin::Label-->
                   <label class="required fs-6 fw-bold mb-2">
@@ -199,6 +179,25 @@
                     />
                   </el-form-item>
 
+                  <!--end::Input-->
+                </div>
+                <div class="col-md-6 d-flex flex-column mb-7 fv-row">
+                  <!--begin::Label-->
+                  <label class="fs-6 fw-bold mb-2">
+                    <span class="required"> {{ $t("gender") }}</span>
+                  </label>
+                  <el-select v-model="formData.gender">
+                    <el-option
+                      :value="AppConstants.USER_GENDER.Male"
+                      :label="$t('male')"
+                    >
+                    </el-option>
+                    <el-option
+                      :value="AppConstants.USER_GENDER.Female"
+                      :label="$t('female')"
+                    >
+                    </el-option>
+                  </el-select>
                   <!--end::Input-->
                 </div>
 
@@ -356,8 +355,7 @@ const rules = ref({
     { required: true, message: t("required"), trigger: "blur" },
     {
       min: 8,
-      max: 16,
-      message: "كلمة المرور يجب ان تتكون من 8 احرف",
+      message: t("passportMustBe8CharactersOrMore"),
       trigger: ["blur", "change"],
     },
   ],
@@ -372,7 +370,9 @@ const rules = ref({
   phoneNumber: [
     { required: true, message: t("required"), trigger: "blur" },
     {
-      pattern: /^(09|2189|9)\d{7}$/,
+      //TODO: ADD REGEX
+      max: 14,
+      min: 9,
       message: t("phoneMustBe10Digits"),
       trigger: ["blur", "change"],
     },

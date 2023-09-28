@@ -16,7 +16,7 @@ export const useCountriesStore = defineStore({
     errorMessage: "",
     isDeletingItem: false,
     isCreatingNewItem: false,
-    isUpdatingItem: false
+    isUpdatingItem: false,
   }),
 
   actions: {
@@ -27,10 +27,7 @@ export const useCountriesStore = defineStore({
         const data = result.data as ApiResponse<Country[]>;
 
         if (!data.isSuccess) {
-          Toaster.error(
-            "حدث خطأ",
-            "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
-          );
+          Toaster.error("حدث خطأ", "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة");
           return;
         }
 
@@ -49,12 +46,11 @@ export const useCountriesStore = defineStore({
       this.selectedCountry = null;
     },
     async createNewItem(item: NewCountryData) {
-
       this.isCreatingNewItem = true;
       try {
         const res = await ApiService.post(AppConstants.COUNTRIES_URL, {
           name: item.name,
-          englishName: item.englishName
+          englishName: item.englishName,
         });
         const data = res.data as ApiResponse<Country>;
 
@@ -72,7 +68,7 @@ export const useCountriesStore = defineStore({
     },
     async deleteItem() {
       if (!this.selectedCountry) {
-        Toaster.error("","")
+        Toaster.error("", "");
       }
 
       this.isDeletingItem = true;
@@ -85,10 +81,7 @@ export const useCountriesStore = defineStore({
         const data = res.data as ApiResponse<unknown>;
 
         if (!data.isSuccess) {
-          Toaster.error(
-            "حدث خطأ",
-            "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
-          );
+          Toaster.error("حدث خطأ", "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة");
           return;
         }
         const index = this.countries.findIndex(
@@ -98,10 +91,7 @@ export const useCountriesStore = defineStore({
         if (index === -1) return;
         this.countries.splice(index, 1);
       } catch (error) {
-        Toaster.error(
-          "حدث خطأ",
-          "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
-        );
+        Toaster.error("حدث خطأ", "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة");
       } finally {
         this.isDeletingItem = false;
       }
@@ -117,7 +107,7 @@ export const useCountriesStore = defineStore({
         const res = await ApiService.put(
           `${AppConstants.COUNTRIES_URL}/${this.selectedCountry.id}`,
           {
-            ...newValues
+            ...newValues,
           }
         );
 
@@ -133,17 +123,13 @@ export const useCountriesStore = defineStore({
 
         this.countries.splice(index, 1, {
           ...this.selectedCountry!,
-          ...newValues
+          ...newValues,
         });
-      } catch (e : ApiResponse<string>) {
-          const exception= e as ApiResponse<string>;
-          Toaster.error(
-            "حدث خطأ",
-            exception.message || "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
-          );
+      } catch (e) {
+        console.log(e);
       } finally {
         this.isUpdatingItem = false;
       }
-    }
-  }
+    },
+  },
 });

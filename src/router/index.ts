@@ -48,6 +48,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/UsersManagement/FamilyMembers.vue"),
       },
       {
+        path: "/dashboard/Grades",
+        name: "Grades",
+        component: () => import("@/views/Grades/Grades.vue"),
+      },
+      {
+        path: "/dashboard/Subjects",
+        name: "Subjects",
+        component: () => import("@/views/Subjects/Subjects.vue"),
+      },
+      {
         path: "/dashboard/Countries",
         name: "Countries",
         component: () => import("@/views/Countries/Countries.vue"),
@@ -61,7 +71,8 @@ const routes: Array<RouteRecordRaw> = [
         path: "/dashboard/bugReports",
         name: "bugReports",
         component: () => import("@/views/BugReport/BugReport.vue"),
-      },{
+      },
+      {
         path: "/dashboard/faqs",
         name: "faqs",
         component: () => import("@/views/Faqs/Faqs.vue"),
@@ -95,14 +106,12 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/dashboard/SystemSettings",
         name: "systemSettings",
-        component: () =>
-          import("@/views/SystemSettings/SystemSettings.vue"),
+        component: () => import("@/views/SystemSettings/SystemSettings.vue"),
       },
       {
         path: "/dashboard/TermsAndPrivacy",
         name: "TermsAndPrivacy",
-        component: () =>
-          import("@/views/TermsAndPrivacy/TermsAndPrivacy.vue"),
+        component: () => import("@/views/TermsAndPrivacy/TermsAndPrivacy.vue"),
       },
     ],
   },
@@ -141,7 +150,6 @@ const router = createRouter({
 // window.scrollTo(0, 0);
 // }, 100);
 // });
-
 
 // router.beforeEach(async (to, from, next) => {
 //   const auth = useAuthenticationStore();
