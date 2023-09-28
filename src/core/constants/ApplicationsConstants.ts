@@ -1,18 +1,25 @@
 export class AppConstants {
   static BASE_URL = import.meta.env.VITE_URL;
   static MANAGEMENT_URL = `${AppConstants.BASE_URL}/v1/Management`;
-  static COMMON = `${AppConstants.BASE_URL}/v1/Public`;
+  static PUBLIC_URL = `${AppConstants.BASE_URL}/v1/Public`;
+  static COMMON = `${AppConstants.BASE_URL}/v1/Common`;
+  static AUTH_URL = `${AppConstants.COMMON}/SignIn/SignIn`;
+
   static USERS_URL = `${AppConstants.MANAGEMENT_URL}/UsersManagement`;
-  static FAMILY_URL = `${AppConstants.MANAGEMENT_URL}/Family`;
+  static FAMILY_URL = `${AppConstants.COMMON}/Family`;
   static CITIES_URL = `${AppConstants.MANAGEMENT_URL}/Cities`;
-  static LOCALITIES_URL = `${AppConstants.MANAGEMENT_URL}/Localities`;
   static COUNTRIES_URL = `${AppConstants.MANAGEMENT_URL}/Countries`;
   static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
+  static GRADES_URL = `${AppConstants.PUBLIC_URL}/Grades`;
+  static SUBJECTS_URL = `${AppConstants.PUBLIC_URL}/Subjects`;
+  static GRADE_SUBJECTS_URL = `${AppConstants.PUBLIC_URL}/GradeSubjects`;
   static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;
+
   static TERMS_AND_PRIVACY_URL = `${AppConstants.MANAGEMENT_URL}/TermsAndPrivacy`;
   static SUBSCRIPTION_URL = `${AppConstants.COMMON}/Subscription`;
-  static AUTH_URL = `${AppConstants.COMMON}/SignIn/SignIn`;
+  
   static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
+
 
   static FILTER_ADMIN_BY_OPTIONS = {
     ByPhoneNumber: 0,

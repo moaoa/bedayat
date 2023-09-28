@@ -39,6 +39,25 @@ const DocMenuConfig = [
         ],
       },
       {
+        sectionTitle: "grades",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-sticky",
+        sub: [
+          {
+            heading: "grades",
+            route: "/dashboard/Grades",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+          },
+          {
+            heading: "subjects",
+            route: "/dashboard/Subjects",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+          },
+        ],
+      },
+      {
         sectionTitle: "citiesAndCountries",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
@@ -67,19 +86,19 @@ const DocMenuConfig = [
         heading: "systemSettings",
         route: "/dashboard/systemSettings",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
-        fontIcon: "bi-layers"
+        fontIcon: "bi-layers",
       },
       {
         heading: "termsAndPrivacy",
         route: "/dashboard/termsAndPrivacy",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
-        fontIcon: "bi-layers"
+        fontIcon: "bi-layers",
       },
       {
         heading: "bugReports",
         route: "/dashboard/bugReports",
         svgIcon: "/media/svg/bug.svg",
-        fontIcon: "bi-layers"
+        fontIcon: "bi-layers",
       },
       {
         heading: "faqs",

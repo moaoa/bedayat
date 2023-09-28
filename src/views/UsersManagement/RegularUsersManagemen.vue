@@ -357,11 +357,15 @@ setCurrentPageBreadcrumbs(t("usersManagement"), [t("usersManagement")]);
 setCurrentPageBreadcrumbs(t("usersManagement"), [t("usersManagement")]);
 
 const handleLoadUser = () => {
-  regularUsersMangementStore.loadUsers(
-    filterBy.value,
-    searchValue.value,
-    userState.value
-  );
+  try {
+    regularUsersMangementStore.loadUsers(
+      filterBy.value,
+      searchValue.value,
+      userState.value
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const notifyUser = () => {

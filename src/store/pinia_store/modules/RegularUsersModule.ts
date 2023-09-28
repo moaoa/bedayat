@@ -3,6 +3,7 @@ import { User } from "@/types/User";
 
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import UsersService from "@/core/services/UsersService";
+import Toaster from "@/core/services/Toaster";
 
 export const useRegularUsersStore = defineStore({
   id: "regularUsersStore",
@@ -65,9 +66,7 @@ export const useRegularUsersStore = defineStore({
           throw Error("only filter by teacher, parent or child");
         }
       } catch (e) {
-        this.errorLoadingData = true;
-        this.errorMessage =
-          (e as Error).message ?? "حدث خطأ أثناء محاولة تحميل البيانات";
+        console.log(e);
       } finally {
         this.dataIsLoading = false;
       }

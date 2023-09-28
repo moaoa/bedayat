@@ -203,6 +203,7 @@
             width="90"
             align="center"
             header-align="center"
+            fixed="right"
           >
             <template #default="scope: { row: User, $index: number }">
               <div class="flex">
@@ -271,6 +272,7 @@ import GenderBadge from "@/components/GenderBadge.vue";
 import debounce from "lodash/debounce";
 import ClippedText from "@/components/ClippedText.vue";
 import NotificationsModal from "./NotificationsModal.vue";
+import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
 
 const { t } = useI18n();
 const usersManagementStore = useUsersStore();
@@ -318,7 +320,7 @@ const updateUser = async (data: NewUserData) => {
 
     usersManagementStore.unselectUser();
 
-    Toaster.Success("asdf", "asdfa");
+    Toaster.Success(t("operationDone"), t("upatedItemSuccessfully"));
   } catch (error) {
     console.log(error);
   }
@@ -344,7 +346,6 @@ const handleToggleUser = async (user: User) => {
     Toaster.Success("Success", "sucess");
     return true;
   } catch (error) {
-    Toaster.error("Error", "Error");
     return false;
   }
 };
@@ -362,3 +363,8 @@ watch(
   background-color: rgba(255, 0, 0, 0.261);
 }
 </style>
+
+<!-- .el-table td.is-hidden > *,
+.el-table th.is-hidden > * {
+  visibility: visible !important;
+} -->
