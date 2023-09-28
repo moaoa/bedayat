@@ -16,11 +16,11 @@
     <!--begin::Body-->
     <div class="card-body pt-2">
       <div class="row">
-        <div class="col-md-3 col-lg-2 col-7">
+        <div class="col-md-4 col-lg-3 col-7 pb-10 mx-4">
 
-          <el-select v-model="bugReportStore.selectedBugCategory" clearable filterable>
+          <el-select class="w-400px" v-model="bugReportStore.selectedBugCategory" clearable filterable>
             <el-option v-for="category in Object.values(BugStatusSearch).slice(0,Object.values(BugStatusSearch).length/2 )" :key="category" :value="BugStatusSearch[category]"
-                       :label="category">
+                       :label="t(category)">
             </el-option>
           </el-select>
 
@@ -44,48 +44,46 @@
           prop="description"
           :label="$t('description')"
           width="150"
+          align="center"
+          header-align="center"
         />
         <el-table-column
           prop="bugResponse"
           :label="$t('bugResponse')"
-          width="150"
+          width="300"
+          align="center"
+          header-align="center"
         />
-        <el-table-column
-          prop="attachments"
-          :label="$t('attachments')"
-          width="150"
-        >
+
+
+        <el-table-column :label="t('status')"  width="120"
+                         align="center"
+                         header-align="center" >
           <template v-slot="scope: { row: BugReport, $index: number }">
-            <div class="demo-image__preview">
-              <el-image
-                style="width: 40px; height: 40px"
-                :src="scope.row.attachments?.[0] ?? ''"
-                :zoom-rate="1.2"
-                :preview-src-list="scope.row.attachments"
-                :initial-index="4"
-                fit="cover"
-              />
-            </div>
-            <!-- <el-image
-              v-if="scope.row.attachments.length > 0"
-              style="width: 100px; height: 100px"
-              :src="scope.row.attachments?.[0]"
-              :zoom-rate="1.2"
-              :preview-src-list="scope.row.attachments"
-              :initial-index="4"
-              fit="cover"
-            />
-            <span v-else>/</span> -->
+
+            <el-select v-model="bugReportStore.bugReports.find(x=> x.id == scope.row.id).department" clearable filterable>
+              <el-option v-for="category in Object.values(BugDepartmentType).slice(0,Object.values(BugDepartmentType).length/2 )" :key="category" :value="BugDepartmentType[category]"
+                         :label="t(category)"  @click="assignDepartment(scope.row.id, category)" >
+              </el-option>
+            </el-select>
+
+
           </template>
         </el-table-column>
-        <el-table-column label="Status" width="120">
+
+
+        <el-table-column :label="t('status')" width="120"
+                         align="center"
+                         header-align="center" >
           <template v-slot="scope: { row: BugReport, $index: number }">
-            <el-tag v-if="scope.row.issueStatus === 'Pending'">Pending</el-tag>
+            <el-tag v-if="scope.row.issueStatus === 'Pending'   ">Pending</el-tag>
             <el-tag v-else type="danger">Closed</el-tag>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('edit')" width="150">
+        <el-table-column :label="$t('edit')" width="150"
+                         align="center"
+                         header-align="center" >
           <template #default="scope: { row: BugReport, $index: number }">
             <div class="flex">
               <button
@@ -153,6 +151,7 @@ import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import {FaqCategory} from "@/types/Faq";
 import bugReportService from "@/core/services/BugReportService";
+import store from "@/store";
 
 const { t } = useI18n();
 const bugReportStore = useBugReportsStore();
@@ -178,6 +177,13 @@ const openConfirmDialog = async () => {
     return false;
   }
 };
+async function assignDepartment(id: string, category: BugDepartmentType) {
+
+
+  await bugReportStore.assignDepartment(id, category);
+
+  return;
+}
 
 const respondToBug = async (form: { response: string }) => {
   const success = await bugReportStore.respondToSelectedBug(form.response);
@@ -188,8 +194,8 @@ const respondToBug = async (form: { response: string }) => {
 };
 
 const openRespondToBugReportDialog = (bug: BugReport) => {
-  if (bug.issueStatus === "Solved") return;
 
+bugReportStore.selectedBugToRespond  = bug;
   respondToBugDialogIsVisible.value = true;
   bugReportStore.selectBugReportId(bug.id);
 };
@@ -198,7 +204,11 @@ onMounted(()=> {
 })
 
 watch(()=> bugReportStore.selectedBugCategory,
-    ()=> bugReportStore.loadBugReports())
+    ()=> {
+
+      console.log("in the watcher")
+      bugReportStore.loadBugReports()
+    })
 setCurrentPageBreadcrumbs(t("bugReport"), [t("bugReport")]);
 </script>
 

@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 
-import type {BugReport, IssueStatus} from "@/types/BugReports";
-import {BugStatusSearch, IssueStatusValues} from "@/types/BugReports";
+import type {BugReport} from "@/types/BugReports";
+import {BugDepartmentType, BugStatusSearch} from "@/types/BugReports";
 import BugReportService from "@/core/services/BugReportService";
 import Toaster from "@/core/services/Toaster";
 
@@ -10,26 +10,29 @@ export const useBugReportsStore = defineStore({
 
     state: () => ({
         bugReports: [
-            // {
-            //   id: "1",
-            //   attachments: [
-            //     "/media/stock/300x270/9.jpg",
-            //     "/media/stock/300x270/7.jpg",
-            //   ],
-            //   bugResponse: "",
-            //   description: "description 1",
-            //   issueStatus: "Pending",
-            //   title: "title 1",
-            // },
-            // {
-            //   id: "2",
-            //   attachments: [],
-            //   bugResponse: "",
-            //   description: "description 2",
-            //   issueStatus: "Pending",
-            //   title: "title 2",
-            // },
+            {
+                id: "1",
+                attachments: [
+                    "/media/stock/300x270/9.jpg",
+                    "/media/stock/300x270/7.jpg",
+                ],
+                bugResponse: "",
+                department: BugDepartmentType.Admin,
+                description: "description 1",
+                issueStatus: "Pending",
+                title: "title 1",
+            },
+            {
+                id: "2",
+                attachments: [],
+                department: BugDepartmentType.Technical,
+                bugResponse: "",
+                description: "description 2",
+                issueStatus: "Pending",
+                title: "title 2",
+            },
         ] as BugReport[],
+        selectedBugToRespond: {} as BugReport,
         dataIsLoading: false,
         selectedBugCategory: -1 as BugStatusSearch,
         selectedBugId: null as string | null,
@@ -60,6 +63,25 @@ export const useBugReportsStore = defineStore({
         selectBugReportId(bugId: string) {
             this.selectedBugId = bugId;
         },
+        async assignDepartment(id: string, category: BugDepartmentType) {
+
+            try {
+
+                await BugReportService.assignBugToDifferentDepartment(id, category);
+
+                this.bugReports.find(x => x.id == id)!.department = category;
+
+                console.log("successful department Assignments");
+
+                return;
+            } catch (error) {
+
+                Toaster.error(error.message)
+            }
+
+        },
+
+
         async respondToSelectedBug(message: string) {
             try {
 
