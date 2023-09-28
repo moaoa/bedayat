@@ -1,9 +1,7 @@
 import { defineStore } from "pinia";
 import { Grade, NewGradeData } from "@/types/Grades";
 
-import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import gradesService from "@/core/repositories/GradesService";
-import Toaster from "@/core/services/Toaster";
 
 export const useGradesStore = defineStore({
   id: "gradesStore",
@@ -39,7 +37,6 @@ export const useGradesStore = defineStore({
         this.grades = items;
       } catch (e) {
         console.log((e as Error).message);
-        Toaster.error((e as Error).message);
       } finally {
         this.dataIsLoading = false;
       }
@@ -67,7 +64,7 @@ export const useGradesStore = defineStore({
         this.isUpdatingItem = false;
       } catch (error) {
         this.isUpdatingItem = false;
-        throw error;
+        console.log(error);
       }
     },
     async createNewItem(gradeData: NewGradeData) {
@@ -78,7 +75,27 @@ export const useGradesStore = defineStore({
         this.isCreatingNewItem = false;
       } catch (error) {
         this.isCreatingNewItem = false;
-        throw error;
+        console.log(error);
+      }
+    },
+    async deleteItem() {
+      this.isDeletingItem = true;
+
+      if (!this.selectedGrade) {
+        console.error("no grade selected");
+        return;
+      }
+
+      try {
+        await gradesService.deleteGrade(this.selectedGrade.id);
+        this.grades = this.grades.filter(
+          (item) => item.id !== this.selectedGrade?.id
+        );
+        this.unselectGrade();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isDeletingItem = false;
       }
     },
   },

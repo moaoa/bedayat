@@ -1,10 +1,11 @@
 import { App } from "vue";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import VueAxios from "vue-axios";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import Toaster from "./Toaster";
 import AuthenticationService from "./AuthenticationService";
+// import JwtService from "./JwtService";
 
 class ApiService {
   public static vueInstance: App;
@@ -14,46 +15,60 @@ class ApiService {
     ApiService.vueInstance.use(VueAxios, axios);
     ApiService.vueInstance.axios.defaults.baseURL = AppConstants.BASE_URL;
     this.setHeader();
+    this.setInterceptor();
   }
 
   public static setHeader(): void {
-    // ApiService.vueInstance.axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
+    // ApiService.vueInstance.axios.defaults.headers.common[
+    //   "Authorization"
+    // ] = `Bearer ${JwtService.getToken()}`;
     ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] =
       "application/json";
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] =
       "application/json";
   }
 
-  private setInterceptor(): void {
+  private static setInterceptor(): void {
     ApiService.vueInstance.axios.interceptors.request.use((config) => {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
 
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
+      // if (token) {
+      //   config.headers.Authorization = `Bearer ${token}`;
+      // }
 
       return config;
     });
 
     ApiService.vueInstance.axios.interceptors.response.use(
       (response) => response,
-      async (error: any) => {
-        console.log("error", error);
+      async (error: AxiosError) => {
+        // if (error.response?.status === 401) {
+        //   // refresh token then call api then if fails, sign out
 
-        if (error.response?.status === 401) {
-          // refresh token then call api then if fails, sign out
+        //   await AuthenticationService.refreshToken();
 
-          await AuthenticationService.refreshToken();
+        //   axios.request(error.config).catch(async (responseError) => {
+        //     if (responseError?.response?.status === 401) {
+        //       localStorage.removeItem("token");
+        //     }
+        //   });
+        // }
 
-          axios.request(error.config).catch(async (responseError) => {
-            if (responseError?.response?.status === 401) {
-              localStorage.removeItem("token");
-            }
-          });
+        let message = "";
+
+        if (error.response) {
+          message = error.response.data?.message;
+        } else if (error.request) {
+          // The request was made, but no response was received
+          message = "Network Error";
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          message = "Error Sending Request";
         }
-        if (error.response?.data?.message) {
-          Toaster.error(error.response?.data?.message);
-        }
+
+        // console.log(error.config); // Axios request configuration
+
+        Toaster.error(message !== "" ? message : "Something Went Wrong");
 
         return Promise.reject(error);
       }

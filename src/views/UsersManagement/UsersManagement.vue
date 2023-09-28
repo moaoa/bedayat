@@ -297,7 +297,6 @@ const createUser = async (data: NewUserData) => {
     Toaster.Success("Success", "sucess");
   } catch (error) {
     console.log(error);
-    Toaster.error((error as Error).message);
   }
 };
 
@@ -324,7 +323,6 @@ const updateUser = async (data: NewUserData) => {
     Toaster.Success(t("operationDone"), t("upatedItemSuccessfully"));
   } catch (error) {
     console.log(error);
-    Toaster.error((error as Error).message);
   }
 };
 const formatter = (key: "createdAt" | "lastUpdated" | "birthDate") => {
@@ -348,7 +346,6 @@ const handleToggleUser = async (user: User) => {
     Toaster.Success("Success", "sucess");
     return true;
   } catch (error) {
-    Toaster.error((error as Error).message);
     return false;
   }
 };

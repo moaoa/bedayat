@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("updateGrade") }}</h2>
+          <h2 class="fw-bolder">{{ $t("updateSubject") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"
@@ -99,16 +99,16 @@
                 <div class="fv-row mb-7 col-md-6">
                   <!--begin::Label-->
                   <label class="required fs-6 fw-bold mb-2">
-                    {{ $t("gradeType") }}
+                    {{ $t("subjectType") }}
                   </label>
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-form-item prop="gradeType">
+                  <el-form-item prop="subjectType">
                     <el-input
                       v-model="formData.gradeType"
                       type="text"
-                      :placeholder="$t('gradeType')"
+                      :placeholder="$t('subjectType')"
                     />
                   </el-form-item>
                   <!--end::Input-->
@@ -124,7 +124,7 @@
             <!--begin::Button-->
             <button
               type="reset"
-              id="update_grade_modal_close"
+              id="update_subject_modal_close"
               class="btn btn-light me-3 btn-sm"
               style="width: 100px"
             >
@@ -167,19 +167,19 @@
 import { reactive, ref, watch, computed, onMounted } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useI18n } from "vue-i18n";
-import { NewGradeData } from "@/types/Grades";
-import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
+import { NewSubjectData } from "@/types/Subjects";
+import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
 import Toaster from "@/core/services/Toaster";
 
 const { t } = useI18n();
 
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
-const loading = computed(() => gradesStore.isUpdatingItem);
+const loading = computed(() => subjectsStore.isUpdatingItem);
 
-const gradesStore = useGradesStore();
+const subjectsStore = useSubjectsStore();
 
-const formData = reactive<NewGradeData>({
+const formData = reactive<NewSubjectData>({
   name: "",
   englishName: "",
   gradeType: 1,
@@ -199,7 +199,7 @@ const rules = ref({
     },
   ],
   note: [{ required: true, message: t("required"), trigger: "blur" }],
-  gradeType: [{ required: true, message: t("required"), trigger: "blur" }],
+  subjectType: [{ required: true, message: t("required"), trigger: "blur" }],
   priority: [{ required: true, message: t("required"), trigger: "blur" }],
 });
 
@@ -213,7 +213,7 @@ const submit = () => {
       return;
     }
     try {
-      await gradesStore.updateItem(formData);
+      await subjectsStore.updateItem(formData);
       hideModal(modalRef.value);
       Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
@@ -223,11 +223,11 @@ const submit = () => {
 };
 
 watch(
-  () => gradesStore.selectedGrade,
+  () => subjectsStore.selectedSubject,
   (value) => {
     formData.englishName = value?.englishName ?? "";
     formData.name = value?.name ?? "";
-    formData.gradeType = value?.gradeType ?? 1;
+    // formData.subjectType = value?.subjectType ?? 1;
     formData.priority = value?.priority ?? 1;
     formData.note = value?.note ?? "";
   }
@@ -235,7 +235,7 @@ watch(
 
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", () => {
-    gradesStore.unselectGrade();
+    subjectsStore.unselectSubject();
   });
 });
 </script>

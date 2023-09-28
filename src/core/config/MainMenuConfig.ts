@@ -39,7 +39,7 @@ const DocMenuConfig = [
         ],
       },
       {
-        sectionTitle: "Grades",
+        sectionTitle: "grades",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
         sub: [
@@ -49,12 +49,12 @@ const DocMenuConfig = [
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
           },
-          // {
-          //   heading: "users",
-          //   route: "/dashboard/RegularUsersManagement",
-          //   svgIcon: "/media/icons/duotune/general/gen019.svg",
-          //   fontIcon: "bi-layers",
-          // },
+          {
+            heading: "subjects",
+            route: "/dashboard/Subjects",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+          },
         ],
       },
       {

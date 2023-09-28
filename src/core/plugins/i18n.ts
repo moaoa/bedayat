@@ -28,9 +28,6 @@ const messages = {
     hash: "#",
     at: "@",
 
-    noNumber: "NO",
-    hash: "#",
-    at: "@",
     someFieldsNotFill: " Please make sure to fill in the required fields",
 
     deleteCancelation: "item was not deleted",
@@ -191,13 +188,15 @@ const messages = {
     addSubscriptionSettings: "Add Subscription Settings",
     notify: "Notify",
     addNewGrade: "Add New Grade",
+    grades: "Grades",
+    subjects: "Subjects",
+    addNewSubject: "Add New Subject",
   },
   ar: {
     addSubscriptionSettings: "إضافة جديدة",
     submit: "تأكيد",
     systemSettings: "إعدادات النظام",
 
-    localities: "الأحياء",
     termsAndPrivacy: "الشروط العامة و الخصوصية",
     termsAndConditions: "الشروط العامة ",
     privacy: "الخصوصيه",
@@ -372,6 +371,9 @@ const messages = {
     endOfYearDate: "تاريخ نهاية السنة الدراسية",
     notify: "إشعار",
     addNewGrade: "إضافة صف جديد",
+    grades: "الصفوف",
+    subjects: "المواد",
+    addNewSubject: "إضافة مادة جديدة",
   },
 };
 

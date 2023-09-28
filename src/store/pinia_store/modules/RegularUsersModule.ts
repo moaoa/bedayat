@@ -67,8 +67,6 @@ export const useRegularUsersStore = defineStore({
         }
       } catch (e) {
         console.log(e);
-        Toaster.error("حدث خطأ أثناء محاولة تحميل البيانات");
-        throw e;
       } finally {
         this.dataIsLoading = false;
       }

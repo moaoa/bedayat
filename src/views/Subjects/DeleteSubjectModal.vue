@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-dialog-centered mw-550px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("deleteGrade") }}</h2>
+          <h2 class="fw-bolder">{{ $t("deleteSubject") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"
@@ -44,7 +44,7 @@
           <button
             :data-kt-indicator="deleting ? 'on' : null"
             class="btn btn-sm btn-danger"
-            @click="deleteGrade"
+            @click="deleteSubject"
             style="width: 200px"
           >
             <span v-if="!deleting" class="indicator-label">
@@ -82,7 +82,7 @@
 </style>
 
 <script lang="ts" setup>
-import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
+import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
 import { ref, computed } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useI18n } from "vue-i18n";
@@ -90,20 +90,20 @@ import Toaster from "@/core/services/Toaster";
 
 const { t } = useI18n();
 const deleting = computed(() => {
-  return gradesStore.isDeletingItem;
+  return subjectsStore.isDeletingItem;
 });
 
 const emit = defineEmits<{
   (event: "close", data: any);
 }>();
 
-const gradesStore = useGradesStore();
+const subjectsStore = useSubjectsStore();
 
 const modalRef = ref<HTMLElement | null>(null);
 
-const deleteGrade = async () => {
+const deleteSubject = async () => {
   try {
-    await gradesStore.deleteItem();
+    await subjectsStore.deleteItem();
     hideModal(modalRef.value);
     Toaster.Success(t("success"), t("deletedItem"));
   } catch (error) {

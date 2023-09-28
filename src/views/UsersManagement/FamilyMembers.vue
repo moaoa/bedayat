@@ -384,7 +384,6 @@ const handleToggleUser = async (user: User) => {
     Toaster.Success("Success", "sucess");
     return true;
   } catch (error) {
-    Toaster.error("Error", "Error");
     return false;
   }
 };

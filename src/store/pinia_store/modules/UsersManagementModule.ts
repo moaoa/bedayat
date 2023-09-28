@@ -95,7 +95,6 @@ export const useUsersStore = defineStore({
         }
       } catch (e) {
         console.log(e);
-        Toaster.error("حدث خطأ أثناء محاولة تحميل البيانات");
       } finally {
         this.dataIsLoading = false;
       }
@@ -115,7 +114,6 @@ export const useUsersStore = defineStore({
         }
       } catch (e) {
         console.log(e);
-        Toaster.error("حدث خطأ أثناء محاولة تحميل البيانات");
       } finally {
         this.dataIsLoading = false;
       }
@@ -127,7 +125,7 @@ export const useUsersStore = defineStore({
         this.isSwitchingUserStatus = false;
       } catch (error) {
         this.isSwitchingUserStatus = false;
-        throw error;
+        console.log(error);
       }
     },
     unselectUser() {
@@ -153,7 +151,7 @@ export const useUsersStore = defineStore({
         this.isUpdatingItem = false;
       } catch (error) {
         this.isUpdatingItem = false;
-        throw error;
+        console.log(error);
       }
     },
     async createNewItem(userData: NewUserData) {
@@ -166,7 +164,7 @@ export const useUsersStore = defineStore({
         this.isCreatingNewItem = false;
       } catch (error) {
         this.isCreatingNewItem = false;
-        throw error;
+        console.log(error);
       }
     },
   },

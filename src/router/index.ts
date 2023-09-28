@@ -53,6 +53,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/Grades/Grades.vue"),
       },
       {
+        path: "/dashboard/Subjects",
+        name: "Subjects",
+        component: () => import("@/views/Subjects/Subjects.vue"),
+      },
+      {
         path: "/dashboard/Countries",
         name: "Countries",
         component: () => import("@/views/Countries/Countries.vue"),
@@ -145,7 +150,6 @@ const router = createRouter({
 // window.scrollTo(0, 0);
 // }, 100);
 // });
-
 
 // router.beforeEach(async (to, from, next) => {
 //   const auth = useAuthenticationStore();

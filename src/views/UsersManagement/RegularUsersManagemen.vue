@@ -364,10 +364,7 @@ const handleLoadUser = () => {
       userState.value
     );
   } catch (error) {
-    console.log("errr me");
     console.log(error);
-    // Toaster.error(t("error"), t("errorLoadingData"));
-    Toaster.error("Error", "Error");
   }
 };
 

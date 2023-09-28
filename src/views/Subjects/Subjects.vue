@@ -4,14 +4,14 @@
   <div class="card card-xxl-stretch mb-xl-3">
     <!--begin::Header-->
     <div class="card-header border-0">
-      <h3 class="card-title fw-bolder text-dark">{{ $t("grades") }}</h3>
+      <h3 class="card-title fw-bolder text-dark">{{ $t("subjects") }}</h3>
 
       <div class="card-toolbar">
         <!--begin::Menu-->
 
         <a
           class="btn btn-icon btn-light-primary btn-sm me-3"
-          @click="gradesStore.loadGrades()"
+          @click="subjectsStore.loadSubjects()"
         >
           <i class="bi bi-arrow-repeat"></i>
         </a>
@@ -26,7 +26,7 @@
           <span class="svg-icon svg-icon-3">
             <inline-svg src="/media/icons/duotune/arrows/arr075.svg" />
           </span>
-          {{ $t("addNewGrade") }}
+          {{ $t("addNewSubject") }}
         </a>
 
         <!--end::Menu-->
@@ -35,10 +35,10 @@
     <!--end::Header-->
 
     <!--begin::Body-->
-    <div v-loading="gradesStore.dataIsLoading" class="card-body pt-2">
+    <div v-loading="subjectsStore.dataIsLoading" class="card-body pt-2">
       <!-- begin::table -->
 
-      <el-table :data="gradesTable" style="width: 100%" height="250">
+      <el-table :data="subjectsTable" style="width: 100%" height="250">
         <el-table-column
           index="scope.$index"
           :label="t('noNumber')"
@@ -46,7 +46,7 @@
           align="center"
           header-align="center"
         >
-          <template #default="scope: { row: Grade, $index: number }">
+          <template #default="scope: { row: Subject, $index: number }">
             {{ scope.$index + 1 }}
           </template>
         </el-table-column>
@@ -74,7 +74,7 @@
               class="btn btn-icon btn-light-success btn-sm"
               data-bs-toggle="modal"
               :data-bs-target="`#update_item_modal`"
-              @click="selectGrade(scope.row)"
+              @click="selectSubject(scope.row)"
             >
               <i class="bi bi-pencil"></i>
             </a>
@@ -86,13 +86,13 @@
           align="center"
           header-align="center"
         >
-          <template #default="scope: { row: Grade, $index: number }">
+          <template #default="scope: { row: Subject, $index: number }">
             <div class="flex">
               <a
                 class="btn btn-icon btn-light-danger btn-sm"
                 data-bs-toggle="modal"
                 :data-bs-target="`#kt_modal_delete_item`"
-                @click="selectGrade(scope.row)"
+                @click="selectSubject(scope.row)"
               >
                 <i class="bi bi-trash"></i>
               </a>
@@ -106,61 +106,57 @@
       <br />
       <!-- start::pagination -->
       <el-pagination
-        v-if="!gradesStore.dataIsLoading && gradesStore.grades"
+        v-if="!subjectsStore.dataIsLoading && subjectsStore.subjects"
         background
         layout="total, sizes, prev, pager, next, jumper"
-        :total="gradesStore.grades.length"
+        :total="subjectsStore.subjects.length"
       />
       <!-- end::pagination -->
     </div>
     <!--end::Body-->
 
     <!-- begin::dialog -->
-    <CreateGradeForm />
+    <CreateSubjectForm />
     <!-- end::dialog -->
     <!-- begin::dialog -->
-    <UpdateGradeForm @close="unselectGrade" />
+    <UpdateSubjectForm @close="unselectSubject" />
     <!-- end::dialog -->
 
     <!-- begin::dialog -->
-    <DeleteGrade></DeleteGrade>
+    <DeleteSubject></DeleteSubject>
     <!-- end::dialog -->
   </div>
   <!--end:List Widget 3-->
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { Grade } from "@/types/Grades";
-import CreateGradeForm from "@/views/Grades/AddGradeModal.vue";
-import UpdateGradeForm from "@/views/Grades/UpdateGradeModal.vue";
-import DeleteGrade from "@/views/Grades/DeleteGradeModal.vue";
+import { computed } from "vue";
+import { Subject } from "@/types/Subjects";
+import CreateSubjectForm from "@/views/Subjects/AddSubjectModal.vue";
+import UpdateSubjectForm from "@/views/Subjects/UpdateSubjectModal.vue";
+import DeleteSubject from "@/views/Subjects/DeleteSubjectModal.vue";
 import { formatDate } from "@/core/helpers/formatDate";
-import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
+import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
-import Toaster from "@/core/services/Toaster";
-import { hideModal } from "@/core/helpers/dom";
 
 const { t } = useI18n();
-const gradesStore = useGradesStore();
+const subjectsStore = useSubjectsStore();
 
-const gradesTable = computed(() => gradesStore.grades);
+const subjectsTable = computed(() => subjectsStore.subjects);
 
-const deleteGradeModalRef = ref<{ modalRef: HTMLElement } | null>(null);
+subjectsStore.loadSubjects();
 
-gradesStore.loadGrades();
-
-const selectGrade = (grade: Grade) => {
-  gradesStore.selectGrade(grade);
+const selectSubject = (subject: Subject) => {
+  subjectsStore.selectSubject(subject);
 };
 
-const unselectGrade = () => {
-  gradesStore.unselectGrade();
+const unselectSubject = () => {
+  subjectsStore.unselectSubject();
 };
 
 const formatter = (key: "createdAt" | "lastUpdated") => {
-  return (grade: Grade) => formatDate(grade[key]);
+  return (subject: Subject) => formatDate(subject[key]);
 };
-setCurrentPageBreadcrumbs(t("grades"), [t("grades")]);
+setCurrentPageBreadcrumbs(t("subjects"), [t("subjects")]);
 </script>

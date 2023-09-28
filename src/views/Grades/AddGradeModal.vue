@@ -166,9 +166,9 @@
 import { reactive, ref, onMounted, computed } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
-
 import { useI18n } from "vue-i18n";
 import { NewGradeData } from "@/types/Grades";
+import Toaster from "@/core/services/Toaster";
 
 const { t } = useI18n();
 
@@ -183,11 +183,6 @@ const formData = reactive<NewGradeData>({
   note: "",
   priority: 1,
 });
-
-const emit = defineEmits<{ (event: "submit", data: NewGradeData) }>();
-
-// eslint-disable-next-line no-undef
-defineExpose({ modalRef });
 
 const rules = ref({
   name: [{ required: true, message: t("required"), trigger: "blur" }],
@@ -209,16 +204,21 @@ const submit = () => {
   }
 
   formRef.value.validate(async (valid) => {
-    if (valid) {
-      await gradesStore.createNewItem(formData);
-      emit("submit", formData);
+    if (!valid) {
       return;
+    }
+    try {
+      await gradesStore.createNewItem(formData);
+      hideModal(modalRef.value);
+      Toaster.Success(t("success"), t("createdNewItem"));
+    } catch (error) {
+      console.log(error);
     }
   });
 };
 
 onMounted(() => {
-  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
+  modalRef.value?.addEventListener("hidden.bs.modal", () => {
     formRef.value?.resetFields();
   });
 });

@@ -1,6 +1,7 @@
 export class AppConstants {
   static BASE_URL = import.meta.env.VITE_URL;
   static MANAGEMENT_URL = `${AppConstants.BASE_URL}/v1/Management`;
+  static AUTH_URL = `${AppConstants.BASE_URL}/v1/Auth`;
   static PUBLIC_URL = `${AppConstants.BASE_URL}/v1/Public`;
   static COMMON = `${AppConstants.BASE_URL}/v1/Common`;
   static USERS_URL = `${AppConstants.MANAGEMENT_URL}/UsersManagement`;
@@ -9,6 +10,8 @@ export class AppConstants {
   static COUNTRIES_URL = `${AppConstants.MANAGEMENT_URL}/Countries`;
   static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
   static GRADES_URL = `${AppConstants.PUBLIC_URL}/Grades`;
+  static SUBJECTS_URL = `${AppConstants.PUBLIC_URL}/Subjects`;
+  static GRADE_SUBJECTS_URL = `${AppConstants.PUBLIC_URL}/GradeSubjects`;
   static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;
   static COMMON_TERMS_AND_PRIVACY_URL = `${AppConstants.MANAGEMENT_URL}/TermsAndPrivacy`;
   static COMMON_SUBSCRIPTION_URL = `${AppConstants.MANAGEMENT_URL}/Subscription`;
