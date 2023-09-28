@@ -173,7 +173,6 @@ setCurrentPageBreadcrumbs(t("cities"), [t("cities")]);
 const cityDeleted = async (city: City) => {
   try {
     await citiesStore.deleteItem(city);
-    Toaster.Success("success", "asasdsds");
     hideModal(deleteCityModalRef.value!.modalRef!);
   } catch (error) {
     console.log(error);

@@ -3,6 +3,8 @@ import { Locality, NewLocalityData } from "@/types/Localities";
 import { City } from "@/types/Cities";
 import LocalitiesService from "@/core/services/LocalitiesService";
 import Toaster from "@/core/services/Toaster";
+import toaster from "@/core/services/Toaster";
+import localitiesService from "@/core/services/LocalitiesService";
 export const useLocalitiesStore = defineStore({
   id: "localitiesStore",
 
@@ -17,7 +19,7 @@ export const useLocalitiesStore = defineStore({
     dataIsLoading: false,
     isCreatingNewItem: false,
     isUpdatingItem: false,
-    errorMessage: "",
+    // errorMessage: "",
     errorLoadingData: false,
   }),
 
@@ -33,13 +35,11 @@ export const useLocalitiesStore = defineStore({
         this.localities = result;
         
         this.dataIsLoading = false;
-        // Toaster.Success("")
-      } catch (e) {
+      } catch (error) {
         this.errorLoadingData = true;
-        this.errorMessage =
-          (e as Error).message ?? "حدث خطأ أثناء محاولة تحميل البيانات";
+        toaster.error((error as Error).message)
+          Toaster.error("failed to load localities")
       } finally {
-        //TODO: uncomment this
         this.dataIsLoading = false;
       }
     },
@@ -47,54 +47,56 @@ export const useLocalitiesStore = defineStore({
       this.selectedLocality = null;
     },
     selectLocality(selectedLocality: Locality) {
+
+      // @ts-ignore
       this.selectedLocality = structuredClone({ ...selectedLocality });
     },
-    updateItem(newValues: NewLocalityData) {
-      this.isUpdatingItem = true;
-      return new Promise((res) => {
-        setTimeout(() => {
-          if (this.selectedLocality) {
-            const index = this.localities.findIndex(
-              (locality) => locality.id === this.selectedLocality!.id
-            );
-            this.localities[index] = { ...this.selectedLocality, ...newValues };
-          }
-          this.isUpdatingItem = false;
-          return res(true);
-        }, 2000);
-      });
+     async updateItem(newValues: NewLocalityData)  {
+       try {
+        this.isUpdatingItem = true;
+
+        if (this.selectedLocality){
+          await LocalitiesService.updateLocality(this.selectedLocality.id, newValues);
+          await this.loadLocalities(this.selectedCityId)
+        }else{
+          Toaster.info("No locality Selected")
+        }
+        Toaster.Success("Locality Updated Succesfully!")
+      } catch (error) {
+        console.error(error);
+        Toaster.error("Failed to update locality!")
+      }finally{
+        this.isUpdatingItem = false;
+      }
     },
-    async createNewItem(localityData: NewLocalityData) {
+    async createNewItem(newLocality: NewLocalityData) {
+      try {
       this.isCreatingNewItem = true;
-      return new Promise((res) => {
-        setTimeout(() => {
-          const newLocality: NewLocalityData = {
-            ...localityData,
-          };
-          const locality: Locality = {
-            id: this.localities.length + 1 + "",
-            name: newLocality.name,
-            englishName: newLocality.englishName,
-            cityId: newLocality.cityId,
-            createdAt: new Date().toISOString(),
-            lastUpdated: new Date().toISOString(),
-          };
-          this.localities.push(locality);
-          this.isCreatingNewItem = false;
-          return res(true);
-        }, 2000);
-      });
+        await localitiesService.createLocality(newLocality)
+
+        Toaster.Success("Locality Created Successfully")
+        this.isCreatingNewItem = false;
+      }catch (error) {
+        console.error(error)
+        toaster.error((error as Error).message)
+      }
     },
     async deleteItem(localityToDelete: Locality) {
-      const index = this.localities.findIndex(
-        (locality) => locality.id === localityToDelete.id
-      );
+      try {
 
-      if (index === -1) return "this item was not deleted";
+        const index = this.localities.findIndex(
+            (locality) => locality.id === localityToDelete.id
+        );
+        if (index === -1) return toaster.info("no item was selected");
 
-      this.localities.splice(index, 1);
+        await LocalitiesService.deleteLocality(localityToDelete.id);
 
-      return "deleted successfully";
+        // this.localities.splice(index, 1);
+        Toaster.Success("Locality Deleted Successfully")
+      }catch (error){
+        console.error(error)
+        toaster.error((error as Error).message)
+      }
     },
   },
 });

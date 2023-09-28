@@ -82,8 +82,8 @@
           <div class="modal-footer flex-center">
             <!--begin::Button-->
             <button
+            id="update_locality_modal_close"
               type="reset"
-              id="update_locality_modal_close"
               class="btn btn-light me-3 btn-sm"
               style="width: 100px"
             >
@@ -122,16 +122,6 @@
   </div>
 </template>
 
-<style lang="scss">
-.el-select {
-  width: 100%;
-}
-
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  width: 100%;
-}
-</style>
 
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from "vue";
@@ -208,3 +198,14 @@ watch(
   }
 );
 </script>
+
+<style lang="scss">
+.el-select {
+  width: 100%;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100%;
+}
+</style>

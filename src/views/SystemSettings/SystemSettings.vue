@@ -227,10 +227,14 @@ const formatter = (key: "createdAt" | "lastUpdated") => {
 };
 
 const handleEdit = (index: number, row: SubscriptionSettings) => {
+
+  // @ts-ignore
   SubscriptionSettingsStore.subsctiptionSettingToUpdate = structuredClone({ ...row });
   console.log(index, row)
 }
 const handleDelete = (index: number, row: SubscriptionSettings) => {
+
+  // @ts-ignore
   SubscriptionSettingsStore.subsctiptionSettingToDelete = structuredClone({ ...row });
   console.log(index, row)
 }

@@ -24,10 +24,6 @@ export const useSubscriptionSettingsStore = defineStore({
     async getSubscriptionSettings() {
       try {
         this.dataLoading = true;
-        setTimeout(() => {
-          console.log("logging");
-          
-        }, 3000);
         const result =
         await SubscriptionSettingsService.getSubscriptionSettings();
         
@@ -48,6 +44,8 @@ export const useSubscriptionSettingsStore = defineStore({
 
     },
     selectSubsctiptionSetting(selectedSubsctiptionSettings: SubscriptionSettings) {
+
+      // @ts-ignore
       this.subsctiptionSettingToUpdate = structuredClone({ ...selectedSubsctiptionSettings });
     },
     async addSubscriptionSettings(numberOfDays: number) {
