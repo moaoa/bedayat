@@ -56,7 +56,7 @@
         />
 
 
-        <el-table-column :label="t('status')"  width="120"
+        <el-table-column :label="t('department')"  width="180"
                          align="center"
                          header-align="center" >
           <template v-slot="scope: { row: BugReport, $index: number }">

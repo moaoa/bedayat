@@ -6,7 +6,20 @@ import gradesService from "@/core/repositories/GradesService";
 export const useGradesStore = defineStore({
   id: "gradesStore",
   state: () => ({
-    grades: [] as Grade[],
+    grades: [
+      {
+        id: '1',
+        createdAt: new Date().toDateString(),
+        gradeType: 1,
+        name: "الصف الاول",
+        englishName: "first grade",
+        note: "nothing",
+        priority: 1,
+        lastUpdated: new Date().toDateString() ,
+        gradeSubjects: [] as unknown[],
+        courses:[] as unknown[],
+      },
+    ] as Grade[],
     pagination: {
       total: 0,
       currentPage: 1,
