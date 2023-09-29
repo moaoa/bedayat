@@ -58,6 +58,12 @@ const DocMenuConfig = [
         ],
       },
       {
+        heading: "courses",
+        route: "/dashboard/Courses",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-layers",
+      },
+      {
         sectionTitle: "citiesAndCountries",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
