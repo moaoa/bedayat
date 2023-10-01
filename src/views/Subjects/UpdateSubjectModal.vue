@@ -182,7 +182,7 @@ const subjectsStore = useSubjectsStore();
 const formData = reactive<NewSubjectData>({
   name: "",
   englishName: "",
-  gradeType: 1,
+  subjectType: 1,
   note: "",
   priority: 1,
 });

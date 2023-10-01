@@ -6,7 +6,7 @@ import ApiService from "@/core/services/ApiService";
 class SubjectsService {
   public static async getSubjects() {
     const res = await ApiService.get<ApiResponse<Subject[]>>(
-      `${AppConstants.SUBJECTS_URL}`
+      `${AppConstants.SUBJECTS_URL}`,'?SubjectType=None&IncludeCourses=false&PageNumber=1&PageSize=100'
     );
     return res.data.data;
   }

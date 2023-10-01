@@ -68,7 +68,7 @@ class ApiService {
 
         // console.log(error.config); // Axios request configuration
 
-        Toaster.error(message !== "" ? message : "Something Went Wrong");
+        Toaster.error(message? message : "Something Went Wrong");
 
         return Promise.reject(error);
       }
@@ -98,9 +98,10 @@ class ApiService {
 
   public static post<T>(
     resource: string,
-    params: Record<string, unknown>
+    params: Record<string, unknown> | FormData,
+    options?: AxiosRequestConfig
   ): Promise<AxiosResponse<T>> {
-    return ApiService.vueInstance.axios.post(`${resource}`, params);
+    return ApiService.vueInstance.axios.post(`${resource}`, params, options);
   }
 
   public static update(
@@ -113,9 +114,10 @@ class ApiService {
 
   public static put<T>(
     resource: string,
-    params: Record<string, unknown>
+    params: Record<string, unknown>,
+    options?: AxiosRequestConfig
   ): Promise<AxiosResponse<T>> {
-    return ApiService.vueInstance.axios.put(`${resource}`, params);
+    return ApiService.vueInstance.axios.put(`${resource}`, params, options);
   }
 
   public static delete<T>(resource: string): Promise<AxiosResponse<T>> {

@@ -12,7 +12,7 @@ export class AppConstants {
   static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
   static GRADES_URL = `${AppConstants.MANAGEMENT_URL}/Grades`;
   static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
-  static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradeSubjects`;
+  static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;
   static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;
 
   static TERMS_AND_PRIVACY_URL = `${AppConstants.MANAGEMENT_URL}/TermsAndPrivacy`;

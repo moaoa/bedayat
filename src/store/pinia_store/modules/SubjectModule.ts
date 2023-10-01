@@ -32,8 +32,9 @@ export const useSubjectsStore = defineStore({
       this.errorLoadingData = false;
 
       try {
+        console.log("getting subjects ")
         const items = await subjectsService.getSubjects();
-
+        console.log(items)
         this.subjects = items;
       } catch (e) {
         console.log((e as Error).message);

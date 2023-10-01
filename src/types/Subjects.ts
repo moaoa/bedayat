@@ -3,7 +3,7 @@ export type Subject = {
   name: string;
   englishName: string;
   priority: number;
-  gradeType: number;
+  subjectType: number;
   note: string;
   gradeSubjects: unknown[];
   courses: unknown[];

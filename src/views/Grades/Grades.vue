@@ -38,7 +38,7 @@
     <div v-loading="gradesStore.dataIsLoading" class="card-body pt-2">
       <!-- begin::table -->
 
-      <el-table :data="gradesTable" style="width: 100%" height="250">
+      <el-table :data="gradesTable" style="width: 100%" height="500">
         <el-table-column
           index="scope.$index"
           :label="t('noNumber')"
@@ -68,6 +68,23 @@
           width="200"
           :formatter="formatter('lastUpdated')"
         />
+
+        <el-table-column
+            :label="$t('subjects')"
+            width="90"
+            align="center"
+        >
+          <template v-slot="scope: { row: User, $index: number }">
+            <RouterLink
+                :to="{
+                  name: 'GradeSubjects',
+                  params: { id: scope.row.id },
+                }"
+            >
+              <i class="bi bi-mortarboard-fill"></i>
+            </RouterLink>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('edit')" width="120" align="center">
           <template #default="scope">
             <a
@@ -141,6 +158,8 @@ import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import Toaster from "@/core/services/Toaster";
 import { hideModal } from "@/core/helpers/dom";
+import {User} from "@/types/User";
+import DotsIcon from "@/components/icons/DotsIcon.vue";
 
 const { t } = useI18n();
 const gradesStore = useGradesStore();
