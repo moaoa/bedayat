@@ -15,12 +15,6 @@
               class="btn btn-icon btn-sm btn-active-icon-primary"
               @click="$emit('close')"> {{ $t("updateGrade") }})
           </h2>
-
-          <div>
-            <span class="svg-icon svg-ic  on-1">
-              <inline-svg src="/media/icons/duotune/arrows/arr061.svg"/>
-            </span>
-          </div>
           <!--end::Close-->
         </div>
         <el-form

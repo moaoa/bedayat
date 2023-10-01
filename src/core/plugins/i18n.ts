@@ -24,13 +24,10 @@ const messages = {
     addNewCountry: "Add New Country",
     addNewLocality: "Add New Locality",
     deleteLocality: "Deleting a locality",
-
     noNumber: "NO",
     hash: "#",
     at: "@",
     someFieldsNotFill:" Please make sure to fill in the required fields",
-
-
     deleteCancelation: "item was not deleted",
     deleteConfirmation: "item was deleted successfully",
     ok: "Ok",
@@ -67,9 +64,7 @@ const messages = {
     general: "General",
     courses: "Courses",
     subscription: "Subscription",
-
     coinPrice: "Coin Price",
-
     dashboard: "Dashboard",
     layoutBuilder: "Layout builder",
     craft: "Crafted",
@@ -130,7 +125,6 @@ const messages = {
     gettingStarted: "Getting Started",
     customersListing: "Customers Listing",
     customerDetails: "Customers Details",
-
     usersManagement: "Users Management",
     admins: "Admins",
     users: "Users",
@@ -164,13 +158,9 @@ const messages = {
     actions: "Actions",
     notifyUser: "Sent Notification To User",
     text: "Text",
-
     startOfYearDate: "Beginning of year date ",
     endOfYearDate: "Beginning of year date ",
-
-    // radwan
     period: "Period",
-
     createdDate: "created Date",
     updatedDate: "updated Date",
     subscriptionSettings: "subscription Settings",
@@ -185,21 +175,13 @@ const messages = {
     privacy: "Privacy",
     termsAndPrivacy: "Terms And Privacy",
     systemSettings: "SystemSettings",
-
     notify: "Notify",
     addNewGrade: "Add New Grade",
     grades: "Grades",
     subjects: "Subjects",
     addNewSubject: "Add New Subject",
-  },
-  ar: {
     addSubscriptionSettings: "إضافة جديدة",
     submit: "تأكيد",
-    systemSettings: "إعدادات النظام",
-
-
-    submit:"Submit",
-    addSubscriptionSettings:"Add Subscription Settings",
     areYouSure: "Are you Sure?",
     Technical: "Technical",
     Admin: "Admin",
@@ -211,11 +193,10 @@ const messages = {
     title: "title",
     description:"description",
     bugResponse:"bugResponse",
-
     bugReport:"bugReport",
     department: "department",
-
   },
+
   ar: {
     bugReport:"تقارير المشاكل",
     Pending: "قيد المراجعة",
@@ -224,10 +205,7 @@ const messages = {
     title: "العنوان",
     description:"الوصف",
     bugResponse:"الرد ",
-    status: "الحالة",
     department: "القسم المعني",
-
-
     Technical: "القسم التقني",
     Admin: "مدير النظام",
     Financial:"القسم المالي",
@@ -251,7 +229,6 @@ const messages = {
     updatedDate: "تاريخ التعديل",
     subscriptionSettings: "إعدادات الباقات",
     generalSettings: "الإعدادات العامة",
-
     main: "الرئيسية",
     cities: "المدن",
     countries: "البلدان",

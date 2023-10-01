@@ -23,9 +23,7 @@
             data-bs-toggle="modal"
             :data-bs-target="`#kt_modal_add_item`"
         >
-          <span class="svg-icon svg-icon-3">
-            <inline-svg src="/media/icons/duotune/arrows/arr075.svg"/>
-          </span>
+
           {{ $t("addNewGradeSubject") }}
         </a>
 
