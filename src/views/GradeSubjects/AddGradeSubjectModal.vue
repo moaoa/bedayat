@@ -202,7 +202,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, computed } from "vue";
+import {reactive, ref, onMounted, computed, watch} from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import { useI18n } from "vue-i18n";
@@ -212,6 +212,7 @@ import {NewGradeSubjectData} from "@/types/GradeSubjects";
 import {useSubjectsStore} from "@/store/pinia_store/modules/SubjectModule";
 import {useGradeSubjectsStore} from "@/store/pinia_store/modules/GradeSubjectsModule";
 import gradeSubjectsService from "@/core/repositories/GradeSubjectsService";
+import {SubjectType} from "@/types/Subjects";
 
 const { t } = useI18n();
 
@@ -282,12 +283,15 @@ const handleUploadLogo = async (event: Event) => {
 
 
 onMounted(() => {
+  subjectStore.selectedSubjectType = SubjectType.None;
   subjectStore.loadSubjects();
   formData.gradeId = gradeSubjectStore.selectedGradeId;
   modalRef.value?.addEventListener("hidden.bs.modal", () => {
     formRef.value?.resetFields();
   });
 });
+watch(()=>gradeSubjectStore.selectedGradeId,
+    (value)=> formData.gradeId = value );
 </script>
 
 <style lang="scss">

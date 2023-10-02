@@ -49,8 +49,9 @@
           <template #default="scope: { row: Grade, $index: number }">
             {{ scope.$index + 1 }}
           </template>
-        </el-table-column>
-        <el-table-column prop="name" :label="$t('arabicName')" width="120" />
+        </el-table-column >
+        <el-table-column prop="name" :label="$t('arabicName')" width="120" align="center"
+                         header-align="center" />
         <el-table-column
           prop="englishName"
           :label="$t('englishName')"
@@ -59,13 +60,17 @@
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
-          width="200"
+          width="150"
+          align="center"
+          header-align="center"
           :formatter="formatter('createdAt')"
         />
         <el-table-column
           prop="lastUpdated"
           :label="$t('lastUpdated')"
-          width="200"
+          width="150"
+          align="center"
+          header-align="center"
           :formatter="formatter('lastUpdated')"
         />
 
@@ -73,8 +78,9 @@
             :label="$t('subjects')"
             width="90"
             align="center"
+            header-align="center"
         >
-          <template v-slot="scope: { row: User, $index: number }">
+            <template v-slot="scope: { row: Grade, $index: number }">
             <RouterLink
                 :to="{
                   name: 'GradeSubjects',

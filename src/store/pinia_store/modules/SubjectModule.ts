@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Subject, NewSubjectData } from "@/types/Subjects";
+import {Subject, NewSubjectData, SubjectType} from "@/types/Subjects";
 
 import subjectsService from "@/core/repositories/SubjectsService";
 
@@ -12,6 +12,7 @@ export const useSubjectsStore = defineStore({
       currentPage: 1,
       currentSize: 0,
     },
+    selectedSubjectType: 0 as number,
     searchValue: "",
 
     isSwitchingSubjectStatus: false,
@@ -32,9 +33,7 @@ export const useSubjectsStore = defineStore({
       this.errorLoadingData = false;
 
       try {
-        console.log("getting subjects ")
-        const items = await subjectsService.getSubjects();
-        console.log(items)
+        const items = await subjectsService.getSubjects(this.selectedSubjectType);
         this.subjects = items;
       } catch (e) {
         console.log((e as Error).message);

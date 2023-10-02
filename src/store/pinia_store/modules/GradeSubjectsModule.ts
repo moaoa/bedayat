@@ -77,6 +77,8 @@ export const useGradeSubjectsStore = defineStore({
           formData.append(newGradeSubjectDataKey,  newGradeSubjectData[newGradeSubjectDataKey] as Blob);
         }
 
+        console.log(formData)
+
         console.log("updating")
         await gradeSubjectsService.update(this.selectedGradeSubject.id, formData);
 
@@ -96,6 +98,7 @@ export const useGradeSubjectsStore = defineStore({
         for (let newGradeSubjectDataKey in newGradeSubjectData) {
           formData.append(newGradeSubjectDataKey,  newGradeSubjectData[newGradeSubjectDataKey] as Blob);
         }
+        console.log(newGradeSubjectData)
 
         formData.append('chaptersCount', '1');
 

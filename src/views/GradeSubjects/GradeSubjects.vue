@@ -61,19 +61,22 @@
               {{ scope.$index + 1 }}
             </template>
           </el-table-column>
-          <el-table-column :label="$t('grades')" width="120" align="center">
+          <el-table-column :label="$t('grades')" width="120" align="center"
+                           header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
               {{ scope.row.grade.name}}
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('subjects')" width="120" align="center">
+          <el-table-column :label="$t('subjects')" width="120" align="center"
+                           header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
               {{ scope.row.subject.name}}
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('book')" width="120" align="center">
+          <el-table-column :label="$t('book')" width="120" align="center"
+                           header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
               <a
                   class="btn btn-icon btn-light-success btn-sm"
@@ -84,27 +87,42 @@
             </template>
 
           </el-table-column>
+          <el-table-column :label="$t('logo')" width="120" align="center"
+                           header-align="center">
+            <template #default="scope: { row: GradeSubject, $index: number }">
+              <a
+                  class="btn btn-icon btn-light-success btn-sm"
+                  :href="scope.row.logo"
+              >
+                <i class="bi bi-images"></i>
+              </a>
+            </template>
 
+          </el-table-column>
 
 
 
           <el-table-column
               prop="createdAt"
               :label="$t('createdAt')"
-              width="200"
+              width="150"
+              align="center"
+              header-align="center"
+
               :formatter="formatter('createdAt')"
           />
           <el-table-column
               prop="lastUpdated"
               :label="$t('lastUpdated')"
-              width="200"
+              width="150"
+              align="center"
+              header-align="center"
               :formatter="formatter('lastUpdated')"
           />
 
 
-
-
-          <el-table-column :label="$t('edit')" width="120" align="center">
+          <el-table-column :label="$t('edit')" width="120" align="center"
+                           header-align="center">
             <template #default="scope">
               <a
                   class="btn btn-icon btn-light-success btn-sm"

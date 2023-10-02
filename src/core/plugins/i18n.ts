@@ -195,9 +195,23 @@ const messages = {
     bugResponse:"bugResponse",
     bugReport:"bugReport",
     department: "department",
+    book: "book",
+    logo:"logo",
+    deleteSubject:"deleting a subject",
+    deleteGrade: "deleteGrade",
+    deleteGradeSubject:"deleteGradeSubject",
+    Scientific: "Scientific",
+    Literary:"Literary",
   },
 
   ar: {
+    Scientific: "علمي",
+    Literary:"أدبي",
+    deleteGrade: "حذف سنه دراسية",
+    deleteGradeSubject:"حذف مادة معينة",
+    deleteSubject:"حذف ماده",
+    book: "الكتاب",
+    logo:"اللوغو",
     bugReport:"تقارير المشاكل",
     Pending: "قيد المراجعة",
     Solved:"تم الحل",
@@ -391,6 +405,7 @@ const messages = {
     grades: "الصفوف",
     subjects: "المواد",
     addNewSubject: "إضافة مادة جديدة",
+
   },
 };
 

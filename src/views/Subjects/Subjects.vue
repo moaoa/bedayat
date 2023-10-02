@@ -38,6 +38,23 @@
     <div v-loading="subjectsStore.dataIsLoading" class="card-body pt-2">
       <!-- begin::table -->
 
+      <div class="row">
+        <div class="col-md-3 col-lg-2 col-7">
+
+          <el-select v-model="subjectsStore.selectedSubjectType" clearable filterable>
+            <el-option v-for="type in Object.values(SubjectType).slice(0,Object.values(SubjectType).length/2 )" :key="type" :value="SubjectType[type]"
+                       :label="t(type == 'None'? 'all': type)">
+            </el-option>
+          </el-select>
+
+
+        </div>
+      </div>
+
+
+
+
+      <div v-loading="subjectsStore.dataIsLoading" class="card-body pt-2">
       <el-table :data="subjectsTable" style="width: 100%" height="250">
         <el-table-column
           index="scope.$index"
@@ -113,6 +130,8 @@
       />
       <!-- end::pagination -->
     </div>
+    </div>
+
     <!--end::Body-->
 
     <!-- begin::dialog -->
@@ -130,8 +149,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { Subject } from "@/types/Subjects";
+import {computed, watch} from "vue";
+import {Subject, SubjectType} from "@/types/Subjects";
 import CreateSubjectForm from "@/views/Subjects/AddSubjectModal.vue";
 import UpdateSubjectForm from "@/views/Subjects/UpdateSubjectModal.vue";
 import DeleteSubject from "@/views/Subjects/DeleteSubjectModal.vue";
@@ -139,6 +158,7 @@ import { formatDate } from "@/core/helpers/formatDate";
 import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
+import {BugStatusSearch} from "@/types/BugReports";
 
 const { t } = useI18n();
 const subjectsStore = useSubjectsStore();
@@ -159,4 +179,5 @@ const formatter = (key: "createdAt" | "lastUpdated") => {
   return (subject: Subject) => formatDate(subject[key]);
 };
 setCurrentPageBreadcrumbs(t("subjects"), [t("subjects")]);
+watch(()=> subjectsStore.selectedSubjectType, ()=> subjectsStore.loadSubjects())
 </script>

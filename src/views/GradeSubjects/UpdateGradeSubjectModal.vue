@@ -8,15 +8,25 @@
   >
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <div class="modal-content">
+
+
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2
+          <h2 class="fw-bolder">{{ $t("updateGradeSubject") }}</h2>
+          <div
               id="kt_modal_add_customer_close"
               data-bs-dismiss="modal"
               class="btn btn-icon btn-sm btn-active-icon-primary"
-              @click="$emit('close')"> {{ $t("updateGrade") }})
-          </h2>
+          >
+            <span class="svg-icon svg-icon-1">
+              <inline-svg src="/media/icons/duotune/arrows/arr061.svg" />
+            </span>
+          </div>
           <!--end::Close-->
         </div>
+
+
+
+
         <el-form
             @submit.prevent="submit()"
             :model="formData"
@@ -307,7 +317,7 @@ watch(
 onMounted(() => {
   formData.gradeId = gradeSubjectStore.selectedGradeId;
   // might cause a problem
-  formData.subjectId = gradeSubjectStore.selectedGradeSubject!.id;
+  // formData.subjectId = gradeSubjectStore.selectedGradeSubject!.id;
   modalRef.value?.addEventListener("hidden.bs.modal", () => {
     gradesStore.unselectGrade();
   });
