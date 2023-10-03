@@ -22,8 +22,10 @@ class BugReportService {
   }
 
     public static async assignBugToDifferentDepartment(id : string, response: BugDepartmentType):Promise<ApiResponse<BugReport>> {
+
+        console.log(id + response)
         const result =  await ApiService.put<ApiResponse<BugReport>>(
-            `${AppConstants.BUGS_REPORT_URL}/SolveBug/${id}?type=${response}`, {}
+            `${AppConstants.BUGS_REPORT_URL}/AssignToDepartment/${id}?type=${BugDepartmentType[response]}`, {}
         );
         return result.data;
     }

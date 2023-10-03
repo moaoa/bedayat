@@ -10,18 +10,18 @@
         <!--begin::Menu-->
 
         <a
-          class="btn btn-icon btn-light-primary btn-sm me-3"
-          @click="subjectsStore.loadSubjects()"
+            class="btn btn-icon btn-light-primary btn-sm me-3"
+            @click="subjectsStore.loadSubjects()"
         >
           <i class="bi bi-arrow-repeat"></i>
         </a>
 
         <a
-          href="#"
-          class="btn btn-sm btn-primary mx-1"
-          target="#"
-          data-bs-toggle="modal"
-          :data-bs-target="`#kt_modal_add_item`"
+            href="#"
+            class="btn btn-sm btn-primary mx-1"
+            target="#"
+            data-bs-toggle="modal"
+            :data-bs-target="`#kt_modal_add_item`"
         >
           <span class="svg-icon svg-icon-3">
             <inline-svg src="/media/icons/duotune/arrows/arr075.svg" />
@@ -40,96 +40,89 @@
 
       <div class="row">
         <div class="col-md-3 col-lg-2 col-7">
-
           <el-select v-model="subjectsStore.selectedSubjectType" clearable filterable>
             <el-option v-for="type in Object.values(SubjectType).slice(0,Object.values(SubjectType).length/2 )" :key="type" :value="SubjectType[type]"
                        :label="t(type == 'None'? 'all': type)">
             </el-option>
           </el-select>
-
-
         </div>
       </div>
-
-
-
-
       <div v-loading="subjectsStore.dataIsLoading" class="card-body pt-2">
-      <el-table :data="subjectsTable" style="width: 100%" height="250">
-        <el-table-column
-          index="scope.$index"
-          :label="t('noNumber')"
-          width="55"
-          align="center"
-          header-align="center"
-        >
-          <template #default="scope: { row: Subject, $index: number }">
-            {{ scope.$index + 1 }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" :label="$t('arabicName')" width="120" />
-        <el-table-column
-          prop="englishName"
-          :label="$t('englishName')"
-          width="120"
-        />
-        <el-table-column
-          prop="createdAt"
-          :label="$t('createdAt')"
-          width="200"
-          :formatter="formatter('createdAt')"
-        />
-        <el-table-column
-          prop="lastUpdated"
-          :label="$t('lastUpdated')"
-          width="200"
-          :formatter="formatter('lastUpdated')"
-        />
-        <el-table-column :label="$t('edit')" width="120" align="center">
-          <template #default="scope">
-            <a
-              class="btn btn-icon btn-light-success btn-sm"
-              data-bs-toggle="modal"
-              :data-bs-target="`#update_item_modal`"
-              @click="selectSubject(scope.row)"
-            >
-              <i class="bi bi-pencil"></i>
-            </a>
-          </template>
-        </el-table-column>
-        <el-table-column
-          :label="$t('remove')"
-          width="90"
-          align="center"
-          header-align="center"
-        >
-          <template #default="scope: { row: Subject, $index: number }">
-            <div class="flex">
+        <el-table :data="subjectsTable" style="width: 100%" height="400">
+          <el-table-column
+              index="scope.$index"
+              :label="t('noNumber')"
+              width="55"
+              align="center"
+              header-align="center"
+          >
+            <template #default="scope: { row: Subject, $index: number }">
+              {{ scope.$index + 1 }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" :label="$t('arabicName')" width="120" />
+          <el-table-column
+              prop="englishName"
+              :label="$t('englishName')"
+              width="120"
+          />
+          <el-table-column
+              prop="createdAt"
+              :label="$t('createdAt')"
+              width="200"
+              :formatter="formatter('createdAt')"
+          />
+          <el-table-column
+              prop="lastUpdated"
+              :label="$t('lastUpdated')"
+              width="200"
+              :formatter="formatter('lastUpdated')"
+          />
+          <el-table-column :label="$t('edit')" width="120" align="center">
+            <template #default="scope">
               <a
-                class="btn btn-icon btn-light-danger btn-sm"
-                data-bs-toggle="modal"
-                :data-bs-target="`#kt_modal_delete_item`"
-                @click="selectSubject(scope.row)"
+                  class="btn btn-icon btn-light-success btn-sm"
+                  data-bs-toggle="modal"
+                  :data-bs-target="`#update_item_modal`"
+                  @click="selectSubject(scope.row)"
               >
-                <i class="bi bi-trash"></i>
+                <i class="bi bi-pencil"></i>
               </a>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- end::table -->
+            </template>
+          </el-table-column>
+          <el-table-column
+              :label="$t('remove')"
+              width="90"
+              align="center"
+              header-align="center"
+          >
+            <template #default="scope: { row: Subject, $index: number }">
+              <div class="flex">
+                <a
+                    class="btn btn-icon btn-light-danger btn-sm"
+                    data-bs-toggle="modal"
+                    :data-bs-target="`#kt_modal_delete_item`"
+                    @click="selectSubject(scope.row)"
+                >
+                  <i class="bi bi-trash"></i>
+                </a>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- end::table -->
 
-      <!-- start::pagination -->
-      <br />
-      <!-- start::pagination -->
-      <el-pagination
-        v-if="!subjectsStore.dataIsLoading && subjectsStore.subjects"
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="subjectsStore.subjects.length"
-      />
-      <!-- end::pagination -->
-    </div>
+        <!-- start::pagination -->
+        <br />
+        <!-- start::pagination -->
+        <el-pagination
+            v-if="!subjectsStore.dataIsLoading && subjectsStore.subjects"
+            background
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="subjectsStore.subjects.length"
+        />
+        <!-- end::pagination -->
+      </div>
     </div>
 
     <!--end::Body-->

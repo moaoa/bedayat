@@ -19,6 +19,7 @@ export const useFaqStore = defineStore({
     currentSize: 0,
     selectedCity: null as City | null,
     dataIsLoading: false,
+    isUpdatingItem: false,
   }),
 
   actions: {

@@ -38,7 +38,7 @@
     <div v-loading="gradesStore.dataIsLoading" class="card-body pt-2">
       <!-- begin::table -->
 
-      <el-table :data="gradesTable" style="width: 100%" height="250">
+      <el-table :data="gradesTable" style="width: 100%" height="500">
         <el-table-column
           index="scope.$index"
           :label="t('noNumber')"
@@ -49,8 +49,9 @@
           <template #default="scope: { row: Grade, $index: number }">
             {{ scope.$index + 1 }}
           </template>
-        </el-table-column>
-        <el-table-column prop="name" :label="$t('arabicName')" width="120" />
+        </el-table-column >
+        <el-table-column prop="name" :label="$t('arabicName')" width="120" align="center"
+                         header-align="center" />
         <el-table-column
           prop="englishName"
           :label="$t('englishName')"
@@ -59,15 +60,45 @@
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
-          width="200"
+          width="150"
+          align="center"
+          header-align="center"
           :formatter="formatter('createdAt')"
         />
         <el-table-column
           prop="lastUpdated"
           :label="$t('lastUpdated')"
-          width="200"
+          width="150"
+          align="center"
+          header-align="center"
           :formatter="formatter('lastUpdated')"
         />
+
+        <el-table-column
+            :label="$t('subjects')"
+            width="90"
+            align="center"
+            header-align="center"
+        >
+            <template v-slot="scope: { row: Grade, $index: number }">
+            <RouterLink
+                :to="{
+                  name: 'GradeSubjects',
+                  params: { id: scope.row.id },
+                }"
+            >
+
+              <a
+                  class="btn btn-icon btn-light-success btn-sm"
+              >
+                <i class="bi bi-mortarboard-fill"></i>
+              </a>
+
+
+              <i class=""></i>
+            </RouterLink>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('edit')" width="120" align="center">
           <template #default="scope">
             <a
@@ -141,6 +172,8 @@ import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import Toaster from "@/core/services/Toaster";
 import { hideModal } from "@/core/helpers/dom";
+import {User} from "@/types/User";
+import DotsIcon from "@/components/icons/DotsIcon.vue";
 
 const { t } = useI18n();
 const gradesStore = useGradesStore();

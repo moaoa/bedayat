@@ -23,7 +23,7 @@
         </div>
 
         <div class="modal-body py-10 px-lg-17">
-          <h3>Ask About Confirm?</h3>
+          <h3>{{t("areYouSure")}}</h3>
         </div>
         <!--end::Modal body-->
 

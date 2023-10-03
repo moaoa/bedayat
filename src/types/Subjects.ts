@@ -3,7 +3,7 @@ export type Subject = {
   name: string;
   englishName: string;
   priority: number;
-  gradeType: number;
+  subjectType: SubjectType;
   note: string;
   gradeSubjects: unknown[];
   courses: unknown[];
@@ -15,3 +15,9 @@ export type NewSubjectData = Omit<
   Subject,
   "id" | "createdAt" | "lastUpdated" | "courses" | "gradeSubjects"
 >;
+export enum SubjectType {
+  None,
+  Literary ,
+  Scientific,
+}
+

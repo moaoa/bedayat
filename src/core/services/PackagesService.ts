@@ -2,10 +2,10 @@ import ApiService from "./ApiService";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
 import { AddSettingsRequestDto, systemSettingsResponse } from "@/types/SystemSettings";
-class SystemSettingsService {
+class PackagesService {
 
 
-    public static async getSystemSettings():Promise<ApiResponse<systemSettingsResponse>> {
+    public static async getPackages():Promise<ApiResponse<systemSettingsResponse>> {
         const result =  await ApiService.get(
           `${AppConstants.SYSTEMSETTINGS_URL}`);
 
@@ -14,7 +14,7 @@ class SystemSettingsService {
       }
 
 
-  public static async updateSystemSettings(data: AddSettingsRequestDto):Promise<ApiResponse<systemSettingsResponse>> {
+  public static async updatePackage(data: AddSettingsRequestDto):Promise<ApiResponse<systemSettingsResponse>> {
     const result =  await ApiService.put<ApiResponse<systemSettingsResponse>>(
       `${AppConstants.SYSTEMSETTINGS_URL}`,data
     );
@@ -22,4 +22,4 @@ class SystemSettingsService {
   }
 }
 
-export default SystemSettingsService;
+export default PackagesService;

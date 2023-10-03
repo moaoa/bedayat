@@ -7,17 +7,25 @@ export class AppConstants {
 
   static USERS_URL = `${AppConstants.MANAGEMENT_URL}/UsersManagement`;
   static FAMILY_URL = `${AppConstants.MANAGEMENT_URL}/Family`;
+
   static CITIES_URL = `${AppConstants.MANAGEMENT_URL}/Cities`;
   static COUNTRIES_URL = `${AppConstants.MANAGEMENT_URL}/Countries`;
   static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
   static GRADES_URL = `${AppConstants.MANAGEMENT_URL}/Grades`;
-  static COURSES_URL = `${AppConstants.MANAGEMENT_URL}/Courses`;
-  static SUBJECTS_URL = `${AppConstants.PUBLIC_URL}/Subjects`;
-  static GRADE_SUBJECTS_URL = `${AppConstants.PUBLIC_URL}/GradeSubjects`;
-  static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;
 
+  static COURSES_URL = `${AppConstants.MANAGEMENT_URL}/Courses`;
+
+
+  static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
+  static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;
+
+  static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;
   static TERMS_AND_PRIVACY_URL = `${AppConstants.MANAGEMENT_URL}/TermsAndPrivacy`;
-  static SUBSCRIPTION_URL = `${AppConstants.COMMON}/Subscription`;
+
+
+  static SUBSCRIPTION_URL = `${AppConstants.MANAGEMENT_URL}/Subscription`;
+  static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
+
 
   static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
 

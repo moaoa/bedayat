@@ -120,6 +120,12 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/dashboard/GradeSubjects/:id",
+        name: "GradeSubjects",
+        component: () => import("@/views/GradeSubjects/GradeSubjects.vue"),
+      },
+
+      {
         path: "/dashboard/Countries",
         name: "Countries",
         component: () => import("@/views/Countries/Countries.vue"),
@@ -218,6 +224,16 @@ const routes: Array<RouteRecordRaw> = [
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
         },
+      },
+      {
+        path: "/dashboard/Reports/MostPurchasedCourses",
+        name: "MostPurchasedCoursesReport",
+        component: () => import("@/views/Reports/MostPurchasedCourses.vue"),
+      },
+      {
+        path: "/dashboard/Packages",
+        name: "Packages",
+        component: () => import("@/views/Packages/AddPackageModal.vue"),
       },
     ],
   },

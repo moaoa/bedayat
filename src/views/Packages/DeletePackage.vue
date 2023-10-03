@@ -1,15 +1,15 @@
 <template>
   <div
     class="modal fade"
-    id="kt_modal_delete_item"
-    ref="modalRef"
+    id="kt_modal_delete_locality"
+    ref="deleteLocalityModalRef"
     tabindex="-1"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered mw-550px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("deleteSubject") }}</h2>
+          <h2 class="fw-bolder">{{ $t("deleteLocality") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"
@@ -22,8 +22,8 @@
           <!--end::Close-->
         </div>
 
-        <div class="modal-body py-10 px-lg-17">
-          <h3>{{t("areYouSure")}}</h3>
+        <div class="modal-body  py-10 px-lg-17 px-20">
+          <h3 class="fs-1">{{ t("areYouSure") }}</h3>
         </div>
         <!--end::Modal body-->
 
@@ -44,7 +44,7 @@
           <button
             :data-kt-indicator="deleting ? 'on' : null"
             class="btn btn-sm btn-danger"
-            @click="deleteSubject"
+            @click="deleteLocality"
             style="width: 200px"
           >
             <span v-if="!deleting" class="indicator-label">
@@ -82,32 +82,31 @@
 </style>
 
 <script lang="ts" setup>
-import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
-import { ref, computed } from "vue";
-import { hideModal } from "@/core/helpers/dom";
+import { useLocalitiesStore } from "@/store/pinia_store/modules/LocalitiesModule";
+import { Locality } from "@/types/Localities";
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import Toaster from "@/core/services/Toaster";
 
 const { t } = useI18n();
-const deleting = computed(() => {
-  return subjectsStore.isDeletingItem;
-});
+const deleting = ref<boolean>(false);
 
 const emit = defineEmits<{
+  (event: "localityDeleted", data: Locality);
   (event: "close", data: any);
 }>();
 
-const subjectsStore = useSubjectsStore();
+const localitiesStore = useLocalitiesStore();
 
-const modalRef = ref<HTMLElement | null>(null);
+const deleteLocalityModalRef = ref<HTMLElement | null>(null);
 
-const deleteSubject = async () => {
-  try {
-    await subjectsStore.deleteItem();
-    hideModal(modalRef.value);
-    Toaster.Success(t("success"), t("deletedItem"));
-  } catch (error) {
-    console.log(error);
-  }
+defineExpose({ modalRef: deleteLocalityModalRef });
+
+const deleteLocality = () => {
+  deleting.value = !deleting.value;
+
+  setTimeout(() => {
+    deleting.value = !deleting.value;
+    emit("localityDeleted", localitiesStore.selectedLocality!);
+  }, 3000);
 };
 </script>

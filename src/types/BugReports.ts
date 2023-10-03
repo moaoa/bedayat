@@ -5,6 +5,7 @@ export type BugReport = {
   description: string;
   attachments: string[];
   bugResponse: string;
+  department: BugDepartmentType;
   issueStatus: IssueStatus;
 };
 export enum BugStatusSearch {
