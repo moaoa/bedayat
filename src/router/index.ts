@@ -124,6 +124,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "MostPurchasedCoursesReport",
         component: () => import("@/views/Reports/MostPurchasedCourses.vue"),
       },
+      {
+        path: "/dashboard/Packages",
+        name: "Packages",
+        component: () => import("@/views/Packages/AddPackageModal.vue"),
+      },
     ],
   },
   {

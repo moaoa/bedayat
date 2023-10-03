@@ -87,7 +87,15 @@
                   params: { id: scope.row.id },
                 }"
             >
-              <i class="bi bi-mortarboard-fill"></i>
+
+              <a
+                  class="btn btn-icon btn-light-success btn-sm"
+              >
+                <i class="bi bi-mortarboard-fill"></i>
+              </a>
+
+
+              <i class=""></i>
             </RouterLink>
           </template>
         </el-table-column>

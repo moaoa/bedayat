@@ -284,7 +284,7 @@ const handleUploadLogo = async (event: Event) => {
 
 onMounted(() => {
   subjectStore.selectedSubjectType = SubjectType.None;
-  subjectStore.loadSubjects();
+  subjectStore.loadSubjects(true);
   formData.gradeId = gradeSubjectStore.selectedGradeId;
   modalRef.value?.addEventListener("hidden.bs.modal", () => {
     formRef.value?.resetFields();

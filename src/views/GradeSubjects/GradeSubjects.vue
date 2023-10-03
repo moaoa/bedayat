@@ -38,7 +38,7 @@
     <div class="card-body pt-2">
       <!-- begin::table -->
       <div class="row">
-        <div class="col-md-3 col-lg-2 col-7">
+        <div class="col-md-4 col-lg-3 col-7 mx-10">
 
           <el-select v-model="gradeSubjectsStore.selectedGradeId" clearable filterable>
             <el-option v-for="grade in gradesStore.grades" :key="grade.id" :value="grade.id"

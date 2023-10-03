@@ -5,9 +5,9 @@ import ApiService from "@/core/services/ApiService";
 import {UnwrapRef} from "vue";
 
 class SubjectsService {
-  public static async getSubjects(selectedSubjectType: SubjectType) {
+  public static async getSubjects(selectedSubjectType: SubjectType | null) {
     const res = await ApiService.get<ApiResponse<Subject[]>>(
-      `${AppConstants.SUBJECTS_URL}`,`?SubjectType=${selectedSubjectType}&IncludeCourses=false&PageNumber=1&PageSize=100`
+      `${AppConstants.SUBJECTS_URL}`,`?SubjectType=${selectedSubjectType == null? '' :  selectedSubjectType}&IncludeCourses=false&PageNumber=1&PageSize=100`
     );
     return res.data.data;
   }

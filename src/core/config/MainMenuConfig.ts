@@ -106,6 +106,13 @@ const DocMenuConfig = [
         svgIcon: "/media/svg/bug.svg",
         fontIcon: "bi-layers",
       },
+
+      {
+        heading: "packages",
+        route: "/dashboard/packages",
+        svgIcon: "/media/svg/bug.svg",
+        fontIcon: "bi-layers",
+      },
       {
         sectionTitle: "Reports",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
