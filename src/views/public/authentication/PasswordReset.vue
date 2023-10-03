@@ -76,8 +76,11 @@ import { ErrorMessage, Field, Form } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import * as Yup from "yup";
+import { useAuthenticationStore } from "@/store/pinia_store/modules/AuthModule";
 import { Actions } from "@/store/enums/StoreEnums";
 import Swal from "sweetalert2/dist/sweetalert2.min.js";
+
+const authStore = useAuthenticationStore();
 
 export default defineComponent({
   name: "password-reset",
@@ -102,40 +105,42 @@ export default defineComponent({
       // Activate loading indicator
       submitButton.value?.setAttribute("data-kt-indicator", "on");
 
-      // dummy delay
-      setTimeout(() => {
-        // Send login request
-        store
-          .dispatch(Actions.FORGOT_PASSWORD, values)
-          .then(() => {
-            Swal.fire({
-              text: "All is cool! Now you submit this form",
-              icon: "success",
-              buttonsStyling: false,
-              confirmButtonText: "Ok, got it!",
-              customClass: {
-                confirmButton: "btn fw-bold btn-light-primary",
-              },
-            }).then(function () {
-              // Go to page after successfully login
-              router.push({ name: "dashboard" });
-            });
-          })
-          .catch(() => {
-            // Alert then login failed
-            Swal.fire({
-              text: store.getters.getErrors[0],
-              icon: "error",
-              buttonsStyling: false,
-              confirmButtonText: "Try again!",
-              customClass: {
-                confirmButton: "btn fw-bold btn-light-danger",
-              },
-            });
-          });
+      authStore.sendConfirmationCode(values.email);
 
-        submitButton.value?.removeAttribute("data-kt-indicator");
-      }, 2000);
+      // dummy delay
+      // setTimeout(() => {
+      //   // Send login request
+      //   store
+      //     .dispatch(Actions.FORGOT_PASSWORD, values)
+      //     .then(() => {
+      //       Swal.fire({
+      //         text: "All is cool! Now you submit this form",
+      //         icon: "success",
+      //         buttonsStyling: false,
+      //         confirmButtonText: "Ok, got it!",
+      //         customClass: {
+      //           confirmButton: "btn fw-bold btn-light-primary",
+      //         },
+      //       }).then(function () {
+      //         // Go to page after successfully login
+      //         router.push({ name: "dashboard" });
+      //       });
+      //     })
+      //     .catch(() => {
+      //       // Alert then login failed
+      //       Swal.fire({
+      //         text: store.getters.getErrors[0],
+      //         icon: "error",
+      //         buttonsStyling: false,
+      //         confirmButtonText: "Try again!",
+      //         customClass: {
+      //           confirmButton: "btn fw-bold btn-light-danger",
+      //         },
+      //       });
+      //     });
+
+      //   submitButton.value?.removeAttribute("data-kt-indicator");
+      // }, 2000);
     };
 
     return {
