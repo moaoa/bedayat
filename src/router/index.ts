@@ -119,6 +119,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "TermsAndPrivacy",
         component: () => import("@/views/TermsAndPrivacy/TermsAndPrivacy.vue"),
       },
+      {
+        path: "/dashboard/Reports/MostPurchasedCourses",
+        name: "MostPurchasedCoursesReport",
+        component: () => import("@/views/Reports/MostPurchasedCourses.vue"),
+      },
     ],
   },
   {

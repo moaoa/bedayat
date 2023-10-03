@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html dir="rtl" direction="rtl">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="favicon.ico"/>
     <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700|Material+Icons"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700|Material+Icons"
+            rel="stylesheet"
     />
     <title>Metronic | Vue Demo</title>
     <style>
-      @media (min-width: 992px) {
-        .aside-enabled.aside-fixed.header-fixed .header {
-          left: 0px !important;
+        @media (min-width: 992px) {
+            .aside-enabled.aside-fixed.header-fixed .header {
+                left: 0px !important;
+            }
         }
-      }
-      //.successToast {
-      //    //background-color: #50CD89 !important;
-      //}
-      .successToastIcon {
-          color: #50CD89 !important;;
-      }
-      .errorToastIcon {
-          color: #cc1e1e !important;;
-      }
 
-      .infoToastIcon {
-          color: #376bb9 !important;;
-      }
+        //.successToast {
+        //    //background-color: #50CD89 !important;
+        //}
+        .successToastIcon {
+            color: #50CD89 !important;;
+        }
+
+        .errorToastIcon {
+            color: #cc1e1e !important;;
+        }
+
+        .infoToastIcon {
+            color: #376bb9 !important;;
+        }
     </style>
-  </head>
-  <!-- add class="dark-mode" to enable dark mode  -->
-  <body
-    style="
+</head>
+<!-- add class="dark-mode" to enable dark mode  -->
+<body
+        style="
       --kt-toolbar-height: 55px;
       --kt-toolbar-height-tablet-and-mobile: 55px;
     "
-  >
-    <noscript>
-      <strong>
+>
+
+<div id="loadingContainer" style="height: 100vh; display: flex; justify-content: center; align-items: center">
+    <img src="/media/illustrations/dozzy-1/2-dark.png"/>
+</div>
+<noscript>
+    <strong>
         We're sorry but application doesn't work properly without JavaScript
         enabled. Please enable it to continue.
-      </strong>
-    </noscript>
-    <div id="app" class="d-flex flex-column flex-root"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+    </strong>
+</noscript>
+<div id="app" class="d-flex flex-column flex-root"></div>
+<script type="module" src="/src/main.ts"></script>
+</body>
 </html>

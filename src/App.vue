@@ -1,7 +1,7 @@
 <template>
   <el-config-provider :locale="langStore.elementPlusLocale">
     <transition name="fade">
-      <router-view />
+      <router-view/>
     </transition>
   </el-config-provider>
 </template>
@@ -36,11 +36,11 @@
 </style>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
-import { useStore } from "vuex";
-import { Mutations, Actions } from "@/store/enums/StoreEnums";
+import {onMounted} from "vue";
+import {useStore} from "vuex";
+import {Mutations, Actions} from "@/store/enums/StoreEnums";
 // import ar from "element-plus/dist/locale/ar.mjs";
-import { useLangStore } from "@/store/pinia_store/modules/LangModule";
+import {useLangStore} from "@/store/pinia_store/modules/LangModule";
 
 const store = useStore();
 const langStore = useLangStore();
@@ -51,6 +51,7 @@ onMounted(() => {
    * this is to override the layout config using saved data from localStorage
    * remove this to use config only from static config (@/core/config/DefaultLayoutConfig.ts)
    */
+  document.querySelector('#loadingContainer')?.remove()
   store.commit(Mutations.OVERRIDE_LAYOUT_CONFIG);
 });
 </script>

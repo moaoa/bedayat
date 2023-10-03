@@ -106,6 +106,19 @@ const DocMenuConfig = [
         svgIcon: "/media/svg/bug.svg",
         fontIcon: "bi-layers",
       },
+      {
+        sectionTitle: "Reports",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-sticky",
+        sub: [
+          {
+            heading: "MostPurchasedCourses",
+            route: "/dashboard/Reports/MostPurchasedCourses",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+          },
+        ],
+      },
     ],
   },
   {
