@@ -3,21 +3,31 @@ export class AppConstants {
   static MANAGEMENT_URL = `${AppConstants.BASE_URL}/v1/Management`;
   static PUBLIC_URL = `${AppConstants.BASE_URL}/v1/Public`;
   static COMMON = `${AppConstants.BASE_URL}/v1/Common`;
-  static AUTH_URL = `${AppConstants.COMMON}/SignIn/SignIn`;
+  static AUTH_URL = `${AppConstants.PUBLIC_URL}/Authentications`;
 
   static USERS_URL = `${AppConstants.MANAGEMENT_URL}/UsersManagement`;
-  static FAMILY_URL = `${AppConstants.USERS_URL}/Family`;
+  static FAMILY_URL = `${AppConstants.MANAGEMENT_URL}/Family`;
+
   static CITIES_URL = `${AppConstants.MANAGEMENT_URL}/Cities`;
   static COUNTRIES_URL = `${AppConstants.MANAGEMENT_URL}/Countries`;
   static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
   static GRADES_URL = `${AppConstants.MANAGEMENT_URL}/Grades`;
+
+  static COURSES_URL = `${AppConstants.MANAGEMENT_URL}/Courses`;
+
+
   static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
   static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;
+
   static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;
   static TERMS_AND_PRIVACY_URL = `${AppConstants.MANAGEMENT_URL}/TermsAndPrivacy`;
+
+
   static SUBSCRIPTION_URL = `${AppConstants.MANAGEMENT_URL}/Subscription`;
   static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
 
+
+  static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
 
   static FILTER_ADMIN_BY_OPTIONS = {
     ByPhoneNumber: 0,
@@ -44,83 +54,69 @@ export class AppConstants {
   } as const;
   static PERMISSIONS = {
     None: 0,
-    Courses: 1,
-    AddCourses: 2,
-    ReadCourses: 3,
-    UpdateCourses: 4,
-    DeleteCourses: 5,
-    ActivateDeactivateCourses: 6,
-    Sections: 7,
-    AddSections: 8,
-    ReadSection: 9,
-    UpdateSections: 10,
-    DeleteSections: 11,
-    Users: 12,
-    AddUsers: 13,
-    ReadUsers: 14,
-    UpdateUsers: 15,
-    DeleteUsers: 16,
-    ActivateDeactivateUsers: 17,
-    EditUserPermissions: 18,
-    DeleteUserPermissions: 19,
-    SubscriptionSettings: 20,
-    AddSubscriptionSettings: 21,
-    ReadSubscriptionSettings: 22,
-    UpdateSubscriptionSettings: 23,
-    DeleteSubscriptionSettings: 24,
-    Subscriptions: 25,
-    AddSubscriptions: 26,
-    ReadSubscriptions: 27,
-    UpdateSubscriptions: 28,
-    DeleteSubscriptions: 29,
-    Grades: 30,
-    AddGrades: 31,
-    ReadGrades: 32,
-    UpdateGrades: 33,
-    DeleteGrades: 34,
-    Subjects: 35,
-    AddSubjects: 36,
-    ReadSubjects: 37,
-    UpdateSubjects: 38,
-    DeleteSubjects: 39,
-    GradeSubjects: 40,
-    AddGradeSubjects: 41,
-    ReadGradeSubjects: 42,
-    UpdateGradeSubjects: 43,
-    DeleteGradeSubjects: 44,
-    Countries: 45,
-    AddCountries: 46,
-    ReadCountries: 47,
-    UpdateCountries: 48,
-    DeleteCountries: 49,
-    Faqs: 50,
-    AddFaqs: 51,
-    ReadFaqs: 52,
-    UpdateFaqs: 53,
-    DeleteFaqs: 54,
-    Bugs: 55,
-    AddBugs: 56,
-    ReadBugs: 57,
-    UpdateBugs: 58,
-    DeleteBugs: 59,
-    Notifications: 60,
-    ReadNotifications: 61,
-    SendNotifications: 62,
-    SystemSettings: 63,
-    AddSystemSettings: 64,
-    ReadSystemSettings: 65,
-    TermsAndPrivacy: 66,
-    AddTermsAndPrivacy: 67,
-    ReadTermsAndPrivacy: 68,
-    UpdateTermsAndPrivacy: 69,
-    DeleteTermsAndPrivacy: 70,
-    PrepaidCards: 71,
-    AddPrepaidCards: 72,
-    ReadPrepaidCards: 73,
-    DeletePrepaidCards: 74,
-    ActivatePrepaidCards: 75,
-    ExportInvoicePrepaidCards: 76,
-    ExportPrepaidCards: 77,
+    AddCourses: 1,
+    ReadCourses: 2,
+    UpdateCourses: 3,
+    DeleteCourses: 4,
+    ActivateDeactivateCourses: 5,
+    AddSections: 6,
+    ReadSection: 7,
+    UpdateSections: 8,
+    DeleteSections: 9,
+    AddUsers: 10,
+    ReadUsers: 11,
+    UpdateUsers: 12,
+    DeleteUsers: 13,
+    ActivateDeactivateUsers: 14,
+    EditUserPermissions: 15,
+    DeleteUserPermissions: 16,
+    AddSubscriptionSettings: 17,
+    ReadSubscriptionSettings: 18,
+    UpdateSubscriptionSettings: 19,
+    DeleteSubscriptionSettings: 20,
+    AddSubscriptions: 21,
+    ReadSubscriptions: 22,
+    UpdateSubscriptions: 23,
+    DeleteSubscriptions: 24,
+    AddGrades: 25,
+    ReadGrades: 26,
+    UpdateGrades: 27,
+    DeleteGrades: 28,
+    AddSubjects: 29,
+    ReadSubjects: 30,
+    UpdateSubjects: 31,
+    DeleteSubjects: 32,
+    AddGradeSubjects: 33,
+    ReadGradeSubjects: 34,
+    UpdateGradeSubjects: 35,
+    DeleteGradeSubjects: 36,
+    AddCountries: 37,
+    ReadCountries: 38,
+    UpdateCountries: 39,
+    DeleteCountries: 40,
+    AddFaqs: 41,
+    ReadFaqs: 42,
+    UpdateFaqs: 43,
+    DeleteFaqs: 44,
+    AddBugs: 45,
+    ReadBugs: 46,
+    UpdateBugs: 47,
+    DeleteBugs: 48,
+    ReadNotifications: 49,
+    SendNotifications: 50,
+    AddSystemSettings: 51,
+    ReadSystemSettings: 52,
+    AddTermsAndPrivacy: 53,
+    ReadTermsAndPrivacy: 54,
+    UpdateTermsAndPrivacy: 55,
+    DeleteTermsAndPrivacy: 56,
+    AddPrepaidCards: 57,
+    ReadPrepaidCards: 58,
+    DeletePrepaidCards: 59,
+    ActivatePrepaidCards: 60,
+    ExportInvoicePrepaidCards: 61,
+    ExportPrepaidCards: 62,
+    ReadSecretCardNumber: 63,
   } as const;
   static USER_GENDER = {
     Male: 0,

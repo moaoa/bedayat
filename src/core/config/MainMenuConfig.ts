@@ -1,3 +1,4 @@
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 const DocMenuConfig = [
   {
     pages: [
@@ -23,18 +24,21 @@ const DocMenuConfig = [
         sectionTitle: "usersManagement",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
+        requiredPermission: AppConstants.PERMISSIONS.ReadUsers,
         sub: [
           {
             heading: "admins",
             route: "/dashboard/UsersManagement",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadUsers,
           },
           {
             heading: "users",
             route: "/dashboard/RegularUsersManagement",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadUsers,
           },
         ],
       },
@@ -42,37 +46,50 @@ const DocMenuConfig = [
         sectionTitle: "grades",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
+        requiredPermission: AppConstants.PERMISSIONS.ReadGrades,
         sub: [
           {
             heading: "grades",
             route: "/dashboard/Grades",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadGrades,
           },
           {
             heading: "subjects",
             route: "/dashboard/Subjects",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadGrades,
           },
         ],
+      },
+      {
+        heading: "courses",
+        route: "/dashboard/Courses",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadCourses,
       },
       {
         sectionTitle: "citiesAndCountries",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
+        requiredPermission: AppConstants.PERMISSIONS.ReadCountries,
         sub: [
           {
             heading: "countries",
             route: "/dashboard/Countries",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadCountries,
           },
           {
             heading: "cities",
             route: "/dashboard/Cities",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadCountries,
           },
           {
             heading: "localities",
@@ -87,24 +104,28 @@ const DocMenuConfig = [
         route: "/dashboard/systemSettings",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadSystemSettings,
       },
       {
         heading: "termsAndPrivacy",
         route: "/dashboard/termsAndPrivacy",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
       },
       {
         heading: "bugReports",
         route: "/dashboard/bugReports",
         svgIcon: "/media/svg/bug.svg",
         fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadBugs,
       },
       {
         heading: "faqs",
         route: "/dashboard/faqs",
         svgIcon: "/media/svg/bug.svg",
         fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
 
       {
@@ -146,28 +167,34 @@ const DocMenuConfig = [
         sub: [
           {
             sectionTitle: "basicFlow",
+            requiredPermission: AppConstants.PERMISSIONS.None,
             sub: [
               {
                 heading: "signIn",
                 route: "/sign-in",
+                requiredPermission: AppConstants.PERMISSIONS.None,
               },
               {
                 heading: "signUp",
                 route: "/sign-up",
+                requiredPermission: AppConstants.PERMISSIONS.None,
               },
               {
                 heading: "passwordReset",
                 route: "/password-reset",
+                requiredPermission: AppConstants.PERMISSIONS.None,
               },
             ],
           },
           {
             heading: "error404",
             route: "/404",
+            requiredPermission: AppConstants.PERMISSIONS.None,
           },
           {
             heading: "error500",
             route: "/500",
+            requiredPermission: AppConstants.PERMISSIONS.None,
           },
         ],
       },
@@ -176,26 +203,32 @@ const DocMenuConfig = [
         route: "/modals",
         svgIcon: "/media/icons/duotune/art/art009.svg",
         fontIcon: "bi-shield-check",
+        requiredPermission: AppConstants.PERMISSIONS.None,
         sub: [
           {
             sectionTitle: "forms",
             route: "/forms",
+            requiredPermission: AppConstants.PERMISSIONS.None,
             sub: [
               {
                 heading: "newTarget",
                 route: "/crafted/modals/forms/new-target",
+                requiredPermission: AppConstants.PERMISSIONS.None,
               },
               {
                 heading: "newCard",
                 route: "/crafted/modals/forms/new-card",
+                requiredPermission: AppConstants.PERMISSIONS.None,
               },
               {
                 heading: "newAddress",
                 route: "/crafted/modals/forms/new-address",
+                requiredPermission: AppConstants.PERMISSIONS.None,
               },
               {
                 heading: "createAPIKey",
                 route: "/crafted/modals/forms/create-api-key",
+                requiredPermission: AppConstants.PERMISSIONS.None,
               },
             ],
           },

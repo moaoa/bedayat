@@ -14,15 +14,7 @@
     <!--begin::Menu-->
     <div
       id="#kt_header_menu"
-      class="
-        menu
-        menu-column
-        menu-title-gray-800
-        menu-state-title-primary
-        menu-state-icon-primary
-        menu-state-bullet-primary
-        menu-arrow-gray-500
-      "
+      class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
       data-kt-menu="true"
     >
       <template v-for="(item, i) in MainMenuConfig" :key="i">
@@ -33,7 +25,10 @@
             </span>
           </div>
         </div>
-        <template v-for="(menuItem, j) in item.pages" :key="j">
+        <template
+          v-for="(menuItem, j) in filterSidebarItems(item.pages)"
+          :key="j"
+        >
           <template v-if="menuItem.heading">
             <div class="menu-item">
               <router-link
@@ -175,6 +170,22 @@
           </div>
         </template>
       </template>
+      <div
+        class="menu-item menu-accordion"
+        data-kt-menu-sub="accordion"
+        data-kt-menu-trigger="click"
+        @click="authStore.logout()"
+      >
+        <span class="menu-link">
+          <span class="menu-icon">
+            <i class="bi fs-3"></i>
+            <span class="svg-icon svg-icon-2">
+              <LogoutIcon />
+            </span>
+          </span>
+          <span class="menu-title fs-6">{{ translate("logout") }}</span>
+        </span>
+      </div>
     </div>
     <!--end::Menu-->
   </div>
@@ -210,7 +221,20 @@ import { useRoute } from "vue-router";
 import { ScrollComponent } from "@/assets/ts/components/_ScrollComponent";
 import { MenuComponent } from "@/assets/ts/components/MenuComponent";
 import { asideMenuIcons } from "@/core/helpers/config";
+import { useAuthenticationStore } from "@/store/pinia_store/modules/AuthModule";
 import MainMenuConfig from "@/core/config/MainMenuConfig";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import LogoutIcon from "@/components/icons/LogoutIcon.vue";
+
+const authStore = useAuthenticationStore();
+
+const filterSidebarItems = (sidebarItems: { requiredPermission: number }[]) => {
+  return sidebarItems.filter(
+    (item) =>
+      authStore.hasPermission(item.requiredPermission) ||
+      item.requiredPermission === AppConstants.PERMISSIONS.None
+  );
+};
 
 const { t, te } = useI18n();
 const route = useRoute();

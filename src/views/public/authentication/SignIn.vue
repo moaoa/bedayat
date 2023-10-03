@@ -13,7 +13,6 @@
         <!--begin::Title-->
         <h1 class="text-dark mb-3">Sign In to Metronic</h1>
         <!--end::Title-->
-
       </div>
       <!--begin::Input group-->
       <div class="fv-row mb-10">
@@ -48,9 +47,12 @@
           <!--end::Label-->
 
           <!--begin::Link-->
-          <p to="/password-reset" class="link-primary fs-6 fw-bolder">
-            Forgot Password ? Not my problem, Speak to admin
-          </p>
+          <router-link
+            :to="{ name: 'reset-password' }"
+            class="link-primary fs-6 fw-bolder"
+          >
+            Forgot Password ?
+          </router-link>
           <!--end::Link-->
         </div>
         <!--end::Wrapper-->
@@ -90,9 +92,6 @@
           </span>
         </button>
         <!--end::Submit button-->
-
-
-
       </div>
       <!--end::Actions-->
     </Form>
@@ -107,7 +106,6 @@ import { ErrorMessage, Field, Form } from "vee-validate";
 import { useRouter } from "vue-router";
 import * as Yup from "yup";
 import { useAuthenticationStore } from "@/store/pinia_store/modules/AuthModule";
-
 
 const store = useAuthenticationStore();
 const router = useRouter();
@@ -128,9 +126,8 @@ const onSubmitLogin = async (values) => {
     submitButton.value.setAttribute("data-kt-indicator", "on");
   }
 
-    await store.login(values.email, values.password)
+  await store.login(values.email, values.password);
 
-    submitButton.value?.removeAttribute("data-kt-indicator");
+  submitButton.value?.removeAttribute("data-kt-indicator");
 };
-
 </script>

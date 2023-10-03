@@ -203,7 +203,6 @@
             width="90"
             align="center"
             header-align="center"
-            fixed="right"
           >
             <template #default="scope: { row: User, $index: number }">
               <div class="flex">

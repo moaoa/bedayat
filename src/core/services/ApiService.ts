@@ -4,6 +4,7 @@ import VueAxios from "vue-axios";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import Toaster from "./Toaster";
+import { useAuthenticationStore } from "@/store/pinia_store/modules/AuthModule";
 import AuthenticationService from "./AuthenticationService";
 // import JwtService from "./JwtService";
 
@@ -19,9 +20,10 @@ class ApiService {
   }
 
   public static setHeader(): void {
-    // ApiService.vueInstance.axios.defaults.headers.common[
-    //   "Authorization"
-    // ] = `Bearer ${JwtService.getToken()}`;
+    const authenticationStore = useAuthenticationStore();
+    ApiService.vueInstance.axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${authenticationStore.user.accessToken}`;
     ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] =
       "application/json";
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] =
@@ -42,22 +44,16 @@ class ApiService {
     ApiService.vueInstance.axios.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
-        // if (error.response?.status === 401) {
-        //   // refresh token then call api then if fails, sign out
+        if (error.response?.status === 401) {
+          // refresh token then call api then if fails, sign out
 
-        //   await AuthenticationService.refreshToken();
-
-        //   axios.request(error.config).catch(async (responseError) => {
-        //     if (responseError?.response?.status === 401) {
-        //       localStorage.removeItem("token");
-        //     }
-        //   });
-        // }
+          await AuthenticationService.refreshToken();
+        }
 
         let message = "";
 
         if (error.response) {
-          message = error.response.data?.message;
+          message = error.response.data?.Message;
         } else if (error.request) {
           // The request was made, but no response was received
           message = "Network Error";

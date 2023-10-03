@@ -4,16 +4,6 @@ import { ApiResponse } from "@/types/ApiResponse";
 import ApiService from "@/core/services/ApiService";
 
 class GradesService {
-  public static async getCountryWithCities(countryId: string) {
-    return await ApiService.query<ApiResponse<Grade>>(
-      `${AppConstants.GRADES_URL}/${countryId}`,
-      {
-        params: {
-          includeCities: true,
-        },
-      }
-    );
-  }
   public static async getGrades() {
     const res = await ApiService.get<ApiResponse<Grade[]>>(
       `${AppConstants.GRADES_URL}`

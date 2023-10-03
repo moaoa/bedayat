@@ -1,8 +1,16 @@
-import store from "@/store";
-import { Mutations, Actions } from "@/store/enums/StoreEnums";
+import Toaster from "@/core/services/Toaster";
 import { useAuthenticationStore } from "@/store/pinia_store/modules/AuthModule";
-
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
+
+import "vue-router";
+
+declare module "vue-router" {
+  interface RouteMeta {
+    authRequired: boolean;
+    requiredPermission: number;
+  }
+}
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -14,26 +22,46 @@ const routes: Array<RouteRecordRaw> = [
         path: "/",
         name: "dashboard",
         redirect: "/dashboard/Main",
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
         // component: () => import("@/views/Dashboard.vue"),
       },
       {
         path: "/dashboard/Main",
         name: "Main",
         component: () => import("@/views/dashboard/main/Main.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
       },
       {
         path: "/dashboard/oldCities",
         name: "oldCities",
         component: () => import("@/views/dashboard/cities/Cities.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCountries,
+        },
       },
       {
         path: "/dashboard/Cities",
         name: "Cities",
         component: () => import("@/views/Cities/Cities.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCountries,
+        },
       },
       {
         path: "/dashboard/UsersManagement",
         name: "UsersManagement",
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadUsers,
+        },
         component: () => import("@/views/UsersManagement/UsersManagement.vue"),
       },
       {
@@ -41,21 +69,55 @@ const routes: Array<RouteRecordRaw> = [
         name: "RegularUsersManagement",
         component: () =>
           import("@/views/UsersManagement/RegularUsersManagemen.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadUsers,
+        },
       },
       {
         path: "/dashboard/FamilyMembers/:id",
         name: "FamilyMembers",
         component: () => import("@/views/UsersManagement/FamilyMembers.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadUsers,
+        },
       },
       {
         path: "/dashboard/Grades",
         name: "Grades",
         component: () => import("@/views/Grades/Grades.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadGrades,
+        },
+      },
+      {
+        path: "/dashboard/Courses",
+        name: "Courses",
+        component: () => import("@/views/Courses/Courses.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCourses,
+        },
+      },
+      {
+        path: "/dashboard/addCourse",
+        name: "AddCourse",
+        component: () => import("@/views/Courses/AddCoursePage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCourses,
+        },
       },
       {
         path: "/dashboard/Subjects",
         name: "Subjects",
         component: () => import("@/views/Subjects/Subjects.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadSubjects,
+        },
       },
       {
         path: "/dashboard/GradeSubjects/:id",
@@ -67,57 +129,101 @@ const routes: Array<RouteRecordRaw> = [
         path: "/dashboard/Countries",
         name: "Countries",
         component: () => import("@/views/Countries/Countries.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCountries,
+        },
       },
       {
         path: "/dashboard/Localities",
         name: "Localities",
         component: () => import("@/views/Localities/Localities.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCountries,
+        },
       },
       {
         path: "/dashboard/bugReports",
         name: "bugReports",
         component: () => import("@/views/BugReport/BugReport.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadBugs,
+        },
       },
       {
         path: "/dashboard/faqs",
         name: "faqs",
         component: () => import("@/views/Faqs/Faqs.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+        },
       },
       {
         path: "/builder",
         name: "builder",
         component: () => import("@/views/Builder.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
       },
       {
         path: "/crafted/modals/forms/new-target",
         name: "modals-forms-new-target",
         component: () => import("@/views/crafted/modals/forms/NewTarget.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
       },
       {
         path: "/crafted/modals/forms/new-card",
         name: "modals-forms-new-card",
         component: () => import("@/views/crafted/modals/forms/NewCard.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
       },
       {
         path: "/crafted/modals/forms/new-address",
         name: "modals-forms-new-address",
         component: () => import("@/views/crafted/modals/forms/NewAddress.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
       },
       {
         path: "/crafted/modals/forms/create-api-key",
         name: "modals-forms-create-api-key",
         component: () =>
           import("@/views/crafted/modals/forms/CreateApiKey.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
       },
       {
         path: "/dashboard/SystemSettings",
         name: "systemSettings",
         component: () => import("@/views/SystemSettings/SystemSettings.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadSystemSettings,
+        },
       },
       {
         path: "/dashboard/TermsAndPrivacy",
         name: "TermsAndPrivacy",
         component: () => import("@/views/TermsAndPrivacy/TermsAndPrivacy.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+        },
       },
       {
         path: "/dashboard/Reports/MostPurchasedCourses",
@@ -135,17 +241,47 @@ const routes: Array<RouteRecordRaw> = [
     path: "/sign-in",
     name: "sign-in",
     component: () => import("@/views/public/authentication/SignIn.vue"),
+    meta: {
+      authRequired: false,
+      requiredPermission: AppConstants.PERMISSIONS.None,
+    },
+  },
+  {
+    path: "/reset-password",
+    name: "reset-password",
+    component: () => import("@/views/public/authentication/PasswordReset.vue"),
+    meta: {
+      authRequired: false,
+      requiredPermission: AppConstants.PERMISSIONS.None,
+    },
+  },
+  {
+    path: "/otp",
+    name: "otp",
+    component: () => import("@/views/public/authentication/OtpPage.vue"),
+    meta: {
+      authRequired: false,
+      requiredPermission: AppConstants.PERMISSIONS.None,
+    },
   },
   {
     // the 404 route, when none of the above matches
     path: "/404",
     name: "404",
     component: () => import("@/views/public/Error/Error404.vue"),
+    meta: {
+      authRequired: true,
+      requiredPermission: AppConstants.PERMISSIONS.None,
+    },
   },
   {
     path: "/500",
     name: "500",
     component: () => import("@/views/public/Error/Error500.vue"),
+    meta: {
+      authRequired: true,
+      requiredPermission: AppConstants.PERMISSIONS.None,
+    },
   },
   {
     path: "/:pathMatch(.*)*",
@@ -158,49 +294,26 @@ const router = createRouter({
   routes,
 });
 
-// router.beforeEach(() => {
-//   store.commit(Mutations.RESET_LAYOUT_CONFIG);
+router.beforeEach(async (to, from) => {
+  const auth = useAuthenticationStore();
 
-//   // store.dispatch(Actions.VERIFY_AUTH);
-//   setTimeout(() => {
-// window.scrollTo(0, 0);
-// }, 100);
-// });
+  if (!auth.isAuthenticated && to.meta.authRequired) {
+    Toaster.error("please sign in first");
+    return router.push({ name: "sign-in" });
+  }
 
-// router.beforeEach(async (to, from, next) => {
-//   const auth = useAuthenticationStore();
-//   const { has } = useHasRole();
+  // no permission required
+  if (to.meta.requiredPermission === AppConstants.PERMISSIONS.None) {
+    return true;
+  }
 
-//   if (!auth.user.signedIn) {
-//     if (auth.checkIsLoggedIn()) {
+  const hasPermission = auth.hasPermission(
+    to.meta.requiredPermission as number
+  );
 
-//       if (!has(to.meta.permission as number)) {
-//         return next("/Forbidden");
-//       }
-
-//       // the user is logged in and trying to access the login page then redirect to dashboard
-//       if (to.meta.guest) {
-//         return next("/dashboard");
-//       }
-
-//       // continue to the route
-//       document.getElementById("InitScreenDOM")?.remove();
-//       return next();
-//     }
-
-//     // if the user is not logged in and the route is not guest only then redirect to login
-//     if (to.meta.guest) {
-//       return next();
-//     }
-
-//     return next("/");
-//   }
-//   // otherwise continue to the route
-//   next();
-
-//   // Scroll page to top on every route change
-//   setTimeout(() => {
-//     window.scrollTo(0, 0);
-//   }, 100);
-// });
+  if (!hasPermission) {
+    Toaster.error("you do not have permission to access this page");
+    router.push({ name: "dashboard" });
+  }
+});
 export default router;
