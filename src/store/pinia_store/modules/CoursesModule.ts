@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Course, NewCourseData } from "@/types/Courses";
+import { Course, NewCourseData, CourseFilters } from "@/types/Courses";
 
 import coursesService from "@/core/repositories/CoursesService";
 
@@ -27,12 +27,12 @@ export const useCoursesStore = defineStore({
   }),
 
   actions: {
-    async loadCourses() {
+    async loadCourses(params: CourseFilters) {
       this.dataIsLoading = true;
       this.errorLoadingData = false;
 
       try {
-        const items = await coursesService.getCourses();
+        const items = await coursesService.getCourses(params);
 
         this.courses = items;
       } catch (e) {

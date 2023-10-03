@@ -28,8 +28,7 @@ const messages = {
     noNumber: "NO",
     hash: "#",
     at: "@",
-    someFieldsNotFill:" Please make sure to fill in the required fields",
-
+    someFieldsNotFill: " Please make sure to fill in the required fields",
 
     deleteCancelation: "item was not deleted",
     deleteConfirmation: "item was deleted successfully",
@@ -88,7 +87,7 @@ const messages = {
     settings: "Settings",
     authentication: "Authentication",
     basicFlow: "Basic Flow",
-    signIn: "Sign-in",
+    signIn: "Sign in",
     signUp: "Sign-up",
     passwordReset: "Password Reset",
     error404: "Error 404",
@@ -191,23 +190,17 @@ const messages = {
     grades: "Grades",
     subjects: "Subjects",
     addNewSubject: "Add New Subject",
+    submit: "Submit",
+    addSubscriptionSettings: "Add Subscription Settings",
+    areYouSure: "Are you Sure?",
+    logout: "Logout",
   },
   ar: {
     addSubscriptionSettings: "إضافة جديدة",
     submit: "تأكيد",
     systemSettings: "إعدادات النظام",
-
-
-    submit:"Submit",
-    addSubscriptionSettings:"Add Subscription Settings",
-    areYouSure: "Are you Sure?",
-  },
-  ar: {
     areYouSure: "هل انت متأكد ؟",
     deleteLocality: "حذف حي",
-    addSubscriptionSettings:"إضافة جديدة",
-    submit:"تأكيد",
-    systemSettings:"إعدادات النظام",
     termsAndPrivacy: "الشروط العامة و الخصوصية",
     termsAndConditions: "الشروط العامة ",
     privacy: "الخصوصيه",
@@ -300,7 +293,6 @@ const messages = {
     settings: "Paramètres",
     authentication: "Authentification",
     basicFlow: "Flux de base",
-    signIn: "SS'identifier",
     signUp: "Inscrivez-vous",
     passwordReset: "Réinitialisation du mot de passe",
     error404: "Erreur 404",
@@ -353,6 +345,7 @@ const messages = {
     phone: "رقم الهاتف",
     birthDate: "تاريخ الميلاد",
     gender: "الجنس",
+    signIn: "تسجيل الدخول",
     status: "الحالة",
     teacher: "الاستاذ",
     address: "العنوان",
@@ -385,6 +378,7 @@ const messages = {
     grades: "الصفوف",
     subjects: "المواد",
     addNewSubject: "إضافة مادة جديدة",
+    logout: "تسجيل الخروج",
   },
 };
 

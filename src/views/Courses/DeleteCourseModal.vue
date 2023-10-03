@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-dialog-centered mw-550px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("deleteGrade") }}</h2>
+          <h2 class="fw-bolder">{{ $t("deleteCourse") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"
@@ -44,7 +44,7 @@
           <button
             :data-kt-indicator="deleting ? 'on' : null"
             class="btn btn-sm btn-danger"
-            @click="deleteGrade"
+            @click="deleteCourse"
             style="width: 200px"
           >
             <span v-if="!deleting" class="indicator-label">
@@ -82,7 +82,7 @@
 </style>
 
 <script lang="ts" setup>
-import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
+import { useCoursesStore } from "@/store/pinia_store/modules/CoursesModule";
 import { ref, computed } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useI18n } from "vue-i18n";
@@ -97,11 +97,11 @@ const emit = defineEmits<{
   (event: "close", data: any);
 }>();
 
-const gradesStore = useGradesStore();
+const gradesStore = useCoursesStore();
 
 const modalRef = ref<HTMLElement | null>(null);
 
-const deleteGrade = async () => {
+const deleteCourse = async () => {
   try {
     await gradesStore.deleteItem();
     hideModal(modalRef.value);

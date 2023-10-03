@@ -15,3 +15,14 @@ export type NewCourseData = Omit<
   Course,
   "id" | "createdAt" | "lastUpdated" | "courses" | "gradeSubjects"
 >;
+
+export type CourseFilters = {
+  subjectIds: string[];
+  filteredInList: boolean;
+  minPrice: number;
+  maxPrice: number;
+  minNumberOfLessons: number;
+  maxNumberOfLessons: number;
+  name: string;
+  rating: number[];
+};

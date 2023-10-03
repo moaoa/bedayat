@@ -1,12 +1,13 @@
-import { Course, NewCourseData } from "@/types/Courses";
+import { Course, NewCourseData, CourseFilters } from "@/types/Courses";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
 import ApiService from "@/core/services/ApiService";
 
 class CoursesService {
-  public static async getCourses() {
-    const res = await ApiService.get<ApiResponse<Course[]>>(
-      `${AppConstants.COURSES_URL}`
+  public static async getCourses(params: CourseFilters) {
+    const res = await ApiService.post<ApiResponse<Course[]>>(
+      `${AppConstants.COURSES_URL}/SearchCourses`,
+      { ...params }
     );
     return res.data.data;
   }
