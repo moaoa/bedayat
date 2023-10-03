@@ -229,11 +229,19 @@ const routes: Array<RouteRecordRaw> = [
         path: "/dashboard/Reports/MostPurchasedCourses",
         name: "MostPurchasedCoursesReport",
         component: () => import("@/views/Reports/MostPurchasedCourses.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+        },
       },
       {
         path: "/dashboard/Packages",
         name: "Packages",
         component: () => import("@/views/Packages/AddPackageModal.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
       },
     ],
   },

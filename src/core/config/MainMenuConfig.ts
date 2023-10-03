@@ -138,12 +138,14 @@ const DocMenuConfig = [
         sectionTitle: "Reports",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
+        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
         sub: [
           {
             heading: "MostPurchasedCourses",
             route: "/dashboard/Reports/MostPurchasedCourses",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
           },
         ],
       },
