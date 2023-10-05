@@ -7,6 +7,21 @@ export interface PackageAddData {
     englishDescription: string
     logo: File | string | null
 }
+export type PackageFilter = {
+    status: boolean;
+    name: string;
+    gradeId: string;
+
+};
+
+export interface SelectCoursesDto {
+    id: string;
+    name: string;
+    englishName: string;
+    subjectName: string;
+    logoPath: string;
+}
+
 
 export interface Package {
     id: string
@@ -16,61 +31,10 @@ export interface Package {
     englishDescription: string
     gradeSubjectId: string
     price: number
-    gradeSubject: GradeSubject
     logoPath: string
     packageStatus: string
     courses: Course[]
     packageType: string
-    createdAt: string
-    lastUpdated: string
-}
-
-export interface GradeSubject {
-    id: string
-    chaptersCount: number
-    logo: string
-    bookLink: string
-    gradeId: string
-    grade: Grade
-    subjectId: string
-    subject: Subject
-    createdAt: string
-    lastUpdated: string
-}
-
-export interface Grade {
-    id: string
-    name: string
-    englishName: string
-    priority: number
-    note: string
-    gradeType: string
-    gradeSubjects: string[]
-    courses: string[]
-    createdAt: string
-    lastUpdated: string
-}
-
-export interface Subject {
-    id: string
-    name: string
-    englishName: string
-    note: string
-    subjectType: string
-    gradeSubjects: string[]
-    courses: string[]
-    createdAt: string
-    lastUpdated: string
-}
-
-
-export interface Children {
-    id: string
-    parentId: string
-    parent: string
-    isMainParent: boolean
-    childId: string
-    child: string
     createdAt: string
     lastUpdated: string
 }

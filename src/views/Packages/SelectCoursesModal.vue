@@ -1,0 +1,214 @@
+<template>
+  <div
+      class="modal fade"
+      id="kt_modal_select_courses"
+      tabindex="-1"
+      aria-hidden="true"
+      ref="modalRef"
+  >
+    {{coursesStore.selectedCoursesForPackage}}
+    <div class="modal-dialog modal-dialog-centered mw-900px">
+      <div class="modal-content ">
+        <div class="modal-header" id="kt_modal_add_customer_header">
+          <h2 class="fw-bolder">{{ $t("selectCourses") }}</h2>
+          <div
+              id="kt_modal_add_customer_close"
+              data-bs-dismiss="modal"
+              class="btn btn-icon btn-sm btn-active-icon-primary "
+
+          >
+            <span class="svg-icon svg-icon-1">
+              <inline-svg src="/media/icons/duotune/arrows/arr061.svg"/>
+            </span>
+          </div>
+          <!--end::Close-->
+        </div>
+        <div>
+
+          <div class="row">
+            <div class="col-4 mt-2 mx-10">
+
+              <!--begin::Input-->
+                <el-input
+                    v-model="coursesSearchValue"
+                    id="input_search_courses"
+                    type="text"
+                    placeholder="search for course"
+                />
+              <!--end::Input-->
+            </div>
+          </div>
+          <div>
+
+
+            <el-form
+                @submit.prevent="submit()"
+                :model="formData"
+                :rules="rules"
+                ref="formRef"
+                max-width
+            >
+              <div class="modal-body py-2 px-lg-17 overflow-scroll" style="height: 70vh;">
+
+                <el-table
+                    max-width
+                    ref="multipleTableRef"
+                    :data="coursesStore.coursesToSelectToAddToPackage"
+                    style="width: 100%"
+                    @selection-change="handleSelectionChange"
+                >
+                  <el-table-column type="selection" width="55"/>
+                  <el-table-column :label="t('courseLogo')" width="150"
+                                   align="center">
+                    <template #default="scope">
+                      <img :src="scope.row.logoPath">
+                    </template>
+                  </el-table-column>
+                  <el-table-column property="name" label="Name" width="180"
+                                   header-align="center"
+                                   align="right"
+                  />
+                  <el-table-column property="englishName" :label="t('englishName')" width="180"
+                                   align="right"/>
+                  <el-table-column property="subjectName" :label="t('subjectName')" width="150"
+                                   align="right"/>
+                </el-table>
+                <!--end::Scroll-->
+              </div>
+              <!--end::Modal body-->
+
+              <!--begin::Modal footer-->
+              <div class="modal-footer flex-center">
+
+                <!--end::Button-->
+              </div>
+              <!--end::Modal footer-->
+            </el-form>
+          </div>
+        </div>
+        <!--end::Form-->
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<script lang="ts" setup>
+import {ref, computed, reactive, onMounted, watch} from "vue";
+
+import {useI18n} from "vue-i18n";
+import {NewLocalityData} from "@/types/Localities";
+import {ElTable} from 'element-plus'
+import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
+import {SelectCoursesDto} from "@/types/Packages/Packages";
+
+const {t} = useI18n();
+const coursesSearchValue = ref<string>("")
+const coursesStore = useCoursesStore();
+
+
+const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+const multipleSelection = ref<SelectCoursesDto[]>([])
+
+
+
+
+
+const emit = defineEmits<{
+  (event: "submit", data: NewLocalityData);
+}>();
+
+const formRef = ref<null | HTMLFormElement>(null);
+
+const modalRef = ref<null | HTMLElement>(null);
+
+const formData = reactive<NewLocalityData>({
+  name: "",
+  englishName: "",
+  cityId: "",
+});
+
+
+const toggleSelection = (rows?: SelectCoursesDto[]) => {
+  console.log('inside -------------')
+  if (rows) {
+    rows.forEach((row) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      multipleTableRef.value!.toggleRowSelection(row, undefined)
+    })
+  } else {
+    multipleTableRef.value!.clearSelection()
+  }
+}
+
+defineExpose({
+  multipleTableRef,
+  toggleSelection
+})
+const submit = () => {
+  if (!formRef.value) {
+    return;
+  }
+
+  formRef.value.validate((valid) => {
+    if (valid) {
+      emit("submit", formData);
+    }
+  });
+};
+const handleSelectionChange = (val: SelectCoursesDto[]) => {
+  console.log("selection change")
+  coursesStore.selectedCoursesForPackage = val;
+}
+
+onMounted(() => {
+
+  document.getElementById('input_search_courses')?.addEventListener('keydown', (event)=> {
+    if (event.keyCode === 13 || event.key === 'Enter') {
+      coursesStore.loadCoursesToAddToPackage(coursesSearchValue.value)
+
+  }})
+
+  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
+    if (formRef.value)
+      console.log()
+  })
+})
+
+
+
+const rules = ref({
+  name: [
+    {required: true, message: t("required"), trigger: "blur"},
+    {
+      required: true,
+      pattern: /^[ء-ي\s]+$/,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    }
+  ],
+  englishName: [
+    {
+      required: true,
+      pattern: /^[A-Za-z\s]+$/,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    }
+  ],
+  countryId: [{required: true, message: t("required"), trigger: "blur"}],
+});
+
+
+
+</script>
+<style lang="scss">
+.el-select {
+  width: 100%;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100%;
+}
+</style>

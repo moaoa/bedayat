@@ -15,6 +15,7 @@ export class AppConstants {
 
   static COURSES_URL = `${AppConstants.MANAGEMENT_URL}/Courses`;
 
+  static Packages_URL = `${AppConstants.MANAGEMENT_URL}/Packages`;
 
   static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
   static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;
@@ -24,9 +25,6 @@ export class AppConstants {
 
 
   static SUBSCRIPTION_URL = `${AppConstants.MANAGEMENT_URL}/Subscription`;
-  static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
-
-
   static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
 
   static FILTER_ADMIN_BY_OPTIONS = {
