@@ -67,6 +67,7 @@ export interface GetPackagesResponseDto {
     coursesCount: number
     packageType: PackageType
     packageStatus: PackageStatus
+    courses: Course[]
     createdAt: string
     lastUpdated: string
 }

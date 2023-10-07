@@ -13,7 +13,7 @@
           <i class="bi bi-arrow-repeat"></i>
         </a>
 
-        <a href="#" class="btn btn-sm btn-primary mx-1" target="#"
+        <a class="btn btn-sm btn-primary mx-1" target="#"
            @click="addPackage">
           <span class="svg-icon svg-icon-3">
             <inline-svg src="/media/icons/duotune/arrows/arr075.svg"/>
@@ -81,7 +81,7 @@
 
           <el-table class="table-responsive" max-width :data="packagesTable">
             >
-            <el-table-column index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
+            <el-table-column width="50" index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
               <template #default="scope">
                 {{ scope.$index + 1 }}
               </template>
@@ -108,8 +108,34 @@
             <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')"
                              align="center"
                              header-align="center"/>
-            <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"
-                             align="center" header-align="center"/>
+<!--            <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"-->
+<!--                             align="center" header-align="center"/>-->
+<!--            <el-table-column prop="price" :label="$t('price')"-->
+<!--                             align="center" header-align="center"/>-->
+            <el-table-column prop="name" :label="$t('packageStatus')" align="center" header-align="center">
+              <template #default="scope">
+
+
+                <label
+                    class="
+                      form-check form-switch form-check-custom form-check-solid align-content-center justify-content-center
+                    "
+                >
+                  <!--begin::Input-->
+                  <input
+                      class="form-check-input"
+                      type="checkbox"
+                      :checked="scope.row.packageStatus == PackageStatus.Active"
+                      @change="changePackageState(scope.row.id)"
+                  />
+
+                  <!--end::Input-->
+
+                </label>
+<!--                <b> {{ scope.row.packageStatus }}</b>-->
+              </template>
+            </el-table-column>
+
             <el-table-column :label="$t('edit')" align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
                 <RouterLink
@@ -176,6 +202,7 @@ import {hideModal} from "@/core/helpers/dom";
 import Toaster from "@/core/services/Toaster";
 import DeleteCountry from "@/views/Countries/DeleteCountry.vue";
 import DeletePackage from "@/views/Packages/DeletePackage.vue";
+import {ErrorMessage, Field} from "vee-validate";
 
 
 ////////// Declarations///////////////////
@@ -197,22 +224,20 @@ const searchFilter = reactive<PackageFilter>({
   status: PackageStatus.Active,
   packageType: PackageType.Path
 });
+const changePackageState = async (packageId: string)=>  {
+  console.log('sdfsdfsdfsdfsdfsdf')
+  await coursesStore.changePackageActiveState(packageId)
+  await coursesStore.loadPackages(searchFilter)
 
+}
 
 /////////////Functions///////////////////////
 
 const addPackage = () => {
   router.push({name: "AddPackages"})
-  console.log("Package added ")
 }
-const updatePackage = (packageRow: GetPackagesResponseDto) => {
-  console.log("Package updated ")
-  // router.push({name: "UpdatePackage",
-  // params{
-  //
-  // }})
 
-}
+
 const packageDeleted = async () => {
   hideModal(deletePackageModalRef.value!.modalRef!);
   Toaster.Success("Success!", "Package Deleted Successfully");

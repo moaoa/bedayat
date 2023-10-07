@@ -15,6 +15,8 @@ import PackagesService from "@/core/services/PackagesService";
 import {PagedResult} from "@/types/ApiResponse";
 import toaster from "@/core/services/Toaster";
 import {useLocalStorage} from "@vueuse/core/index";
+import {LogLevel} from "@aspnet/signalr";
+import {array} from "yup";
 
 
 export const useCoursesStore = defineStore({
@@ -46,7 +48,7 @@ export const useCoursesStore = defineStore({
             coursesToSelectToAddToPackage: [] as CourseSelection[],
             packages: {} as PagedResult<GetPackagesResponseDto>,
             selectedPackage: useLocalStorage<GetPackagesResponseDto>("selectedPackage", {}),
-            selectedGradeId: "",
+            selectedGradeId: useLocalStorage<string>("selectedGradeId", ''),
             selectedPackageState: PackageStatus.Active as PackageStatus,
 
 
@@ -125,6 +127,17 @@ export const useCoursesStore = defineStore({
                 this.isDeletingItem = false;
             }
         },
+
+
+
+
+
+
+
+        //////////////////////Packages
+
+
+
         async loadCoursesToAddToPackage(courseName: string) {
 
 
@@ -139,16 +152,21 @@ export const useCoursesStore = defineStore({
             this.dataIsLoading = true;
             try {
 
+                console.log(data)
+
                 const formData = new FormData();
                 for (let newGradeSubjectDataKey in data) {
-                    formData.append(newGradeSubjectDataKey, data[newGradeSubjectDataKey] as Blob);
+                    console.log(newGradeSubjectDataKey)
+                    if (!Array.isArray(data[newGradeSubjectDataKey]))//newGradeSubjectDataKey !== "courseIds"
+                        formData.append(newGradeSubjectDataKey, data[newGradeSubjectDataKey] as Blob);
+                    else {
+                        data[newGradeSubjectDataKey].forEach(d => {
+                            formData.append(newGradeSubjectDataKey, d)
+                        })
+                    }
                 }
-                console.log(data)
-                formData.append('chaptersCount', '1');
-                console.log("tthis is form data")
-                console.log(formData)
+
                 const result = await PackagesService.createPackage(formData);
-                console.log(result)
                 toaster.Success("created successfully");
             } catch (error) {
                 console.log(error)
@@ -191,13 +209,6 @@ export const useCoursesStore = defineStore({
                     formData.append(newGradeSubjectDataKey, packageUpdate[newGradeSubjectDataKey] as Blob);
                 }
 
-
-                console.log(packageUpdate)
-                console.log(formData)
-                console.log("=====================")
-
-
-
                 await PackagesService.updatePackage(formData);
 
                 toaster.Success("updated successfully");
@@ -233,14 +244,16 @@ export const useCoursesStore = defineStore({
                 }
 
                 await PackagesService.removeCourseFromPackage(request)
-                this.selectedCoursesForPackage.filter(x=> x.id != course.id)
+                this.selectedCoursesForPackage.filter(x => x.id != course.id)
 
+                toaster.Success("Course remvoed Successfully")
+
+                await this.coursesStore.getCoursesByPackageId(this.selectedPackage)
 
             } catch (error) {
 
                 console.log(error)
-            }
-            finally {
+            } finally {
 
             }
         },
@@ -250,7 +263,7 @@ export const useCoursesStore = defineStore({
 
                 const request = {
                     packageId: this.selectedPackage.id,
-                    courseIds: [...course.map(x=> x.id)]
+                    courseIds: [...course.map(x => x.id)]
                 }
 
                 console.log(request)
@@ -258,25 +271,37 @@ export const useCoursesStore = defineStore({
                 await PackagesService.addCoursesToPackage(request)
                 toaster.Success("Courses Added Successfully")
 
+                await this.coursesStore.getCoursesByPackageId(this.selectedPackage)
+
+
             } catch (error) {
 
                 console.log(error)
-            }
-            finally {
+            } finally {
 
             }
         },
-        async getCoursesByPackageId(selectedCourse: GetPackagesResponseDto){
+        async getCoursesByPackageId(selectedCourse: GetPackagesResponseDto) {
             try {
-               const result =  await PackagesService.getPackageById(selectedCourse)
-                result
-            }catch (error)
-            {
+                const result = await PackagesService.getPackageById(selectedCourse)
+                if (result.length > 0)
+                    this.selectPackage(result[0]);
+                else
+                    this.selectPackage({});
+            } catch (error) {
                 console.log(error)
             }
-        }
+        },
+        async changePackageActiveState(packageId: string){
 
+            try {
 
+                await PackagesService.changeActiveState(packageId)
+                toaster.Success("state changed successfully")
+            }catch (e){
+                console.log(e)
+            }
+        },
     },
 });
 

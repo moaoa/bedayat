@@ -170,23 +170,19 @@
                 <!--                <el-form-item prop="selectCourses">-->
                 <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
                         type="button"
+
                         data-bs-toggle="modal"
                         :data-bs-target="`#kt_modal_select_courses`"
                 >
+
                   <span class="mx-5"> {{ t("selectCourses") }}</span>
                 </button>
+
               </div>
 
             </div>
 
-
-
-
-
-
           </div>
-
-
           <div class="row">
 
             <div class="col-8">
@@ -405,6 +401,9 @@ onMounted(() => {
 
 ///// watchers
 
+watch(()=> gradesStore.grades, (val)=> {
+  if (val.length > 0) formData.gradeId = val[0].id
+})
 watch(()=> formData.gradeId, (val)=> coursesStore.selectedGradeId  = val)
 
 

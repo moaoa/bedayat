@@ -13,7 +13,7 @@ class PackagesService {
 
     public static async getPackages(params : PackageFilter):Promise<PagedResult<GetPackagesResponseDto>> {
         const result =  await ApiService.get(
-          `${AppConstants.COURSES_URL}`, `GetPackagesByGradeAndName/${params.gradeId}?title=${params.name}` );
+          `${AppConstants.COURSES_URL}`, `GetPackagesByGradeAndName/${params.gradeId}?title=${params.name}&packageType=${params.packageType as number}` );
           const data = result.data as PagedResult<GetPackagesResponseDto>;
         return data;
       }
@@ -77,12 +77,18 @@ class PackagesService {
             data
         );
         return result.data;
+
+
+    }    public static async changeActiveState(id: string):Promise<ApiResponse<Package>> {
+        const result =  await ApiService.put<ApiResponse<Package>>(
+            `${AppConstants.Packages_URL}/ActivateDeActive/${id}`,);
+        return result.data;
     }
 
     public static async getPackageById(packageDto: GetPackagesResponseDto) {
         const result =  await ApiService.get(
-            `${AppConstants.Packages_URL}/GetPackageById`, `/${packageDto.id}?packageType=${packageDto.packageType}&includeSections=true&includeLessons=false&includeLessonAttachments=false&orderByRating=false&orderByCreationDate=false&indexGradeType=-1` );
-        const data = result.data as ApiResponse<Package>;
+            `${AppConstants.Packages_URL}/GetPackageById`, `${packageDto.id}?packageType=${packageDto.packageType}&includeSections=true&includeLessons=false&includeLessonAttachments=false&orderByRating=false&orderByCreationDate=false&indexGradeType=-1` );
+        const data = result.data as ApiResponse<GetPackagesResponseDto[]>;
         return data;
     }
 }

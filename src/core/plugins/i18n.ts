@@ -216,16 +216,19 @@ const messages = {
     selectCourses:"selectCourses",
     coursesCount:"coursesCount",
     deletePackage:"deletePackage",
-
     addPackage:"addPackage",
     courseName:"courseName",
     subjectName:"subjectName",
     courseLogo:"courseLogo",
     path:"path",
     course:"course",
+    packageType:"packageType",
+    packageStatus:"packageStatus",
   },
 
   ar: {
+    packageStatus:"الحاله",
+    packageType:"نوع الحزمه",
     path:"حزم",
     course:"دوره",
     courseLogo:"شعار الدوره",

@@ -184,9 +184,6 @@
 
 
 
-
-
-
   <div class="card card-xxl-stretch mb-xl-3">
     <!--begin::Header-->
     <div class="card-header border-0">
@@ -242,7 +239,7 @@
         <div class="row">
           <div class="col-8">
             <el-table
-                :data="coursesStore.selectedCoursesForPackage"
+                :data="selectedPackageCourses ?? []"
                 class="my-4 mx-4 "
                 max-width
             >
@@ -262,6 +259,7 @@
                                width="100"
                                align="center">
                 <template #default="scope">
+
                   <img :src="scope.row.logoPath">
                 </template>
               </el-table-column>
@@ -296,7 +294,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref,  reactive, onMounted} from "vue";
+import {ref, reactive, onMounted, computed} from "vue";
 
 import {hideModal} from "@/core/helpers/dom";
 import {useI18n} from "vue-i18n";
@@ -333,7 +331,7 @@ let ta = ref<string>(t('uploadLogo'))
 
 
 const deletePackageModalRef = ref<{ modalRef: HTMLElement } | null>(null);
-
+const selectedPackageCourses = computed(()=> coursesStore.selectedPackage?.courses)
 
 const unSelectCourse = async (course: SelectCoursesDto) => {
 
@@ -364,7 +362,6 @@ const submit = () => {
   formRef.value.validate(async (valid) => {
     if (valid) {
 
-      console.log("ttttttttt")
       await coursesStore.updatePackage(formData)
 
     }
@@ -373,6 +370,8 @@ const submit = () => {
 
 onMounted(() => {
   gradesStore.loadGrades();
+
+  console.log(coursesStore.selectedPackage)
   coursesStore.getCoursesByPackageId(coursesStore.selectedPackage)
 
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {

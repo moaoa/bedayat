@@ -33,7 +33,7 @@
                     v-model="coursesSearchValue"
                     id="input_search_courses"
                     type="text"
-                    placeholder="search for course"
+                    :placeholder="t('search')"
                 />
               <!--end::Input-->
             </div>
@@ -134,6 +134,7 @@ const handleSelectionChange = (val: CourseSelection[]) => {
 }
 
 onMounted(() => {
+
   document.getElementById('input_search_courses')?.addEventListener('keydown', (event)=> {
     if (event.keyCode === 13 || event.key === 'Enter') {
       coursesStore.loadCoursesToAddToPackage(coursesSearchValue.value)
@@ -141,13 +142,11 @@ onMounted(() => {
   }})
 
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
-    coursesStore.coursesToSelectToAddToPackage = [];
+    // coursesStore.coursesToSelectToAddToPackage = [];
     if (formRef.value)
       console.log()
   })
 })
-
-
 /////////////// validation
 
 const rules = ref({

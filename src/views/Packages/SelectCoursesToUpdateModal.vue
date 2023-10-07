@@ -51,7 +51,7 @@
                 <el-table
                     max-width
                     ref="multipleTableRef"
-                    :data="coursesStore.coursesToSelectToAddToPackage"
+                    :data="coursesStore.coursesToSelectToAddToPackage.filter(x=> !coursesStore.selectedPackage.courses.map(x=> x.id).includes(x.id))"
 
                     @selection-change="handleSelectionChange"
                 >
