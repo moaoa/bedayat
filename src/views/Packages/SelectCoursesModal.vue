@@ -141,6 +141,7 @@ onMounted(() => {
   }})
 
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
+    coursesStore.coursesToSelectToAddToPackage = [];
     if (formRef.value)
       console.log()
   })

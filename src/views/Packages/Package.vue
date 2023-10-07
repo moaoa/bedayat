@@ -30,8 +30,6 @@
     <!--    {{packagesTable}}-->
     <div class="card-body pt-2">
       <div class="row">
-
-
         <div class="col-md-3 col-lg-2 col-7">
           <label class="fs-6 fw-bold mb-2">
             {{ $t("grades") }}
@@ -46,14 +44,24 @@
           <label class="fs-6 fw-bold mb-2">
             {{ $t("state") }}
           </label>
-          <el-select v-model="coursesStore.selectedPackageState" clearable filterable>
+          <el-select v-model="searchFilter.status" clearable filterable>
             <el-option v-for="status in Object.values(PackageStatus).slice(0,Object.values(PackageStatus).length/2 )"
                        :key="status" :value="PackageStatus[status]"
-                       :label="status">
+                       :label="t(`${status.toLowerCase()}`)">
             </el-option>
           </el-select>
         </div>
-
+        <div class="col-md-3 col-lg-2 col-7">
+          <label class="fs-6 fw-bold mb-2">
+            {{ $t("packageType") }}
+          </label>
+          <el-select v-model="searchFilter.packageType" clearable filterable>
+            <el-option v-for="status in Object.values(PackageType).slice(0,Object.values(PackageType).length/2 )"
+                       :key="status" :value="PackageType[status]"
+                       :label="t(`${status.toLowerCase()}`)">
+            </el-option>
+          </el-select>
+        </div>
 
         <div class="col-md-6 col-lg-4 col-7">
           <label class=" fs-6 fw-bold mb-2">
@@ -154,13 +162,13 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import {formatDate} from "@/core/helpers/formatDate";
 import {useI18n} from "vue-i18n";
 import {setCurrentPageBreadcrumbs} from "@/core/helpers/breadcrumb";
 import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
 import {useGradesStore} from "@/store/pinia_store/modules/GradesModule";
-import {GetPackagesResponseDto, PackageFilter, PackageStatus} from "@/types/Packages/Packages";
+import {GetPackagesResponseDto, PackageFilter, PackageStatus, PackageType} from "@/types/Packages/Packages";
 import {useRouter} from "vue-router";
 import {Locality} from "@/types/Localities";
 import toaster from "@/core/services/Toaster";
@@ -174,7 +182,9 @@ import DeletePackage from "@/views/Packages/DeletePackage.vue";
 const {t} = useI18n();
 const coursesStore = useCoursesStore();
 const gradesStore = useGradesStore();
-const packagesTable = computed(() => coursesStore.packages.results);
+const packagesTable = computed(() => {
+  return coursesStore.packages.results?.filter(x=> x.packageStatus == searchFilter.status) ??[]
+});
 const router = useRouter();
 
 const deletePackageModalRef = ref<{ modalRef: HTMLElement } | null>(null);
@@ -184,7 +194,8 @@ const formatter = (key: keyof Locality) => {
 const searchFilter = reactive<PackageFilter>({
   name: "",
   gradeId: "",
-  status: PackageStatus.Active
+  status: PackageStatus.Active,
+  packageType: PackageType.Path
 });
 
 
@@ -221,7 +232,18 @@ onMounted(() => {
     }
     // countriesStore.loadCountries();
   })
+
+
 });
+
+watch(()=> gradesStore.grades, async () => {
+  if(gradesStore.grades.length>0)
+    searchFilter.gradeId = gradesStore.grades[0].id
+})
+watch(()=> searchFilter.gradeId, async () => await coursesStore.loadPackages(searchFilter))
+watch(()=> searchFilter.packageType, async () => await coursesStore.loadPackages(searchFilter))
+watch(()=> searchFilter.status, async () => await coursesStore.loadPackages(searchFilter))
+
 
 
 </script>

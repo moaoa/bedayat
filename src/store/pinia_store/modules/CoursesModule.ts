@@ -14,6 +14,7 @@ import {
 import PackagesService from "@/core/services/PackagesService";
 import {PagedResult} from "@/types/ApiResponse";
 import toaster from "@/core/services/Toaster";
+import {useLocalStorage} from "@vueuse/core/index";
 
 
 export const useCoursesStore = defineStore({
@@ -44,7 +45,7 @@ export const useCoursesStore = defineStore({
             selectedCoursesForPackage: [] as CourseSelection[],
             coursesToSelectToAddToPackage: [] as CourseSelection[],
             packages: {} as PagedResult<GetPackagesResponseDto>,
-            selectedPackage: null as GetPackagesResponseDto | null,
+            selectedPackage: useLocalStorage<GetPackagesResponseDto>("selectedPackage", {}),
             selectedGradeId: "",
             selectedPackageState: PackageStatus.Active as PackageStatus,
 
@@ -126,14 +127,10 @@ export const useCoursesStore = defineStore({
         },
         async loadCoursesToAddToPackage(courseName: string) {
 
-            console.log(" in the store")
-            console.log(courseName)
-            console.log(this.selectedGradeId)
 
             const result = await PackagesService.getCoursesForPackageSelection(courseName, this.selectedGradeId)
             this.coursesToSelectToAddToPackage = result.data
 
-            console.log(this.coursesToSelectToAddToPackage)
         },
         async unselectCourseForPackage(id: string) {
             this.selectedCoursesForPackage = this.selectedCoursesForPackage.filter(x => x.id != id);
@@ -269,13 +266,14 @@ export const useCoursesStore = defineStore({
 
             }
         },
-        async getCoursesByPackageId(id: string){
-
+        async getCoursesByPackageId(selectedCourse: GetPackagesResponseDto){
             try {
-
-                PackagesService.getPackageById(id)
+               const result =  await PackagesService.getPackageById(selectedCourse)
+                result
             }catch (error)
-            {}
+            {
+                console.log(error)
+            }
         }
 
 

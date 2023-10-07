@@ -25,7 +25,7 @@
 
 
           <el-form
-              @submit.prevent="submit()"
+              @submit.prevent="submit"
               ref="formRef"
           >
 
@@ -38,6 +38,7 @@
                     v-model="coursesSearchValue"
                     id="input_search_courses"
                     type="text"
+                    v-on:keydown.enter.prevent="coursesStore.loadCoursesToAddToPackage(coursesSearchValue)"
                     placeholder="search for course"
                 />
               <!--end::Input-->
@@ -169,7 +170,11 @@ const emit = defineEmits<{
   (event: "courseAdded");
 }>();
 
-const submit = () => {
+const submit = (e: Event) => {
+
+  console.log(e)
+  console.log(e.target)
+
   if (!formRef.value)
     return;
 
@@ -190,10 +195,10 @@ onMounted(() => {
   document.getElementById('input_search_courses')?.addEventListener('keydown', (event)=> {
     if (event.keyCode === 13 || event.key === 'Enter') {
       coursesStore.loadCoursesToAddToPackage(coursesSearchValue.value)
-
   }})
 
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
+      coursesStore.coursesToSelectToAddToPackage = [];
     if (formRef.value)
       console.log()
   })

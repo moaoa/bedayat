@@ -107,7 +107,7 @@
           </div>
           <div class="row">
             <div class="col-4">
-              <div class="col-6 mb-7">
+              <div class="col-10 mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
                   {{ $t("uploadLogo") }}</label
@@ -115,7 +115,7 @@
                 <!--end::Label-->
                 <!--begin::Input-->
                 <el-form-item prop="englishName">
-                  <button class="btn btn-sm btn-light-primary mx-1 p-3 " style="width: 350px"
+                  <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
                           type="button"
                           onclick="document.getElementById('fileElem').click()">
                     <input type="file" id="fileElem" hidden="hidden" @change="handleLogoUpload"
@@ -130,76 +130,7 @@
               </div>
 
             </div>
-            <div class="col-4">
-
-              <div class="col-6 mb-7">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("selectCourses") }}</label
-                >
-                <!--end::Label-->
-
-                <!--begin::Input-->
-
-                <!-- <el-form-item prop="selectCourses">-->
-                <button class="btn btn-sm btn-light-primary mx-1 p-3 " style="width: 350px"
-                        type="button"
-                        data-bs-toggle="modal"
-                        :data-bs-target="`#kt_modal_select_courses_update`"
-                >
-                  <span class="mx-5"> {{ ("selectCourses") }}</span>
-                </button>
-              </div>
-            </div>
           </div>
-
-          <div class="row">
-            <div class="col-8">
-              <el-table
-                  :data="coursesStore.selectedCoursesForPackage"
-                  class="my-4 mx-4 "
-                  max-width
-              >
-                <el-table-column
-                    index="scope.$index"
-                    :label="t('noNumber')"
-                    width="55"
-                    align="center"
-                    header-align="center"
-                >
-                  <template #default="scope:{ row: SelectCoursesDto, $index: number }">
-                    {{ scope.$index + 1 }}
-                  </template>
-                </el-table-column>
-
-                <el-table-column :label="t('logo')"
-                                 width="100"
-                                 align="center">
-                  <template #default="scope">
-                    <img :src="scope.row.logoPath">
-                  </template>
-                </el-table-column>
-                <el-table-column property="name" :label="t('name')"
-                                 header-align="center"
-                                 align="center"
-                />
-                <el-table-column property="englishName" :label="t('englishName')"
-                                 align="center"/>
-
-                <el-table-column :label="t('remove')"
-                                 width="100"
-                                 align="center">
-                  <template #default="scope">
-
-                    <a class="btn btn-icon btn-light-success btn-sm" @click="unSelectCourse(scope.row)">
-                      <i class="bi bi-bing"></i>
-                    </a>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </div>
-          </div>
-
 
           <!--begin::Modal footer-->
           <div class="modal-footer flex-center">
@@ -219,7 +150,7 @@
                 :data-kt-indicator="coursesStore.dataIsLoading ? 'on' : null"
                 class="btn btn-sm btn-primary"
                 type="submit"
-                style="width: 200px"
+                style="width: 150px"
             >
               <span v-if="!coursesStore.dataIsLoading" class="indicator-label">
                 {{ $t("save") }}
@@ -244,10 +175,124 @@
       </div>
       <br/>
 
+
     </div>
 
   </div>
-  <!--end:List Widget 3-->
+  <!--end:==========================================List Widget 3-->
+
+
+
+
+
+
+
+  <div class="card card-xxl-stretch mb-xl-3">
+    <!--begin::Header-->
+    <div class="card-header border-0">
+
+      <h3 class="card-title fw-bolder text-dark">{{ t("Packages") }}</h3>
+      <div class="card-toolbar d-flex flex-row">
+
+
+
+
+      </div>
+    </div>
+    <!--end::Header-->
+
+    <!--begin::Body-->
+    <div class="card-body pt-2">
+
+
+      <div v-loading="gradesStore.dataIsLoading">
+
+
+
+        <SelectCoursesToUpdateModal  ref="multipleTableRef" />
+      </div>
+      <br/>
+
+      <div>
+
+        <div class="row">
+          <div class="col-4">
+
+            <div class="col-10 mb-7">
+              <!--begin::Label-->
+              <label class="required fs-6 fw-bold mb-2">
+                {{ $t("selectCourses") }}</label
+              >
+              <!--end::Label-->
+
+              <!--begin::Input-->
+
+              <!-- <el-form-item prop="selectCourses">-->
+              <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
+                      type="button"
+                      data-bs-toggle="modal"
+                      :data-bs-target="`#kt_modal_select_courses_update`"
+              >
+                <span class="mx-5"> {{ t("selectCourses") }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-8">
+            <el-table
+                :data="coursesStore.selectedCoursesForPackage"
+                class="my-4 mx-4 "
+                max-width
+            >
+              <el-table-column
+                  index="scope.$index"
+                  :label="t('noNumber')"
+                  width="55"
+                  align="center"
+                  header-align="center"
+              >
+                <template #default="scope:{ row: SelectCoursesDto, $index: number }">
+                  {{ scope.$index + 1 }}
+                </template>
+              </el-table-column>
+
+              <el-table-column :label="t('logo')"
+                               width="100"
+                               align="center">
+                <template #default="scope">
+                  <img :src="scope.row.logoPath">
+                </template>
+              </el-table-column>
+              <el-table-column property="name" :label="t('name')"
+                               header-align="center"
+                               align="center"
+              />
+              <el-table-column property="englishName" :label="t('englishName')"
+                               align="center"/>
+
+              <el-table-column :label="t('remove')"
+                               width="100"
+                               align="center">
+                <template #default="scope">
+
+                  <a class="btn btn-icon btn-light-success btn-sm" @click="unSelectCourse(scope.row)">
+                    <i class="bi bi-bing"></i>
+                  </a>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -319,6 +364,7 @@ const submit = () => {
   formRef.value.validate(async (valid) => {
     if (valid) {
 
+      console.log("ttttttttt")
       await coursesStore.updatePackage(formData)
 
     }
@@ -327,7 +373,7 @@ const submit = () => {
 
 onMounted(() => {
   gradesStore.loadGrades();
-  coursesStore.getCoursesByPackageId(coursesStore.selectedPackage!.pa)
+  coursesStore.getCoursesByPackageId(coursesStore.selectedPackage)
 
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
     if (formRef.value)

@@ -24,7 +24,7 @@ export type PackageFilter = {
     status: PackageStatus;
     name: string;
     gradeId: string;
-
+    packageType: PackageType;
 };
 export enum PackageStatus{
     Inactive,
@@ -65,9 +65,14 @@ export interface GetPackagesResponseDto {
     price: number
     logoPath: string
     coursesCount: number
+    packageType: PackageType
     packageStatus: PackageStatus
     createdAt: string
     lastUpdated: string
+}
+export enum PackageType
+{
+    Course, Path
 }
 
 ///////////////////// courses Selection

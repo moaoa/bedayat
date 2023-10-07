@@ -27,7 +27,7 @@ class PackagesService {
     removeCourseFromPackage
   public static async updatePackage(data: FormData):Promise<ApiResponse<systemSettingsResponse>> {
     const result =  await ApiService.put<ApiResponse<systemSettingsResponse>>(
-      `${AppConstants.Packages_URL}/EditPackage`, {...data},
+      `${AppConstants.Packages_URL}/EditPackage`, data,
         {
             headers: {
                 Accept: "*/*",
@@ -79,11 +79,10 @@ class PackagesService {
         return result.data;
     }
 
-
-    public static async getPackageById(id: string) {
+    public static async getPackageById(packageDto: GetPackagesResponseDto) {
         const result =  await ApiService.get(
-            `${AppConstants.Packages_URL}`, `/${params.gradeId}?title=${params.name}` );
-        const data = result.data as PagedResult<GetPackagesResponseDto>;
+            `${AppConstants.Packages_URL}/GetPackageById`, `/${packageDto.id}?packageType=${packageDto.packageType}&includeSections=true&includeLessons=false&includeLessonAttachments=false&orderByRating=false&orderByCreationDate=false&indexGradeType=-1` );
+        const data = result.data as ApiResponse<Package>;
         return data;
     }
 }

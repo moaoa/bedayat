@@ -221,13 +221,15 @@ const messages = {
     courseName:"courseName",
     subjectName:"subjectName",
     courseLogo:"courseLogo",
-
+    path:"path",
+    course:"course",
   },
 
   ar: {
+    path:"حزم",
+    course:"دوره",
     courseLogo:"شعار الدوره",
     selectCourses:"اضف دورات",
-
     addPackage:"اضافه حزمه",
     courseName:"اسم الدوره",
     subjectName:"اسم الماده",

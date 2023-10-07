@@ -133,7 +133,7 @@
             <div class="col-4">
 
 
-              <div class="col-6 mb-7">
+              <div class="col-10 mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
                   {{ $t("uploadLogo") }}</label
@@ -144,7 +144,7 @@
                 <!--begin::Input-->
 
                 <el-form-item prop="englishName">
-                  <button class="btn btn-sm btn-light-primary mx-1 p-3 " style="width: 350px"
+                  <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
                           type="button"
                           onclick="document.getElementById('fileElem').click()">
                     <input type="file" id="fileElem" hidden="hidden" @change="handleLogoUpload" accept="image/*">
@@ -160,15 +160,15 @@
             <div class="col-4">
 
 
-              <div class="col-6 mb-7">
+              <div class="col-10 mb-7 offset-3">
                 <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
+                <label class="required fs-6 fw-bold mb-2  ">
                   {{ $t("selectCourses") }}</label
                 >
                 <!--end::Label-->
                 <!--begin::Input-->
                 <!--                <el-form-item prop="selectCourses">-->
-                <button class="btn btn-sm btn-light-primary mx-1 p-3 " style="width: 350px"
+                <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
                         type="button"
                         data-bs-toggle="modal"
                         :data-bs-target="`#kt_modal_select_courses`"
@@ -280,12 +280,6 @@
         <SelectCoursesModal  ref="multipleTableRef"/>
       </div>
       <br/>
-      <!-- start::pagination -->
-      <!--      <el-pagination v-if="!gradesStore.dataIsLoading && !gradesStore.errorLoadingData-->
-      <!--        " background layout="total, sizes, prev, pager, next, jumper" :total="gradesStore.total"-->
-      <!--                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"-->
-      <!--                     :page-sizes="[25, 100, 200, 300, 400]"/>-->
-      <!-- end::pagination -->
     </div>
 
   </div>
