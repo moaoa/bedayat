@@ -294,7 +294,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, reactive, onMounted, computed} from "vue";
+import {ref, reactive, onMounted, computed, watch} from "vue";
 
 import {hideModal} from "@/core/helpers/dom";
 import {useI18n} from "vue-i18n";
@@ -368,19 +368,15 @@ const submit = () => {
   });
 };
 
+watch(()=> coursesStore.selectedPackage, (val)=> ta = val.logoPath )
 onMounted(() => {
   gradesStore.loadGrades();
-
-  console.log(coursesStore.selectedPackage)
   coursesStore.getCoursesByPackageId(coursesStore.selectedPackage)
-
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
     if (formRef.value)
       console.log('')
   });
 });
-
-
 
 const rules = ref({
   gradeId: [

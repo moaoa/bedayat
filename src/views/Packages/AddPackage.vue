@@ -8,16 +8,12 @@
       <h3 class="card-title fw-bolder text-dark">{{ t("addPackage") }}</h3>
       <div class="card-toolbar d-flex flex-row">
 
-
-
-
       </div>
     </div>
     <!--end::Header-->
 
     <!--begin::Body-->
     <div class="card-body pt-2">
-
 
       <div v-loading="gradesStore.dataIsLoading">
 
@@ -27,7 +23,6 @@
             :rules="rules"
             ref="formRef"
         >
-
 
           <div class="row">
 
@@ -45,8 +40,6 @@
                              :label="country.name">
                   </el-option>
                 </el-select>
-
-
               </el-form-item>
               <!--end::Input-->
             </div>
@@ -89,7 +82,6 @@
               </el-form-item>
               <!--end::Input-->
             </div>
-
           </div>
 
 
@@ -142,7 +134,6 @@
 
 
                 <!--begin::Input-->
-
                 <el-form-item prop="englishName">
                   <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
                           type="button"
@@ -223,7 +214,6 @@
                                  width="100"
                                  align="center">
                   <template #default="scope">
-
                     <a class="btn btn-icon btn-light-success btn-sm" @click="unSelectCourse(scope.row)">
                       <i class="bi bi-bing"></i>
                     </a>
@@ -277,13 +267,12 @@
       </div>
       <br/>
     </div>
-
   </div>
   <!--end:List Widget 3-->
 </template>
 
 <script lang="ts" setup>
-import {ref, computed, reactive, onMounted, watch} from "vue";
+import {ref, reactive, onMounted, watch} from "vue";
 
 import {useI18n} from "vue-i18n";
 import {useGradesStore} from "@/store/pinia_store/modules/GradesModule";
@@ -291,18 +280,13 @@ import {PackageAddData, SelectCoursesDto} from "@/types/Packages/Packages";
 import SelectCoursesModal from "@/views/Packages/SelectCoursesModal.vue";
 import {ElTable} from "element-plus";
 import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
-import {watchThrottled} from "@vueuse/core";
 const { t} = useI18n();
 
 const gradesStore = useGradesStore();
 const coursesStore = useCoursesStore();
-
 const formRef = ref<null | HTMLFormElement>(null);
-
 const multipleTableRef = ref(null);
-// const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const modalRef = ref<null | HTMLElement>(null);
-
 const formData = reactive<PackageAddData>({
   gradeId: "",
   courseIds: [],
@@ -321,8 +305,6 @@ const unSelectCourse = async (course: SelectCoursesDto) => {
   coursesStore.unselectCourseForPackage(course.id)
 }
 
-
-
 const handleLogoUpload = async (event: Event) => {
   if ((event.target as HTMLInputElement).files) {
     const files = (event.target as HTMLInputElement).files as FileList;
@@ -330,10 +312,41 @@ const handleLogoUpload = async (event: Event) => {
 
     if (!file) return;
     logoName.value = file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
-
      formData.logo = file;
   }
 };
+
+const submit = () => {
+  if (!formRef.value) {
+    return;
+  }
+
+  formRef.value.validate(async (valid) => {
+    if (valid) {
+      formData.courseIds = coursesStore.selectedCoursesForPackage.map(c => c.id);
+      console.log("in the validatieon ");
+      await coursesStore.createPackage(formData)
+    }
+  });
+};
+
+onMounted(() => {
+  coursesStore.selectedPackage = {}
+  coursesStore.selectedCoursesForPackage = []
+  gradesStore.loadGrades();
+  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
+    if (formRef.value)
+      console.log('')
+  });
+});
+
+///// watchers
+
+watch(()=> gradesStore.grades, (val)=> {
+  if (val.length > 0) formData.gradeId = val[0].id
+})
+watch(()=> formData.gradeId, (val)=> coursesStore.selectedGradeId  = val)
+////////////////////validators
 
 const rules = ref({
   gradeId: [
@@ -375,36 +388,6 @@ const rules = ref({
   ],
 });
 
-const submit = () => {
-  if (!formRef.value) {
-    return;
-  }
-
-  formRef.value.validate(async (valid) => {
-    if (valid) {
-      formData.courseIds = coursesStore.selectedCoursesForPackage.map(c => c.id);
-      console.log("in the validatieon ");
-      await coursesStore.createPackage(formData)
-
-    }
-  });
-};
-
-onMounted(() => {
-
-  gradesStore.loadGrades();
-  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
-    if (formRef.value)
-      console.log('')
-  });
-});
-
-///// watchers
-
-watch(()=> gradesStore.grades, (val)=> {
-  if (val.length > 0) formData.gradeId = val[0].id
-})
-watch(()=> formData.gradeId, (val)=> coursesStore.selectedGradeId  = val)
 
 
 </script>

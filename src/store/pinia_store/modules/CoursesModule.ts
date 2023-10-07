@@ -42,7 +42,6 @@ export const useCoursesStore = defineStore({
             errorMessage: "",
             errorLoadingData: false,
 
-
             //// packages
             selectedCoursesForPackage: [] as CourseSelection[],
             coursesToSelectToAddToPackage: [] as CourseSelection[],
@@ -50,11 +49,8 @@ export const useCoursesStore = defineStore({
             selectedPackage: useLocalStorage<GetPackagesResponseDto>("selectedPackage", {}),
             selectedGradeId: useLocalStorage<string>("selectedGradeId", ''),
             selectedPackageState: PackageStatus.Active as PackageStatus,
-
-
         });
     },
-
     actions: {
         async loadCourses(params: CourseFilters) {
             this.dataIsLoading = true;
@@ -130,13 +126,7 @@ export const useCoursesStore = defineStore({
 
 
 
-
-
-
-
         //////////////////////Packages
-
-
 
         async loadCoursesToAddToPackage(courseName: string) {
 
@@ -249,7 +239,6 @@ export const useCoursesStore = defineStore({
                 toaster.Success("Course remvoed Successfully")
 
                 await this.coursesStore.getCoursesByPackageId(this.selectedPackage)
-
             } catch (error) {
 
                 console.log(error)
@@ -288,6 +277,7 @@ export const useCoursesStore = defineStore({
                     this.selectPackage(result[0]);
                 else
                     this.selectPackage({});
+
             } catch (error) {
                 console.log(error)
             }
