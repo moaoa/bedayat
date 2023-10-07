@@ -30,31 +30,6 @@
 
 
           <div class="row">
-
-            <div class=" col-4 ">
-              <!--begin::Label-->
-              <label class="required fs-6 fw-bold mb-2">
-                {{ $t("grades") }}</label
-              >
-              <!--end::Label-->
-
-              <!--begin::Input-->
-
-<!--              TODO this is grade not gradeSubject-->
-              <el-form-item prop="selectedGrade">
-                <el-select v-model="formData.gradeSubjectId" clearable filterable>
-                  <el-option v-for="country in gradesStore.grades" :key="country.id" :value="country.id"
-                             :label="country.name">
-                  </el-option>
-                </el-select>
-
-
-              </el-form-item>
-              <!--end::Input-->
-            </div>
-          </div>
-
-          <div class="row">
             <div class="col-4">
               <!--begin::Label-->
               <label class="required fs-6 fw-bold mb-2">
@@ -119,7 +94,6 @@
                 {{ $t("englishDescription") }}</label
               >
               <!--end::Label-->
-
               <!--begin::Input-->
               <el-form-item prop="englishDescription">
                 <el-input
@@ -133,22 +107,19 @@
           </div>
           <div class="row">
             <div class="col-4">
-
-
               <div class="col-6 mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("englishName") }}</label
+                  {{ $t("uploadLogo") }}</label
                 >
                 <!--end::Label-->
-
-
                 <!--begin::Input-->
-
                 <el-form-item prop="englishName">
                   <button class="btn btn-sm btn-light-primary mx-1 p-3 " style="width: 350px"
+                          type="button"
                           onclick="document.getElementById('fileElem').click()">
-                    <input type="file" id="fileElem" hidden="hidden" @change="handleLogoUpload" accept="image/*">
+                    <input type="file" id="fileElem" hidden="hidden" @change="handleLogoUpload"
+                           accept="image/*">
                     <span class="bi bi-image">
                     </span>
                     <span class="mx-5"> {{ ta }}</span>
@@ -161,7 +132,6 @@
             </div>
             <div class="col-4">
 
-
               <div class="col-6 mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
@@ -171,29 +141,22 @@
 
                 <!--begin::Input-->
 
-                <!--                <el-form-item prop="selectCourses">-->
+                <!-- <el-form-item prop="selectCourses">-->
                 <button class="btn btn-sm btn-light-primary mx-1 p-3 " style="width: 350px"
+                        type="button"
                         data-bs-toggle="modal"
-                        :data-bs-target="`#kt_modal_select_courses`"
+                        :data-bs-target="`#kt_modal_select_courses_update`"
                 >
-
                   <span class="mx-5"> {{ ("selectCourses") }}</span>
-
                 </button>
-
               </div>
-
             </div>
           </div>
 
-
           <div class="row">
-
             <div class="col-8">
-
               <el-table
                   :data="coursesStore.selectedCoursesForPackage"
-
                   class="my-4 mx-4 "
                   max-width
               >
@@ -277,15 +240,10 @@
           <!--end::Modal footer-->
         </el-form>
 
-        <SelectCoursesModal  ref="multipleTableRef"/>
+        <SelectCoursesToUpdateModal  ref="multipleTableRef" />
       </div>
       <br/>
-      <!-- start::pagination -->
-      <!--      <el-pagination v-if="!gradesStore.dataIsLoading && !gradesStore.errorLoadingData-->
-      <!--        " background layout="total, sizes, prev, pager, next, jumper" :total="gradesStore.total"-->
-      <!--                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"-->
-      <!--                     :page-sizes="[25, 100, 200, 300, 400]"/>-->
-      <!-- end::pagination -->
+
     </div>
 
   </div>
@@ -293,16 +251,19 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, computed, reactive, onMounted, watch} from "vue";
+import {ref,  reactive, onMounted} from "vue";
 
+import {hideModal} from "@/core/helpers/dom";
 import {useI18n} from "vue-i18n";
 import {useGradesStore} from "@/store/pinia_store/modules/GradesModule";
-import {Package, PackageAddData, SelectCoursesDto} from "@/types/Packages/Packages";
-import SelectCoursesModal from "@/views/Packages/SelectCoursesModal.vue";
+import {
+  PackageUpdateData,
+  SelectCoursesDto
+} from "@/types/Packages/Packages";
 import {ElTable} from "element-plus";
 import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
 import {useRoute} from "vue-router";
-
+import SelectCoursesToUpdateModal from "@/views/Packages/SelectCoursesToUpdateModal.vue";
 const route = useRoute()
 const {t} = useI18n();
 
@@ -314,12 +275,24 @@ const formRef = ref<null | HTMLFormElement>(null);
 const multipleTableRef = ref(null);
 const modalRef = ref<null | HTMLElement>(null);
 
-const formData = reactive<Package>(coursesStore.selectedPackage!);
 
+const formData = reactive<PackageUpdateData>({
+  packageId: coursesStore.selectedPackage!.id,
+  description: coursesStore.selectedPackage!.description,
+  englishDescription: coursesStore.selectedPackage!.englishDescription,
+  englishTitle: coursesStore.selectedPackage!.englishTitle,
+  title: coursesStore.selectedPackage!.title,
+  logo: null
+});
 let ta = ref<string>(t('uploadLogo'))
+
+
+const deletePackageModalRef = ref<{ modalRef: HTMLElement } | null>(null);
+
 
 const unSelectCourse = async (course: SelectCoursesDto) => {
 
+  coursesStore.removeCourseFromPackage(course)
   (multipleTableRef.value! as any).toggleSelection([course])
   coursesStore.unselectCourseForPackage(course.id)
 }
@@ -337,6 +310,32 @@ const handleLogoUpload = async (event: Event) => {
      formData.logo = file;
   }
 };
+
+const submit = () => {
+  if (!formRef.value) {
+    return;
+  }
+
+  formRef.value.validate(async (valid) => {
+    if (valid) {
+
+      await coursesStore.updatePackage(formData)
+
+    }
+  });
+};
+
+onMounted(() => {
+  gradesStore.loadGrades();
+  coursesStore.getCoursesByPackageId(coursesStore.selectedPackage!.pa)
+
+  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
+    if (formRef.value)
+      console.log('')
+  });
+});
+
+
 
 const rules = ref({
   gradeId: [
@@ -377,34 +376,9 @@ const rules = ref({
     }
   ],
 
-
 });
 
-const submit = () => {
-  if (!formRef.value) {
-    return;
-  }
 
-  formRef.value.validate(async (valid) => {
-    if (valid) {
-      formData.courseIds = coursesStore.selectedCoursesForPackage.map(c => c.id);
-
-      await coursesStore.createPackage(formData)
-
-    }
-  });
-};
-
-onMounted(() => {
-
-
-  gradesStore.loadGrades();
-
-  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
-    if (formRef.value)
-      console.log('')
-  });
-});
 
 </script>
 <style lang="scss">

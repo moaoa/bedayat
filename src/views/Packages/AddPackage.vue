@@ -136,7 +136,7 @@
               <div class="col-6 mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("englishName") }}</label
+                  {{ $t("uploadLogo") }}</label
                 >
                 <!--end::Label-->
 
@@ -145,12 +145,12 @@
 
                 <el-form-item prop="englishName">
                   <button class="btn btn-sm btn-light-primary mx-1 p-3 " style="width: 350px"
+                          type="button"
                           onclick="document.getElementById('fileElem').click()">
                     <input type="file" id="fileElem" hidden="hidden" @change="handleLogoUpload" accept="image/*">
                     <span class="bi bi-image">
                     </span>
-                    <span class="mx-5"> {{ ta }}</span>
-
+                    <span class="mx-5"> {{ logoName }}</span>
                   </button>
                 </el-form-item>
                 <!--end::Input-->
@@ -166,22 +166,24 @@
                   {{ $t("selectCourses") }}</label
                 >
                 <!--end::Label-->
-
                 <!--begin::Input-->
-
                 <!--                <el-form-item prop="selectCourses">-->
                 <button class="btn btn-sm btn-light-primary mx-1 p-3 " style="width: 350px"
+                        type="button"
                         data-bs-toggle="modal"
                         :data-bs-target="`#kt_modal_select_courses`"
                 >
-
-                  <span class="mx-5"> {{ ("selectCourses") }}</span>
-
+                  <span class="mx-5"> {{ t("selectCourses") }}</span>
                 </button>
-
               </div>
 
             </div>
+
+
+
+
+
+
           </div>
 
 
@@ -299,8 +301,8 @@ import {PackageAddData, SelectCoursesDto} from "@/types/Packages/Packages";
 import SelectCoursesModal from "@/views/Packages/SelectCoursesModal.vue";
 import {ElTable} from "element-plus";
 import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
-
-const {t} = useI18n();
+import {watchThrottled} from "@vueuse/core";
+const { t} = useI18n();
 
 const gradesStore = useGradesStore();
 const coursesStore = useCoursesStore();
@@ -321,7 +323,7 @@ const formData = reactive<PackageAddData>({
   logo: null
 });
 
-let ta = ref<string>(t('uploadLogo'))
+let logoName = ref<string>(t('uploadLogo'))
 
 const unSelectCourse = async (course: SelectCoursesDto) => {
 
@@ -337,7 +339,7 @@ const handleLogoUpload = async (event: Event) => {
     const file = files.length > 0 ? files[0] : null;
 
     if (!file) return;
-    ta.value = file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
+    logoName.value = file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
 
      formData.logo = file;
   }
@@ -381,8 +383,6 @@ const rules = ref({
       trigger: ["blur", "change"],
     }
   ],
-
-
 });
 
 const submit = () => {
@@ -393,7 +393,7 @@ const submit = () => {
   formRef.value.validate(async (valid) => {
     if (valid) {
       formData.courseIds = coursesStore.selectedCoursesForPackage.map(c => c.id);
-
+      console.log("in the validatieon ");
       await coursesStore.createPackage(formData)
 
     }
@@ -408,6 +408,11 @@ onMounted(() => {
       console.log('')
   });
 });
+
+///// watchers
+
+watch(()=> formData.gradeId, (val)=> coursesStore.selectedGradeId  = val)
+
 
 </script>
 <style lang="scss">

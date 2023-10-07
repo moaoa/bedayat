@@ -1,40 +1,56 @@
 import {defineStore} from "pinia";
-import {Course, NewCourseData, CourseFilters} from "@/types/Courses";
+import {Course, CourseFilters, NewCourseData} from "@/types/Courses";
 
 import coursesService from "@/core/repositories/CoursesService";
-import {Package, PackageAddData, PackageFilter, SelectCoursesDto} from "@/types/Packages/Packages";
-import {UnwrapNestedRefs, UnwrapRef} from "vue";
-import CoursesService from "@/core/repositories/CoursesService";
+import {
+    CourseSelection,
+    GetPackagesResponseDto,
+    Package,
+    PackageAddData,
+    PackageFilter,
+    PackageStatus, PackageUpdateData,
+    SelectCoursesDto
+} from "@/types/Packages/Packages";
+import PackagesService from "@/core/services/PackagesService";
+import {PagedResult} from "@/types/ApiResponse";
+import toaster from "@/core/services/Toaster";
+
 
 export const useCoursesStore = defineStore({
     id: "coursesStore",
-    state: () => ({
-        courses: [] as Course[],
-        pagination: {
-            total: 0,
-            currentPage: 1,
-            currentSize: 0,
-        },
-        searchValue: "",
+    state: () => {
+        return ({
+            courses: [] as Course[],
+            pagination: {
+                total: 0,
+                currentPage: 1,
+                currentSize: 0,
+            },
+            searchValue: "",
 
-        isSwitchingCourseStatus: false,
+            isSwitchingCourseStatus: false,
 
-        selectedCourse: null as Course | null,
-        dataIsLoading: false,
-        isCreatingNewItem: false,
-        isUpdatingItem: false,
-        isDeletingItem: false,
+            selectedCourse: null as Course | null,
+            dataIsLoading: false,
+            isCreatingNewItem: false,
+            isUpdatingItem: false,
+            isDeletingItem: false,
 
-        errorMessage: "",
-        errorLoadingData: false,
+            errorMessage: "",
+            errorLoadingData: false,
 
 
-        //// packages
-        selectedCoursesForPackage: [] as SelectCoursesDto[],
-        coursesToSelectToAddToPackage: tableData as SelectCoursesDto[],
-        packages: [] as Package[],
-        selectedPackage: null as Package | null,
-    }),
+            //// packages
+            selectedCoursesForPackage: [] as CourseSelection[],
+            coursesToSelectToAddToPackage: [] as CourseSelection[],
+            packages: {} as PagedResult<GetPackagesResponseDto>,
+            selectedPackage: null as GetPackagesResponseDto | null,
+            selectedGradeId: "",
+            selectedPackageState: PackageStatus.Active as PackageStatus,
+
+
+        });
+    },
 
     actions: {
         async loadCourses(params: CourseFilters) {
@@ -108,51 +124,161 @@ export const useCoursesStore = defineStore({
                 this.isDeletingItem = false;
             }
         },
-        async loadCoursesToAddToPackage(value: string): Promise<SelectCoursesDto[]> {
+        async loadCoursesToAddToPackage(courseName: string) {
 
-            this.coursesToSelectToAddToPackage = [];
-            return []
+            console.log(" in the store")
+            console.log(courseName)
+            console.log(this.selectedGradeId)
+
+            const result = await PackagesService.getCoursesForPackageSelection(courseName, this.selectedGradeId)
+            this.coursesToSelectToAddToPackage = result.data
+
+            console.log(this.coursesToSelectToAddToPackage)
         },
         async unselectCourseForPackage(id: string) {
             this.selectedCoursesForPackage = this.selectedCoursesForPackage.filter(x => x.id != id);
         },
         async createPackage(data: PackageAddData) {
-
+            this.dataIsLoading = true;
             try {
-                const result = await CoursesService.createPackage(data);
 
+                const formData = new FormData();
+                for (let newGradeSubjectDataKey in data) {
+                    formData.append(newGradeSubjectDataKey, data[newGradeSubjectDataKey] as Blob);
+                }
+                console.log(data)
+                formData.append('chaptersCount', '1');
+                console.log("tthis is form data")
+                console.log(formData)
+                const result = await PackagesService.createPackage(formData);
+                console.log(result)
+                toaster.Success("created successfully");
             } catch (error) {
-
+                console.log(error)
+            } finally {
+                this.dataIsLoading = false;
             }
         },
         async loadPackages(params: PackageFilter) {
             this.dataIsLoading = true;
             this.errorLoadingData = false;
-
             try {
-
-                this.packages = dummyData;
-                // const items = await coursesService.getPackages(params);
-
-                // this.packages = items;
-
+                const result = await PackagesService.getPackages(params)
+                this.packages = result;
             } catch (e) {
                 console.log((e as Error).message);
+                this.packages = []
             } finally {
                 this.dataIsLoading = false;
             }
         },
-         getPackageById(id: string){
+        getPackageById(id: string) {
 
-            return this.packages.find(x=> x.id == id)
+            return this.packages.results.find(x => x.id == id)
 
         },
-        selectPackage (packageRow: Package){
+        selectPackage(packageRow: GetPackagesResponseDto) {
             this.selectedPackage = packageRow
         },
-        unSelectPackage (packageRow: Package){
+        unSelectPackage(packageRow: GetPackagesResponseDto) {
             this.selectedPackage = null
         },
+        async updatePackage(packageUpdate: PackageUpdateData) {
+            this.dataIsLoading = true;
+            try {
+
+                const formData = new FormData();
+                for (let newGradeSubjectDataKey in packageUpdate) {
+                    console.log(newGradeSubjectDataKey)
+                    console.log(packageUpdate[newGradeSubjectDataKey])
+                    formData.append(newGradeSubjectDataKey, packageUpdate[newGradeSubjectDataKey] as Blob);
+                }
+
+
+                console.log(packageUpdate)
+                console.log(formData)
+                console.log("=====================")
+
+
+
+                await PackagesService.updatePackage(formData);
+
+                toaster.Success("updated successfully");
+            } catch (error) {
+                console.log(error)
+            } finally {
+                this.dataIsLoading = false;
+            }
+        },
+        async deletePackage() {
+            this.dataIsLoading = true;
+            this.isDeletingItem = true;
+            try {
+
+                console.log('=============== in the module')
+                console.log(this.selectedPackage)
+                await PackagesService.deletePackage(this.selectedPackage?.id)
+                toaster.Success("deleted successfully");
+            } catch (error) {
+                console.log(error)
+            } finally {
+                this.dataIsLoading = false;
+                this.isDeletingItem = false;
+            }
+
+        },
+        async removeCourseFromPackage(course: CourseSelection) {
+            try {
+
+                const request = {
+                    packageId: this.selectedPackage.id,
+                    courseIds: [course.id]
+                }
+
+                await PackagesService.removeCourseFromPackage(request)
+                this.selectedCoursesForPackage.filter(x=> x.id != course.id)
+
+
+            } catch (error) {
+
+                console.log(error)
+            }
+            finally {
+
+            }
+        },
+
+        async addCourseToPackage(course: CourseSelection[]) {
+            try {
+
+                const request = {
+                    packageId: this.selectedPackage.id,
+                    courseIds: [...course.map(x=> x.id)]
+                }
+
+                console.log(request)
+
+                await PackagesService.addCoursesToPackage(request)
+                toaster.Success("Courses Added Successfully")
+
+            } catch (error) {
+
+                console.log(error)
+            }
+            finally {
+
+            }
+        },
+        async getCoursesByPackageId(id: string){
+
+            try {
+
+                PackagesService.getPackageById(id)
+            }catch (error)
+            {}
+        }
+
+
     },
 });
 
@@ -167,9 +293,7 @@ const dummyData: Package[] = [
         price: 9.99,
         logoPath: "/images/package1.png",
         packageStatus: "active",
-        courses: [
-
-        ],
+        courses: [],
         packageType: "basic",
         createdAt: "2023-10-01",
         lastUpdated: "2023-10-01",
@@ -185,8 +309,7 @@ const dummyData: Package[] = [
         price: 19.99,
         logoPath: "/images/package2.png",
         packageStatus: "inactive",
-        courses: [
-        ],
+        courses: [],
         packageType: "premium",
         createdAt: "2023-10-02",
         lastUpdated: "2023-10-03",
@@ -201,9 +324,7 @@ const dummyData: Package[] = [
         price: 14.99,
         logoPath: "/images/package3.png",
         packageStatus: "active",
-        courses: [
-
-        ],
+        courses: [],
         packageType: "basic",
         createdAt: "2023-10-04",
         lastUpdated: "2023-10-04",
@@ -218,9 +339,7 @@ const dummyData: Package[] = [
         price: 24.99,
         logoPath: "/images/package4.png",
         packageStatus: "active",
-        courses: [
-
-        ],
+        courses: [],
         packageType: "premium",
         createdAt: "2023-10-05",
         lastUpdated: "2023-10-05",
@@ -235,9 +354,7 @@ const dummyData: Package[] = [
         price: 12.99,
         logoPath: "/images/package5.png",
         packageStatus: "inactive",
-        courses: [
-
-        ],
+        courses: [],
         packageType: "basic",
         createdAt: "2023-10-06",
         lastUpdated: "2023-10-06",

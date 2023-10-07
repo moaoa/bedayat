@@ -8,7 +8,6 @@
       <h3 class="card-title fw-bolder text-dark">{{ t("Packages") }}</h3>
       <div class="card-toolbar d-flex flex-row">
 
-
         <a class="btn btn-icon btn-light-primary btn-sm me-3"
            @click="coursesStore.loadPackages(searchFilter)">
           <i class="bi bi-arrow-repeat"></i>
@@ -23,16 +22,17 @@
         </a>
 
 
+
       </div>
     </div>
     <!--end::Header-->
-
     <!--begin::Body-->
+    <!--    {{packagesTable}}-->
     <div class="card-body pt-2">
       <div class="row">
 
 
-        <div class="col-md-6 col-lg-4 col-7">
+        <div class="col-md-3 col-lg-2 col-7">
           <label class="fs-6 fw-bold mb-2">
             {{ $t("grades") }}
           </label>
@@ -42,19 +42,30 @@
             </el-option>
           </el-select>
         </div>
+        <div class="col-md-3 col-lg-2 col-7">
+          <label class="fs-6 fw-bold mb-2">
+            {{ $t("state") }}
+          </label>
+          <el-select v-model="coursesStore.selectedPackageState" clearable filterable>
+            <el-option v-for="status in Object.values(PackageStatus).slice(0,Object.values(PackageStatus).length/2 )"
+                       :key="status" :value="PackageStatus[status]"
+                       :label="status">
+            </el-option>
+          </el-select>
+        </div>
 
 
         <div class="col-md-6 col-lg-4 col-7">
           <label class=" fs-6 fw-bold mb-2">
             {{ $t("name") }}
           </label>
-            <el-input
-                id="input_search_package"
-                v-model="searchFilter.name"
-                type="text"
-                placeholder=""
-                clearable
-            />
+          <el-input
+              id="input_search_package"
+              v-model="searchFilter.name"
+              type="text"
+              placeholder=""
+              clearable
+          />
         </div>
       </div>
       <div class="row">
@@ -78,26 +89,23 @@
                 <b> {{ scope.row.englishTitle }}</b>
               </template>
             </el-table-column>
+
+            <el-table-column prop="name" :label="$t('coursesCount')" align="center" header-align="center">
+              <template #default="scope">
+                <b> {{ scope.row.coursesCount }}</b>
+              </template>
+            </el-table-column>
+
+
             <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')"
                              align="center"
                              header-align="center"/>
             <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"
                              align="center" header-align="center"/>
             <el-table-column :label="$t('edit')" align="center" header-align="center">
-<!--              <template #default="scope">-->
-<!--                -->
-<!--                <a class="btn btn-icon btn-light-success btn-sm" @click="updatePackage(scope.row)"-->
-<!--                   data-bs-toggle="modal" :data-bs-target="`#update_locality_modal`">-->
-<!--                  <i class="bi bi-pencil"></i>-->
-<!--                </a>-->
-
-<!--         -->
-
-
-<!--              </template>-->
-
-              <template v-slot="scope: { row: Package, $index: number }">
-                <RouterLink @click="coursesStore.selectPackage(scope.row)"
+              <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
+                <RouterLink
+                    @click="()=>{ coursesStore.selectPackage(scope.row); coursesStore.selectedGradeId= searchFilter.gradeId}"
                     :to="{
                   name: 'UpdatePackages',
                   params: { id: scope.row.id },
@@ -115,14 +123,14 @@
             </el-table-column>
 
             <el-table-column :label="$t('remove')" width="90" align="center" header-align="center">
-<!--              <template #default="scope: { row: Locality, $index: number }">-->
-<!--                <div class="flex">-->
-<!--                  <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"-->
-<!--                     :data-bs-target="`#kt_modal_delete_locality`" @click="localitiesStore.selectLocality(scope.row)">-->
-<!--                    <i class="bi bi-trash"></i>-->
-<!--                  </a>-->
-<!--                </div>-->
-<!--              </template>-->
+              <template #default="scope: { row: GetPackagesResponseDto, $index: number }">
+                <div class="flex">
+                  <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
+                     :data-bs-target="`#kt_modal_delete_package`" @click="coursesStore.selectPackage(scope.row)">
+                    <i class="bi bi-trash"></i>
+                  </a>
+                </div>
+              </template>
             </el-table-column>
           </el-table>
           <!-- end::table -->
@@ -139,37 +147,44 @@
 
     </div>
   </div>
-    <!--end:List Widget 3-->
+
+  <DeletePackage ref="deletePackageModalRef" @packageDeleted="packageDeleted"></DeletePackage>
+
+  <!--end:List Widget 3-->
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, reactive, ref, watch} from "vue";
-import {Locality, NewLocalityData} from "@/types/Localities";
+import {computed, onMounted, reactive, ref} from "vue";
 import {formatDate} from "@/core/helpers/formatDate";
 import {useI18n} from "vue-i18n";
 import {setCurrentPageBreadcrumbs} from "@/core/helpers/breadcrumb";
 import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
 import {useGradesStore} from "@/store/pinia_store/modules/GradesModule";
-import {Package, PackageFilter} from "@/types/Packages/Packages";
-import coursesService from "@/core/repositories/CoursesService";
+import {GetPackagesResponseDto, PackageFilter, PackageStatus} from "@/types/Packages/Packages";
 import {useRouter} from "vue-router";
-import {Grade} from "@/types/Grades";
+import {Locality} from "@/types/Localities";
+import toaster from "@/core/services/Toaster";
+import {hideModal} from "@/core/helpers/dom";
+import Toaster from "@/core/services/Toaster";
+import DeleteCountry from "@/views/Countries/DeleteCountry.vue";
+import DeletePackage from "@/views/Packages/DeletePackage.vue";
 
 
 ////////// Declarations///////////////////
 const {t} = useI18n();
 const coursesStore = useCoursesStore();
 const gradesStore = useGradesStore();
-const packagesTable = computed(() => coursesStore.packages);
+const packagesTable = computed(() => coursesStore.packages.results);
 const router = useRouter();
 
+const deletePackageModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const formatter = (key: keyof Locality) => {
   return (locality: Locality) => formatDate(locality[key]);
 };
 const searchFilter = reactive<PackageFilter>({
-  name:"",
-  gradeId:"",
-  status: true
+  name: "",
+  gradeId: "",
+  status: PackageStatus.Active
 });
 
 
@@ -179,7 +194,7 @@ const addPackage = () => {
   router.push({name: "AddPackages"})
   console.log("Package added ")
 }
-const updatePackage = (packageRow: Package) => {
+const updatePackage = (packageRow: GetPackagesResponseDto) => {
   console.log("Package updated ")
   // router.push({name: "UpdatePackage",
   // params{
@@ -187,7 +202,10 @@ const updatePackage = (packageRow: Package) => {
   // }})
 
 }
-
+const packageDeleted = async () => {
+  hideModal(deletePackageModalRef.value!.modalRef!);
+  Toaster.Success("Success!", "Package Deleted Successfully");
+};
 setCurrentPageBreadcrumbs(t("Packages"), [t("Packages")]);
 
 onMounted(() => {
@@ -195,11 +213,15 @@ onMounted(() => {
 
   document.getElementById('input_search_package')?.addEventListener('keydown', async (event) => {
     if (event.keyCode === 13 || event.key === 'Enter') {
-      await coursesStore.loadPackages(searchFilter)
+      console.log("entered")
+      if (searchFilter.gradeId)
+        await coursesStore.loadPackages(searchFilter)
+      else
+        toaster.error("please Select Grade")
     }
     // countriesStore.loadCountries();
-  })});
-
+  })
+});
 
 
 </script>

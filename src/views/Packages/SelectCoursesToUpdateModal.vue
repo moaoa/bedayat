@@ -1,12 +1,12 @@
 <template>
   <div
       class="modal fade"
-      id="kt_modal_select_courses"
+      id="kt_modal_select_courses_update"
       tabindex="-1"
       aria-hidden="true"
       ref="modalRef"
   >
-    {{coursesStore.selectedCoursesForPackage}}
+
     <div class="modal-dialog modal-dialog-centered mw-900px">
       <div class="modal-content ">
         <div class="modal-header" id="kt_modal_add_customer_header">
@@ -15,7 +15,6 @@
               id="kt_modal_add_customer_close"
               data-bs-dismiss="modal"
               class="btn btn-icon btn-sm btn-active-icon-primary "
-
           >
             <span class="svg-icon svg-icon-1">
               <inline-svg src="/media/icons/duotune/arrows/arr061.svg"/>
@@ -23,8 +22,14 @@
           </div>
           <!--end::Close-->
         </div>
-        <div>
 
+
+          <el-form
+              @submit.prevent="submit()"
+              ref="formRef"
+          >
+
+            <div>
           <div class="row">
             <div class="col-4 mt-2 mx-10">
 
@@ -40,7 +45,7 @@
           </div>
           <div>
 
-              <div class="modal-body py-2 px-lg-17 overflow-scroll" style="height: 70vh;">
+              <div class="modal-body py-2 px-lg-17 overflow-scroll" style="height: 50vh;">
 
                 <el-table
                     max-width
@@ -56,7 +61,7 @@
                       <img :src="scope.row.logoPath">
                     </template>
                   </el-table-column>
-                  <el-table-column property="name" label="Name" width="180"
+                  <el-table-column property="name" :label="t('name')" width="180"
                                    header-align="center"
                                    align="right"
                   />
@@ -80,6 +85,46 @@
 
           </div>
         </div>
+
+        <!--begin::Modal footer-->
+        <div class="modal-footer flex-center">
+          <!--begin::Button-->
+          <button
+              type="reset"
+              id="kt_modal_add_customer_cancel"
+              class="btn btn-light me-3 btn-sm"
+              style="width: 100px"
+          >
+            {{ $t("cancel") }}
+          </button>
+          <!--end::Button-->
+
+          <!--begin::Button-->
+          <button
+              :data-kt-indicator="coursesStore.dataIsLoading ? 'on' : null"
+              class="btn btn-sm btn-primary"
+              type="submit"
+              style="width: 200px"
+          >
+              <span v-if="!coursesStore.dataIsLoading" class="indicator-label">
+                {{ $t("save") }}
+                <span class="svg-icon svg-icon-3 ms-2 me-0">
+                  <inline-svg src="icons/duotune/arrows/arr064.svg"/>
+                </span>
+              </span>
+            <span v-if="coursesStore.dataIsLoading" class="indicator-progress">
+                {{ $t("pleaseWait") }}...
+
+                <span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+          </button>
+          <!--end::Button-->
+        </div>
+        <!--end::Modal footer-->
+
+        </el-form>
         <!--end::Form-->
       </div>
     </div>
@@ -99,14 +144,10 @@ import {CourseSelection, SelectCoursesDto} from "@/types/Packages/Packages";
 const {t} = useI18n();
 const coursesSearchValue = ref<string>("")
 const coursesStore = useCoursesStore();
-
-
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
-
-
-
+const courseSelectionToAdd = ref<SelectCoursesDto[]>();
 const toggleSelection = (rows?: SelectCoursesDto[]) => {
   if (rows) {
     rows.forEach((row) => {
@@ -123,14 +164,26 @@ defineExpose({
   multipleTableRef,
   toggleSelection
 })
+// eslint-disable-next-line no-undef
+const emit = defineEmits<{
+  (event: "courseAdded");
+}>();
+
 const submit = () => {
-  if (!formRef.value) {
+  if (!formRef.value)
     return;
-  }
+
+  coursesStore.addCourseToPackage(courseSelectionToAdd.value)
+  coursesStore.selectedCoursesForPackage = courseSelectionToAdd.value;
+  document.getElementById('kt_modal_add_customer_close')?.click()
+
+  emit("courseAdded");
+  // close modal
 };
 const handleSelectionChange = (val: CourseSelection[]) => {
   console.log("selection change")
-  coursesStore.selectedCoursesForPackage = val;
+  courseSelectionToAdd.value = val
+  // coursesStore.selectedCoursesForPackage = val;
 }
 
 onMounted(() => {
@@ -149,26 +202,6 @@ onMounted(() => {
 
 /////////////// validation
 
-const rules = ref({
-  name: [
-    {required: true, message: t("required"), trigger: "blur"},
-    {
-      required: true,
-      pattern: /^[ء-ي\s]+$/,
-      message: t("nameMustBeArabic"),
-      trigger: ["blur", "change"],
-    }
-  ],
-  englishName: [
-    {
-      required: true,
-      pattern: /^[A-Za-z\s]+$/,
-      message: t("nameMustBeEnglish"),
-      trigger: ["blur", "change"],
-    }
-  ],
-  countryId: [{required: true, message: t("required"), trigger: "blur"}],
-});
 </script>
 <style lang="scss">
 .el-select {

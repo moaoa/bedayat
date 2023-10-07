@@ -135,31 +135,13 @@ const DocMenuConfig = [
         sub: [
           {
             heading: "packages",
-            route: "/dashboard/packages/packages",
+            route: "/dashboard/packages",
             svgIcon: "/media/svg/bug.svg",
             fontIcon: "bi-layers",
             requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-          },
-          {
-            heading: "addPackages",
-            route: "/dashboard/packages/addPackages",
-            svgIcon: "/media/svg/bug.svg",
-            fontIcon: "bi-layers",
-            requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-          },
-
-          {
-            heading: "updatePackages",
-            route: "/dashboard/packages/updatePackages",
-            svgIcon: "/media/svg/bug.svg",
-            fontIcon: "bi-layers",
-            requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-          },
-
-
+          }
         ],
       },
-
       {
         sectionTitle: "Reports",
         svgIcon: "/media/icons/duotune/general/gen019.svg",

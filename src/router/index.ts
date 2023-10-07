@@ -253,7 +253,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/dashboard/packages/packages",
+        path: "/dashboard/packages",
         name: "ViewPackages",
         component: () => import("@/views/Packages/Package.vue"),
         meta: {

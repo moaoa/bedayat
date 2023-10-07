@@ -15,7 +15,7 @@ export class AppConstants {
 
   static COURSES_URL = `${AppConstants.MANAGEMENT_URL}/Courses`;
 
-  static Packages_URL = `${AppConstants.MANAGEMENT_URL}/Packages`;
+  static Packages_URL = `${AppConstants.MANAGEMENT_URL}/Package`;
 
   static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
   static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;
