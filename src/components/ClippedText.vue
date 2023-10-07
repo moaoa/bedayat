@@ -26,5 +26,4 @@ const props = defineProps({
     default: 20,
   },
 });
-console.log(props);
 </script>

@@ -111,6 +111,33 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/dashboard/updateCourse/:id",
+        name: "UpdateCourse",
+        component: () => import("@/views/Courses/UpdateCoursePage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCourses,
+        },
+      },
+      {
+        path: "/dashboard/CourseSections/:id",
+        name: "CourseSections",
+        component: () => import("@/views/CourseSections/CourseSections.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCourses,
+        },
+      },
+      {
+        path: "/dashboard/Lessons/:id",
+        name: "CourseLessons",
+        component: () => import("@/views/Lessons/Lessons.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadCourses,
+        },
+      },
+      {
         path: "/dashboard/Subjects",
         name: "Subjects",
         component: () => import("@/views/Subjects/Subjects.vue"),

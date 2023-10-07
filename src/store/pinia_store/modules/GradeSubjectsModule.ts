@@ -2,27 +2,15 @@ import { defineStore } from "pinia";
 import { Grade, NewGradeData } from "@/types/Grades";
 
 import gradesService from "@/core/repositories/GradesService";
-import {GradeSubject, NewGradeSubjectData} from "@/types/GradeSubjects";
-import {Subject} from "@/types/Subjects";
+import { GradeSubject, NewGradeSubjectData } from "@/types/GradeSubjects";
+import { Subject } from "@/types/Subjects";
 import gradeSubjectsService from "@/core/repositories/GradeSubjectsService";
 import GradeSubjectsService from "@/core/repositories/GradeSubjectsService";
 
 export const useGradeSubjectsStore = defineStore({
   id: "gradeSubjectsStore",
   state: () => ({
-    gradeSubjects: [
-      {
-        id: '1324124',
-        subject:{} as Subject,
-        subjectId: 'string',
-        grade: {} as Grade,
-        gradeId: 'string',
-        bookLink: "string",
-        logo: "logoPath",
-        createdAt: new Date().toDateString(),
-        lastUpdated:  new Date().toDateString(),
-      },
-    ] as GradeSubject[],
+    gradeSubjects: [] as GradeSubject[],
     pagination: {
       total: 0,
       currentPage: 1,
@@ -45,10 +33,11 @@ export const useGradeSubjectsStore = defineStore({
       this.errorLoadingData = false;
 
       try {
-        const items = await gradeSubjectsService.getGradeSubjectByGradeId(this.selectedGradeId);
+        const items = await gradeSubjectsService.getGradeSubjectByGradeId(
+          this.selectedGradeId
+        );
 
         this.gradeSubjects = items.data.data;
-
       } catch (e) {
         console.log((e as Error).message);
       } finally {
@@ -57,6 +46,9 @@ export const useGradeSubjectsStore = defineStore({
     },
     unselectGradeSubject() {
       this.selectedGradeSubject = null;
+    },
+    clearGradeSubjects() {
+      this.gradeSubjects = [];
     },
     selectGradeSubject(selectedGrade: GradeSubject) {
       this.selectedGradeSubject = selectedGrade;
@@ -74,13 +66,19 @@ export const useGradeSubjectsStore = defineStore({
 
         const formData = new FormData();
         for (let newGradeSubjectDataKey in newGradeSubjectData) {
-          formData.append(newGradeSubjectDataKey,  newGradeSubjectData[newGradeSubjectDataKey] as Blob);
+          formData.append(
+            newGradeSubjectDataKey,
+            newGradeSubjectData[newGradeSubjectDataKey] as Blob
+          );
         }
 
-        console.log(formData)
+        console.log(formData);
 
-        console.log("updating")
-        await gradeSubjectsService.update(this.selectedGradeSubject.id, formData);
+        console.log("updating");
+        await gradeSubjectsService.update(
+          this.selectedGradeSubject.id,
+          formData
+        );
 
         await this.loadGradeSubjects();
 
@@ -93,16 +91,18 @@ export const useGradeSubjectsStore = defineStore({
     async createNewItem(newGradeSubjectData: NewGradeSubjectData) {
       this.isCreatingNewItem = true;
       try {
-
         const formData = new FormData();
         for (let newGradeSubjectDataKey in newGradeSubjectData) {
-          formData.append(newGradeSubjectDataKey,  newGradeSubjectData[newGradeSubjectDataKey] as Blob);
+          formData.append(
+            newGradeSubjectDataKey,
+            newGradeSubjectData[newGradeSubjectDataKey] as Blob
+          );
         }
-        console.log(newGradeSubjectData)
+        console.log(newGradeSubjectData);
 
-        formData.append('chaptersCount', '1');
+        formData.append("chaptersCount", "1");
 
-        await GradeSubjectsService.create(formData)
+        await GradeSubjectsService.create(formData);
 
         await this.loadGradeSubjects();
         this.isCreatingNewItem = false;

@@ -23,7 +23,7 @@
           <span class="svg-icon svg-icon-3">
             <inline-svg src="/media/icons/duotune/arrows/arr075.svg" />
           </span>
-          {{ $t("addNewCourse") }}
+          {{ $t("addCourse") }}
         </router-link>
 
         <!--end::Menu-->
@@ -33,26 +33,9 @@
 
     <!--begin::Body-->
     <div v-loading="coursesStore.dataIsLoading" class="card-body pt-2">
-      <!-- begin::table -->
+      <!-- begin: filters -->
       <div class="row align-items-center">
-        <!-- <el-select
-          style="width: 250px"
-          v-model=""
-          filterable
-        >
-          <el-option
-            :value="FilterByOptions.ByName"
-            :label="$t('searchByName')"
-          >
-          </el-option>
-          <el-option
-            :value="FilterByOptions.ByPhoneNumber"
-            :label="$t('searchByPhoneNumber')"
-          >
-          </el-option>
-        </el-select> -->
-
-        <label for="name" class="col-sm-4">
+        <label for="name" class="col-sm-4 mt-4">
           {{ $t("name") }}
           <el-input
             name="name"
@@ -63,56 +46,73 @@
           />
         </label>
 
-        <label for="minPrice" class="col-sm-4">
+        <label for="minPrice" class="col-sm-4 mt-4">
           {{ $t("minPrice") }}
-          <el-input
-            name="minPrice"
+          <el-input-number
             class="col-sm-4"
             v-model="filters.minPrice"
+            name="minPrice"
             :placeholder="$t('minPrice')"
+            :min="0"
             style="width: 300px"
           />
         </label>
 
-        <label for="maxPrice" class="col-sm-4">
+        <label for="maxPrice" class="col-sm-4 mt-4">
           {{ $t("maxPrice") }}
-          <el-input
+          <el-input-number
             class="col-sm-4"
             v-model="filters.maxPrice"
+            name="maxPrice"
             :placeholder="$t('maxPrice')"
+            :min="0"
             style="width: 300px"
           />
         </label>
 
-        <label for="minNumberOfLessons" class="col-sm-4">
+        <label for="minNumberOfLessons" class="col-sm-4 mt-4">
           {{ $t("minNumberOfLessons") }}
-          <el-input
+          <el-input-number
             class="col-sm-4"
             v-model="filters.minNumberOfLessons"
             :placeholder="$t('minNumberOfLessons')"
+            :min="0"
             style="width: 300px"
           />
         </label>
 
-        <label for="maxNumberOfLessons" class="col-sm-4">
+        <label for="maxNumberOfLessons" class="col-sm-4 mt-4">
           {{ $t("maxNumberOfLessons") }}
-          <el-input
+          <el-input-number
             class="col-sm-4"
             v-model="filters.maxNumberOfLessons"
             :placeholder="$t('maxNumberOfLessons')"
             style="width: 300px"
           />
         </label>
-        <label for="subjects" class="col-sm-4">
+        <label for="subjects" class="col-sm-4 mt-4">
           {{ $t("subjects") }}
           <el-select
-            class="col-sm-4"
             v-model="filters.subjectIds"
+            filterable
+            multiple
+            collapse-tags
+            collapse-tags-tooltip
+            :max-collapse-tags="3"
             :placeholder="$t('subjects')"
+            class="col-sm-4"
             style="width: 300px"
-          />
+            v-loading="subjectsStore.dataIsLoading"
+          >
+            <el-option
+              v-for="subject in subjectsStore.subjects"
+              :key="subject.id"
+              :label="subject.name"
+              :value="subject.id"
+            />
+          </el-select>
         </label>
-        <label for="rating" class="col-sm-4">
+        <label for="rating" class="col-sm-4 mt-4">
           {{ $t("rating") }}
           <el-input
             class="col-sm-4"
@@ -121,22 +121,30 @@
             style="width: 300px"
           />
         </label>
-        <label for="flag" class="col-sm-4">
-          {{ $t("TODO") }}
-          <el-input
+        <label for="flag" class="col-sm-4 mt-4">
+          {{ $t("filteredInList") }}
+          <el-switch
             class="col-sm-4"
             v-model="filters.filteredInList"
             :placeholder="$t('TODO')"
             style="width: 300px"
           />
         </label>
-        <div @click="coursesStore.loadCourses(filters)" class="col-sm-4">
+        <div @click="coursesStore.loadCourses(filters)" class="col-sm-4 mt-9">
           <a class="btn btn-sm btn-primary mx-1">
             {{ $t("search") }}
           </a>
         </div>
       </div>
-      <el-table :data="coursesTable" style="width: 100%" height="250">
+      <!-- end: filters -->
+
+      <!-- begin::table -->
+      <el-table
+        :data="coursesTable"
+        style="width: 100%"
+        class="mt-8"
+        height="250"
+      >
         <el-table-column
           index="scope.$index"
           :label="t('noNumber')"
@@ -145,37 +153,102 @@
           header-align="center"
         >
           <template #default="scope: { row: Course, $index: number }">
-            {{ scope.$index + 1 }}
+            <div
+              class="d-flex align-items-center gap-3 justify-content-between"
+            >
+              <span
+                v-if="
+                  scope.row.courseStatus === AppConstants.COURSE_STATUS.InActive
+                "
+                class="bullet bullet-vertical h-40px bg-danger"
+              ></span>
+              <span
+                v-else
+                class="bullet bullet-vertical h-40px bg-success"
+              ></span>
+              {{ scope.$index + 1 }}
+            </div>
           </template>
         </el-table-column>
-        <el-table-column prop="name" :label="$t('arabicName')" width="120" />
+        <el-table-column prop="name" :label="$t('arabicName')" width="120">
+          <template v-slot="scope: { row: Course, $index: number }">
+            <ClippedText :text="scope.row.name" />
+          </template>
+        </el-table-column>
         <el-table-column
           prop="englishName"
           :label="$t('englishName')"
-          width="120"
+          width="150"
+        >
+          <template v-slot="scope: { row: Course, $index: number }">
+            <ClippedText :text="scope.row.englishName" />
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="numberOfLessons"
+          :label="$t('numberOfLessons')"
+          width="170"
+          align="center"
         />
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
-          width="200"
+          width="150"
           :formatter="formatter('createdAt')"
         />
         <el-table-column
           prop="lastUpdated"
           :label="$t('lastUpdated')"
-          width="200"
+          width="150"
           :formatter="formatter('lastUpdated')"
         />
-        <el-table-column :label="$t('edit')" width="120" align="center">
-          <template #default="scope">
-            <a
-              class="btn btn-icon btn-light-success btn-sm"
-              data-bs-toggle="modal"
-              :data-bs-target="`#update_item_modal`"
-              @click="selectCourse(scope.row)"
+        <el-table-column :label="$t('sections')" width="120" align="center">
+          <template #default="scope: { row: Course, $index: number }">
+            <router-link
+              :to="{ name: 'CourseSections', params: { id: scope.row.id } }"
             >
-              <i class="bi bi-pencil"></i>
-            </a>
+              <a
+                class="btn btn-icon btn-light-success btn-sm"
+                @click="() => selectCourse(scope.row)"
+              >
+                <DotsIcon />
+              </a>
+            </router-link>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          :label="$t('status')"
+          width="90"
+          align="center"
+          header-align="center"
+        >
+          <template #default="scope: { row: Course, $index: number }">
+            <div class="flex">
+              <el-switch
+                v-model="scope.row.courseStatus"
+                :loading="coursesStore.isSwitchingCourseStatus"
+                :active-action-icon="CheckIcon"
+                :inactive-action-icon="CrossIcon"
+                :active-value="AppConstants.COURSE_STATUS.Active"
+                :inactive-value="AppConstants.COURSE_STATUS.InActive"
+                :before-change="() => handleToggleUser(scope.row)"
+              />
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('edit')" width="120" align="center">
+          <template #default="scope: { row: Course, $index: number }">
+            <router-link
+              :to="{ name: 'UpdateCourse', params: { id: scope.row.id } }"
+            >
+              <a
+                class="btn btn-icon btn-light-success btn-sm"
+                @click="() => selectCourse(scope.row)"
+              >
+                <i class="bi bi-pencil"></i>
+              </a>
+            </router-link>
           </template>
         </el-table-column>
         <el-table-column
@@ -214,10 +287,6 @@
     <!--end::Body-->
 
     <!-- begin::dialog -->
-    <UpdateCourseForm @close="unselectCourse" />
-    <!-- end::dialog -->
-
-    <!-- begin::dialog -->
     <DeleteCourse></DeleteCourse>
     <!-- end::dialog -->
   </div>
@@ -227,17 +296,23 @@
 <script setup lang="ts">
 import { computed, ref, reactive } from "vue";
 import { Course, CourseFilters } from "@/types/Courses";
-import UpdateCourseForm from "@/views/Courses/UpdateCourseModal.vue";
 import DeleteCourse from "@/views/Courses/DeleteCourseModal.vue";
 import { formatDate } from "@/core/helpers/formatDate";
 import { useCoursesStore } from "@/store/pinia_store/modules/CoursesModule";
+import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
+import ClippedText from "@/components/ClippedText.vue";
+import CheckIcon from "@/components/icons/CheckIcon.vue";
+import CrossIcon from "@/components/icons/CrossIcon.vue";
+import DotsIcon from "@/components/icons/DotsIcon.vue";
 import Toaster from "@/core/services/Toaster";
-import { hideModal } from "@/core/helpers/dom";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
 const coursesStore = useCoursesStore();
+
+const subjectsStore = useSubjectsStore();
 
 const coursesTable = computed(() => coursesStore.courses);
 
@@ -246,8 +321,8 @@ const deleteCourseModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const filters = reactive<CourseFilters>({
   filteredInList: true,
   maxNumberOfLessons: 10,
-  maxPrice: 200,
-  minNumberOfLessons: 2,
+  maxPrice: 10,
+  minNumberOfLessons: 0,
   minPrice: 0,
   name: "",
   rating: [],
@@ -267,5 +342,18 @@ const unselectCourse = () => {
 const formatter = (key: "createdAt" | "lastUpdated") => {
   return (course: Course) => formatDate(course[key]);
 };
+
+const handleToggleUser = async (course: Course) => {
+  try {
+    await coursesStore.toggleCourseStatus(course);
+    Toaster.Success("Success", "sucess");
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
 setCurrentPageBreadcrumbs(t("courses"), [t("courses")]);
+
+subjectsStore.loadSubjects();
 </script>

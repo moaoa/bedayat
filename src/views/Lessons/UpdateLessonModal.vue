@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("updateGrade") }}</h2>
+          <h2 class="fw-bolder">{{ $t("updateCourseSection") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"
@@ -39,80 +39,62 @@
               data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
               data-kt-scroll-offset="300px"
             >
-              <div class="row">
-                <div class="fv-row mb-7 col-md-6">
-                  <!--begin::Label-->
-                  <label class="required fs-6 fw-bold mb-2">
-                    {{ $t("arabicName") }}
-                  </label>
-                  <!--end::Label-->
+              <div class="fv-row mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("title") }}
+                </label>
+                <!--end::Label-->
 
-                  <!--begin::Input-->
-                  <el-form-item prop="name">
-                    <el-input
-                      v-model="formData.name"
-                      type="text"
-                      :placeholder="$t('arabicName')"
-                      clearable
-                    />
-                  </el-form-item>
+                <!--begin::Input-->
+                <el-form-item prop="title">
+                  <el-input
+                    v-model="formData.title"
+                    type="text"
+                    :placeholder="$t('title')"
+                    clearable
+                  />
+                </el-form-item>
 
-                  <!--end::Input-->
-                </div>
-                <div class="fv-row mb-7 col-md-6">
-                  <!--begin::Label-->
-                  <label class="required fs-6 fw-bold mb-2">
-                    {{ $t("englishName") }}
-                  </label>
-                  <!--end::Label-->
+                <!--end::Input-->
+              </div>
+              <div class="fv-row mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("englishTitle") }}
+                </label>
+                <!--end::Label-->
 
-                  <!--begin::Input-->
-                  <el-form-item prop="englishName">
-                    <el-input
-                      v-model="formData.englishName"
-                      type="text"
-                      :placeholder="$t('englishName')"
-                      clearable
-                    />
-                  </el-form-item>
+                <!--begin::Input-->
+                <el-form-item prop="description">
+                  <el-input
+                    v-model="formData.description"
+                    type="text"
+                    :placeholder="$t('description')"
+                    clearable
+                  />
+                </el-form-item>
 
-                  <!--end::Input-->
-                </div>
+                <!--end::Input-->
+              </div>
 
-                <div class="fv-row mb-7 col-md-6">
-                  <!--begin::Label-->
-                  <label class="required fs-6 fw-bold mb-2">
-                    {{ $t("priority") }}
-                  </label>
-                  <!--end::Label-->
+              <div class="fv-row mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("gradeType") }}
+                </label>
+                <!--end::Label-->
 
-                  <!--begin::Input-->
-                  <el-form-item prop="priority">
-                    <el-input
-                      v-model="formData.priority"
-                      type="text"
-                      :placeholder="$t('priority')"
-                    />
-                  </el-form-item>
-                  <!--end::Input-->
-                </div>
-                <div class="fv-row mb-7 col-md-6">
-                  <!--begin::Label-->
-                  <label class="required fs-6 fw-bold mb-2">
-                    {{ $t("gradeType") }}
-                  </label>
-                  <!--end::Label-->
-
-                  <!--begin::Input-->
-                  <el-form-item prop="gradeType">
-                    <el-input
-                      v-model="formData.gradeType"
-                      type="text"
-                      :placeholder="$t('gradeType')"
-                    />
-                  </el-form-item>
-                  <!--end::Input-->
-                </div>
+                <!--begin::Input-->
+                <el-form-item prop="gradeTypeIndex">
+                  <el-switch
+                    v-model="formData.lessonType"
+                    :active-value="AppConstants.LESSON_TYPES_AS_STRING.Preview"
+                    :inactive-value="AppConstants.LESSON_TYPES_AS_STRING.Lesson"
+                    :placeholder="$t('lessonType')"
+                  />
+                </el-form-item>
+                <!--end::Input-->
               </div>
             </div>
             <!--end::Scroll-->
@@ -124,7 +106,7 @@
             <!--begin::Button-->
             <button
               type="reset"
-              id="update_grade_modal_close"
+              id="kt_modal_add_customer_cancel"
               class="btn btn-light me-3 btn-sm"
               style="width: 100px"
             >
@@ -157,6 +139,7 @@
           </div>
           <!--end::Modal footer-->
         </el-form>
+
         <!--end::Form-->
       </div>
     </div>
@@ -167,40 +150,37 @@
 import { reactive, ref, watch, computed, onMounted } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useI18n } from "vue-i18n";
-import { NewGradeData } from "@/types/Grades";
-import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
+import { NewLessonData } from "@/types/Lessons";
+import { useLessonsStore } from "@/store/pinia_store/modules/LessonsModule";
 import Toaster from "@/core/services/Toaster";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
 
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
-const loading = computed(() => gradesStore.isUpdatingItem);
+const loading = computed(() => lessonsStore.isUpdatingItem);
 
-const gradesStore = useGradesStore();
+const lessonsStore = useLessonsStore();
 
-const formData = reactive<NewGradeData>({
-  name: "",
-  englishName: "",
-  gradeType: 1,
-  note: "",
-  priority: 1,
+const formData = reactive<NewLessonData>({
+  lessonType: AppConstants.LESSON_TYPES_AS_STRING.Lesson,
+  description: "",
+  title: "",
 });
 
 const emit = defineEmits(["close"]);
 
-const rules = ref({
-  name: [{ required: true, message: t("required"), trigger: "blur" }],
-  englishName: [
+const rules = ref<Record<keyof NewLessonData, object[]>>({
+  description: [{ required: true, message: t("required"), trigger: "blur" }],
+  lessonType: [
     {
       required: true,
       message: t("englishName"),
       trigger: "blur",
     },
   ],
-  note: [{ required: true, message: t("required"), trigger: "blur" }],
-  gradeType: [{ required: true, message: t("required"), trigger: "blur" }],
-  priority: [{ required: true, message: t("required"), trigger: "blur" }],
+  title: [{ required: true, message: t("required"), trigger: "blur" }],
 });
 
 const submit = () => {
@@ -213,7 +193,7 @@ const submit = () => {
       return;
     }
     try {
-      await gradesStore.updateItem(formData);
+      await lessonsStore.updateItem(formData);
       hideModal(modalRef.value);
       Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
@@ -223,19 +203,18 @@ const submit = () => {
 };
 
 watch(
-  () => gradesStore.selectedGrade,
+  () => lessonsStore.selectedLesson,
   (value) => {
-    formData.englishName = value?.englishName ?? "";
-    formData.name = value?.name ?? "";
-    formData.gradeType = value?.gradeType ?? 1;
-    formData.priority = value?.priority ?? 1;
-    formData.note = value?.note ?? "";
+    formData.description = value?.description ?? "";
+    formData.title = value?.title ?? "";
+    formData.lessonType =
+      value?.lessonType ?? AppConstants.LESSON_TYPES_AS_STRING.Lesson;
   }
 );
 
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", () => {
-    gradesStore.unselectGrade();
+    lessonsStore.unselectLesson();
   });
 });
 </script>

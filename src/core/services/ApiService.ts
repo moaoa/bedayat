@@ -21,9 +21,9 @@ class ApiService {
 
   public static setHeader(): void {
     const authenticationStore = useAuthenticationStore();
-    ApiService.vueInstance.axios.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${authenticationStore.user.accessToken}`;
+    // ApiService.vueInstance.axios.defaults.headers.common[
+    //   "Authorization"
+    // ] = `Bearer ${authenticationStore.user.accessToken}`;
     ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] =
       "application/json";
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] =
@@ -53,7 +53,8 @@ class ApiService {
         let message = "";
 
         if (error.response) {
-          message = error.response.data?.Message;
+          message =
+            error.response.data?.Message || error.response.data?.message;
         } else if (error.request) {
           // The request was made, but no response was received
           message = "Network Error";
@@ -64,7 +65,7 @@ class ApiService {
 
         // console.log(error.config); // Axios request configuration
 
-        Toaster.error(message? message : "Something Went Wrong");
+        Toaster.error(message ? message : "Something Went Wrong");
 
         return Promise.reject(error);
       }
@@ -75,7 +76,6 @@ class ApiService {
     resource: string,
     params: AxiosRequestConfig
   ): Promise<AxiosResponse<T>> {
-    console.log(params);
     return ApiService.vueInstance.axios.get(resource, params).catch((error) => {
       throw new Error(`[KT] ApiService ${error}`);
     });
@@ -94,7 +94,7 @@ class ApiService {
 
   public static post<T>(
     resource: string,
-    params: Record<string, unknown> | FormData,
+    params: Record<string, unknown> | FormData | Record<string, unknown>[],
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<T>> {
     return ApiService.vueInstance.axios.post(`${resource}`, params, options);
