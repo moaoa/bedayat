@@ -20,7 +20,7 @@
         ref="formRef"
       >
         <div class="modal-body py-10 px-lg-17">
-          <div class="scroll-y me-n7 pe-7">
+          <div class="scroll-y me-n7 pe-7" id="kt_modal_add_customer_scroll">
             <div class="row">
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
@@ -274,7 +274,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, computed, watch } from "vue";
+import { reactive, ref, computed, watch, onMounted } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useCoursesStore } from "@/store/pinia_store/modules/CoursesModule";
 import { useI18n } from "vue-i18n";
@@ -303,15 +303,18 @@ const coursesStore = useCoursesStore();
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
 const loading = computed(() => coursesStore.isCreatingNewItem);
+
+const selectedCourseGradeId = ref();
+
 const formData = reactive<NewCourseData>({
-  englishName: "",
-  name: "",
-  author: "",
-  description: "",
-  englishDescription: "",
-  englishTitle: "",
-  title: "",
-  gradeSubjectId: "",
+  englishName: coursesStore.selectedCourse.englishName ?? "",
+  name: coursesStore.selectedCourse.name ?? "",
+  author: coursesStore.selectedCourse.author ?? "",
+  description: coursesStore.selectedCourse.description ?? "",
+  englishDescription: coursesStore.selectedCourse.englishDescription ?? "",
+  englishTitle: coursesStore.selectedCourse.englishTitle ?? "",
+  title: coursesStore.selectedCourse.title ?? "",
+  gradeSubjectId: coursesStore.selectedCourse.gradeSubject?.id ?? "",
   logo: null,
 });
 
@@ -345,7 +348,7 @@ const submit = () => {
       return;
     }
     try {
-      await coursesStore.createNewItem(formData);
+      await coursesStore.updateItem(formData);
       hideModal(modalRef.value);
       Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
@@ -354,22 +357,22 @@ const submit = () => {
   });
 };
 
-onMounted(() => {
-  modalRef.value?.addEventListener("hidden.bs.modal", () => {
-    formRef.value?.resetFields();
-  });
-});
+gradesSubjectsStore.selectedGradeId =
+  coursesStore.selectedCourse.gradeSubject!.gradeId;
 
 gradesStore.loadGrades();
 
 watch(
   () => gradesSubjectsStore.selectedGradeId,
-  () => {
-    if (gradesSubjectsStore.selectedGradeId === "") {
+  (gradeId) => {
+    if (!gradeId) {
       gradesSubjectsStore.clearGradeSubjects();
       return;
     }
     gradesSubjectsStore.loadGradeSubjects();
+  },
+  {
+    immediate: true,
   }
 );
 </script>

@@ -2,6 +2,9 @@ import { defineStore } from "pinia";
 import { Course, NewCourseData, CourseFilters } from "@/types/Courses";
 
 import coursesService from "@/core/repositories/CoursesService";
+import { useLocalStorage } from "@vueuse/core";
+import CoursesService from "@/core/repositories/CoursesService";
+import router from "@/router";
 
 export const useCoursesStore = defineStore({
   id: "coursesStore",
@@ -16,7 +19,7 @@ export const useCoursesStore = defineStore({
 
     isSwitchingCourseStatus: false,
 
-    selectedCourse: null as Course | null,
+    selectedCourse: useLocalStorage<Partial<Course>>("selectedCourse", {}),
     dataIsLoading: false,
     isCreatingNewItem: false,
     isUpdatingItem: false,
@@ -42,10 +45,21 @@ export const useCoursesStore = defineStore({
       }
     },
     unselectCourse() {
-      this.selectedCourse = null;
+      this.selectedCourse = {};
     },
     selectCourse(selectedCourse: Course) {
       this.selectedCourse = selectedCourse;
+    },
+    async toggleCourseStatus(course: Course) {
+      this.isSwitchingCourseStatus = true;
+      try {
+        await CoursesService.toggleCourseStatus(course.id);
+        this.isSwitchingCourseStatus = false;
+      } catch (error) {
+        this.isSwitchingCourseStatus = false;
+        console.log(error);
+        throw error;
+      }
     },
     async updateItem(newValues: NewCourseData) {
       this.isUpdatingItem = true;
@@ -58,9 +72,16 @@ export const useCoursesStore = defineStore({
           (course) => course.id === this.selectedCourse!.id
         );
 
+        if (this.selectedCourse.id === undefined) {
+          return;
+        }
+
         await coursesService.updateCourse(this.selectedCourse.id, newValues);
 
-        this.courses[index] = { ...this.selectedCourse, ...newValues };
+        this.courses[index] = {
+          ...(this.selectedCourse as Course),
+          ...newValues,
+        };
         this.isUpdatingItem = false;
       } catch (error) {
         this.isUpdatingItem = false;
@@ -72,10 +93,15 @@ export const useCoursesStore = defineStore({
       try {
         const res = await coursesService.createCourse(courseData);
         this.courses.push(res.data.data);
+        router.push({
+          name: "CourseSections",
+          params: { id: res.data.data.id },
+        });
         this.isCreatingNewItem = false;
       } catch (error) {
         this.isCreatingNewItem = false;
         console.log(error);
+        throw error;
       }
     },
     async deleteItem() {
@@ -87,6 +113,9 @@ export const useCoursesStore = defineStore({
       }
 
       try {
+        if (!this.selectedCourse.id) {
+          return;
+        }
         await coursesService.deleteCourse(this.selectedCourse.id);
         this.courses = this.courses.filter(
           (item) => item.id !== this.selectedCourse?.id

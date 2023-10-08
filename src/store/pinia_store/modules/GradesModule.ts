@@ -8,16 +8,16 @@ export const useGradesStore = defineStore({
   state: () => ({
     grades: [
       {
-        id: '1',
+        id: "1",
         createdAt: new Date().toDateString(),
         gradeType: 1,
         name: "الصف الاول",
         englishName: "first grade",
         note: "nothing",
         priority: 1,
-        lastUpdated: new Date().toDateString() ,
+        lastUpdated: new Date().toDateString(),
         gradeSubjects: [] as unknown[],
-        courses:[] as unknown[],
+        courses: [] as unknown[],
       },
     ] as Grade[],
     pagination: {

@@ -10,6 +10,12 @@ class GradesService {
     );
     return res.data.data;
   }
+  public static async getGradeById(gradeId: string) {
+    const res = await ApiService.get<ApiResponse<Grade>>(
+      `${AppConstants.GRADES_URL}`
+    );
+    return res.data.data;
+  }
   public static async deleteGrade(gradeId: string) {
     return await ApiService.delete<ApiResponse<unknown>>(
       `${AppConstants.GRADES_URL}/${gradeId}`
