@@ -66,12 +66,12 @@ export const useAuthenticationStore = defineStore({
         const result = await AuthenticationService.logout(
           this.user!.refreshToken!
         );
-        this.user = {};
-        this.userPermissions = [];
       } catch (error) {
         console.log(error);
       } finally {
         this.dataLoading = false;
+        this.user = {};
+        this.userPermissions = [];
       }
     },
     async sendConfirmationCode(email: string) {

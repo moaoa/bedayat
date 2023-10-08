@@ -3,6 +3,12 @@ import languageConfig from "@/core/config/LanguageDefaultConfig";
 
 const messages = {
   en: {
+    attachments: "Attachments",
+    addNewLesson: "Add New Lesson",
+    numberOfLessons: "Number Of Lessons",
+    rating: "Rating",
+    numberOfRatings: "Number Of Ratings",
+    sections: "Sections",
     main: "Main",
     cities: "Faqs",
     countries: "Countries",
@@ -206,6 +212,7 @@ const messages = {
     deleteGradeSubject: "deleteGradeSubject",
     Scientific: "Scientific",
     Literary: "Literary",
+
     englishTitle: "englishTitle",
     state: "state",
     uploadLogo:"uploadLogo",
@@ -224,9 +231,27 @@ const messages = {
     course:"course",
     packageType:"packageType",
     packageStatus:"packageStatus",
-  },
 
+    englishTitle: "English Title",
+    englishDescription: "English Description",
+    grade: "Grade",
+    gradeSubject: "Subject",
+    author: "Author",
+    chooseFile: "Choose File",
+    noFiles: "No Files Selected",
+    addCourse: "Add Course",
+    minPrice: "Min Price",
+    maxPrice: "Max Price",
+    minNumberOfLessons: "Min Number Of Lessons",
+    maxNumberOfLessons: "Max Number Of Lessons",
+    filteredInList: "Filtered In List?",
+    lessons: "Lessons",
+    gradeTypeIndex: "Grade Order",
+    forPreview: "For Preview",
+
+  },
   ar: {
+
     packageStatus:"الحاله",
     packageType:"نوع الحزمه",
     path:"حزم",
@@ -246,7 +271,16 @@ const messages = {
     coursesCount:"عدد الدورات",
     state: "الحاله",
     englishTitle: "العنوان بالانجليزي",
+
+    forPreview: "للمعاينة",
+    gradeTypeIndex: "ترتيب الصف",
+    lessons: "الدروس",
+    addNewLesson: "إضافة درس جديد",
+    numberOfLessons: "عدد الدروس",
+    attachments: "المرفقات",
+
     addSubscriptionSettings: "إضافة جديدة",
+    sections: "الأقسام",
     submit: "تأكيد",
     Scientific: "علمي",
     Literary: "أدبي",
@@ -449,6 +483,21 @@ const messages = {
     subjects: "المواد",
     addNewSubject: "إضافة مادة جديدة",
     logout: "تسجيل الخروج",
+    englishTitle: "العنوان الإنجليزي",
+    englishDescription: "الوصف الإنجليزي",
+    grade: "السنة الدراسية",
+    gradeSubject: "المادة الدراسية",
+    author: "الكاتب",
+    chooseFile: "إختر ملف",
+    noFiles: "لم يتم إختيار اي ملف",
+    addCourse: "إضافة كورس جديد",
+    minPrice: "السعر الأدنى",
+    maxPrice: "السعر الأعلى",
+    minNumberOfLessons: "الحد الأدنى لعدد الدروس",
+    maxNumberOfLessons: "الحد الأعلى لعدد الدروس",
+    rating: "التقييم",
+    numberOfRatings: "عدد التقييمات",
+    filteredInList: "تم تصفية النتائج في القائمة",
   },
 };
 

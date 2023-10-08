@@ -1,17 +1,17 @@
 <template>
   <el-tooltip
-    class="box-item"
+    class=""
     effect="dark"
     :content="text"
     placement="top-start"
     v-if="text.length > props.length"
   >
     <div class="d-flex">
-      <span class="text-muted">...</span>
-      <b>{{ text.slice(0, length) }}</b>
+      <span class="">...</span>
+      <span>{{ text.slice(0, length) }}</span>
     </div>
   </el-tooltip>
-  <b v-else>{{ text }}</b>
+  <span v-else>{{ text }}</span>
 </template>
 
 <script lang="ts" setup>
@@ -26,5 +26,4 @@ const props = defineProps({
     default: 20,
   },
 });
-console.log(props);
 </script>

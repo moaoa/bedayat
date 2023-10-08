@@ -17,12 +17,15 @@ export class AppConstants {
 
   static Packages_URL = `${AppConstants.MANAGEMENT_URL}/Package`;
 
+  static SECTIONS_URL = `${AppConstants.MANAGEMENT_URL}/Sections`;
+  static lESSONS_URL = `${AppConstants.MANAGEMENT_URL}/Lessons`;
+
+
   static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
   static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;
 
   static SYSTEMSETTINGS_URL = `${AppConstants.MANAGEMENT_URL}/SystemSetting`;
   static TERMS_AND_PRIVACY_URL = `${AppConstants.MANAGEMENT_URL}/TermsAndPrivacy`;
-
 
   static SUBSCRIPTION_URL = `${AppConstants.MANAGEMENT_URL}/Subscription`;
   static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
@@ -124,5 +127,35 @@ export class AppConstants {
     All: -1,
     InActive: 0,
     Active: 1,
+  };
+  static LESSON_TYPES = {
+    Lesson: 0,
+    Preview: 1,
+  };
+  static LESSON_TYPES_AS_STRING = {
+    Lesson: 0,
+    Preview: 1,
+  };
+  static AttachmentTypes = {
+    PreviewImage: 0,
+    VideoLesson: 1,
+    File: 2,
+  };
+  static GradeTypes = {
+    Semester: 0,
+    Yearly: 1,
+  };
+  static PackageTypes = {
+    Course: 0,
+    Package: 1,
+  };
+  static COURSE_STATUS = {
+    InActive: 0,
+    Active: 1,
+  };
+  static ATTATCHMENT_TYPES = {
+    PreviewImage: 0,
+    VideoLesson: 1,
+    File: 2,
   };
 }
