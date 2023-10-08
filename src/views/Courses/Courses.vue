@@ -223,6 +223,7 @@
                 class="btn btn-icon btn-light-success btn-sm"
                 @click="() => selectCourse(scope.row)"
               >
+                <DotsIcon />
               </a>
             </router-link>
           </template>
