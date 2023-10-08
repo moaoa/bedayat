@@ -66,8 +66,13 @@ export const useLessonsStore = defineStore({
 
       try {
         const res = await lessonService.getAttachmentLinkById(attachmentId);
-
-        console.log(res);
+        const a = document.createElement("a");
+        a.target = "_blank";
+        document.body.appendChild(a);
+        //TODO: get the link from the backend
+        a.href =
+          "https://www.istockphoto.com/photo/close-up-side-view-of-an-orange-luxury-sports-car-gm1468178137-499766569?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fcar&utm_term=car%3A%3A%3A";
+        a.click();
       } catch (e) {
         console.log((e as Error).message);
       } finally {
