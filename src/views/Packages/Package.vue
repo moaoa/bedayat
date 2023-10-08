@@ -5,230 +5,270 @@
     <!--begin::Header-->
     <div class="card-header border-0">
 
-        <h3 class="card-title fw-bolder text-dark">{{ t("Packages") }}</h3>
+      <h3 class="card-title fw-bolder text-dark">{{ t("Packages") }}</h3>
       <div class="card-toolbar d-flex flex-row">
 
-
-
-
         <a class="btn btn-icon btn-light-primary btn-sm me-3"
-           @click="localitiesStore.loadLocalities(localitiesStore.selectedCityId)">
+           @click="coursesStore.loadPackages(searchFilter)">
           <i class="bi bi-arrow-repeat"></i>
         </a>
 
-        <a href="#" class="btn btn-sm btn-primary mx-1" target="#" data-bs-toggle="modal"
-           :data-bs-target="`#kt_modal_add_customer`">
+        <a class="btn btn-sm btn-primary mx-1" target="#"
+           @click="addPackage">
           <span class="svg-icon svg-icon-3">
             <inline-svg src="/media/icons/duotune/arrows/arr075.svg"/>
           </span>
-          {{ $t("addLocality") }}
+          {{ $t("addPackage") }}
         </a>
+
 
 
       </div>
     </div>
     <!--end::Header-->
-
     <!--begin::Body-->
+    <!--    {{packagesTable}}-->
     <div class="card-body pt-2">
-              <div class="row">
-                <div class="col-md-3 col-lg-2 col-7">
+      <div class="row">
+        <div class="col-md-3 col-lg-2 col-7">
+          <label class="fs-6 fw-bold mb-2">
+            {{ $t("grades") }}
+          </label>
+          <el-select v-model="searchFilter.gradeId" clearable filterable>
+            <el-option v-for="grade in gradesStore.grades" :key="grade.id" :value="grade.id"
+                       :label="grade.name">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-3 col-lg-2 col-7">
+          <label class="fs-6 fw-bold mb-2">
+            {{ $t("state") }}
+          </label>
+          <el-select v-model="searchFilter.status" clearable filterable>
+            <el-option v-for="status in Object.values(PackageStatus).slice(0,Object.values(PackageStatus).length/2 )"
+                       :key="status" :value="PackageStatus[status]"
+                       :label="t(`${status.toLowerCase()}`)">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-md-3 col-lg-2 col-7">
+          <label class="fs-6 fw-bold mb-2">
+            {{ $t("packageType") }}
+          </label>
+          <el-select v-model="searchFilter.packageType" clearable filterable>
+            <el-option v-for="status in Object.values(PackageType).slice(0,Object.values(PackageType).length/2 )"
+                       :key="status" :value="PackageType[status]"
+                       :label="t(`${status.toLowerCase()}`)">
+            </el-option>
+          </el-select>
+        </div>
 
-                  <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
-                    <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
-                               :label="country.name">
-                    </el-option>
-                  </el-select>
-                </div>
-
-                <div class="col-md-3 col-lg-2 col-7">
-
-                  <el-select v-model="localitiesStore.selectedCityId" clearable filterable>
-                    <el-option v-for="city in citiesStore.cities" :key="city.id" :value="city.id"
-                               :label="city.name">
-                    </el-option>
-                  </el-select>
-                </div>
-              </div>
-      <!--      <ErrorAlert v-if="localitiesStore.errorLoadingData" :title="localitiesStore.errorMessage" />-->
-      <!-- <SuccessAlert
-        v-else-if="LocalitiesStore.dataIsLoading"
-        title="جاري تحميل البيانات المــدن  ..."
-      /> -->
-
-      <!-- <el-table class="table-responsive" max-width :data="countriesTable"  -->
-
-      <div v-loading="localitiesStore.dataIsLoading">
-
-        <el-table class="table-responsive" max-width :data="localitiesTable">
-          >
-          <el-table-column index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
-            <template #default="scope">
-              {{ scope.$index + 1 }}
-            </template>
-          </el-table-column>
-
-          <el-table-column prop="name" :label="$t('arabicName')" align="center" header-align="center">
-            <template #default="scope">
-              <b> {{ scope.row.name }}</b>
-            </template>
-          </el-table-column>
-          <el-table-column prop="englishName" :label="$t('englishName')" align="center" header-align="center">
-            <template #default="scope">
-              <b> {{ scope.row.englishName }}</b>
-            </template>
-          </el-table-column>
-          <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')" align="center"
-                           header-align="center"/>
-          <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"
-                           align="center" header-align="center"/>
-          <el-table-column :label="$t('edit')" align="center" header-align="center">
-            <template #default="scope">
-              <a class="btn btn-icon btn-light-success btn-sm" @click="openUpdateLocalityDialog(scope.row)"
-                 data-bs-toggle="modal" :data-bs-target="`#update_locality_modal`">
-                <i class="bi bi-pencil"></i>
-              </a>
-            </template>
-          </el-table-column>
-
-          <el-table-column :label="$t('remove')" width="90" align="center" header-align="center">
-            <template #default="scope: { row: Locality, $index: number }">
-              <div class="flex">
-                <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
-                   :data-bs-target="`#kt_modal_delete_locality`" @click="localitiesStore.selectLocality(scope.row)">
-                  <i class="bi bi-trash"></i>
-                </a>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-        <!-- end::table -->
-
+        <div class="col-md-6 col-lg-4 col-7">
+          <label class=" fs-6 fw-bold mb-2">
+            {{ $t("name") }}
+          </label>
+          <el-input
+              id="input_search_package"
+              v-model="searchFilter.name"
+              type="text"
+              placeholder=""
+              clearable
+          />
+        </div>
       </div>
-      <br/>
-      <!-- start::pagination -->
-      <el-pagination v-if="!localitiesStore.dataIsLoading && !localitiesStore.errorLoadingData
-        " background layout="total, sizes, prev, pager, next, jumper" :total="localitiesStore.total"
-                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"
-                     :page-sizes="[25, 100, 200, 300, 400]"/>
-      <!-- end::pagination -->
+      <div class="row">
+        <div v-loading="coursesStore.dataIsLoading">
+
+          <el-table class="table-responsive" max-width :data="packagesTable">
+            >
+            <el-table-column width="50" index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
+              <template #default="scope">
+                {{ scope.$index + 1 }}
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="name" :label="$t('arabicName')" align="center" header-align="center">
+              <template #default="scope">
+                <b> {{ scope.row.title }}</b>
+              </template>
+            </el-table-column>
+            <el-table-column prop="englishName" :label="$t('englishName')" align="center" header-align="center">
+              <template #default="scope">
+                <b> {{ scope.row.englishTitle }}</b>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="name" :label="$t('coursesCount')" align="center" header-align="center">
+              <template #default="scope">
+                <b> {{ scope.row.coursesCount }}</b>
+              </template>
+            </el-table-column>
+
+
+            <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')"
+                             align="center"
+                             header-align="center"/>
+<!--            <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"-->
+<!--                             align="center" header-align="center"/>-->
+<!--            <el-table-column prop="price" :label="$t('price')"-->
+<!--                             align="center" header-align="center"/>-->
+            <el-table-column prop="name" :label="$t('packageStatus')" align="center" header-align="center">
+              <template #default="scope">
+
+
+                <label
+                    class="
+                      form-check form-switch form-check-custom form-check-solid align-content-center justify-content-center
+                    "
+                >
+                  <!--begin::Input-->
+                  <input
+                      class="form-check-input"
+                      type="checkbox"
+                      :checked="scope.row.packageStatus == PackageStatus.Active"
+                      @change="changePackageState(scope.row.id)"
+                  />
+
+                  <!--end::Input-->
+
+                </label>
+<!--                <b> {{ scope.row.packageStatus }}</b>-->
+              </template>
+            </el-table-column>
+
+            <el-table-column :label="$t('edit')" align="center" header-align="center">
+              <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
+                <RouterLink
+                    @click="()=>{ coursesStore.selectPackage(scope.row); coursesStore.selectedGradeId= searchFilter.gradeId}"
+                    :to="{
+                  name: 'UpdatePackages',
+                  params: { id: scope.row.id },
+                }"
+                >
+                  <a
+                      class="btn btn-icon btn-light-success btn-sm"
+                  >
+                    <i class="bi bi-mortarboard-fill"></i>
+                  </a>
+
+                </RouterLink>
+              </template>
+
+            </el-table-column>
+
+            <el-table-column :label="$t('remove')" width="90" align="center" header-align="center">
+              <template #default="scope: { row: GetPackagesResponseDto, $index: number }">
+                <div class="flex">
+                  <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
+                     :data-bs-target="`#kt_modal_delete_package`" @click="coursesStore.selectPackage(scope.row)">
+                    <i class="bi bi-trash"></i>
+                  </a>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+          <!-- end::table -->
+
+        </div>
+        <br/>
+        <!-- start::pagination -->
+        <!--      <el-pagination v-if="!localitiesStore.dataIsLoading && !localitiesStore.errorLoadingData-->
+        <!--        " background layout="total, sizes, prev, pager, next, jumper" :total="localitiesStore.total"-->
+        <!--                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"-->
+        <!--                     :page-sizes="[25, 100, 200, 300, 400]"/>-->
+        <!-- end::pagination -->
+      </div>
+
     </div>
-
-    <AddLocalityForm @submit="createLocality" ref="addLocalityModalRef"></AddLocalityForm>
-
-    <UpdateLocalityModal @submit="updateLocality" ref="updateLocalityModalRef"/>
-    <!-- <AddLocalityForm @submit="localityAdded"></AddLocalityForm> -->
-    <DeleteLocality @localityDeleted="localityDeleted" ref="deleteLocalityModalRef"></DeleteLocality>
   </div>
+
+  <DeletePackage ref="deletePackageModalRef" @packageDeleted="packageDeleted"></DeletePackage>
+
   <!--end:List Widget 3-->
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {Locality, NewLocalityData} from "@/types/Localities";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import {formatDate} from "@/core/helpers/formatDate";
-import {useLocalitiesStore} from "@/store/pinia_store/modules/LocalitiesModule";
 import {useI18n} from "vue-i18n";
 import {setCurrentPageBreadcrumbs} from "@/core/helpers/breadcrumb";
-import AddLocalityForm from "@/views/Localities/AddLocalityModal.vue";
-import UpdateLocalityModal from "@/views/Localities/UpdateLocalityModal.vue";
-import DeleteLocality from "@/views/Localities/DeleteLocality.vue";
-import Toaster from "@/core/services/Toaster";
-import ErrorAlert from "@/components/alerts/ErrorAlert.vue";
+import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
+import {useGradesStore} from "@/store/pinia_store/modules/GradesModule";
+import {GetPackagesResponseDto, PackageFilter, PackageStatus, PackageType} from "@/types/Packages/Packages";
+import {useRouter} from "vue-router";
+import {Locality} from "@/types/Localities";
+import toaster from "@/core/services/Toaster";
 import {hideModal} from "@/core/helpers/dom";
-import {useCountriesStore} from "@/store/pinia_store/modules/CountriesModule";
-import {useCitiesStore} from "@/store/pinia_store/modules/CitiesModule";
+import Toaster from "@/core/services/Toaster";
+import DeleteCountry from "@/views/Countries/DeleteCountry.vue";
+import DeletePackage from "@/views/Packages/DeletePackage.vue";
+import {ErrorMessage, Field} from "vee-validate";
 
+
+////////// Declarations///////////////////
 const {t} = useI18n();
-const localitiesStore = useLocalitiesStore();
-const countriesStore = useCountriesStore();
-const citiesStore = useCitiesStore();
+const coursesStore = useCoursesStore();
+const gradesStore = useGradesStore();
+const packagesTable = computed(() => {
+  return coursesStore.packages.results?.filter(x=> x.packageStatus == searchFilter.status) ??[]
+});
+const router = useRouter();
 
-const addLocalityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
-const updateLocalityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
-const deleteLocalityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
-
-const localitiesTable = computed(() => localitiesStore.localities);
-
-const createLocality = async (data: NewLocalityData) => {
-  try {
-    await localitiesStore.createNewItem(data);
-
-    hideModal(addLocalityModalRef.value?.modalRef!);
-
-    localitiesStore.unselectLocality();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const openUpdateLocalityDialog = (locality: Locality) => {
-  localitiesStore.selectLocality(locality);
-};
-
-const updateLocality = async (data: NewLocalityData) => {
-  try {
-    await localitiesStore.updateItem(data);
-
-    hideModal(updateLocalityModalRef.value?.modalRef!);
-
-    localitiesStore.unselectLocality();
-
-    Toaster.Success("asdf", "asdfa");
-  } catch (error) {
-    console.log(error);
-  }
-};
+const deletePackageModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const formatter = (key: keyof Locality) => {
   return (locality: Locality) => formatDate(locality[key]);
 };
+const searchFilter = reactive<PackageFilter>({
+  name: "",
+  gradeId: "",
+  status: PackageStatus.Active,
+  packageType: PackageType.Path
+});
+const changePackageState = async (packageId: string)=>  {
+  console.log('sdfsdfsdfsdfsdfsdf')
+  await coursesStore.changePackageActiveState(packageId)
+  await coursesStore.loadPackages(searchFilter)
 
-setCurrentPageBreadcrumbs(t("Localities"), [t("Localities")]);
+}
 
-const localityDeleted = (locality: Locality) => {
-  hideModal(deleteLocalityModalRef.value?.modalRef!);
-  localitiesStore.deleteItem(locality);
+/////////////Functions///////////////////////
+
+const addPackage = () => {
+  router.push({name: "AddPackages"})
+}
+
+
+const packageDeleted = async () => {
+  hideModal(deletePackageModalRef.value!.modalRef!);
+  Toaster.Success("Success!", "Package Deleted Successfully");
 };
-
-setCurrentPageBreadcrumbs(t("Localities"), [t("Localities")]);
-
+setCurrentPageBreadcrumbs(t("Packages"), [t("Packages")]);
 
 onMounted(() => {
-  countriesStore.loadCountries();
+  gradesStore.loadGrades();
+
+  document.getElementById('input_search_package')?.addEventListener('keydown', async (event) => {
+    if (event.keyCode === 13 || event.key === 'Enter') {
+      console.log("entered")
+      if (searchFilter.gradeId)
+        await coursesStore.loadPackages(searchFilter)
+      else
+        toaster.error("please Select Grade")
+    }
+    // countriesStore.loadCountries();
+  })
 
 
 });
 
-watch(
-    () => countriesStore.countries,
-    (id) => {
-      citiesStore.selectedCountryId = countriesStore.countries[0].id
-    }
-);
-watch(
-    () => citiesStore.selectedCountryId,
-    (id) => {
-      console.log(id);
-      if (id) {
-        citiesStore.loadCities({countryId: id});
-      }
-    }
-);
-watch(
-    () => citiesStore.cities,
-    (id) => {
-      localitiesStore.selectedCityId = citiesStore.cities[0].id;
-    }
-);
+watch(()=> gradesStore.grades, async () => {
+  if(gradesStore.grades.length>0)
+    searchFilter.gradeId = gradesStore.grades[0].id
+})
+watch(()=> searchFilter.gradeId, async () => await coursesStore.loadPackages(searchFilter))
+watch(()=> searchFilter.packageType, async () => await coursesStore.loadPackages(searchFilter))
+watch(()=> searchFilter.status, async () => await coursesStore.loadPackages(searchFilter))
 
-watch(
-    () => localitiesStore.selectedCityId,
-    (id) => {
-      if (id) {
-        localitiesStore.loadLocalities(id);
-      }
-    }
-);
 
 
 </script>

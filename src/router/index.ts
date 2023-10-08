@@ -262,9 +262,27 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/dashboard/Packages",
-        name: "Packages",
-        component: () => import("@/views/Packages/AddPackageModal.vue"),
+        path: "/dashboard/packages/addPackages",
+        name: "AddPackages",
+        component: () => import("@/views/Packages/AddPackage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+      },
+      {
+        path: "/dashboard/packages/updatePackages/:id",
+        name: "UpdatePackages",
+        component: () => import("@/views/Packages/UpdatePackage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+      },
+      {
+        path: "/dashboard/packages",
+        name: "ViewPackages",
+        component: () => import("@/views/Packages/Package.vue"),
         meta: {
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.None,

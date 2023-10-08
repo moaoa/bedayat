@@ -1,3 +1,5 @@
+import {GradeSubject} from "@/types/GradeSubjects";
+
 export interface PackageAddData {
     courseIds: string[]
     gradeId: string
@@ -8,6 +10,36 @@ export interface PackageAddData {
     logo: File | string | null
 }
 
+export interface PackageUpdateData {
+    packageId:string
+    title: string
+    englishTitle: string
+    description: string
+    englishDescription: string
+    logo: File | string | null
+}
+
+
+export type PackageFilter = {
+    status: PackageStatus;
+    name: string;
+    gradeId: string;
+    packageType: PackageType;
+};
+export enum PackageStatus{
+    Inactive,
+    Active,
+}
+
+export interface SelectCoursesDto {
+    id: string;
+    name: string;
+    englishName: string;
+    subjectName: string;
+    logoPath: string;
+}
+
+
 export interface Package {
     id: string
     title: string
@@ -16,7 +48,6 @@ export interface Package {
     englishDescription: string
     gradeSubjectId: string
     price: number
-    gradeSubject: GradeSubject
     logoPath: string
     packageStatus: string
     courses: Course[]
@@ -25,54 +56,43 @@ export interface Package {
     lastUpdated: string
 }
 
-export interface GradeSubject {
+export interface GetPackagesResponseDto {
     id: string
-    chaptersCount: number
-    logo: string
-    bookLink: string
-    gradeId: string
-    grade: Grade
-    subjectId: string
-    subject: Subject
+    title: string
+    englishTitle: string
+    description: string
+    englishDescription: string
+    price: number
+    logoPath: string
+    coursesCount: number
+    packageType: PackageType
+    packageStatus: PackageStatus
+    courses: Course[]
     createdAt: string
     lastUpdated: string
 }
+export enum PackageType
+{
+    Course, Path
+}
 
-export interface Grade {
+///////////////////// courses Selection
+
+export interface CourseSelection {
     id: string
+    title: string
+    englishTitle: string
     name: string
     englishName: string
-    priority: number
-    note: string
-    gradeType: string
-    gradeSubjects: string[]
-    courses: string[]
-    createdAt: string
-    lastUpdated: string
-}
-
-export interface Subject {
-    id: string
-    name: string
-    englishName: string
-    note: string
-    subjectType: string
-    gradeSubjects: string[]
-    courses: string[]
-    createdAt: string
-    lastUpdated: string
-}
-
-
-export interface Children {
-    id: string
-    parentId: string
-    parent: string
-    isMainParent: boolean
-    childId: string
-    child: string
-    createdAt: string
-    lastUpdated: string
+    sections: any[]
+    gradeSubject: GradeSubject
+    numberOfLessons: number
+    description: string
+    englishDescription: string
+    author: string
+    logoPath: string
+    teacherId: string
+    courseStatus: PackageStatus
 }
 
 export interface Course {

@@ -127,12 +127,20 @@ const DocMenuConfig = [
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
-
       {
-        heading: "packages",
-        route: "/dashboard/packages",
-        svgIcon: "/media/svg/bug.svg",
-        fontIcon: "bi-layers",
+        sectionTitle: "packages",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-sticky",
+        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+        sub: [
+          {
+            heading: "packages",
+            route: "/dashboard/packages",
+            svgIcon: "/media/svg/bug.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+          }
+        ],
       },
       {
         sectionTitle: "Reports",

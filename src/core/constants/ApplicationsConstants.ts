@@ -14,8 +14,12 @@ export class AppConstants {
   static GRADES_URL = `${AppConstants.MANAGEMENT_URL}/Grades`;
 
   static COURSES_URL = `${AppConstants.MANAGEMENT_URL}/Courses`;
+
+  static Packages_URL = `${AppConstants.MANAGEMENT_URL}/Package`;
+
   static SECTIONS_URL = `${AppConstants.MANAGEMENT_URL}/Sections`;
   static lESSONS_URL = `${AppConstants.MANAGEMENT_URL}/Lessons`;
+
 
   static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
   static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;

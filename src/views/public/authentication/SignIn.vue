@@ -25,6 +25,7 @@
           class="form-control form-control-lg form-control-solid"
           type="text"
           name="email"
+          value="Admin__0__mohammedalbosifi1990@gmail.com"
           autocomplete="off"
         />
         <!--end::Input-->
@@ -62,6 +63,7 @@
           class="form-control form-control-lg form-control-solid"
           type="password"
           name="password"
+          value="@Password"
           autocomplete="off"
         />
         <!--end::Input-->

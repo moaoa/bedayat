@@ -14,3 +14,14 @@ export type PagedList<T> = {
   hasPrevious: boolean;
   hasNext: boolean;
 };
+
+export interface PagedResult<T> {
+  results: T[]
+  pageNumber: number
+  pageSize: number
+  pageItemsCount: number
+  rowsCount: number
+  hasPrevious: boolean
+  hasNext: boolean
+  pagesCount: number
+}

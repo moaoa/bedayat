@@ -1,15 +1,15 @@
 <template>
   <div
     class="modal fade"
-    id="kt_modal_delete_locality"
-    ref="deleteLocalityModalRef"
+    id="kt_modal_delete_package"
+    ref="deletePacakgeModalRef"
     tabindex="-1"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered mw-550px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("deleteLocality") }}</h2>
+          <h2 class="fw-bolder">{{ $t("deletePackage") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"
@@ -22,8 +22,8 @@
           <!--end::Close-->
         </div>
 
-        <div class="modal-body  py-10 px-lg-17 px-20">
-          <h3 class="fs-1">{{ t("areYouSure") }}</h3>
+        <div class="modal-body py-10 px-lg-17">
+          <h3>{{t('areYouSure')}}</h3>
         </div>
         <!--end::Modal body-->
 
@@ -44,7 +44,7 @@
           <button
             :data-kt-indicator="deleting ? 'on' : null"
             class="btn btn-sm btn-danger"
-            @click="deleteLocality"
+            @click="deletePackage"
             style="width: 200px"
           >
             <span v-if="!deleting" class="indicator-label">
@@ -70,6 +70,40 @@
   </div>
 </template>
 
+
+
+<script lang="ts" setup>
+import { Country } from "@/types/Countries";
+import { ref, computed } from "vue";
+// import { hideModal } from "@/core/helpers/dom";
+import { useI18n } from "vue-i18n";
+import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
+import {GetPackagesResponseDto} from "@/types/Packages/Packages";
+
+const { t } = useI18n();
+const deleting = computed(() => {
+  return courseStore.isDeletingItem;
+});
+
+// eslint-disable-next-line no-undef
+const emit = defineEmits<{
+  (event: "packageDeleted");
+}>();
+
+const courseStore = useCoursesStore();
+
+const deletePacakgeModalRef = ref<HTMLElement | null>(null);
+
+// eslint-disable-next-line no-undef
+defineExpose({ modalRef: deletePacakgeModalRef });
+
+const deletePackage = async () => {
+  await courseStore.deletePackage()
+
+  console.log('in the deeeeeeleees')
+    emit("packageDeleted");
+};
+</script>
 <style lang="scss">
 .el-select {
   width: 100%;
@@ -80,33 +114,3 @@
   width: 100%;
 }
 </style>
-
-<script lang="ts" setup>
-import { useLocalitiesStore } from "@/store/pinia_store/modules/LocalitiesModule";
-import { Locality } from "@/types/Localities";
-import { ref } from "vue";
-import { useI18n } from "vue-i18n";
-
-const { t } = useI18n();
-const deleting = ref<boolean>(false);
-
-const emit = defineEmits<{
-  (event: "localityDeleted", data: Locality);
-  (event: "close", data: any);
-}>();
-
-const localitiesStore = useLocalitiesStore();
-
-const deleteLocalityModalRef = ref<HTMLElement | null>(null);
-
-defineExpose({ modalRef: deleteLocalityModalRef });
-
-const deleteLocality = () => {
-  deleting.value = !deleting.value;
-
-  setTimeout(() => {
-    deleting.value = !deleting.value;
-    emit("localityDeleted", localitiesStore.selectedLocality!);
-  }, 3000);
-};
-</script>
