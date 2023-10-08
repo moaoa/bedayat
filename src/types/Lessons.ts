@@ -1,8 +1,36 @@
 export type Lesson = {
-  id: string;
-  title: string;
+  createdAt: string;
   description: string;
-  lessonType: string;
+  durationAsSeconds: number;
+  id: string;
+  lastUpdated: string;
+  lessonAttachments: LessonAttachment[];
+  lessonType: number;
+  sectionId: string;
+  title: string;
 };
 
-export type NewLessonData = Omit<Lesson, "id">;
+export type NewLessonData = {
+  title: string;
+  description: string;
+  lessonType: number;
+};
+
+export type AttachmentForm = {
+  image: File | null;
+  content: File | null;
+  additionalContent: File | null;
+};
+
+export type LessonAttachment = {
+  attachmentPath: string;
+  attachmentType: number;
+  createdAt: string;
+  extension: string;
+  id: string;
+  lastUpdated: string;
+  lesson: Lesson;
+  lessonId: string;
+  name: string;
+  size: number;
+};

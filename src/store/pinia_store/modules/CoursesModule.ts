@@ -58,6 +58,7 @@ export const useCoursesStore = defineStore({
       } catch (error) {
         this.isSwitchingCourseStatus = false;
         console.log(error);
+        throw error;
       }
     },
     async updateItem(newValues: NewCourseData) {

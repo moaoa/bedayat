@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
-import { Lesson, NewLessonData } from "@/types/Lessons";
+import { Lesson, LessonAttachment, NewLessonData } from "@/types/Lessons";
 
 import lessonService from "@/core/repositories/LessonsService";
 import { useLocalStorage } from "@vueuse/core";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 export const useLessonsStore = defineStore({
   id: "lessonsStore",
@@ -14,6 +15,7 @@ export const useLessonsStore = defineStore({
       currentSize: 0,
     },
     isSwitchingLessonStatus: false,
+    isAddingAttachment: false,
 
     selectedLesson: useLocalStorage<Partial<Lesson>>("selectedLesson", {}),
     dataIsLoading: false,
@@ -24,7 +26,25 @@ export const useLessonsStore = defineStore({
     errorMessage: "",
     errorLoadingData: false,
   }),
-
+  getters: {
+    getVideoAttachmentForSelectedLesson(state) {
+      return state.selectedLesson?.lessonAttachments?.find(
+        (item) =>
+          item.attachmentType === AppConstants.ATTATCHMENT_TYPES.VideoLesson
+      );
+    },
+    getImageAttachmentForSelectedLesson(state) {
+      return state.selectedLesson?.lessonAttachments?.find(
+        (item) =>
+          item.attachmentType === AppConstants.ATTATCHMENT_TYPES.PreviewImage
+      );
+    },
+    getFileAttachmentForSelectedLesson(state): LessonAttachment | undefined {
+      return state.selectedLesson?.lessonAttachments?.find(
+        (item) => item.attachmentType === AppConstants.ATTATCHMENT_TYPES.File
+      );
+    },
+  },
   actions: {
     async loadLessons(courseId: string) {
       this.dataIsLoading = true;
@@ -38,6 +58,43 @@ export const useLessonsStore = defineStore({
         console.log((e as Error).message);
       } finally {
         this.dataIsLoading = false;
+      }
+    },
+    async getAttachmentLinkById(attachmentId: string) {
+      // this.dataIsLoading = true;
+      this.errorLoadingData = false;
+
+      try {
+        const res = await lessonService.getAttachmentLinkById(attachmentId);
+
+        console.log(res);
+      } catch (e) {
+        console.log((e as Error).message);
+      } finally {
+        this.dataIsLoading = false;
+      }
+    },
+    async addAttachmentToLesson(
+      file: File,
+      attachmentType: number,
+      attachmentName: string,
+      size: number
+    ) {
+      this.isAddingAttachment = true;
+      this.errorLoadingData = false;
+
+      try {
+        const items = await lessonService.addAttachmentToLesson(
+          this.selectedLesson!.id!,
+          file,
+          attachmentType,
+          attachmentName,
+          size
+        );
+      } catch (e) {
+        console.log((e as Error).message);
+      } finally {
+        this.isAddingAttachment = false;
       }
     },
     unselectLesson() {

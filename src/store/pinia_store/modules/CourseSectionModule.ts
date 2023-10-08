@@ -3,6 +3,8 @@ import { CourseSection, NewCourseSectionData } from "@/types/CourseSection";
 
 import courseSectionService from "@/core/repositories/CourseSectionsService";
 import { useLocalStorage } from "@vueuse/core";
+import CourseSectionServise from "@/core/repositories/CourseSectionsService";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 export const useCourseSectionsStore = defineStore({
   id: "courseSectionsStore",
@@ -21,6 +23,8 @@ export const useCourseSectionsStore = defineStore({
       "selectedCourseSection",
       {}
     ),
+    gradeTypeOfCurentCourseOrSection: AppConstants.GradeTypes.Yearly,
+
     dataIsLoading: false,
     isCreatingNewItem: false,
     isUpdatingItem: false,
@@ -39,6 +43,36 @@ export const useCourseSectionsStore = defineStore({
         const items = await courseSectionService.getCourseSections(courseId);
 
         this.courseSections = items;
+      } catch (e) {
+        console.log((e as Error).message);
+      } finally {
+        this.dataIsLoading = false;
+      }
+    },
+    async getGradeTypeBySectionId(sectionId: string) {
+      this.dataIsLoading = true;
+      this.errorLoadingData = false;
+
+      try {
+        const res = await CourseSectionServise.getGradeTypeBySectionId(
+          sectionId
+        );
+        console.log(res);
+        this.gradeTypeOfCurentCourseOrSection = res.data.data;
+      } catch (e) {
+        console.log((e as Error).message);
+      } finally {
+        this.dataIsLoading = false;
+      }
+    },
+    async getGradeTypeByCourseId(courseId: string) {
+      this.dataIsLoading = true;
+      this.errorLoadingData = false;
+
+      try {
+        const res = await CourseSectionServise.getGradeTypeByCourseId(courseId);
+        console.log(res);
+        this.gradeTypeOfCurentCourseOrSection = res.data.data;
       } catch (e) {
         console.log((e as Error).message);
       } finally {

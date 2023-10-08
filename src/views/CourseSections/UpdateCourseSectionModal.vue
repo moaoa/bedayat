@@ -87,11 +87,19 @@
 
                 <!--begin::Input-->
                 <el-form-item prop="gradeTypeIndex">
-                  <el-input
+                  <el-select
                     v-model="formData.gradeTypeIndex"
                     type="text"
                     :placeholder="$t('gradeTypeIndex')"
-                  />
+                  >
+                    <el-option
+                      v-for="item in gradeTypeOptions"
+                      :key="item.label"
+                      :value="item.value"
+                      :label="item.label"
+                    >
+                    </el-option>
+                  </el-select>
                 </el-form-item>
                 <!--end::Input-->
               </div>
@@ -152,19 +160,41 @@ import { useI18n } from "vue-i18n";
 import { NewCourseSectionData } from "@/types/CourseSection";
 import { useCourseSectionsStore } from "@/store/pinia_store/modules/CourseSectionModule";
 import Toaster from "@/core/services/Toaster";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
 
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
-const loading = computed(() => courseSectionssStore.isUpdatingItem);
+const loading = computed(() => courseSectionsStore.isUpdatingItem);
 
-const courseSectionssStore = useCourseSectionsStore();
+const courseSectionsStore = useCourseSectionsStore();
 
 const formData = reactive<NewCourseSectionData>({
   englishTitle: "",
   gradeTypeIndex: 0,
   title: "",
+});
+
+const isGradeTypeYearly = computed(() => {
+  return (
+    courseSectionsStore.gradeTypeOfCurentCourseOrSection ===
+    AppConstants.GradeTypes.Yearly
+  );
+});
+
+const gradeTypeOptions = computed(() => {
+  if (isGradeTypeYearly.value) {
+    return [
+      { label: t("firstSection"), value: 1 },
+      { label: t("secondSection"), value: 2 },
+      { label: t("thirdSection"), value: 3 },
+    ];
+  }
+  return [
+    { label: t("firstSection"), value: 1 },
+    { label: t("secondSection"), value: 2 },
+  ];
 });
 
 const emit = defineEmits(["close"]);
@@ -191,7 +221,7 @@ const submit = () => {
       return;
     }
     try {
-      await courseSectionssStore.updateItem(formData);
+      await courseSectionsStore.updateItem(formData);
       hideModal(modalRef.value);
       Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
@@ -201,7 +231,7 @@ const submit = () => {
 };
 
 watch(
-  () => courseSectionssStore.selectedCourseSection,
+  () => courseSectionsStore.selectedCourseSection,
   (value) => {
     formData.englishTitle = value?.englishTitle ?? "";
     formData.title = value?.title ?? "";
@@ -211,7 +241,7 @@ watch(
 
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", () => {
-    courseSectionssStore.unselectCourseSection();
+    courseSectionsStore.unselectCourseSection();
   });
 });
 </script>

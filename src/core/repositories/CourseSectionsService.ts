@@ -10,6 +10,28 @@ class CoursesService {
     );
     return res.data.data;
   }
+  public static async getGradeTypeByCourseId(courseId: string) {
+    const res = await ApiService.query<ApiResponse<number>>(
+      `${AppConstants.SECTIONS_URL}/GetGradeType`,
+      {
+        params: {
+          courseId,
+        },
+      }
+    );
+    return res;
+  }
+  public static async getGradeTypeBySectionId(sectionId: string) {
+    const res = await ApiService.query<ApiResponse<number>>(
+      `${AppConstants.SECTIONS_URL}/GetGradeType`,
+      {
+        params: {
+          sectionId,
+        },
+      }
+    );
+    return res;
+  }
   public static async deleteCourseSection(sectionId: string) {
     return await ApiService.delete<ApiResponse<unknown>>(
       `${AppConstants.SECTIONS_URL}/${sectionId}`

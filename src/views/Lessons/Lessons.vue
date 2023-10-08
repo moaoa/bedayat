@@ -25,7 +25,7 @@
           <span class="svg-icon svg-icon-3">
             <inline-svg src="/media/icons/duotune/arrows/arr075.svg" />
           </span>
-          {{ $t("addNewSection") }}
+          {{ $t("addNewLesson") }}
         </a>
 
         <!--end::Menu-->
@@ -79,24 +79,31 @@
         />
 
         <el-table-column
-          :label="$t('lessons')"
-          width="90"
+          :label="$t('attachments')"
+          width="150"
           align="center"
           header-align="center"
         >
           <template v-slot="scope: { row: Lesson, $index: number }">
-            <!-- <RouterLink
-              :to="{
-                name: 'CourseLessons',
-                params: { id: scope.row.id },
-              }"
+            <a
+              v-if="scope.row.lessonAttachments.length === 0"
+              class="btn btn-icon btn-light-primary btn-sm"
+              data-bs-toggle="modal"
+              :data-bs-target="`#kt_modal_attachments_item`"
+              @click="selectLesson(scope.row)"
             >
-              <a class="btn btn-icon btn-light-success btn-sm">
-                <i class="bi bi-book"></i>
-              </a>
+              <PlusIcon />
+            </a>
 
-              <i class=""></i>
-            </RouterLink> -->
+            <a
+              v-else
+              class="btn btn-icon btn-light-success btn-sm"
+              data-bs-toggle="modal"
+              :data-bs-target="`#kt_modal_attachments_item`"
+              @click="selectLesson(scope.row)"
+            >
+              <i class="bi bi-pencil"></i>
+            </a>
           </template>
         </el-table-column>
         <el-table-column :label="$t('edit')" width="120" align="center">
@@ -147,15 +154,19 @@
     <!--end::Body-->
 
     <!-- begin::dialog -->
-    <CreateSectionForm />
+    <CreateLessonModal />
     <!-- end::dialog -->
     <!-- begin::dialog -->
-    <UpdateSectionForm @close="unselectSection" />
+    <UpdateLessonModal @close="unselectSection" />
     <!-- end::dialog -->
 
     <!-- begin::dialog -->
-    <DeleteLesson></DeleteLesson>
+    <DeleteLessonModal></DeleteLessonModal>
     <!-- end::dialog -->
+
+    <!-- begin::modal -->
+    <LessonAttachmentsModal />
+    <!-- end::modal -->
   </div>
   <!--end:List Widget 3-->
 </template>
@@ -163,14 +174,16 @@
 <script setup lang="ts">
 import { computed, ref, reactive } from "vue";
 import type { Lesson, NewLessonData } from "@/types/Lessons";
-import CreateSectionForm from "@/views/Lessons/AddLessonModal.vue";
-import UpdateSectionForm from "@/views/Lessons/UpdateLessonModal.vue";
-import DeleteLesson from "@/views/Lessons/DeleteLessonModal.vue";
+import CreateLessonModal from "@/views/Lessons/AddLessonModal.vue";
+import UpdateLessonModal from "@/views/Lessons/UpdateLessonModal.vue";
+import DeleteLessonModal from "@/views/Lessons/DeleteLessonModal.vue";
+import LessonAttachmentsModal from "@/views/Lessons/LessonAttachmentsModal.vue";
 import { formatDate } from "@/core/helpers/formatDate";
 import { useLessonsStore } from "@/store/pinia_store/modules/LessonsModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import DotsIcon from "@/components/icons/DotsIcon.vue";
+import PlusIcon from "@/components/icons/CheckIcon.vue";
 import router from "@/router";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 

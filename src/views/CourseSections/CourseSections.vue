@@ -53,15 +53,32 @@
         <el-table-column
           prop="title"
           :label="$t('title')"
-          width="120"
+          width="150"
           align="center"
           header-align="center"
-        />
+        >
+          <template v-slot="scope: { row: CourseSection, $index: number }">
+            <ClippedText :text="scope.row.title" />
+          </template>
+        </el-table-column>
         <el-table-column
           prop="englishTitle"
           :label="$t('englishTitle')"
-          width="120"
-        />
+          width="150"
+        >
+          <template v-slot="scope: { row: CourseSection, $index: number }">
+            <ClippedText :text="scope.row.englishTitle" />
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="gradeTypeIndex"
+          :label="$t('gradeTypeIndex')"
+          width="150"
+        >
+          <template v-slot="scope: { row: CourseSection, $index: number }">
+            {{ mapIndexToSectionLabel(scope.row.gradeTypeIndex) }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
@@ -171,11 +188,14 @@ import { formatDate } from "@/core/helpers/formatDate";
 import { useCourseSectionsStore } from "@/store/pinia_store/modules/CourseSectionModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
+import ClippedText from "@/components/ClippedText.vue";
 import Toaster from "@/core/services/Toaster";
 import { hideModal } from "@/core/helpers/dom";
 import { User } from "@/types/User";
 import DotsIcon from "@/components/icons/DotsIcon.vue";
 import router from "@/router";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import mapIndexToSectionLabel from "@/core/helpers/mapIndexToSectionLabel";
 
 const { t } = useI18n();
 const sectionsStore = useCourseSectionsStore();
@@ -199,6 +219,10 @@ const unselectSection = () => {
 const formatter = (key: "createdAt" | "lastUpdated") => {
   return (section: CourseSection) => formatDate(section[key]);
 };
+
+sectionsStore.getGradeTypeByCourseId(
+  router.currentRoute.value.params.id as string
+);
 setCurrentPageBreadcrumbs(t("sections"), [t("sections")]);
 </script>
 @/store/pinia_store/modules/CourseSectionModule

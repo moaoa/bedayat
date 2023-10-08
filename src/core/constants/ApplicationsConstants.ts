@@ -149,4 +149,9 @@ export class AppConstants {
     InActive: 0,
     Active: 1,
   };
+  static ATTATCHMENT_TYPES = {
+    PreviewImage: 0,
+    VideoLesson: 1,
+    File: 2,
+  };
 }

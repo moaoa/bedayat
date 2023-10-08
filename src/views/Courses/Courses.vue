@@ -191,6 +191,18 @@
           align="center"
         />
         <el-table-column
+          prop="rating"
+          :label="$t('rating')"
+          width="170"
+          align="center"
+        />
+        <el-table-column
+          prop="numberOfRatings"
+          :label="$t('numberOfRatings')"
+          width="170"
+          align="center"
+        />
+        <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
           width="150"

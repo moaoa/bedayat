@@ -24,6 +24,8 @@ export type Course = {
   logoPath: any;
   teacherId: any;
   courseStatus: number;
+  rating: number;
+  numberOfRatings: number;
 };
 
 export type NewCourseData = {
