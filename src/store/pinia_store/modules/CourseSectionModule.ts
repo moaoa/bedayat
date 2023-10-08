@@ -42,7 +42,7 @@ export const useCourseSectionsStore = defineStore({
       try {
         const items = await courseSectionService.getCourseSections(courseId);
 
-        this.courseSections = items;
+        this.courseSections = items ?? [];
       } catch (e) {
         console.log((e as Error).message);
       } finally {

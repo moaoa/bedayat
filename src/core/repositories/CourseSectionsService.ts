@@ -5,7 +5,7 @@ import ApiService from "@/core/services/ApiService";
 
 class CoursesService {
   public static async getCourseSections(courseId: string) {
-    const res = await ApiService.get<ApiResponse<CourseSection[]>>(
+    const res = await ApiService.get<ApiResponse<CourseSection[] | null>>(
       `${AppConstants.SECTIONS_URL}/SectionByCourseId/${courseId}`
     );
     return res.data.data;
