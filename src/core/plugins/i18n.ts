@@ -3,6 +3,12 @@ import languageConfig from "@/core/config/LanguageDefaultConfig";
 
 const messages = {
   en: {
+    attachments: "Attachments",
+    addNewLesson: "Add New Lesson",
+    numberOfLessons: "Number Of Lessons",
+    rating: "Rating",
+    numberOfRatings: "Number Of Ratings",
+    sections: "Sections",
     main: "Main",
     cities: "Faqs",
     countries: "Countries",
@@ -218,11 +224,20 @@ const messages = {
     maxPrice: "Max Price",
     minNumberOfLessons: "Min Number Of Lessons",
     maxNumberOfLessons: "Max Number Of Lessons",
-    rating: "Rating",
     filteredInList: "Filtered In List?",
+    lessons: "Lessons",
+    gradeTypeIndex: "Grade Order",
+    forPreview: "For Preview",
   },
   ar: {
+    forPreview: "للمعاينة",
+    gradeTypeIndex: "ترتيب الصف",
+    lessons: "الدروس",
+    addNewLesson: "إضافة درس جديد",
+    numberOfLessons: "عدد الدروس",
+    attachments: "المرفقات",
     addSubscriptionSettings: "إضافة جديدة",
+    sections: "الأقسام",
     submit: "تأكيد",
     Scientific: "علمي",
     Literary: "أدبي",
@@ -438,6 +453,7 @@ const messages = {
     minNumberOfLessons: "الحد الأدنى لعدد الدروس",
     maxNumberOfLessons: "الحد الأعلى لعدد الدروس",
     rating: "التقييم",
+    numberOfRatings: "عدد التقييمات",
     filteredInList: "تم تصفية النتائج في القائمة",
   },
 };

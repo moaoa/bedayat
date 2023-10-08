@@ -65,6 +65,7 @@
           prop="englishTitle"
           :label="$t('englishTitle')"
           width="150"
+          align="center"
         >
           <template v-slot="scope: { row: CourseSection, $index: number }">
             <ClippedText :text="scope.row.englishTitle" />
@@ -74,6 +75,7 @@
           prop="gradeTypeIndex"
           :label="$t('gradeTypeIndex')"
           width="150"
+          align="center"
         >
           <template v-slot="scope: { row: CourseSection, $index: number }">
             {{ mapIndexToSectionLabel(scope.row.gradeTypeIndex) }}
