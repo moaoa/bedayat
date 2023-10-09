@@ -150,6 +150,10 @@ const routes: Array<RouteRecordRaw> = [
         path: "/dashboard/GradeSubjects/:id",
         name: "GradeSubjects",
         component: () => import("@/views/GradeSubjects/GradeSubjects.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadSubjects,
+        },
       },
 
       {

@@ -141,7 +141,7 @@
                   <el-select
                     v-model="gradesSubjectsStore.selectedGradeId"
                     type="text"
-                    :placeholder="$t('gradeId')"
+                    :placeholder="$t('grade')"
                     filterable
                     clearable
                   >
@@ -170,7 +170,7 @@
                     v-model="formData.gradeSubjectId"
                     v-loading="gradesSubjectsStore.dataIsLoading"
                     type="text"
-                    :placeholder="$t('gradeSubjectId')"
+                    :placeholder="$t('gradeSubject')"
                   >
                     <el-option
                       v-for="gradeSubject in gradesSubjectsStore.gradeSubjects"
