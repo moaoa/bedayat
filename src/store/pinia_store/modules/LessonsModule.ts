@@ -4,6 +4,8 @@ import { Lesson, LessonAttachment, NewLessonData } from "@/types/Lessons";
 import lessonService from "@/core/repositories/LessonsService";
 import { useLocalStorage } from "@vueuse/core";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import Toaster from "@/core/services/Toaster";
+import i18n from "@/core/plugins/i18n";
 
 export const useLessonsStore = defineStore({
   id: "lessonsStore",
@@ -96,6 +98,34 @@ export const useLessonsStore = defineStore({
           attachmentName,
           size
         );
+
+        this.selectedLesson!.lessonAttachments?.push(items.data.data);
+
+        Toaster.Success(i18n.global.t("attachmentAddedSuccessfully"));
+      } catch (e) {
+        console.log((e as Error).message);
+      } finally {
+        this.isAddingAttachment = false;
+      }
+    },
+    async removeAttachmentFromLesson(attachmentId: string) {
+      this.isAddingAttachment = true;
+      this.errorLoadingData = false;
+
+      if (!this.selectedLesson?.id) {
+        return;
+      }
+
+      try {
+        await lessonService.removeAttachmentFromLesson(
+          this.selectedLesson.id,
+          attachmentId
+        );
+        this.selectedLesson.lessonAttachments =
+          this.selectedLesson.lessonAttachments?.filter(
+            (item) => item.id !== attachmentId
+          );
+        Toaster.Success(i18n.global.t("attachmentRemovedSuccessfully"));
       } catch (e) {
         console.log((e as Error).message);
       } finally {

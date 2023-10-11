@@ -86,23 +86,12 @@
         >
           <template v-slot="scope: { row: Lesson, $index: number }">
             <a
-              v-if="scope.row.lessonAttachments.length === 0"
               class="btn btn-icon btn-light-primary btn-sm"
               data-bs-toggle="modal"
               :data-bs-target="`#kt_modal_attachments_item`"
               @click="selectLesson(scope.row)"
             >
-              <PlusIcon />
-            </a>
-
-            <a
-              v-else
-              class="btn btn-icon btn-light-success btn-sm"
-              data-bs-toggle="modal"
-              :data-bs-target="`#kt_modal_attachments_item`"
-              @click="selectLesson(scope.row)"
-            >
-              <i class="bi bi-pencil"></i>
+              <AttachmentIcon />
             </a>
           </template>
         </el-table-column>
@@ -186,6 +175,7 @@ import DotsIcon from "@/components/icons/DotsIcon.vue";
 import PlusIcon from "@/components/icons/CheckIcon.vue";
 import router from "@/router";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 
 const { t } = useI18n();
 const lessonsStore = useLessonsStore();

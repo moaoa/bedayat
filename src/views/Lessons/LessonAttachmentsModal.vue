@@ -36,7 +36,7 @@
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("image") }}
+                  {{ $t("previewImage") }}
                 </label>
                 <!--end::Label-->
 
@@ -48,15 +48,19 @@
                 >
                   <template #default="scope">
                     <div class="d-flex align-items-center gap-4">
+                      <AttachmentIcon
+                        class="cursor-pointer"
+                        @click.stop="scope.open()"
+                      />
                       <input
                         :value="scope.fileName"
-                        @click.stop="scope.open()"
                         readonly
                         type="text"
                         class="form-control"
-                        placeholder="Username"
+                        :placeholder="$t('previewImage')"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
+                        style="width: 150px"
                       />
 
                       <div
@@ -95,15 +99,26 @@
                     </div>
                   </template>
                 </FileInput>
-                <div
-                  v-else
-                  @click="
-                    lessonsStore.getAttachmentLinkById(
-                      lessonsStore.getImageAttachmentForSelectedLesson.id
-                    )
-                  "
-                >
-                  {{ lessonsStore.getImageAttachmentForSelectedLesson?.name }}
+                <div v-else>
+                  <span
+                    @click="
+                      lessonsStore.getAttachmentLinkById(
+                        lessonsStore.getImageAttachmentForSelectedLesson.id
+                      )
+                    "
+                  >
+                    {{ lessonsStore.getImageAttachmentForSelectedLesson?.name }}
+                  </span>
+                  <span
+                    class="btn btn-danger"
+                    @click="
+                      lessonsStore.removeAttachmentFromLesson(
+                        lessonsStore.getImageAttachmentForSelectedLesson.id
+                      )
+                    "
+                  >
+                    {{ $t("delete") }}
+                  </span>
                 </div>
 
                 <!--end::Input-->
@@ -111,7 +126,7 @@
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("content") }}
+                  {{ $t("lessonVideo") }}
                 </label>
                 <!--end::Label-->
 
@@ -123,15 +138,19 @@
                 >
                   <template #default="scope">
                     <div class="d-flex align-items-center gap-4">
+                      <AttachmentIcon
+                        class="cursor-pointer"
+                        @click.stop="scope.open()"
+                      />
                       <input
                         :value="scope.fileName"
-                        @click.stop="scope.open()"
                         readonly
                         type="text"
                         class="form-control"
-                        placeholder="Username"
+                        :placeholder="$t('lessonVideo')"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
+                        style="width: 150px"
                       />
 
                       <div
@@ -170,15 +189,27 @@
                     </div>
                   </template>
                 </FileInput>
-                <div
-                  v-else
-                  @click="
-                    lessonsStore.getAttachmentLinkById(
-                      lessonsStore.getVideoAttachmentForSelectedLesson!.id
-                    )
-                  "
-                >
-                  {{ lessonsStore.getVideoAttachmentForSelectedLesson?.name }}
+                <div v-else>
+                  <span
+                    class="mr-2"
+                    @click="
+                      lessonsStore.getAttachmentLinkById(
+                        lessonsStore.getVideoAttachmentForSelectedLesson!.id
+                      )
+                    "
+                  >
+                    {{ lessonsStore.getVideoAttachmentForSelectedLesson?.name }}
+                  </span>
+                  <span
+                    class="btn btn-danger"
+                    @click="
+                      lessonsStore.removeAttachmentFromLesson(
+                        lessonsStore.getVideoAttachmentForSelectedLesson.id
+                      )
+                    "
+                  >
+                    {{ $t("delete") }}
+                  </span>
                 </div>
 
                 <!--end::Input-->
@@ -199,15 +230,19 @@
                 >
                   <template #default="scope">
                     <div class="d-flex align-items-center gap-4">
+                      <AttachmentIcon
+                        class="cursor-pointer"
+                        @click.stop="scope.open()"
+                      />
                       <input
                         :value="scope.fileName"
-                        @click.stop="scope.open()"
                         readonly
                         type="text"
                         class="form-control"
-                        placeholder="Username"
+                        :placeholder="$t('additionalContent')"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
+                        style="width: 150px"
                       />
 
                       <a
@@ -227,15 +262,26 @@
                     </div>
                   </template>
                 </FileInput>
-                <div
-                  v-else
-                  @click="
-                    lessonsStore.getAttachmentLinkById(
-                      lessonsStore.getFileAttachmentForSelectedLesson!.id
-                    )
-                  "
-                >
-                  {{ lessonsStore.getFileAttachmentForSelectedLesson!.name }}
+                <div v-else>
+                  <span
+                    @click="
+                      lessonsStore.getAttachmentLinkById(
+                        lessonsStore.getFileAttachmentForSelectedLesson!.id
+                      )
+                    "
+                  >
+                    {{ lessonsStore.getFileAttachmentForSelectedLesson!.name }}
+                  </span>
+                  <span
+                    class="btn btn-danger"
+                    @click="
+                      lessonsStore.removeAttachmentFromLesson(
+                        lessonsStore.getFileAttachmentForSelectedLesson.id
+                      )
+                    "
+                  >
+                    {{ $t("delete") }}
+                  </span>
                 </div>
 
                 <!--end::Input-->
@@ -259,14 +305,12 @@
 
 <script lang="ts" setup>
 import { reactive, ref, onMounted, computed } from "vue";
-import { hideModal } from "@/core/helpers/dom";
 import { useLessonsStore } from "@/store/pinia_store/modules/LessonsModule";
 import { useI18n } from "vue-i18n";
 import { AttachmentForm } from "@/types/Lessons";
-import Toaster from "@/core/services/Toaster";
-import router from "@/router";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import FileInput from "@/components/FileInput.vue";
+import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 
 const { t } = useI18n();
 
