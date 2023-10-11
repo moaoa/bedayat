@@ -92,37 +92,75 @@
                   </label>
                   <!--end::Label-->
 
-
-<!--                    <div>-->
-<!--                      <button>-->
-<!--                      <label for="logo_file_upload" class="image-button">Upload Image</label>-->
-<!--                      </button>-->
-<!--                      <input-->
-
-<!--                          id="logo_file_upload"-->
-<!--                          name="file"-->
-<!--                          type="file"-->
-<!--                          accept="image/*"-->
-<!--                          class="hidden"-->
-<!--                          @change="handleUploadLogo"-->
-<!--                      />-->
-<!--                    </div>-->
-
-
-
-
                   <!--begin::Input-->
-                  <el-form-item prop="book">
-                    <input
-                        id=""
-                        accept="application/pdf"
-                        type="file"
-                        :placeholder="t('book')"
-                        class="custom-file-input"
-                        @change="handleUploadBook"
-                    />
 
-                  </el-form-item>
+                    <el-form-item prop="book">
+                      <div >
+
+                        <FileInput
+                            v-if="!bookPath"
+                            @change="handleUploadBook"
+                            :accept="'pdf'"
+                        >
+                          <template #default="scope">
+                            <div class="d-flex align-items-center gap-4">
+                              <AttachmentIcon
+                                  class="cursor-pointer"
+                                  @click.stop="scope.open()"
+                              />
+                              <input
+                                  :value="scope.fileName"
+                                  readonly
+                                  type="text"
+                                  class="form-control"
+                                  :placeholder="$t('logo')"
+                                  aria-label="Username"
+                                  aria-describedby="basic-addon1"
+                                  @click.stop="scope.open()"
+                                  style="width: 150px"
+                              />
+                              <div
+                                  v-if="scope.fileName"
+                                  class="d-flex align-items-center gap-2"
+                              >
+                                <a
+                                    class="btn btn-icon btn-light-danger btn-sm"
+                                    @click="scope.reset"
+                                >
+                                  <i class="bi bi-trash"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </template>
+                        </FileInput>
+                        <div v-else class="row">
+                  <span
+                      :href="bookPath"
+                      class="col-2 mx-10 my-2  justify-content-center align-content-center"
+                  >
+                <a :href="bookPath" target="_blank"
+                   class=" justify-content-center align-content-center">
+                  <img style="width: 50px;" src="/public/media/icons/duotune/files/fil016.svg" >
+                  <p class="">{{ bookPath.slice(-10) ?? '' }}</p>
+                </a>
+                  </span>
+                          <span
+                              class="btn btn-danger col-2 mx-10 my-2"
+                              style="width: min-content; height: min-content"
+                              @click="()=> {
+                          bookPath = '';
+                          formData.logo = null;
+                        }"
+                          >
+                    {{ $t("delete") }}
+                  </span>
+                        </div>
+
+
+
+                      </div>
+                    </el-form-item>
+
                   <!--end::Input-->
                 </div>
 
@@ -136,16 +174,72 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
+
                   <el-form-item prop="logo">
+                    <div >
+
+                      <FileInput
+                          v-if="!logoPath"
+                          @change="handleUploadLogo"
+                          :accept="'image'"
+                      >
+                        <template #default="scope">
+                          <div class="d-flex align-items-center gap-4">
+                            <AttachmentIcon
+                                class="cursor-pointer"
+                                @click.stop="scope.open()"
+                            />
+                            <input
+                                :value="scope.fileName"
+                                readonly
+                                type="text"
+                                class="form-control"
+                                :placeholder="$t('logo')"
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                @click.stop="scope.open()"
+                                style="width: 150px"
+                            />
+                            <div
+                                v-if="scope.fileName"
+                                class="d-flex align-items-center gap-2"
+                            >
+                              <a
+                                  class="btn btn-icon btn-light-danger btn-sm"
+                                  @click="scope.reset"
+                              >
+                                <i class="bi bi-trash"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </template>
+                      </FileInput>
+                      <div v-else class="row">
+                  <span
+                      :href="bookPath"
+                      class="col-2 mx-10 my-2  justify-content-center align-content-center"
+                  >
+                <a :href="bookPath" target="_blank"
+                   class=" justify-content-center align-content-center">
+                  <img style="width: 50px;" src="/public/media/icons/duotune/files/fil016.svg" >
+                  <p class="">{{ bookPath.slice(-10) ?? '' }}</p>
+                </a>
+                  </span>
+                        <span
+                            class="btn btn-danger col-2 mx-10 my-2"
+                            style="width: min-content; height: min-content"
+                            @click="()=> {
+                          bookPath = '';
+                          formData.logo = null;
+                        }"
+                        >
+                    {{ $t("delete") }}
+                  </span>
+                      </div>
 
 
-                    <input
-                        accept="image/*"
-                        type="file"
-                        :placeholder="t('logo')"
-                        class="custom-file-input"
-                        @change="handleUploadLogo"
-                    />
+
+                    </div>
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -206,16 +300,14 @@ import {reactive, ref, onMounted, computed, watch} from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import { useI18n } from "vue-i18n";
-import { NewGradeData } from "@/types/Grades";
-import Toaster from "@/core/services/Toaster";
 import {NewGradeSubjectData} from "@/types/GradeSubjects";
 import {useSubjectsStore} from "@/store/pinia_store/modules/SubjectModule";
 import {useGradeSubjectsStore} from "@/store/pinia_store/modules/GradeSubjectsModule";
-import gradeSubjectsService from "@/core/repositories/GradeSubjectsService";
 import {SubjectType} from "@/types/Subjects";
+import FileInput from "@/components/FileInput.vue";
+import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 
 const { t } = useI18n();
-
 const gradesStore = useGradesStore();
 const subjectStore = useSubjectsStore();
 const gradeSubjectStore = useGradeSubjectsStore();
@@ -229,6 +321,8 @@ const formData = reactive<NewGradeSubjectData>({
   gradeId: ""
 });
 
+const bookPath = ref<string>("")
+const logoPath = ref<string>("")
 const rules = ref({
   grade: [{ required: true, message: t("required"), trigger: "blur" }],
   subject: [{ required: true, message: t("required"), trigger: "blur" }],
@@ -255,30 +349,16 @@ const submit = () => {
     }
   });
 };
-const handleUploadBook = async (event: Event) => {
-  if ((event.target as HTMLInputElement).files) {
-    const files = (event.target as HTMLInputElement).files as FileList;
-    const file = files.length > 0 ? files[0] : null;
-
+const handleUploadBook = async (file: File| null) => {
     if (!file) return;
-
-    console.log(file);
     formData.book = file;
-  }
 };
 
 
-const handleUploadLogo = async (event: Event) => {
-
-  if ((event.target as HTMLInputElement).files) {
-    const files = (event.target as HTMLInputElement).files as FileList;
-    const file = files.length > 0 ? files[0] : null;
+const handleUploadLogo = async (file: File| null) => {
 
     if (!file) return;
-
-    console.log(file);
     formData.logo = file;
-  }
 };
 
 

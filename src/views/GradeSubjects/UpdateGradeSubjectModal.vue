@@ -93,25 +93,6 @@
                   </label>
                   <!--end::Label-->
 
-
-                  <!--                    <div>-->
-                  <!--                      <button>-->
-                  <!--                      <label for="logo_file_upload" class="image-button">Upload Image</label>-->
-                  <!--                      </button>-->
-                  <!--                      <input-->
-
-                  <!--                          id="logo_file_upload"-->
-                  <!--                          name="file"-->
-                  <!--                          type="file"-->
-                  <!--                          accept="image/*"-->
-                  <!--                          class="hidden"-->
-                  <!--                          @change="handleUploadLogo"-->
-                  <!--                      />-->
-                  <!--                    </div>-->
-
-
-
-
                   <!--begin::Input-->
                   <el-form-item prop="book">
                     <input
