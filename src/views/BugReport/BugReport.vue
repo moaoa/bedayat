@@ -4,7 +4,7 @@
   <div class="card card-xxl-stretch mb-xl-3">
     <!--begin::Header-->
     <div class="card-header border-0">
-      <h3 class="card-title fw-bolder text-dark">البلدان</h3>
+      <h3 class="card-title fw-bolder text-dark">{{t("bugReports")}}</h3>
 
       <div class="card-toolbar">
         <a class="btn btn-icon btn-light-success btn-sm me-3" @click="bugReportStore.loadBugReports()">

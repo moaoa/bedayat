@@ -280,14 +280,14 @@ const rules = reactive<FormRules<Faq>>({
     {
       message: t("nameMustBeEnglish", {field: t("englishQuestion")}),
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: /^[a-zA-Z0-9\s!@#$%^&*()-=_+{}\[\]|\\;:'",.<>/?`~]*$/,
       trigger: ["blur", "change"],
     }
   ], englishAnswer: [
     {
       message: t("nameMustBeEnglish", {field: t("englishAnswer")}),
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: /^[a-zA-Z0-9\s!@#$%^&*()-=_+{}\[\]|\\;:'",.<>/?`~]*$/,
       trigger: ["blur", "change"],
     }
   ]

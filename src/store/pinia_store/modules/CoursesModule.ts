@@ -17,6 +17,7 @@ import {
 import PackagesService from "@/core/services/PackagesService";
 import { PagedResult } from "@/types/ApiResponse";
 import toaster from "@/core/services/Toaster";
+import {loaderLogo} from "@/core/helpers/config";
 
 export const useCoursesStore = defineStore({
   id: "coursesStore",
@@ -151,6 +152,8 @@ export const useCoursesStore = defineStore({
     },
     async loadCoursesToAddToPackage(courseName: string) {
       this.dataIsLoading = true
+
+
       const result = await PackagesService.getCoursesForPackageSelection(
         courseName,
         this.selectedGradeId
@@ -232,8 +235,6 @@ export const useCoursesStore = defineStore({
       this.dataIsLoading = true;
       this.isDeletingItem = true;
       try {
-        console.log("=============== in the module");
-        console.log(this.selectedPackage);
         await PackagesService.deletePackage(this.selectedPackage?.id);
         toaster.Success("deleted successfully");
       } catch (error) {
@@ -255,7 +256,7 @@ export const useCoursesStore = defineStore({
 
         toaster.Success("Course remvoed Successfully");
 
-        await this.coursesStore.getCoursesByPackageId(this.selectedPackage);
+        await this.getCoursesByPackageId(this.selectedPackage);
         return true;
       } catch (error) {
         console.log(error);
@@ -265,6 +266,8 @@ export const useCoursesStore = defineStore({
 
     async addCourseToPackage(course: CourseSelection[]) {
       try {
+
+        this.dataIsLoading = true
         const request = {
           packageId: this.selectedPackage.id,
           courseIds: [...course.map((x) => x.id)],
@@ -275,19 +278,28 @@ export const useCoursesStore = defineStore({
         await PackagesService.addCoursesToPackage(request);
         toaster.Success("Courses Added Successfully");
 
-        await this.coursesStore.getCoursesByPackageId(this.selectedPackage);
+        await this.getCoursesByPackageId(this.selectedPackage);
+
       } catch (error) {
         console.log(error);
       } finally {
+        this.dataIsLoading = false
       }
     },
     async getCoursesByPackageId(selectedCourse: GetPackagesResponseDto) {
       try {
+        this.dataIsLoading = true
         const result = await PackagesService.getPackageById(selectedCourse);
+        console.log(result)
         if (result.length > 0) this.selectPackage(result[0]);
-        else this.selectPackage({});
+        else this.selectedPackage = {}
+
       } catch (error) {
         console.log(error);
+      }
+      finally {
+
+        this.dataIsLoading = false
       }
     },
     async changePackageActiveState(packageId: string) {

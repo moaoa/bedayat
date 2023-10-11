@@ -34,7 +34,9 @@ class PackagesService {
         formData.append('englishTitle',data.englishTitle)
         formData.append('description',data.description)
         formData.append('englishDescription',data.englishDescription)
-        formData.append('logo',data.logo as Blob)
+        formData.append('logo', data.logo as Blob)
+      console.log("===========in the service ")
+      console.log(formData)
 
 
     const result =  await ApiService.put<ApiResponse<systemSettingsResponse>>(
@@ -94,7 +96,7 @@ class PackagesService {
     public static async getPackageById(packageDto: GetPackagesResponseDto) {
         const result =  await ApiService.get(
             `${AppConstants.Packages_URL}/GetPackageById`, `${packageDto.id}?packageType=${packageDto.packageType}&includeSections=true&includeLessons=false&includeLessonAttachments=false&orderByRating=false&orderByCreationDate=false&indexGradeType=-1` );
-        const data = result.data as ApiResponse<GetPackagesResponseDto[]>;
+        const data = result.data as GetPackagesResponseDto[];
         return data;
     }
 }

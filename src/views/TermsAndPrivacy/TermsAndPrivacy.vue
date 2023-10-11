@@ -104,9 +104,9 @@
 
       <button v-if="store.termsAndPrivacy.length > 0" ref="submitMobileButtonRef" type="submit" data-kt-element="sms-submit"
         class="btn btn-primary" @click="handleUpdate(tabIndex as TermsAndPrivacyType)">
-        <span v-if="!store.termsDataSubmitting" class="indicator-label"> Submit </span>
+        <span v-if="!store.termsDataSubmitting" class="indicator-label"> {{t('submit')}} </span>
         <span v-else class="btn-sm ">
-          Please wait...
+          {{t('pleaseWait')}}
         </span>
       </button>
 

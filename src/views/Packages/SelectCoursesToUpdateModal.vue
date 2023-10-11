@@ -51,7 +51,7 @@
                 <el-table
                     max-width
                     ref="multipleTableRef"
-                    :data="coursesStore.coursesToSelectToAddToPackage.filter(x=> !coursesStore.selectedPackage.courses.map(x=> x.id).includes(x.id))"
+                    :data="coursesStore.coursesToSelectToAddToPackage.filter(x=> !coursesStore.selectedPackage.courses?.map(x=> x.id).includes(x.id))"
 
                     @selection-change="handleSelectionChange"
                 >
@@ -170,7 +170,7 @@ const emit = defineEmits<{
   (event: "courseAdded");
 }>();
 
-const submit = (e: Event) => {
+const submit = async (e: Event) => {
 
   console.log(e)
   console.log(e.target)
@@ -178,7 +178,7 @@ const submit = (e: Event) => {
   if (!formRef.value)
     return;
 
-  coursesStore.addCourseToPackage(courseSelectionToAdd.value)
+  await coursesStore.addCourseToPackage(courseSelectionToAdd.value)
   coursesStore.selectedCoursesForPackage = courseSelectionToAdd.value;
   document.getElementById('kt_modal_add_customer_close')?.click()
 

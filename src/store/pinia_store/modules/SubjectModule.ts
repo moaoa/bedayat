@@ -61,15 +61,15 @@ export const useSubjectsStore = defineStore({
           (subject) => subject.id === this.selectedSubject!.id
         );
 
-        const formData = new FormData();
-        for (let key in newValues) {
-          formData.append(
-              key,
-              newValues[key]
-          );
-        }
+        // const formData = new FormData();
+        // for (let key in newValues) {
+        //   formData.append(
+        //       key,
+        //       newValues[key]
+        //   );
+        // }
 
-        await subjectsService.updateSubject(this.selectedSubject.id, formData);
+        await subjectsService.updateSubject(this.selectedSubject.id, newValues);
 
         Toaster.Success(t("success"), t("itemUpdated"));
 

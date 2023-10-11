@@ -210,10 +210,11 @@ const messages = {
     deleteSubject: "deleting a subject",
     deleteGrade: "deleteGrade",
     deleteGradeSubject: "deleteGradeSubject",
-    Scientific: "Scientific",
-    Literary: "Literary",
+    scientific: "Scientific",
+    none:"none",
+    literary: "Literary",
     state: "state",
-
+    subjectType:"Subject Type",
     uploadLogo: "upload Logo",
     nameMustBeEnglish: "name Must Be English",
     nameMustBeArabic: "name Must Be Arabic",
@@ -266,6 +267,7 @@ const messages = {
     lessonVideo: "Lesson Video",
     additionalContent: "Additional Content",
     attachmentRemovedSuccessfully: "Attachment Removed Successfully",
+    packages:"packages"
   },
   ar: {
     packageStatus: "الحاله",
@@ -305,8 +307,10 @@ const messages = {
     addSubscriptionSettings: "إضافة جديدة",
     sections: "الأقسام",
     submit: "تأكيد",
-    Scientific: "علمي",
-    Literary: "أدبي",
+    scientific: "علمي",
+    literary: "أدبي",
+    subjectType:"نوع المادة",
+    none:"غير مصنف",
     deleteGrade: "حذف سنه دراسية",
     deleteGradeSubject: "حذف مادة معينة",
     deleteSubject: "حذف ماده",
@@ -519,6 +523,7 @@ const messages = {
     rating: "التقييم",
     numberOfRatings: "عدد التقييمات",
     filteredInList: "تم تصفية النتائج في القائمة",
+    packages:"حزم",
   },
 };
 

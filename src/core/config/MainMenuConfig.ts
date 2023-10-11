@@ -65,6 +65,13 @@ const DocMenuConfig = [
         ],
       },
       {
+        heading: "packages",
+        route: "/dashboard/packages",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+      },
+      {
         heading: "courses",
         route: "/dashboard/Courses",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
@@ -127,21 +134,21 @@ const DocMenuConfig = [
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
-      {
-        sectionTitle: "packages",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
-        fontIcon: "bi-sticky",
-        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
-        sub: [
-          {
-            heading: "packages",
-            route: "/dashboard/packages",
-            svgIcon: "/media/svg/bug.svg",
-            fontIcon: "bi-layers",
-            requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-          }
-        ],
-      },
+      // {
+      //   sectionTitle: "packages",
+      //   svgIcon: "/media/icons/duotune/general/gen019.svg",
+      //   fontIcon: "bi-sticky",
+      //   requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+      //   sub: [
+      //     {
+      //       heading: "packages",
+      //       route: "/dashboard/packages",
+      //       svgIcon: "/media/svg/bug.svg",
+      //       fontIcon: "bi-layers",
+      //       requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+      //     }
+      //   ],
+      // },
       {
         sectionTitle: "Reports",
         svgIcon: "/media/icons/duotune/general/gen019.svg",

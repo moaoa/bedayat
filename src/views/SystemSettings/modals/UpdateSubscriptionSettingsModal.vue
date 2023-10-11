@@ -43,7 +43,7 @@
                 data-hide-search="true" data-placeholder="Month" as="select" :rules="mustBeValidNumber">
                 <option></option>
                 <template v-for="i in 365" :key="i">
-                  <option v-if="store.subscriptionSettings.find(x=> x.period === i)" :value="i">{{ i }}</option>
+                  <option v-if="!store.subscriptionSettings.map(x=> x.period).includes(i) || store.subsctiptionSettingToUpdate.period == i " :value="i">{{ i }}</option>
                 </template>
               </Field>
               <!-- <Field type="text" class="form-control form-control-solid" placeholder="" name="nameOnCard"

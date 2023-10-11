@@ -71,6 +71,7 @@ export const useCitiesStore = defineStore({
 
         this.cities[index] = { ...this.selectedCity, ...updateResult };
         this.cities[index] = { ...this.selectedCity, ...newValues };
+        toaster.Success("city updated successfully")
       } catch (error) {
         console.log(error);
       } finally {

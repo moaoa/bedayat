@@ -30,7 +30,7 @@ export const useSubscriptionSettingsStore = defineStore({
         if (!result.isSuccess)
         Toaster.error("count not get Subscription Settings");
       
-      this.subscriptionSettings = result.data;
+      this.subscriptionSettings = result.data.sort((a, b)=>a.period - b.period);
       
       this.dataLoading = false;
       return;

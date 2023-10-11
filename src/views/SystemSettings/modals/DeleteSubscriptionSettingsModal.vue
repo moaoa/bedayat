@@ -28,25 +28,23 @@
             <!--begin::Input group-->
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
-              <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                <span class="required">{{t('areYouSure')}}</span>
-                <i class="fas  ms-2 fs-7" data-bs-toggle="tooltip"
-                  title="Type in 'delete' to confirm "></i>
-              </label>
+              <div class="modal-body py-10 px-lg-17">
+                <h3>{{ t("areYouSure") }}</h3>
+              </div>
               <!--end::Label-->
-              <Field 
-              id="confirmDeleteText"
-              ref="confirmDeleteText"
-              name="typeDelete" 
-              :validate-on-blur="true"
-              :validate-on-change="true" 
-              type="text" 
-              class="form-select form-select-solid" 
-              data-hide-search="true"  
-              place-holder="Enter 'delete' to Confirm"
-              :rules="mustBeValidNumber">               
-              </Field>
- 
+<!--              <Field -->
+<!--              id="confirmDeleteText"-->
+<!--              ref="confirmDeleteText"-->
+<!--              name="typeDelete" -->
+<!--              :validate-on-blur="true"-->
+<!--              :validate-on-change="true" -->
+<!--              type="text" -->
+<!--              class="form-select form-select-solid" -->
+<!--              data-hide-search="true"  -->
+<!--              place-holder="Enter 'delete' to Confirm"-->
+<!--              :rules="mustBeValidNumber">               -->
+<!--              </Field>-->
+<!-- -->
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
                   <ErrorMessage name="typeDelete" />

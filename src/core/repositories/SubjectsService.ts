@@ -18,17 +18,10 @@ class SubjectsService {
         );
     }
 
-    public static async updateSubject(itemId: string, data: FormData) {
+    public static async updateSubject(itemId: string, data: NewSubjectData) {
         return await ApiService.put<ApiResponse<Subject>>(
             `${AppConstants.SUBJECTS_URL}/${itemId}`,
-            {data},
-            {
-                headers: {
-                    Accept: "*/*",
-                    "Content-Type": "multipart/form-data",
-                },
-
-            }
+            data
         );
     }
 

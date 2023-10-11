@@ -62,7 +62,6 @@
                         aria-describedby="basic-addon1"
                         style="width: 150px"
                       />
-
                       <div
                         v-if="scope.fileName"
                         class="d-flex align-items-center gap-2"
