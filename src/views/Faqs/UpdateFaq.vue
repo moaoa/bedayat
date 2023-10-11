@@ -260,7 +260,7 @@ const rules =reactive<FormRules<Faq>>({
 });
 
 watch(
-  (s) => faqsStore.selectedFaq,
+  () => faqsStore.selectedFaq,
 
   (value : Faq) => {
     formData.faqCategory = value?.faqCategory ?? "";

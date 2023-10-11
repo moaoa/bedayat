@@ -54,7 +54,7 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="name">
-                    <el-select v-model="formData.gradeId" clearable filterable>
+                    <el-select v-model="formData.gradeId"  filterable>
                       <el-option v-for="grade in gradesStore.grades" :key="grade.id" :value="grade.id"
                                  :label="grade.name">
                       </el-option>
@@ -74,7 +74,7 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="name">
-                    <el-select v-model="formData.subjectId" clearable filterable>
+                    <el-select v-model="formData.subjectId" filterable>
                       <el-option v-for="subject in subjectStore.subjects" :key="subject.id" :value="subject.id"
                                  :label="subject.name">
                       </el-option>
@@ -238,13 +238,6 @@ const formData = reactive<NewGradeSubjectData>({
 
 const emit = defineEmits(["close"]);
 
-const rules = ref({
-  grade: [{required: true, message: t("required"), trigger: "blur"}],
-  subject: [{required: true, message: t("required"), trigger: "blur"}],
-  book: [{required: false, message: t("required"), trigger: "blur"}],
-  logo: [{required: false, message: t("required"), trigger: "blur"}],
-  chaptersCount: [{required: true, message: t("required"), trigger: "blur"}],
-});
 
 const submit = () => {
   if (!formRef.value) {
@@ -258,7 +251,6 @@ const submit = () => {
     try {
       await gradeSubjectStore.updateItem(formData);
       hideModal(modalRef.value);
-      Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
       console.log(error);
     }
@@ -270,12 +262,6 @@ const handleUploadBook = async (event: Event) => {
     const files = (event.target as HTMLInputElement).files as FileList;
     const file = files.length > 0 ? files[0] : null;
 
-
-    // if (event.target.value) {
-    //   event.target.setAttribute("data-title", this.value.replace(/^.*[\\\/]/, ''));
-    // } else {
-    //   this.setAttribute("data-title", "No file chosen");
-    // }
     if (!file) return;
 
     console.log(file);
@@ -300,16 +286,9 @@ watch(
     () => gradeSubjectStore.selectedGradeSubject,
     (value) => {
       // how to pass in the old file value ?
-
+      console.log(value)
       formData.subjectId = value?.subjectId ?? "";
       formData.gradeId = value?.gradeId ?? "";
-
-       // document.getElementById("input_upload_update_book")?.textContent = "lol"
-       // document.getElementById("input_upload_update_logo")?.textContent = "lolsf"
-
-      // book.textContent = "lol";
-      // logo.textContent = "lol";
-
 
     }
 );
@@ -322,6 +301,16 @@ onMounted(() => {
     gradesStore.unselectGrade();
   });
 });
+
+const rules = ref({
+  grade: [{required: true, message: t("required"), trigger: "blur"}],
+  subject: [{required: true, message: t("required"), trigger: "blur"}],
+  book: [{required: false, message: t("required"), trigger: "blur"}],
+  logo: [{required: false, message: t("required"), trigger: "blur"}],
+});
+
+
+
 </script>
 <style lang="scss">
 .el-select {

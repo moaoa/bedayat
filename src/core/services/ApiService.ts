@@ -110,7 +110,7 @@ class ApiService {
 
   public static put<T>(
     resource: string,
-    params: Record<string, unknown>,
+    params: Record<string, unknown>  | FormData | Record<string, unknown>[],
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<T>> {
     return ApiService.vueInstance.axios.put(`${resource}`, params, options);

@@ -52,14 +52,14 @@
             <div class="col-4">
               <!--begin::Label-->
               <label class="required fs-6 fw-bold mb-2">
-                {{ $t("description") }}</label
+                {{ $t("englishTitle") }}</label
               >
               <!--end::Label-->
 
               <!--begin::Input-->
-              <el-form-item prop="description">
+              <el-form-item prop="englishTitle">
                 <el-input
-                    v-model="formData.description"
+                    v-model="formData.englishTitle"
                     type="text"
                     placeholder=""
                 />
@@ -75,13 +75,13 @@
             <div class="col-4 mb-7">
               <!--begin::Label-->
               <label class="required fs-6 fw-bold mb-2">
-                {{ $t("englishTitle") }}</label
+                {{ $t("description") }}</label
               >
               <!--end::Label-->
               <!--begin::Input-->
-              <el-form-item prop="englishTitle">
+              <el-form-item prop="description">
                 <el-input
-                    v-model="formData.englishTitle"
+                    v-model="formData.description"
                     type="textarea"
                     placeholder=""
                 />
@@ -201,29 +201,20 @@
     <!--begin::Body-->
     <div class="card-body pt-2">
 
-
       <div v-loading="gradesStore.dataIsLoading">
-
-
-
         <SelectCoursesToUpdateModal  ref="multipleTableRef" />
       </div>
       <br/>
-
       <div>
-
         <div class="row">
           <div class="col-4">
-
             <div class="col-10 mb-7">
               <!--begin::Label-->
               <label class="required fs-6 fw-bold mb-2">
                 {{ $t("selectCourses") }}</label
               >
               <!--end::Label-->
-
               <!--begin::Input-->
-
               <!-- <el-form-item prop="selectCourses">-->
               <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
                       type="button"
@@ -274,9 +265,8 @@
                                width="100"
                                align="center">
                 <template #default="scope">
-
-                  <a class="btn btn-icon btn-light-success btn-sm" @click="unSelectCourse(scope.row)">
-                    <i class="bi bi-bing"></i>
+                  <a class="btn btn-icon btn-light-danger btn-sm" @click="unSelectCourse(scope.row)">
+                    <i class="bi bi-trash"></i>
                   </a>
                 </template>
               </el-table-column>
@@ -335,12 +325,11 @@ const selectedPackageCourses = computed(()=> coursesStore.selectedPackage?.cours
 
 const unSelectCourse = async (course: SelectCoursesDto) => {
 
-  coursesStore.removeCourseFromPackage(course)
-  (multipleTableRef.value! as any).toggleSelection([course])
-  coursesStore.unselectCourseForPackage(course.id)
+   await coursesStore.removeCourseFromPackage(course.id);
+  (multipleTableRef.value! as any).toggleSelection([course]);
+ await coursesStore.unselectCourseForPackage(course.id);
+
 }
-
-
 
 const handleLogoUpload = async (event: Event) => {
   if ((event.target as HTMLInputElement).files) {

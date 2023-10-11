@@ -38,7 +38,7 @@
 
           <el-select v-model="faqsStore.selectedCategory" clearable filterable>
             <el-option v-for="category in Object.values(FaqCategory).slice(0,Object.values(FaqCategory).length/2 )" :key="category" :value="FaqCategory[category]"
-                       :label="category">
+                       :label="t(category.toLowerCase())">
             </el-option>
           </el-select>
 

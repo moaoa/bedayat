@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { Grade, NewGradeData } from "@/types/Grades";
 
 import gradesService from "@/core/repositories/GradesService";
+import Toaster from "@/core/services/Toaster";
 
 export const useGradesStore = defineStore({
   id: "gradesStore",
@@ -62,6 +63,7 @@ export const useGradesStore = defineStore({
 
         this.grades[index] = { ...this.selectedGrade, ...newValues };
         this.isUpdatingItem = false;
+        Toaster.Success("Grade updated Successfully")
       } catch (error) {
         this.isUpdatingItem = false;
         console.log(error);
@@ -73,6 +75,7 @@ export const useGradesStore = defineStore({
         const res = await gradesService.createGrade(gradeData);
         this.grades.push(res.data.data);
         this.isCreatingNewItem = false;
+        Toaster.Success("Grade added Successfully")
       } catch (error) {
         this.isCreatingNewItem = false;
         console.log(error);

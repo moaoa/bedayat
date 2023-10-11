@@ -157,16 +157,32 @@
                     width="150" align="center" header-align="center" />
                   <el-table-column :label="$t('edit')" width="150" align="center" header-align="center">
                     <template #default="scope">
-                      <el-button size="small" data-bs-toggle="modal"
-                        :data-bs-target="`#kt_modal_update_subscription_settings`"
-                        @click="handleEdit(scope.$index, scope.row)">{{ $t("edit") }}</el-button>
+                        <a
+                            class="btn btn-icon btn-light-success btn-sm"
+                            data-bs-toggle="modal"
+                            :data-bs-target="`#kt_modal_update_subscription_settings`"
+                            @click="handleEdit(scope.$index, scope.row)"
+                        >
+                          <i class="bi bi-pencil"></i>
+                        </a>
+
+
+
                     </template>
                   </el-table-column>
                   <el-table-column :label="$t('delete')" width="150" align="center" header-align="center">
                     <template #default="scope">
-                      <el-button size="small" type="danger" data-bs-toggle="modal"
-                        :data-bs-target="`#kt_modal_delete_subscription_settings`"
-                        @click="handleDelete(scope.$index, scope.row)">{{ $t("delete") }}</el-button>
+
+                      <a
+                          class="btn btn-icon btn-light-danger btn-sm"
+                          data-bs-toggle="modal"
+                          :data-bs-target="`#kt_modal_delete_subscription_settings`"
+                          @click="handleDelete(scope.$index, scope.row)">
+                        <i class="bi bi-trash"></i>
+                      </a>
+
+
+
                     </template>
                   </el-table-column>
                 </el-table>

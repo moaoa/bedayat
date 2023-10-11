@@ -21,7 +21,7 @@ export interface PackageUpdateData {
 
 
 export type PackageFilter = {
-    status: PackageStatus;
+    // status: PackageStatus;
     name: string;
     gradeId: string;
     packageType: PackageType;

@@ -151,7 +151,7 @@
 
 
 <script lang="ts" setup>
-import {ref, computed, reactive, onMounted, watch} from "vue";
+import {ref, computed, reactive, onMounted, watch, onUnmounted} from "vue";
 
 import { useI18n } from "vue-i18n";
 import { NewLocalityData } from "@/types/Localities";
@@ -185,27 +185,6 @@ defineExpose({
   modalRef,
 });
 
-const rules = ref({
-  name: [
-    { required: true, message: t("required"), trigger: "blur" },
-    {
-      required: true,
-      pattern:  /^[ء-ي\s]+$/,
-      message: t("nameMustBeArabic"),
-      trigger: ["blur", "change"],
-    }
-  ],
-  englishName: [
-    {
-      required: true,
-      pattern: /^[A-Za-z\s]+$/,
-      message: t("nameMustBeEnglish"),
-      trigger: ["blur", "change"],
-    }
-  ],
-  countryId: [{ required: true, message: t("required"), trigger: "blur" }],
-});
-
 const submit = () => {
   if (!formRef.value) {
     return;
@@ -214,21 +193,26 @@ const submit = () => {
   formRef.value.validate((valid) => {
     if (valid) {
       emit("submit", formData);
+      formData.englishName = '';
+    
     }
   });
 };
 
 onMounted(() => {
-
-
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
     if (formRef.value)
       localitiesStore.unselectLocality();
 
     countriesStore.loadCountries();
+    formData.cityId =  localitiesStore.selectedCityId
+
   });
 });
-
+onUnmounted(()=> {
+  formData.name  =""
+  formData.englishName  =""
+})
 
 
 watch(
@@ -246,6 +230,7 @@ watch(
     (id) => {
       if (id) {
         localitiesStore.loadLocalities(id);
+        formData.cityId = citiesStore.cities.find(x=> true)?.id ?? ""
       }
     }
 );

@@ -20,7 +20,7 @@
               data-kt-scroll-wrappers="#kt_modal_add_customer_scroll" data-kt-scroll-offset="300px">
               <div class="d-flex flex-column mb-7 fv-row">
                 <!--begin::Label-->
-                <label class="fs-6 fw-bold mb-2">
+                <label class="fs-6 fw-bold mb-2" for="countryId">
                   <span class="required"> {{ $t("pickUpCountry") }}</span>
 
                   <!--                  <i-->
@@ -29,7 +29,7 @@
                   <!--                    title="Country of origination"-->
                   <!--                  ></i>-->
                 </label>
-                <el-select v-model="formData.countryId">
+                <el-select id="countryId" name="countryId" v-model="formData.countryId">
                   <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
                     :label="country.name">
                   </el-option>
@@ -101,12 +101,13 @@
 
 
 <script lang="ts" setup>
-import { ref, computed, reactive } from "vue";
+import {ref, computed, reactive, watch, onMounted, onUnmounted} from "vue";
 
 import { useI18n } from "vue-i18n";
 import { NewCityData } from "@/types/Cities";
 import { useCitiesStore } from "@/store/pinia_store/modules/CitiesModule";
 import { useCountriesStore } from "@/store/pinia_store/modules/CountriesModule";
+import toaster from "@/core/services/Toaster";
 
 const { t } = useI18n();
 
@@ -122,7 +123,7 @@ const modalRef = ref<null | HTMLElement>(null);
 const formData = reactive<NewCityData>({
   name: "",
   englishName: "",
-  countryId: "",
+  countryId: countriesStore?.countries[0]?.id?? "",
 });
 
 const emit = defineEmits<{
@@ -132,8 +133,18 @@ const emit = defineEmits<{
 defineExpose({
   modalRef,
 });
+onMounted(()=> {
+  countriesStore.loadCountries();
+})
 
+onUnmounted(()=> {
+  formData.name  =""
+  formData.englishName  =""
+})
 const rules = ref({
+  countryId:[
+    { required: true, message: t("required"), trigger: "blur" },
+  ],
   name: [
     { required: true, message: t("required"), trigger: "blur" },
     {
@@ -151,7 +162,6 @@ const rules = ref({
       trigger: ["blur", "change"],
     }
   ],
-  countryId: [{ required: true, message: t("required"), trigger: "blur" }],
 });
 
 const submit = () => {
@@ -160,11 +170,19 @@ const submit = () => {
   }
 
   formRef.value.validate((valid) => {
-    if (valid) {
+
+    if (!valid || !formData.countryId) {
+      toaster.error("invalid data ")
+    }else
       emit("submit", formData);
-    }
   });
 };
+
+watch(()=> countriesStore.countries, (val)=> {
+if (val) {
+  formData.countryId = val[0]?.id
+  citiesStore.selectedCountryId = val[0]?.id
+}})
 </script>
 <style lang="scss">
 .el-select {

@@ -95,7 +95,7 @@
                   </el-form-item>
                   <!--end::Input-->
                 </div>
-                <div class="fv-row mb-7 col-md-6">
+                <div class="fv-row mb-7 col-md-6 col-6">
                   <!--begin::Label-->
                   <label class="required fs-6 fw-bold mb-2">
                     {{ $t("gradeType") }}
@@ -104,11 +104,15 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="gradeType">
-                    <el-input
-                      v-model="formData.gradeType"
-                      type="text"
-                      :placeholder="$t('gradeType')"
-                    />
+
+
+
+                    <el-select class="" v-model="formData.gradeType" filterable>
+                      <el-option v-for="category in Object.keys(AppConstants.GradeTypes)" :key="category" :value="AppConstants.GradeTypes[category]"
+                                 :label="t(category.toLowerCase())">
+                      </el-option>
+                    </el-select>
+
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -169,6 +173,8 @@ import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import { useI18n } from "vue-i18n";
 import { NewGradeData } from "@/types/Grades";
 import Toaster from "@/core/services/Toaster";
+import {BugStatusSearch} from "@/types/BugReports";
+import {AppConstants} from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
 
@@ -210,7 +216,6 @@ const submit = () => {
     try {
       await gradesStore.createNewItem(formData);
       hideModal(modalRef.value);
-      Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
       console.log(error);
     }

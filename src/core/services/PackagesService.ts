@@ -21,19 +21,25 @@ class PackagesService {
         console.log(id)
         const result =  await ApiService.delete(
             `${AppConstants.Packages_URL}/RemovePackage/${id}` );
-        const data = result.data as PagedResult<unknown>
+        const data = result.data as ApiResponse<unknown>
         return data;
     }
     removeCourseFromPackage
-  public static async updatePackage(data: FormData):Promise<ApiResponse<systemSettingsResponse>> {
+  public static async updatePackage(data: PackageUpdateData):Promise<ApiResponse<systemSettingsResponse>> {
+
+        const formData = new FormData()
+
+        formData.append('packageId',data.packageId)
+        formData.append('title',data.title)
+        formData.append('englishTitle',data.englishTitle)
+        formData.append('description',data.description)
+        formData.append('englishDescription',data.englishDescription)
+        formData.append('logo',data.logo as Blob)
+
+
     const result =  await ApiService.put<ApiResponse<systemSettingsResponse>>(
-      `${AppConstants.Packages_URL}/EditPackage`, data,
-        {
-            headers: {
-                Accept: "*/*",
-                "Content-Type": "multipart/form-data",
-            },
-        }
+      `${AppConstants.Packages_URL}/EditPackage`, formData
+
     );
     return result.data;
   }
@@ -81,7 +87,7 @@ class PackagesService {
 
     }    public static async changeActiveState(id: string):Promise<ApiResponse<Package>> {
         const result =  await ApiService.put<ApiResponse<Package>>(
-            `${AppConstants.Packages_URL}/ActivateDeActive/${id}`,);
+            `${AppConstants.Packages_URL}/ActivateDeActive/${id}`,{});
         return result.data;
     }
 

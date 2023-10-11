@@ -6,6 +6,9 @@ import { GradeSubject, NewGradeSubjectData } from "@/types/GradeSubjects";
 import { Subject } from "@/types/Subjects";
 import gradeSubjectsService from "@/core/repositories/GradeSubjectsService";
 import GradeSubjectsService from "@/core/repositories/GradeSubjectsService";
+import Toaster from "@/core/services/Toaster";
+import {t} from "element-plus/es/locale";
+import toaster from "@/core/services/Toaster";
 
 export const useGradeSubjectsStore = defineStore({
   id: "gradeSubjectsStore",
@@ -63,25 +66,14 @@ export const useGradeSubjectsStore = defineStore({
         const index = this.gradeSubjects.findIndex(
           (grade) => grade.id === this.selectedGradeSubject!.id
         );
-
-        const formData = new FormData();
-        for (let newGradeSubjectDataKey in newGradeSubjectData) {
-          formData.append(
-            newGradeSubjectDataKey,
-            newGradeSubjectData[newGradeSubjectDataKey] as Blob
-          );
-        }
-
-        console.log(formData);
-
         console.log("updating");
         await gradeSubjectsService.update(
           this.selectedGradeSubject.id,
-          formData
+            newGradeSubjectData
         );
-
         await this.loadGradeSubjects();
 
+        toaster.Success("item udpated")
         this.isUpdatingItem = false;
       } catch (error) {
         this.isUpdatingItem = false;
@@ -91,21 +83,13 @@ export const useGradeSubjectsStore = defineStore({
     async createNewItem(newGradeSubjectData: NewGradeSubjectData) {
       this.isCreatingNewItem = true;
       try {
-        const formData = new FormData();
-        for (let newGradeSubjectDataKey in newGradeSubjectData) {
-          formData.append(
-            newGradeSubjectDataKey,
-            newGradeSubjectData[newGradeSubjectDataKey] as Blob
-          );
-        }
-        console.log(newGradeSubjectData);
 
-        formData.append("chaptersCount", "1");
-
-        await GradeSubjectsService.create(formData);
+        await GradeSubjectsService.create(newGradeSubjectData);
 
         await this.loadGradeSubjects();
         this.isCreatingNewItem = false;
+
+        Toaster.Success(t("success"), t("createdNewItem"));
       } catch (error) {
         this.isCreatingNewItem = false;
         console.log(error);

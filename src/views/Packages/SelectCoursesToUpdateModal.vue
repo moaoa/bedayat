@@ -55,23 +55,23 @@
 
                     @selection-change="handleSelectionChange"
                 >
-                  <el-table-column type="selection" width="55"/>
-                  <el-table-column :label="t('courseLogo')" width="150"
+                  <el-table-column type="selection"/>
+                  <el-table-column :label="t('courseLogo')"
                                    align="center">
                     <template #default="scope">
                       <img :src="scope.row.logoPath">
                     </template>
                   </el-table-column>
-                  <el-table-column property="name" :label="t('name')" width="180"
+                  <el-table-column property="name" :label="t('name')"
                                    header-align="center"
                                    align="right"
                   />
-                   <el-table-column :label="t('subjectName')" width="150"
-                                   align="center">
-                    <template #default="scope">
-                      <p>{{scope.row?.gradeSubject?.subject?.name ?? "invalid subjectname"}}</p>
-                    </template>
-                  </el-table-column>
+<!--                   <el-table-column :label="t('subjectName')"-->
+<!--                                   align="center">-->
+<!--                    <template #default="scope">-->
+<!--                      <p>{{scope.row?.gradeSubject?.subject?.name ?? "invalid subjectname"}}</p>-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
                 </el-table>
                 <!--end::Scroll-->
               </div>
@@ -201,6 +201,10 @@ onMounted(() => {
       coursesStore.coursesToSelectToAddToPackage = [];
     if (formRef.value)
       console.log()
+
+
+    coursesStore.loadCoursesToAddToPackage("")
+
   })
 })
 

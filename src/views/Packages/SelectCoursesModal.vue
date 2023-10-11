@@ -6,7 +6,7 @@
       aria-hidden="true"
       ref="modalRef"
   >
-    {{coursesStore.selectedCoursesForPackage}}
+
     <div class="modal-dialog modal-dialog-centered mw-900px">
       <div class="modal-content ">
         <div class="modal-header" id="kt_modal_add_customer_header">
@@ -42,6 +42,7 @@
 
               <div class="modal-body py-2 px-lg-17 overflow-scroll" style="height: 70vh;">
 
+                <div v-loading="coursesStore.dataIsLoading">
                 <el-table
                     max-width
                     ref="multipleTableRef"
@@ -49,33 +50,62 @@
 
                     @selection-change="handleSelectionChange"
                 >
-                  <el-table-column type="selection" width="55"/>
-                  <el-table-column :label="t('courseLogo')" width="150"
+                  <el-table-column type="selection" />
+                  <el-table-column :label="t('courseLogo')"
                                    align="center">
                     <template #default="scope">
                       <img :src="scope.row.logoPath">
                     </template>
                   </el-table-column>
-                  <el-table-column property="name" label="Name" width="180"
+                  <el-table-column property="name" :label="t('name')"
                                    header-align="center"
                                    align="right"
                   />
-                   <el-table-column :label="t('subjectName')" width="150"
-                                   align="center">
-                    <template #default="scope">
-                      <p>{{scope.row?.gradeSubject?.subject?.name ?? "invalid subjectname"}}</p>
-                    </template>
-                  </el-table-column>
+<!--                   <el-table-column :label="t('subjectName')" width="150"-->
+<!--                                   align="center">-->
+<!--                    <template #default="scope">-->
+<!--                      <p>{{scope.row?.gradeSubject?.subject?.name ?? "invalid subjectname"}}</p>-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
                 </el-table>
+              </div>
                 <!--end::Scroll-->
               </div>
               <!--end::Modal body-->
 
               <!--begin::Modal footer-->
-              <div class="modal-footer flex-center">
+            <!--begin::Modal footer-->
+            <div class="modal-footer flex-center">
 
-                <!--end::Button-->
-              </div>
+              <!--end::Button-->
+
+              <!--begin::Button-->
+              <button
+                  :data-kt-indicator="coursesStore.dataIsLoading ? 'on' : null"
+                  class="btn btn-sm btn-primary"
+                  type="button"
+
+                  data-bs-toggle="modal"
+                  :data-bs-target="`#kt_modal_select_courses`"
+                  style="width: 200px"
+              >
+
+              <span v-if="!coursesStore.dataIsLoading" class="indicator-label">
+                {{ $t("save") }}
+                <span class="svg-icon svg-icon-3 ms-2 me-0">
+                  <inline-svg src="icons/duotune/arrows/arr064.svg"/>
+                </span>
+              </span>
+                <span v-if="coursesStore.dataIsLoading" class="indicator-progress">
+                {{ $t("pleaseWait") }}...
+
+                <span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+              </button>
+              <!--end::Button-->
+            </div>
               <!--end::Modal footer-->
 
           </div>
@@ -146,6 +176,8 @@ onMounted(() => {
     if (formRef.value)
       console.log()
   })
+
+  coursesStore.loadCoursesToAddToPackage("")
 })
 /////////////// validation
 

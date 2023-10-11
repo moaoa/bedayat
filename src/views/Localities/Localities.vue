@@ -173,9 +173,7 @@ const updateLocality = async (data: NewLocalityData) => {
     hideModal(updateLocalityModalRef.value?.modalRef!);
 
     localitiesStore.unselectLocality();
-
-    Toaster.Success("asdf", "asdfa");
-  } catch (error) {
+  }catch (error) {
     console.log(error);
   }
 };

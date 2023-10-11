@@ -6,7 +6,7 @@
     tabindex="-1"
     aria-hidden="true"
   >
-
+{{formData}}
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
@@ -234,7 +234,6 @@ const rules = ref({
   subject: [{ required: true, message: t("required"), trigger: "blur" }],
   book: [{ required: false, message: t("required"), trigger: "blur" }],
   logo: [{ required: false, message: t("required"), trigger: "blur" }],
-  chaptersCount: [{ required: true, message: t("required"), trigger: "blur" }],
 });
 
 const submit = () => {
@@ -249,7 +248,8 @@ const submit = () => {
 
       await gradeSubjectStore.createNewItem(formData);
       hideModal(modalRef.value);
-      Toaster.Success(t("success"), t("createdNewItem"));
+
+
     } catch (error) {
       console.log(error);
     }

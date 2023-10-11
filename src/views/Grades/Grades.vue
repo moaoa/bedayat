@@ -50,17 +50,18 @@
             {{ scope.$index + 1 }}
           </template>
         </el-table-column >
-        <el-table-column prop="name" :label="$t('arabicName')" width="120" align="center"
+        <el-table-column prop="name" :label="$t('arabicName')"  align="center"
                          header-align="center" />
         <el-table-column
           prop="englishName"
           :label="$t('englishName')"
-          width="120"
+          align="center"
+          header-align="center"
         />
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
-          width="150"
+
           align="center"
           header-align="center"
           :formatter="formatter('createdAt')"
@@ -68,7 +69,6 @@
         <el-table-column
           prop="lastUpdated"
           :label="$t('lastUpdated')"
-          width="150"
           align="center"
           header-align="center"
           :formatter="formatter('lastUpdated')"
@@ -76,7 +76,6 @@
 
         <el-table-column
             :label="$t('subjects')"
-            width="90"
             align="center"
             header-align="center"
         >
@@ -87,19 +86,15 @@
                   params: { id: scope.row.id },
                 }"
             >
-
               <a
                   class="btn btn-icon btn-light-success btn-sm"
               >
                 <i class="bi bi-mortarboard-fill"></i>
               </a>
-
-
-              <i class=""></i>
             </RouterLink>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('edit')" width="120" align="center">
+        <el-table-column :label="$t('edit')"  align="center">
           <template #default="scope">
             <a
               class="btn btn-icon btn-light-success btn-sm"

@@ -68,14 +68,14 @@
             <div class="col-4">
               <!--begin::Label-->
               <label class="required fs-6 fw-bold mb-2">
-                {{ $t("description") }}</label
+                {{ $t("englishTitle") }}</label
               >
               <!--end::Label-->
 
               <!--begin::Input-->
-              <el-form-item prop="description">
+              <el-form-item prop="englishTitle">
                 <el-input
-                    v-model="formData.description"
+                    v-model="formData.englishTitle"
                     type="text"
                     placeholder=""
                 />
@@ -90,13 +90,13 @@
             <div class="col-4 mb-7">
               <!--begin::Label-->
               <label class="required fs-6 fw-bold mb-2">
-                {{ $t("englishTitle") }}</label
+                {{ $t("description") }}</label
               >
               <!--end::Label-->
               <!--begin::Input-->
-              <el-form-item prop="englishTitle">
+              <el-form-item prop="description">
                 <el-input
-                    v-model="formData.englishTitle"
+                    v-model="formData.description"
                     type="textarea"
                     placeholder=""
                 />
@@ -135,10 +135,10 @@
 
                 <!--begin::Input-->
                 <el-form-item prop="englishName">
-                  <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
-                          type="button"
-                          onclick="document.getElementById('fileElem').click()">
-                    <input type="file" id="fileElem" hidden="hidden" @change="handleLogoUpload" accept="image/*">
+                    <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "
+                            type="button"
+                            onclick="document.getElementById('fileElem').click()">
+                      <input type="file" id="fileElem" hidden="hidden" @change="handleLogoUpload" accept="image/*">
                     <span class="bi bi-image">
                     </span>
                     <span class="mx-5"> {{ logoName }}</span>

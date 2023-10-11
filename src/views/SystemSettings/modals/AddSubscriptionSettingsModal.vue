@@ -9,7 +9,7 @@
         <!--begin::Modal header-->
         <div class="modal-header">
           <!--begin::Modal title-->
-          <h2>Add new General Subscription Date</h2>
+          <h2>{{ t('addnewGeneralSubscriptionDate') }}</h2>
           <!--end::Modal title-->
 
           <!--begin::Close-->
@@ -87,9 +87,12 @@
 import { onMounted, ref, defineEmits, defineExpose, VNodeRef } from "vue";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
+const {t} = useI18n();
 import { Modal } from "bootstrap";
 import Toaster from "@/core/services/Toaster";
 import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
+import {t} from "element-plus/es/locale";
+import {useI18n} from "vue-i18n";
 
 const store = useSubscriptionSettingsStore();
 

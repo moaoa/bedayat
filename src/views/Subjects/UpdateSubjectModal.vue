@@ -215,7 +215,6 @@ const submit = () => {
     try {
       await subjectsStore.updateItem(formData);
       hideModal(modalRef.value);
-      Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
       console.log(error);
     }
