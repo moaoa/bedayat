@@ -371,7 +371,7 @@ const formData = reactive<PackageUpdateData>({
   logo: null
 });
 
-const logoPath = ref<string>(coursesStore.selectedPackage?.logoPath ??  t('uploadLogo'))
+const logoPath = ref<string>(coursesStore.selectedPackage?.logoPath ??  t(''))
 
 const deletePackageModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const selectedPackageCourses = computed(()=> coursesStore.selectedPackage?.courses)

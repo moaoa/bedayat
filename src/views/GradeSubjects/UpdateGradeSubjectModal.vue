@@ -334,8 +334,8 @@ const formData = reactive<NewGradeSubjectData>({
   gradeId: ""
 });
 
-const logoPath = ref<string>(gradeSubjectStore?.selectedGradeSubject?.logo ?? t('fghjkghjk'))
-const bookPath = ref<string>(gradeSubjectStore?.selectedGradeSubject?.bookLink ?? t('gugkkjhkj'))
+const logoPath = ref<string>(gradeSubjectStore?.selectedGradeSubject?.logo ?? t(''))
+const bookPath = ref<string>(gradeSubjectStore?.selectedGradeSubject?.bookLink ?? t(''))
 const emit = defineEmits(["close"]);
 
 
