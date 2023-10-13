@@ -59,7 +59,7 @@
                   </el-table-column>
                   <el-table-column property="name" :label="t('name')"
                                    header-align="center"
-                                   align="right"
+                                   align="center"
                   />
 <!--                   <el-table-column :label="t('subjectName')" width="150"-->
 <!--                                   align="center">-->

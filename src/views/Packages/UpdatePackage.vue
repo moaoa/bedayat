@@ -336,8 +336,6 @@
 
 <script lang="ts" setup>
 import {ref, reactive, onMounted, computed, watch} from "vue";
-
-import {hideModal} from "@/core/helpers/dom";
 import {useI18n} from "vue-i18n";
 import {useGradesStore} from "@/store/pinia_store/modules/GradesModule";
 import {
@@ -352,15 +350,11 @@ import FileInput from "@/components/FileInput.vue";
 import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 const route = useRoute()
 const {t} = useI18n();
-
 const gradesStore = useGradesStore();
 const coursesStore = useCoursesStore();
-
 const formRef = ref<null | HTMLFormElement>(null);
-
 const multipleTableRef = ref(null);
 const modalRef = ref<null | HTMLElement>(null);
-
 
 const formData = reactive<PackageUpdateData>({
   packageId: coursesStore.selectedPackage!.id,
