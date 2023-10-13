@@ -15,7 +15,7 @@ class ApiService {
     ApiService.vueInstance = app;
     ApiService.vueInstance.use(VueAxios, axios);
     ApiService.vueInstance.axios.defaults.baseURL = AppConstants.BASE_URL;
-     // this.setHeader();
+    // this.setHeader();
     this.setInterceptor();
   }
 
@@ -116,8 +116,11 @@ class ApiService {
     return ApiService.vueInstance.axios.put(`${resource}`, params, options);
   }
 
-  public static delete<T>(resource: string, config? : AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return ApiService.vueInstance.axios.delete(resource, config) ;
+  public static delete<T>(
+    resource: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    return ApiService.vueInstance.axios.delete(resource, config);
   }
 }
 

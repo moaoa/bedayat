@@ -155,7 +155,34 @@ const routes: Array<RouteRecordRaw> = [
           requiredPermission: AppConstants.PERMISSIONS.ReadSubjects,
         },
       },
-
+      {
+        path: "/dashboard/PrepaidCards",
+        name: "PrepaidCards",
+        component: () => import("@/views/PrepaidCards/PrepaidCards.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+        },
+      },
+      {
+        path: "/dashboard/ExportPrepaidCards",
+        name: "ExportPrepaidCards",
+        component: () =>
+          import("@/views/PrepaidCards/ExportPrepaidCardsPage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+        },
+      },
+      {
+        path: "/dashboard/Invoices",
+        name: "Invoices",
+        component: () => import("@/views/Invoices/Invoices.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+        },
+      },
       {
         path: "/dashboard/Countries",
         name: "Countries",

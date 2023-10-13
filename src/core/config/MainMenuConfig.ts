@@ -128,6 +128,20 @@ const DocMenuConfig = [
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
       {
+        heading: "prepaidCards",
+        route: "/dashboard/PrepaidCards",
+        svgIcon: "/media/svg/bug.svg",
+        fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+      },
+      {
+        heading: "invoices",
+        route: "/dashboard/Invoices",
+        svgIcon: "/media/svg/bug.svg",
+        fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+      },
+      {
         sectionTitle: "packages",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
@@ -139,7 +153,7 @@ const DocMenuConfig = [
             svgIcon: "/media/svg/bug.svg",
             fontIcon: "bi-layers",
             requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-          }
+          },
         ],
       },
       {

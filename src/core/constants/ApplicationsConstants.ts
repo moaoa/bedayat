@@ -12,6 +12,7 @@ export class AppConstants {
   static COUNTRIES_URL = `${AppConstants.MANAGEMENT_URL}/Countries`;
   static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
   static GRADES_URL = `${AppConstants.MANAGEMENT_URL}/Grades`;
+  static PREPAID_CARDS_URL = `${AppConstants.MANAGEMENT_URL}/PrepaidCards`;
 
   static COURSES_URL = `${AppConstants.MANAGEMENT_URL}/Courses`;
 
@@ -19,7 +20,6 @@ export class AppConstants {
 
   static SECTIONS_URL = `${AppConstants.MANAGEMENT_URL}/Sections`;
   static lESSONS_URL = `${AppConstants.MANAGEMENT_URL}/Lessons`;
-
 
   static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
   static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;
@@ -157,5 +157,10 @@ export class AppConstants {
     PreviewImage: 0,
     VideoLesson: 1,
     File: 2,
+  };
+  static PREPAID_CARD_STATUS = {
+    Active: 0,
+    DisActive: 1,
+    Consumed: 2,
   };
 }

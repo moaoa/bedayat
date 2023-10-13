@@ -111,11 +111,12 @@
                 params: { id: scope.row.id },
               }"
             >
-              <a class="btn btn-icon btn-light-success btn-sm">
+              <a
+                class="btn btn-icon btn-light-success btn-sm"
+                @click="selectSection(scope.row)"
+              >
                 <i class="bi bi-book"></i>
               </a>
-
-              <i class=""></i>
             </RouterLink>
           </template>
         </el-table-column>
@@ -188,25 +189,20 @@ import UpdateSectionForm from "@/views/CourseSections/UpdateCourseSectionModal.v
 import DeleteSection from "@/views/CourseSections/DeleteSectionModal.vue";
 import { formatDate } from "@/core/helpers/formatDate";
 import { useCourseSectionsStore } from "@/store/pinia_store/modules/CourseSectionModule";
+import { useCoursesStore } from "@/store/pinia_store/modules/CoursesModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import ClippedText from "@/components/ClippedText.vue";
-import Toaster from "@/core/services/Toaster";
-import { hideModal } from "@/core/helpers/dom";
-import { User } from "@/types/User";
-import DotsIcon from "@/components/icons/DotsIcon.vue";
 import router from "@/router";
-import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import mapIndexToSectionLabel from "@/core/helpers/mapIndexToSectionLabel";
 
 const { t } = useI18n();
 const sectionsStore = useCourseSectionsStore();
+const coursesStore = useCoursesStore();
 
 const sectionSelectedId = router.currentRoute.value.params.id as string;
 
 const sectionsTable = computed(() => sectionsStore.courseSections);
-
-const deleteSectionModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 
 sectionsStore.loadCourseSection(sectionSelectedId);
 
@@ -225,6 +221,8 @@ const formatter = (key: "createdAt" | "lastUpdated") => {
 sectionsStore.getGradeTypeByCourseId(
   router.currentRoute.value.params.id as string
 );
-setCurrentPageBreadcrumbs(t("sections"), [t("sections")]);
+setCurrentPageBreadcrumbs(
+  coursesStore.selectedCourse.englishName?.slice(0, 30) || t("sections"),
+  [t("sections")]
+);
 </script>
-@/store/pinia_store/modules/CourseSectionModule
