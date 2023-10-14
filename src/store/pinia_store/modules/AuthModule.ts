@@ -72,6 +72,7 @@ export const useAuthenticationStore = defineStore({
         this.dataLoading = false;
         this.user = {};
         this.userPermissions = [];
+        router.push({ name: "sign-in" });
       }
     },
     async sendConfirmationCode(email: string) {
