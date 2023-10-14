@@ -8,7 +8,7 @@
         <!--begin::Modal header-->
         <div class="modal-header">
           <!--begin::Modal title-->
-          <h2>Update General Subscription period</h2>
+          <h2>{{ $t("updateGeneralSubscriptionPeriod") }}</h2>
           <!--end::Modal title-->
 
           <!--begin::Close-->
