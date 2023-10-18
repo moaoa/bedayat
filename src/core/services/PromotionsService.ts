@@ -9,9 +9,8 @@ import {AddUpdatePromotionDto, Promotion, PromotionDto} from "@/types/Promotions
 class PromotionsService {
 
   public static async loadPromotions(searchValue: string): Promise<PromotionDto[]> {
-
     const result =  await ApiService.get<ApiResponse<PromotionDto[]>>(
-      `${AppConstants.PROMOTIONS_URL}/${searchValue}`
+      `${AppConstants.PROMOTIONS_URL}`,`?info=${searchValue}`
     );
     return result.data.data;
   }
@@ -44,7 +43,7 @@ class PromotionsService {
 
 
     const result = await ApiService.put<ApiResponse<PromotionDto>>(
-        `${AppConstants.PROMOTIONS_URL}/${promotionId}`,{}    );
+        `${AppConstants.PROMOTIONS_URL}/Activate/${promotionId}?state=${state}`,{}    );
     return result.data;
   }
 

@@ -30,9 +30,7 @@
 
     <!--begin::Body-->
     <div class="card-body pt-2">
-      <p>Need to add the Change active state</p>
               <div class="row">
-
                   <div class="col-md-6 col-lg-4 col-7">
                     <label class=" fs-6 fw-bold mb-2">
                       {{ $t("name") }}
@@ -54,7 +52,19 @@
           >
           <el-table-column width="50" index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
             <template  #default="scope">
-              {{ scope.$index + 1 }}
+              <div
+                  class="d-flex align-items-center gap-3 justify-content-between"
+              >
+                <span
+                    v-if="scope.row.activeState === PromotionState.Inactive"
+                    class="bullet bullet-vertical h-40px bg-danger"
+                ></span>
+                <span
+                    v-else
+                    class="bullet bullet-vertical h-40px bg-success"
+                ></span>
+                {{ scope.$index + 1 }}
+              </div>
             </template>
           </el-table-column>
 
@@ -62,16 +72,39 @@
             <template #default="scope">
               <img class="w-50 h-50 image-input-wrapper" :src="scope.row.image" />
             </template>
-          </el-table-column>
+          </el-table-column>a
           <el-table-column prop="information" :label="$t('information')" align="center" header-align="center">
             <template #default="scope">
               <b> {{ scope.row.information }}</b>
             </template>
           </el-table-column>
+
           <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')" align="center"
                            header-align="center"/>
           <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"
                            align="center" header-align="center"/>
+          <el-table-column :label="$t('state')" width="90" align="center" header-align="center">
+            <template #default="scope: { row: PromotionDto, $index: number }">
+              <div class="flex">
+                <label
+                    class="
+                      form-check form-switch form-check-custom form-check-solid align-content-center justify-content-center
+                    "
+                >
+                  <!--begin::Input-->
+                  <input
+                      class="form-check-input"
+                      type="checkbox"
+                      :checked="scope.row.activeState == PromotionState.Active"
+                      @change="changePromotionState(scope.row)"
+                  />
+
+                  <!--end::Input-->
+
+                </label>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('edit')" align="center" header-align="center">
             <template #default="scope">
               <a class="btn btn-icon btn-light-success btn-sm" @click="openUpdatePromotionDialog(scope.row)"
@@ -81,16 +114,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('chageState')" width="90" align="center" header-align="center">
-            <template #default="scope: { row: PromotionDto, $index: number }">
-              <div class="flex">
-                <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
-                   :data-bs-target="`#kt_modal_delete_promotion`" @click="promotionStore.selectPromotion(scope.row)">
-                  <i class="bi bi-trash"></i>
-                </a>
-              </div>
-            </template>
-          </el-table-column>
+
 
           <el-table-column :label="$t('remove')" width="90" align="center" header-align="center">
             <template #default="scope: { row: PromotionDto, $index: number }">
@@ -119,28 +143,20 @@
 
     <UpdatePromotionModal @submit="updatePromotion" ref="updateLocalityModalRef"/>
     <!-- <AddLocalityForm @submit="localityAdded"></AddLocalityForm> -->
-    <DeletePromotionModal @localityDeleted="promotionDeleted" ref="deleteLocalityModalRef"></DeletePromotionModal>
+    <DeletePromotionModal @submit="promotionDeleted" ref="deleteLocalityModalRef"></DeletePromotionModal>
   </div>
   <!--end:List Widget 3-->
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {Locality, NewLocalityData} from "@/types/Localities";
+import {computed, onMounted, ref} from "vue";
+import {Locality} from "@/types/Localities";
 import {formatDate} from "@/core/helpers/formatDate";
-import {useLocalitiesStore} from "@/store/pinia_store/modules/LocalitiesModule";
 import {useI18n} from "vue-i18n";
 import {setCurrentPageBreadcrumbs} from "@/core/helpers/breadcrumb";
-import AddLocalityForm from "@/views/Localities/AddLocalityModal.vue";
-import UpdateLocalityModal from "@/views/Localities/UpdateLocalityModal.vue";
-import DeleteLocality from "@/views/Localities/DeleteLocality.vue";
-import Toaster from "@/core/services/Toaster";
-import ErrorAlert from "@/components/alerts/ErrorAlert.vue";
 import {hideModal} from "@/core/helpers/dom";
-import {useCountriesStore} from "@/store/pinia_store/modules/CountriesModule";
-import {useCitiesStore} from "@/store/pinia_store/modules/CitiesModule";
 import {usePromotionsStore} from "@/store/pinia_store/modules/PromotionsModule";
-import {AddUpdatePromotionDto, PromotionDto} from "@/types/Promotions";
+import {AddUpdatePromotionDto, PromotionDto, PromotionState} from "@/types/Promotions";
 import AddPromotionModal from "@/views/Promotions/AddPromotionModal.vue";
 import UpdatePromotionModal from "@/views/Promotions/UpdatePromotionModal.vue";
 import DeletePromotionModal from "@/views/Promotions/DeletePromotionModal.vue";
@@ -185,14 +201,26 @@ const updatePromotion = async (data: AddUpdatePromotionDto) => {
 const formatter = (key: keyof Locality) => {
   return (locality: Locality) => formatDate(locality[key]);
 };
-
-// setCurrentPageBreadcrumbs(t("localities"), [t("localities")]);
+const changePromotionState = async (promotionDto : PromotionDto)=>  {
+  console.log('sdfsdfsdfsdfsdfsdf')
+  await promotionStore.activateDeactivatePromotion(promotionDto, promotionDto.activeState == PromotionState.Active? PromotionState.Inactive : PromotionState.Active)
+  await promotionStore.loadPromotions(promotionSearch.value ?? '')
+}
 
 const promotionDeleted = (promotionDto: PromotionDto) => {
-  hideModal(deleteLocalityModalRef.value?.modalRef!);
   promotionStore.deleteItem(promotionDto);
+  hideModal(deleteLocalityModalRef.value?.modalRef!);
 };
+onMounted(()=> {
 
+      promotionStore.loadPromotions('')
+
+  document.getElementById('input_search_promotions')?.addEventListener('keydown',  async (event) => {
+    if (event.keyCode === 13 || event.key === 'Enter') {
+      promotionStore.loadPromotions(promotionSearch.value ?? '')
+    }
+  })
+})
 setCurrentPageBreadcrumbs(t("promotions"), [t("promotions")]);
 
 

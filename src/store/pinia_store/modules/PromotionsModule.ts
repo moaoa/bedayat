@@ -26,7 +26,7 @@ export const usePromotionsStore = defineStore({
     async loadPromotions(searchValue: string) {
       try {
         this.dataIsLoading = true;
-
+        console.log("----------------")
         const result = await PromotionsService.loadPromotions(searchValue);
 
         this.promotions = result;

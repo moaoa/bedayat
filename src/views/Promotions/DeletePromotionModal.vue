@@ -91,7 +91,7 @@ const { t } = useI18n();
 const deleting = ref<boolean>(false);
 
 const emit = defineEmits<{
-  (event: "promotionDeleted", data: PromotionDto );
+  (event: "submit", data: PromotionDto );
   (event: "close", data: any);
 }>();
 
@@ -104,9 +104,8 @@ defineExpose({ modalRef: deletePromotionModalRef });
 const deletePromotion = () => {
   deleting.value = !deleting.value;
 
-  setTimeout(() => {
     deleting.value = !deleting.value;
-    emit("promotionDeleted", promotionStore.selectedPromotion as PromotionDto);
-  }, 3000);
+    emit("submit", promotionStore.selectedPromotion as PromotionDto);
+
 };
 </script>
