@@ -59,7 +59,7 @@
               <div class="fv-row mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("englishName") }}</label
+                  {{ $t("image") }}</label
                 >
                 <!--end::Label-->
 
@@ -149,15 +149,15 @@
 
             <!--begin::Button-->
             <button
-              :data-kt-indicator="loading ? 'on' : null"
+              :data-kt-indicator="promotionStore.isUpdatingItem ? 'on' : null"
               class="btn btn-sm btn-primary"
               type="submit"
               style="width: 200px"
             >
-              <span v-if="!loading" class="indicator-label">
+              <span v-if="!promotionStore.isUpdatingItem" class="indicator-label">
                 {{ $t("save") }}
               </span>
-              <span v-if="loading" class="indicator-progress">
+              <span v-if="promotionStore.isUpdatingItem" class="indicator-progress">
                 {{ $t("pleaseWait") }}...
                 <span
                   class="spinner-border spinner-border-sm align-middle ms-2"
@@ -176,7 +176,7 @@
 
 
 <script lang="ts" setup>
-import { computed, reactive, ref, watch } from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import { useI18n } from "vue-i18n";
 import {AddUpdatePromotionDto} from "@/types/Promotions";
 import {usePromotionsStore} from "@/store/pinia_store/modules/PromotionsModule";
@@ -197,19 +197,13 @@ const loading = computed(() => {
 
 const formData = reactive<AddUpdatePromotionDto>({
   information: "",
-  image: "",
+  image:  promotionStore.selectedPromotion?.image?? '',
 });
 
-
-
 const handleImageUpload = async (file: File | null) => {
-
   if (!file) return;
-
   imagePath.value = file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
-
   formData.image = file;
-
 }
 
 
@@ -242,11 +236,17 @@ const submit = () => {
   });
 };
 
+onMounted(()=> {
+  console.log(promotionStore.selectedPromotion?.image)
+ imagePath.value = promotionStore.selectedPromotion?.image ?? ""
+})
+
 watch(
   () => promotionStore.selectedPromotion,
   (value) => {
     formData.information = value?.information ?? "";
     formData.image = value?.image ?? "";
+    imagePath.value = value?.image ??""
   }
 );
 </script>
