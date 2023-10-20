@@ -1,11 +1,15 @@
 export type Invoice = {
   id: string;
-  sellingPrice: number;
-  coinsAmount: number;
-  number: number | null;
-  serialNumber: string;
-  state: number;
-  consumedType: number;
+  thirdPartyName: string;
+  details: string;
+  total: number;
+  itemsCount: number;
+  categoriesCount: number;
+  isPaid: boolean;
+  paidAt: string;
+  prepaidCards: string | null;
+  userId: string;
+  user: string | null;
   createdAt: string;
   lastUpdated: string;
 };

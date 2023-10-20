@@ -4,7 +4,7 @@
   <div class="card card-xxl-stretch mb-xl-3">
     <!--begin::Header-->
     <div class="card-header border-0">
-      <h3 class="card-title fw-bolder text-dark">{{ $t("prepaidCards") }}</h3>
+      <h3 class="card-title fw-bolder text-dark">{{ $t("invoices") }}</h3>
 
       <div class="card-toolbar">
         <!--begin::Menu-->
@@ -24,8 +24,8 @@
     <!--begin::Body-->
     <div v-loading="prepaidCardsStore.dataIsLoading" class="card-body pt-2">
       <!-- begin: filters -->
-      <div class="row align-items-center">
-        <label for="thirdParty" class="col-md-4 mt-4">
+      <div class="d-flex align-items-center gap-1">
+        <label for="thirdParty">
           {{ $t("thirdParty") }}
           <el-input
             name="thirdParty"
@@ -36,10 +36,7 @@
           />
         </label>
 
-        <div
-          @click="prepaidCardsStore.loadInvoices(filters)"
-          class="col-md-4 mt-9"
-        >
+        <div @click="prepaidCardsStore.loadInvoices(filters)" class="">
           <a class="btn btn-sm btn-primary mx-1">
             {{ $t("search") }}
           </a>
@@ -71,34 +68,56 @@
         </el-table-column>
 
         <el-table-column
-          prop="number"
-          :label="$t('number')"
+          prop="thirdPartyName"
+          :label="$t('thirdParty')"
           width="170"
           align="center"
         />
         <el-table-column
-          prop="serialNumber"
-          :label="$t('serialNumber')"
+          prop="details"
+          :label="$t('details')"
           width="170"
           align="center"
         />
         <el-table-column
-          prop="coinsAmount"
-          :label="$t('coinsAmount')"
+          prop="total"
+          :label="$t('total')"
           width="170"
           align="center"
         />
         <el-table-column
-          prop="sellingPrice"
-          :label="$t('sellingPrice')"
+          prop="itemsCount"
+          :label="$t('numberOfItems')"
           width="170"
           align="center"
         />
         <el-table-column
-          prop="consumedType"
-          :label="$t('consumedType')"
+          prop="categoriesCount"
+          :label="$t('numberOfCategories')"
           width="170"
           align="center"
+        />
+        <el-table-column
+          prop="isPaid"
+          :label="$t('isPaid')"
+          width="170"
+          align="center"
+        >
+          <template v-slot="scope">
+            {{ scope.row.isPaid ? $t("paid") : $t("notPaid") }}
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="paidAt"
+          :label="$t('paidAt')"
+          width="150"
+          :formatter="formatter('paidAt')"
+        />
+        <el-table-column
+          prop="prepaidCards"
+          :label="$t('prepaidCards')"
+          width="150"
         />
         <el-table-column
           prop="createdAt"
@@ -113,25 +132,6 @@
           :formatter="formatter('lastUpdated')"
         />
 
-        <el-table-column
-          :label="$t('remove')"
-          width="90"
-          align="center"
-          header-align="center"
-        >
-          <template #default="scope: { row: Invoice, $index: number }">
-            <div class="flex">
-              <a
-                class="btn btn-icon btn-light-danger btn-sm"
-                data-bs-toggle="modal"
-                :data-bs-target="`#kt_modal_delete_item`"
-                @click="selectInvoice(scope.row)"
-              >
-                <i class="bi bi-trash"></i>
-              </a>
-            </div>
-          </template>
-        </el-table-column>
         <el-table-column
           :label="$t('export')"
           width="90"
@@ -172,10 +172,6 @@
     <!-- begin::dialog -->
     <ExportInvoiceModal />
     <!-- end::dialog -->
-
-    <!-- begin::dialog -->
-    <!-- <DeleteInvoice></DeleteInvoice> -->
-    <!-- end::dialog -->
   </div>
   <!--end:List Widget 3-->
 </template>
@@ -183,7 +179,6 @@
 <script setup lang="ts">
 import { computed, ref, reactive } from "vue";
 import { Invoice, NewInvoice, InvoiceFilters } from "@/types/Invoices";
-// import DeleteInvoice from "@/views/Invoices/DeleteInvoiceModal.vue";
 import { formatDate } from "@/core/helpers/formatDate";
 import ExportInvoiceModal from "@/views/Invoices/ExportInvoiceModal.vue";
 import { usePrepaidCardsStore } from "@/store/pinia_store/modules/PrepaidCardsModule";
@@ -214,9 +209,9 @@ const unselectInvoice = () => {
   prepaidCardsStore.unselectInvoice();
 };
 
-const formatter = (key: "createdAt" | "lastUpdated") => {
+const formatter = (key: "createdAt" | "lastUpdated" | "paidAt") => {
   return (prepaidCard: Invoice) => formatDate(prepaidCard[key]);
 };
 
-setCurrentPageBreadcrumbs(t("prepaidCards"), [t("prepaidCards")]);
+setCurrentPageBreadcrumbs(t("invoices"), [t("invoices")]);
 </script>

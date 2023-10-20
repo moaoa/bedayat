@@ -12,12 +12,13 @@ import toaster from "@/core/services/Toaster";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { Invoice, InvoiceFilters } from "@/types/Invoices";
 import { PrepaidCardsExportParams } from "@/types/PrepaidCards";
+import saveFile from "@/core/helpers/saveFile";
 
 export const usePrepaidCardsStore = defineStore({
   id: "prepaidCardsStore",
   state: () => ({
-    prepaidCards: [dummyCard] as PrepaidCard[],
-    invoices: [dummy] as Invoice[],
+    prepaidCards: [] as PrepaidCard[],
+    invoices: [] as Invoice[],
     pagination: {
       total: 0,
       currentPage: 1,
@@ -51,7 +52,7 @@ export const usePrepaidCardsStore = defineStore({
       try {
         const items = await prepaidCardsService.getPrepaidCards(params);
 
-        // this.prepaidCards = items;
+        this.prepaidCards = items;
       } catch (e) {
         console.log((e as Error).message);
       } finally {
@@ -65,7 +66,7 @@ export const usePrepaidCardsStore = defineStore({
       try {
         const res = await prepaidCardsService.getInvoices(params);
 
-        // this.invoices = res.data.data;
+        this.invoices = res.data.data;
       } catch (e) {
         console.log((e as Error).message);
       } finally {
@@ -126,7 +127,17 @@ export const usePrepaidCardsStore = defineStore({
           this.selectedInvoice.id,
           exportAs
         );
-        this.prepaidCards.push(res.data.data);
+        if (exportAs === AppConstants.EXPORT_AS.Excel) {
+          const blob = new Blob([res.data as ArrayBuffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          saveFile(URL.createObjectURL(blob), "export.xlsx");
+        } else if (exportAs === AppConstants.EXPORT_AS.Csv) {
+          const blob = new Blob([res.data as string], {
+            type: "text/csv",
+          });
+          saveFile(URL.createObjectURL(blob), "export.csv");
+        }
         this.isExportingInvoice = false;
       } catch (error) {
         this.isExportingInvoice = false;
@@ -137,11 +148,19 @@ export const usePrepaidCardsStore = defineStore({
     async exportPrepaidCards(params: PrepaidCardsExportParams) {
       this.isExportingInvoice = true;
       try {
-        if (!this.selectedInvoice || !this.selectedInvoice.id) {
-          return;
-        }
         const res = await prepaidCardsService.exportPrepaidCards(params);
-        this.prepaidCards.push(res.data.data);
+        if (params.exportAs === AppConstants.EXPORT_AS.Excel) {
+          const blob = new Blob([res.data as ArrayBuffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          saveFile(URL.createObjectURL(blob), "export.xlsx");
+        } else if (params.exportAs === AppConstants.EXPORT_AS.Csv) {
+          const blob = new Blob([res.data as string], {
+            type: "text/csv",
+          });
+          saveFile(URL.createObjectURL(blob), "export.csv");
+        }
+
         this.isExportingInvoice = false;
       } catch (error) {
         this.isExportingInvoice = false;
@@ -176,27 +195,3 @@ export const usePrepaidCardsStore = defineStore({
     },
   },
 });
-
-const dummy: Invoice = {
-  coinsAmount: 2,
-  consumedType: 1,
-  createdAt: new Date().toDateString(),
-  id: "asdf",
-  lastUpdated: new Date().toDateString(),
-  number: 1,
-  sellingPrice: 4,
-  serialNumber: "asdf",
-  state: 1,
-};
-
-const dummyCard: PrepaidCard = {
-  id: "abc",
-  sellingPrice: 10,
-  coinsAmount: 150,
-  number: null,
-  serialNumber: "adf",
-  state: 1,
-  consumedType: 1,
-  createdAt: new Date().toDateString(),
-  lastUpdated: new Date().toDateString(),
-};

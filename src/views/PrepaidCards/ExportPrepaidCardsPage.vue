@@ -37,11 +37,17 @@
                     v-model="formData.exportAs"
                     type="text"
                     :placeholder="$t('exportAs')"
+                    name="exportAs"
                     clearable
                   >
-                    <!-- TODO: CHECK THE VALUES -->
-                    <el-option :label="$t('excel')" :value="1" />
-                    <el-option :label="$t('json')" :value="0" />
+                    <el-option
+                      label="EXCEL"
+                      :value="AppConstants.EXPORT_AS.Excel"
+                    />
+                    <el-option
+                      label="CSV"
+                      :value="AppConstants.EXPORT_AS.Csv"
+                    />
                   </el-select>
                 </el-form-item>
 
@@ -58,6 +64,7 @@
                 <el-form-item prop="thirdParty">
                   <el-input
                     v-model="formData.thirdPartyName"
+                    name="thirdParty"
                     type="text"
                     :placeholder="$t('thirdParty')"
                     clearable
@@ -77,6 +84,7 @@
                 <el-form-item prop="details">
                   <el-input
                     v-model="formData.details"
+                    name="details"
                     type="textarea"
                     :placeholder="$t('details')"
                     clearable
@@ -98,6 +106,7 @@
                     <el-input-number
                       v-model="categoriesForm.count"
                       type="text"
+                      name="count"
                       :placeholder="$t('count')"
                       clearable
                       style="width: 100%"
@@ -116,13 +125,20 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="coinAmount">
-                    <el-input-number
+                    <el-select
                       v-model="categoriesForm.coinAmount"
-                      type="text"
                       :placeholder="$t('coinAmount')"
+                      name="coinAmount"
                       clearable
                       style="width: 100%"
-                    />
+                    >
+                      <el-option label="3" :value="3" />
+                      <el-option label="5" :value="5" />
+                      <el-option label="10" :value="10" />
+                      <el-option label="20" :value="20" />
+                      <el-option label="50" :value="50" />
+                      <el-option label="100" :value="100" />
+                    </el-select>
                   </el-form-item>
 
                   <!--end::Input-->
@@ -147,12 +163,6 @@
                   width="150"
                   align="center"
                 >
-                  <template v-slot="scope">
-                    <el-input
-                      v-model="scope.row.count"
-                      :placeholder="$t('count')"
-                    />
-                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="coinAmount"
@@ -160,20 +170,12 @@
                   width="150"
                   align="center"
                 >
-                  <template v-slot="scope">
-                    <el-input
-                      v-model="scope.row.coinAmount"
-                      :placeholder="$t('coinAmount')"
-                    />
-                  </template>
                 </el-table-column>
                 <el-table-column :label="$t('delete')" width="150">
                   <template v-slot="scope">
                     <div class="flex">
                       <a
                         class="btn btn-icon btn-light-danger btn-sm"
-                        data-bs-toggle="modal"
-                        :data-bs-target="`#kt_modal_delete_item`"
                         @click="removeRecordFromCategoriesOfCards(scope.row)"
                       >
                         <i class="bi bi-trash"></i>
@@ -231,13 +233,11 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, computed } from "vue";
-import { hideModal } from "@/core/helpers/dom";
+import { reactive, ref, computed } from "vue";
 import { usePrepaidCardsStore } from "@/store/pinia_store/modules/PrepaidCardsModule";
 import { useI18n } from "vue-i18n";
-import { NewPrepaidCard } from "@/types/PrepaidCards";
 import Toaster from "@/core/services/Toaster";
-import router from "@/router";
+// import router from "@/router";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { PrepaidCardsExportParams } from "@/types/PrepaidCards";
 
@@ -245,11 +245,9 @@ const { t } = useI18n();
 
 const prepaidCardsStore = usePrepaidCardsStore();
 const formRef = ref<null | HTMLFormElement>(null);
-const categoriesFormRef = ref<null | HTMLFormElement>(null);
-const modalRef = ref<null | HTMLElement>(null);
 const loading = computed(() => prepaidCardsStore.isCreatingNewItem);
 const formData = reactive<PrepaidCardsExportParams>({
-  exportAs: 0, //TODO
+  exportAs: AppConstants.EXPORT_AS.Excel,
   details: "",
   prepaidCardsCategories: [],
   thirdPartyName: "",
@@ -257,7 +255,7 @@ const formData = reactive<PrepaidCardsExportParams>({
 
 const categoriesForm = reactive<{ count: number; coinAmount: number }>({
   count: 0,
-  coinAmount: 0,
+  coinAmount: 3,
 });
 
 const categoryValuesAreValid = computed(() => {
@@ -265,7 +263,7 @@ const categoryValuesAreValid = computed(() => {
 });
 
 const rules = ref<Record<keyof PrepaidCardsExportParams, object[]>>({
-  thirdPartyName: [{ required: false, trigger: "blur" }],
+  thirdPartyName: [{ required: true, trigger: "blur" }],
   details: [
     {
       required: true,
@@ -289,27 +287,6 @@ const rules = ref<Record<keyof PrepaidCardsExportParams, object[]>>({
   ],
 });
 
-const categoryRules = ref<
-  Record<keyof { count: number; coinAmount: number }, object[]>
->({
-  count: [
-    {
-      required: true,
-      min: 1,
-      message: t("required"),
-      trigger: "blur",
-    },
-  ],
-  coinAmount: [
-    {
-      required: true,
-      min: 1,
-      message: t("required"),
-      trigger: "blur",
-    },
-  ],
-});
-
 const addRecordToCardCategories = () => {
   formData.prepaidCardsCategories.push({
     count: categoriesForm.count,
@@ -318,33 +295,41 @@ const addRecordToCardCategories = () => {
   categoriesForm.coinAmount = 0;
   categoriesForm.count = 0;
 };
+
 const removeRecordFromCategoriesOfCards = (index: number) => {
   formData.prepaidCardsCategories.splice(index, 1);
 };
+
 const submit = () => {
   if (!formRef.value) {
     return;
   }
 
-  formRef.value.validate(async (valid) => {
-    if (!valid) {
-      return;
+  formRef.value.validate(
+    async (valid: boolean, invalidFields: Record<string, unknown>) => {
+      if (!valid) {
+        const nameOfFirstInvalidField: string | undefined =
+          Object.keys(invalidFields)?.[0];
+        if (nameOfFirstInvalidField) {
+          document
+            .querySelector(`[name="${nameOfFirstInvalidField}"]`)
+            ?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+              inline: "start",
+            });
+        }
+        return;
+      }
+      try {
+        await prepaidCardsStore.exportPrepaidCards(formData);
+        Toaster.Success(t("success"), t("createdNewItem"));
+      } catch (error) {
+        console.log(error);
+      }
     }
-    try {
-      await prepaidCardsStore.exportPrepaidCards(formData);
-      hideModal(modalRef.value);
-      Toaster.Success(t("success"), t("createdNewItem"));
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  );
 };
-
-onMounted(() => {
-  modalRef.value?.addEventListener("hidden.bs.modal", () => {
-    formRef.value?.resetFields();
-  });
-});
 </script>
 
 <style lang="scss">

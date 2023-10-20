@@ -163,4 +163,14 @@ export class AppConstants {
     DisActive: 1,
     Consumed: 2,
   };
+  static PREPAID_CARD_COMSUMED_BY = {
+    None: 0,
+    ThirdParty: 1,
+    User: 2,
+  };
+  static EXPORT_AS = {
+    Json: 0,
+    Excel: 1,
+    Csv: 2,
+  };
 }

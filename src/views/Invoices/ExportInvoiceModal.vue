@@ -53,9 +53,14 @@
                     :placeholder="$t('exportAs')"
                     clearable
                   >
-                    <!-- TODO: CHECK THE VALUES -->
-                    <el-option :label="$t('excel')" :value="1" />
-                    <el-option :label="$t('json')" :value="0" />
+                    <el-option
+                      label="EXCEL"
+                      :value="AppConstants.EXPORT_AS.Excel"
+                    />
+                    <el-option
+                      label="CSV"
+                      :value="AppConstants.EXPORT_AS.Csv"
+                    />
                   </el-select>
                 </el-form-item>
 
@@ -128,7 +133,7 @@ const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
 const loading = computed(() => prepaidCardsStore.isExportingInvoice);
 const formData = reactive<NewInvoice>({
-  exportAs: 0, //TODO
+  exportAs: AppConstants.EXPORT_AS.Excel,
 });
 
 const rules = ref<Record<keyof NewInvoice, object[]>>({

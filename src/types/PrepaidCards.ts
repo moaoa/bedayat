@@ -1,3 +1,5 @@
+import { Invoice } from "@/types/Invoices";
+
 export type PrepaidCard = {
   id: string;
   sellingPrice: number;
@@ -5,7 +7,9 @@ export type PrepaidCard = {
   number: number | null;
   serialNumber: string;
   state: number;
-  consumedType: number;
+  thirdPartyName: string | null;
+  invoiceId: string | null;
+  invoice: Invoice | null;
   createdAt: string;
   lastUpdated: string;
 };

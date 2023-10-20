@@ -23,7 +23,7 @@ class PrepaidCardsService {
   }
   public static async getInvoices(params: InvoiceFilters) {
     const res = await ApiService.query<ApiResponse<Invoice[]>>(
-      `${AppConstants.PREPAID_CARDS_URL}/Search`,
+      `${AppConstants.PREPAID_CARDS_URL}/GetInvoices`,
       {
         params: {
           ...params,
@@ -60,17 +60,17 @@ class PrepaidCardsService {
     );
   }
   public static async exportInvoice(invoiceId: string, exportAs: number) {
-    return await ApiService.post<ApiResponse<PrepaidCard>>(
-      `${AppConstants.PREPAID_CARDS_URL}/ExportExistInvoice/${invoiceId}`,
-      {
-        exportAs,
-      }
+    return await ApiService.post<PrepaidCard>(
+      `${AppConstants.PREPAID_CARDS_URL}/ExportExistInvoice/${invoiceId}?exportAs=${exportAs}`,
+      {},
+      { responseType: "arraybuffer" }
     );
   }
   public static async exportPrepaidCards(params: PrepaidCardsExportParams) {
-    return await ApiService.post<ApiResponse<PrepaidCard>>(
+    return await ApiService.post<ArrayBuffer | string>(
       `${AppConstants.PREPAID_CARDS_URL}/ExportPrepaidCards`,
-      params
+      params,
+      { responseType: "arraybuffer" }
     );
   }
 }

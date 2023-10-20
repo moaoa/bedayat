@@ -43,8 +43,8 @@
     <!--begin::Body-->
     <div v-loading="prepaidCardsStore.dataIsLoading" class="card-body pt-2">
       <!-- begin: filters -->
-      <div class="row align-items-center">
-        <label for="number" class="col-sm-4 mt-4">
+      <div class="d-flex flex-wrap gap-4 align-items-center" style="gap: 1rem">
+        <label for="number" class="mt-4 d-flex flex-column">
           {{ $t("number") }}
           <el-input
             name="number"
@@ -54,7 +54,7 @@
             @keyup.enter="prepaidCardsStore.loadPrepaidCards(filters)"
           />
         </label>
-        <label for="serialNumber" class="col-sm-4 mt-4">
+        <label for="serialNumber" class="mt-4 d-flex flex-column">
           {{ $t("serialNumber") }}
           <el-input
             name="serialNumber"
@@ -65,7 +65,7 @@
           />
         </label>
 
-        <label for="state" class="col-sm-4 mt-4">
+        <label for="state" class="mt-4 d-flex flex-column">
           {{ $t("state") }}
           <el-select
             name="state"
@@ -88,10 +88,7 @@
           </el-select>
         </label>
 
-        <div
-          @click="prepaidCardsStore.loadPrepaidCards(filters)"
-          class="col-sm-4 mt-9"
-        >
+        <div @click="prepaidCardsStore.loadPrepaidCards(filters)" class="mt-9">
           <a class="btn btn-sm btn-primary mx-1">
             {{ $t("search") }}
           </a>
@@ -139,6 +136,16 @@
           align="center"
         />
         <el-table-column
+          prop="thirdPartyName"
+          :label="$t('thirdParty')"
+          width="170"
+          align="center"
+        >
+          <template v-slot="scope: { row: PrepaidCard, $index: number }">
+            <ClippedText :text="scope.row.thirdPartyName ?? ''" />
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="serialNumber"
           :label="$t('serialNumber')"
           width="170"
@@ -146,7 +153,7 @@
         />
         <el-table-column
           prop="coinsAmount"
-          :label="$t('coinsAmount')"
+          :label="$t('coinAmount')"
           width="170"
           align="center"
         />
@@ -156,12 +163,7 @@
           width="170"
           align="center"
         />
-        <el-table-column
-          prop="consumedType"
-          :label="$t('consumedType')"
-          width="170"
-          align="center"
-        />
+
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
@@ -196,25 +198,6 @@
           </template>
         </el-table-column>
 
-        <el-table-column
-          :label="$t('export')"
-          width="90"
-          align="center"
-          header-align="center"
-        >
-          <template #default="scope: { row: PrepaidCard, $index: number }">
-            <div class="flex">
-              <a
-                class="btn btn-sm btn-success mx-1"
-                data-bs-toggle="modal"
-                :data-bs-target="`#kt_modal_export`"
-                @click="selectPrepaidCard(scope.row)"
-              >
-                <ReportIcon />
-              </a>
-            </div>
-          </template>
-        </el-table-column>
         <el-table-column
           :label="$t('remove')"
           width="90"

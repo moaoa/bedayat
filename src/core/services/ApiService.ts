@@ -15,15 +15,15 @@ class ApiService {
     ApiService.vueInstance = app;
     ApiService.vueInstance.use(VueAxios, axios);
     ApiService.vueInstance.axios.defaults.baseURL = AppConstants.BASE_URL;
-    // this.setHeader();
+    this.setHeader();
     this.setInterceptor();
   }
 
   public static setHeader(): void {
     const authenticationStore = useAuthenticationStore();
-    // ApiService.vueInstance.axios.defaults.headers.common[
-    //   "Authorization"
-    // ] = `Bearer ${authenticationStore.user.accessToken}`;
+    ApiService.vueInstance.axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${authenticationStore.user.accessToken}`;
     ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] =
       "application/json";
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] =
