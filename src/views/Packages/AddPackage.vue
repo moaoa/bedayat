@@ -200,16 +200,6 @@
                   </span>
                     </div>
 
-                    <!--                  <button class="btn btn-sm btn-light-primary mx-1 p-3 w-100 "-->
-                    <!--                          type="button"-->
-                    <!--                          onclick="document.getElementById('fileElem').click()">-->
-                    <!--                    <input type="file" id="fileElem" hidden="hidden" @change="handleLogoUpload"-->
-                    <!--                           accept="image/*">-->
-                    <!--                    <span class="bi bi-image">-->
-                    <!--                    </span>-->
-                    <!--                    <span class="mx-5"> {{ ta }}</span>-->
-
-                    <!--                  </button>-->
 
 
 

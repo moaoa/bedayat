@@ -30,7 +30,7 @@
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                <span class="required">Number of Days </span>
+                <span class="required">{{ t('numberOfDays') }}</span>
                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
                   title="Specify a card holder's name"></i>
               </label>
@@ -63,9 +63,9 @@
               </button>
 
               <button ref="submitButtonRef" type="submit" id="kt_modal_new_card_submit" class="btn btn-primary">
-                <span class="indicator-label"> Submit </span>
+                <span class="indicator-label">  {{ $t("submit") }}</span>
                 <span class="indicator-progress">
-                  Please wait...
+                  {{ $t("pleaseWait") }}...
                   <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               </button>

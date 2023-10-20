@@ -36,17 +36,6 @@
             </el-option>
           </el-select>
         </div>
-<!--        <div class="col-md-3 col-lg-2 col-7">-->
-<!--          <label class="fs-6 fw-bold mb-2">-->
-<!--            {{ $t("state") }}-->
-<!--          </label>-->
-<!--          <el-select v-model="searchFilter.status" clearable filterable>-->
-<!--            <el-option v-for="status in Object.values(PackageStatus).slice(0,Object.values(PackageStatus).length/2 )"-->
-<!--                       :key="status" :value="PackageStatus[status]"-->
-<!--                       :label="t(`${status.toLowerCase()}`)">-->
-<!--            </el-option>-->
-<!--          </el-select>-->
-<!--        </div>-->
         <div class="col-md-3 col-lg-2 col-7">
           <label class="fs-6 fw-bold mb-2">
             {{ $t("packageType") }}

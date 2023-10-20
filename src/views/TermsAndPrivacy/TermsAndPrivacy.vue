@@ -37,7 +37,7 @@
     <div class="card-body container">
 
       <div v-if="!store.termsAndPrivacy.length" class="d-flex gap-3 text-center justify-content-center">
-        <p> no data to display, please check your connections</p>
+        <p>{{t('noDataToDisplay')}}</p>
       </div>
 
       <div v-else>

@@ -30,6 +30,7 @@ export class AppConstants {
 
   static SUBSCRIPTION_URL = `${AppConstants.MANAGEMENT_URL}/Subscription`;
   static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
+  static PROMOTIONS_URL = `${AppConstants.MANAGEMENT_URL}/Promotions`;
 
   static FILTER_ADMIN_BY_OPTIONS = {
     ByPhoneNumber: 0,

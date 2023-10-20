@@ -65,6 +65,8 @@ const DocMenuConfig = [
         ],
       },
       {
+
+        // todo: need packages permission
         heading: "packages",
         route: "/dashboard/packages",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
@@ -130,6 +132,14 @@ const DocMenuConfig = [
       {
         heading: "faqs",
         route: "/dashboard/faqs",
+        svgIcon: "/media/svg/bug.svg",
+        fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+      },
+      {
+        // todo: need promotion permission
+        heading: "promotions",
+        route: "/dashboard/promotions",
         svgIcon: "/media/svg/bug.svg",
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
