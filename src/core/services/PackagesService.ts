@@ -21,19 +21,27 @@ class PackagesService {
         console.log(id)
         const result =  await ApiService.delete(
             `${AppConstants.Packages_URL}/RemovePackage/${id}` );
-        const data = result.data as PagedResult<unknown>
+        const data = result.data as ApiResponse<unknown>
         return data;
     }
     removeCourseFromPackage
-  public static async updatePackage(data: FormData):Promise<ApiResponse<systemSettingsResponse>> {
+  public static async updatePackage(data: PackageUpdateData):Promise<ApiResponse<systemSettingsResponse>> {
+
+        const formData = new FormData()
+
+        formData.append('packageId',data.packageId)
+        formData.append('title',data.title)
+        formData.append('englishTitle',data.englishTitle)
+        formData.append('description',data.description)
+        formData.append('englishDescription',data.englishDescription)
+        formData.append('logo', data.logo as Blob)
+      console.log("===========in the service ")
+      console.log(formData)
+
+
     const result =  await ApiService.put<ApiResponse<systemSettingsResponse>>(
-      `${AppConstants.Packages_URL}/EditPackage`, data,
-        {
-            headers: {
-                Accept: "*/*",
-                "Content-Type": "multipart/form-data",
-            },
-        }
+      `${AppConstants.Packages_URL}/EditPackage`, formData
+
     );
     return result.data;
   }
@@ -81,14 +89,14 @@ class PackagesService {
 
     }    public static async changeActiveState(id: string):Promise<ApiResponse<Package>> {
         const result =  await ApiService.put<ApiResponse<Package>>(
-            `${AppConstants.Packages_URL}/ActivateDeActive/${id}`,);
+            `${AppConstants.Packages_URL}/ActivateDeActive/${id}`,{});
         return result.data;
     }
 
     public static async getPackageById(packageDto: GetPackagesResponseDto) {
         const result =  await ApiService.get(
             `${AppConstants.Packages_URL}/GetPackageById`, `${packageDto.id}?packageType=${packageDto.packageType}&includeSections=true&includeLessons=false&includeLessonAttachments=false&orderByRating=false&orderByCreationDate=false&indexGradeType=-1` );
-        const data = result.data as ApiResponse<GetPackagesResponseDto[]>;
+        const data = result.data as GetPackagesResponseDto[];
         return data;
     }
 }

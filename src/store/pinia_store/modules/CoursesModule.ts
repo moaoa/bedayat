@@ -17,6 +17,7 @@ import {
 import PackagesService from "@/core/services/PackagesService";
 import { PagedResult } from "@/types/ApiResponse";
 import toaster from "@/core/services/Toaster";
+import {loaderLogo} from "@/core/helpers/config";
 
 export const useCoursesStore = defineStore({
   id: "coursesStore",
@@ -40,7 +41,7 @@ export const useCoursesStore = defineStore({
     selectedCoursesForPackage: [] as CourseSelection[],
     coursesToSelectToAddToPackage: [] as CourseSelection[],
     packages: {} as PagedResult<GetPackagesResponseDto>,
-    selectedPackage: useLocalStorage<GetPackagesResponseDto>(
+    selectedPackage: useLocalStorage<Partial<GetPackagesResponseDto>>(
       "selectedPackage",
       {}
     ),
@@ -135,7 +136,7 @@ export const useCoursesStore = defineStore({
       }
 
       try {
-        if (!this.selectedCourse.id) {
+        if (!this.selectedCourse.id??{}) {
           return;
         }
         await coursesService.deleteCourse(this.selectedCourse.id);
@@ -150,11 +151,17 @@ export const useCoursesStore = defineStore({
       }
     },
     async loadCoursesToAddToPackage(courseName: string) {
+      this.dataIsLoading = true
+
+
       const result = await PackagesService.getCoursesForPackageSelection(
         courseName,
         this.selectedGradeId
       );
       this.coursesToSelectToAddToPackage = result.data;
+      this.dataIsLoading = false
+
+
     },
     async unselectCourseForPackage(id: string) {
       this.selectedCoursesForPackage = this.selectedCoursesForPackage.filter(
@@ -167,23 +174,23 @@ export const useCoursesStore = defineStore({
         console.log(data);
 
         const formData = new FormData();
-        for (let newGradeSubjectDataKey in data) {
-          console.log(newGradeSubjectDataKey);
-          if (!Array.isArray(data[newGradeSubjectDataKey]))
-            //newGradeSubjectDataKey !== "courseIds"
+        for (let newKey in data) {
+          console.log(newKey);
+          if (!Array.isArray(data[newKey]))
             formData.append(
-              newGradeSubjectDataKey,
-              data[newGradeSubjectDataKey] as Blob
+              newKey,
+              data[newKey] as Blob
             );
           else {
-            data[newGradeSubjectDataKey].forEach((d) => {
-              formData.append(newGradeSubjectDataKey, d);
+            data[newKey].forEach((d) => {
+              formData.append(newKey, d);
             });
           }
         }
 
         const result = await PackagesService.createPackage(formData);
         toaster.Success("created successfully");
+        router.push({name:"ViewPackages"})
       } catch (error) {
         console.log(error);
       } finally {
@@ -196,7 +203,7 @@ export const useCoursesStore = defineStore({
       try {
         const result = await PackagesService.getPackages(params);
         this.packages = result;
-      } catch (e) {
+      } catch (e : any) {
         console.log((e as Error).message);
         this.packages = [];
       } finally {
@@ -215,19 +222,9 @@ export const useCoursesStore = defineStore({
     async updatePackage(packageUpdate: PackageUpdateData) {
       this.dataIsLoading = true;
       try {
-        const formData = new FormData();
-        for (let newGradeSubjectDataKey in packageUpdate) {
-          console.log(newGradeSubjectDataKey);
-          console.log(packageUpdate[newGradeSubjectDataKey]);
-          formData.append(
-            newGradeSubjectDataKey,
-            packageUpdate[newGradeSubjectDataKey] as Blob
-          );
-        }
-
-        await PackagesService.updatePackage(formData);
-
+        await PackagesService.updatePackage(packageUpdate);
         toaster.Success("updated successfully");
+        router.push({name:"ViewPackages"})
       } catch (error) {
         console.log(error);
       } finally {
@@ -238,8 +235,6 @@ export const useCoursesStore = defineStore({
       this.dataIsLoading = true;
       this.isDeletingItem = true;
       try {
-        console.log("=============== in the module");
-        console.log(this.selectedPackage);
         await PackagesService.deletePackage(this.selectedPackage?.id);
         toaster.Success("deleted successfully");
       } catch (error) {
@@ -249,19 +244,20 @@ export const useCoursesStore = defineStore({
         this.isDeletingItem = false;
       }
     },
-    async removeCourseFromPackage(course: CourseSelection) {
+    async removeCourseFromPackage(id: string) {
       try {
         const request = {
           packageId: this.selectedPackage.id,
-          courseIds: [course.id],
+          courseIds: [id],
         };
 
         await PackagesService.removeCourseFromPackage(request);
-        this.selectedCoursesForPackage.filter((x) => x.id != course.id);
+        this.selectedCoursesForPackage.filter((x) => x.id != id);
 
         toaster.Success("Course remvoed Successfully");
 
-        await this.coursesStore.getCoursesByPackageId(this.selectedPackage);
+        await this.getCoursesByPackageId(this.selectedPackage);
+        return true;
       } catch (error) {
         console.log(error);
       } finally {
@@ -270,6 +266,8 @@ export const useCoursesStore = defineStore({
 
     async addCourseToPackage(course: CourseSelection[]) {
       try {
+
+        this.dataIsLoading = true
         const request = {
           packageId: this.selectedPackage.id,
           courseIds: [...course.map((x) => x.id)],
@@ -280,19 +278,28 @@ export const useCoursesStore = defineStore({
         await PackagesService.addCoursesToPackage(request);
         toaster.Success("Courses Added Successfully");
 
-        await this.coursesStore.getCoursesByPackageId(this.selectedPackage);
+        await this.getCoursesByPackageId(this.selectedPackage);
+
       } catch (error) {
         console.log(error);
       } finally {
+        this.dataIsLoading = false
       }
     },
     async getCoursesByPackageId(selectedCourse: GetPackagesResponseDto) {
       try {
+        this.dataIsLoading = true
         const result = await PackagesService.getPackageById(selectedCourse);
+        console.log(result)
         if (result.length > 0) this.selectPackage(result[0]);
-        else this.selectPackage({});
+        else this.selectedPackage = {}
+
       } catch (error) {
         console.log(error);
+      }
+      finally {
+
+        this.dataIsLoading = false
       }
     },
     async changePackageActiveState(packageId: string) {

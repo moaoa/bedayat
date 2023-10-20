@@ -30,7 +30,7 @@ export const useSubscriptionSettingsStore = defineStore({
         if (!result.isSuccess)
         Toaster.error("count not get Subscription Settings");
       
-      this.subscriptionSettings = result.data;
+      this.subscriptionSettings = result.data.sort((a, b)=>a.period - b.period);
       
       this.dataLoading = false;
       return;
@@ -120,12 +120,10 @@ export const useSubscriptionSettingsStore = defineStore({
         Toaster.Success("Subscription Settings deleted successfully !");
 
         const getResult = await SubscriptionSettingsService.getSubscriptionSettings();
-        if (!result.isSuccess)
-          Toaster.error("count not get Subscription Settings");
-  
+
         this.subscriptionSettings = getResult.data;
       } catch (error) {
-        Toaster.error((error as Error).message)
+        console.error(error)
       } finally {
         this.dataLoading = false;
       }

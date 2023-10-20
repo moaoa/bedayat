@@ -28,7 +28,6 @@ export const useTermsAndPrivacyStore = defineStore({
 
         this.termsAndPrivacy = data.data;
         
-        Toaster.Success("data fetched successffuly");
       } catch (error) {
         
         Toaster.error((error as Error).message);

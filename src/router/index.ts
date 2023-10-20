@@ -211,6 +211,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/dashboard/promotions",
+        name: "promotions",
+        component: () => import("@/views/Promotions/Promotions.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadBugs,
+        },
+      },
+
+      {
         path: "/dashboard/faqs",
         name: "faqs",
         component: () => import("@/views/Faqs/Faqs.vue"),

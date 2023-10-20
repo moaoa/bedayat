@@ -4,7 +4,7 @@ export type City = {
   id: string;
   name: string;
   englishName: string;
-  countryId: string;
+  countryId: string | null;
   localities: Locality[];
   createdAt: string;
   lastUpdated: string;

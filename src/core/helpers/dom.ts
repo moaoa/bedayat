@@ -17,9 +17,8 @@ const openModal = (modalEl: HTMLElement | null): void => {
   if (!modalEl) {
     return;
   }
-
   
-  const myModal = Modal.getInstance(modalEl);  // null
+  const myModal = Modal.getInstance(modalEl);
 
   console.log(myModal);
 

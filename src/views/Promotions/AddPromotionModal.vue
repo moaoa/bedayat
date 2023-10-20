@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal fade"
-    id="kt_modal_add_customer"
+    id="kt_modal_add_promotion"
     tabindex="-1"
     aria-hidden="true"
     ref="modalRef"
@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("addNewLocality") }}</h2>
+          <h2 class="fw-bolder">{{ $t("addPromotion") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"
@@ -39,42 +39,17 @@
               data-kt-scroll-offset="300px"
             >
 
-              <div class="d-flex flex-column mb-7 fv-row">
-                <!--begin::Label-->
-                <label class="fs-6 fw-bold mb-2">
-                  <span class="required"> {{ $t("pickUpCountry") }}</span>
-                </label>
-                <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
-                  <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
-                             :label="country.name">
-                  </el-option>
-                </el-select>
-              </div>
-
-              <div class="d-flex flex-column mb-7 fv-row">
-                <!--begin::Label-->
-                <label class="fs-6 fw-bold mb-2">
-                  <span class="required"> {{ $t("pickUpCity") }}</span>
-                </label>
-
-                <el-select v-model="formData.cityId" clearable filterable>
-                  <el-option v-for="city in citiesStore.cities" :key="city.id" :value="city.id"
-                             :label="city.name">
-                  </el-option>
-                </el-select>
-              </div>
-
               <div class="fv-row mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("arabicName") }}
+                  {{ $t("information") }}
                 </label>
                 <!--end::Label-->
 
                 <!--begin::Input-->
-                <el-form-item prop="name">
+                <el-form-item prop="information">
                   <el-input
-                    v-model="formData.name"
+                    v-model="formData.information"
                     type="text"
                     placeholder=""
                   />
@@ -85,17 +60,77 @@
               <div class="fv-row mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("englishName") }}</label
+                  {{ $t("image") }}</label
                 >
                 <!--end::Label-->
 
                 <!--begin::Input-->
-                <el-form-item prop="englishName">
-                  <el-input
-                    v-model="formData.englishName"
-                    type="text"
-                    placeholder=""
-                  />
+                <el-form-item prop="image">
+                  <div >
+
+                    <FileInput
+                        v-if="!imagePath"
+                        @change="handleLogoUpload"
+                        :accept="'image'"
+                    >
+                      <template #default="scope">
+                        <div class="d-flex align-items-center gap-4">
+                          <AttachmentIcon
+                              class="cursor-pointer"
+                              @click.stop="scope.open()"
+                          />
+                          <input
+                              :value="scope.fileName"
+                              readonly
+                              type="text"
+                              class="form-control"
+                              :placeholder="$t('logo')"
+                              aria-label="Username"
+                              aria-describedby="basic-addon1"
+                              @click.stop="scope.open()"
+                              style="width: 200px"
+                          />
+                          <div
+                              v-if="scope.fileName"
+                              class="d-flex align-items-center gap-2"
+                          >
+                            <a
+                                class="btn btn-icon btn-light-danger btn-sm"
+                                @click="scope.reset"
+                            >
+                              <i class="bi bi-trash"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </template>
+                    </FileInput>
+                    <div v-else class="row">
+                  <span
+                      :href="imagePath"
+                      class="col-2 mx-10 my-2  justify-content-center align-content-center"
+                  >
+                <a :href="imagePath" target="_blank"
+                   class=" justify-content-center align-content-center">
+                  <img style="width: 50px;" src="/public/media/icons/duotune/files/fil016.svg" >
+                  <p class="">{{ imagePath.slice(-10) ?? '' }}</p>
+                </a>
+                  </span>
+                      <span
+                          class="btn btn-danger col-2 mx-10 my-2"
+                          style="width: min-content; height: min-content"
+                          @click="()=> {
+                          imagePath = '';
+                          formData.image = null;
+                        }"
+                      >
+                    {{ $t("delete") }}
+                  </span>
+                    </div>
+
+
+
+
+                  </div>
                 </el-form-item>
                 <!--end::Input-->
               </div>
@@ -154,36 +189,43 @@
 import {ref, computed, reactive, onMounted, watch, onUnmounted} from "vue";
 
 import { useI18n } from "vue-i18n";
-import { NewLocalityData } from "@/types/Localities";
-import { useLocalitiesStore } from "@/store/pinia_store/modules/LocalitiesModule";
-import {useCitiesStore} from "@/store/pinia_store/modules/CitiesModule";
-import {useCountriesStore} from "@/store/pinia_store/modules/CountriesModule";
+import {AddUpdatePromotionDto} from "@/types/Promotions";
+import {usePromotionsStore} from "@/store/pinia_store/modules/PromotionsModule";
+import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
+import FileInput from "@/components/FileInput.vue";
 
 const { t } = useI18n();
 
-const localitiesStore = useLocalitiesStore();
-const citiesStore = useCitiesStore();
-const countriesStore = useCountriesStore();
+const promotionStore = usePromotionsStore();
 
-const loading = computed(() => localitiesStore.isCreatingNewItem);
+const loading = computed(() => promotionStore.isCreatingNewItem);
 
 const formRef = ref<null | HTMLFormElement>(null);
 
 const modalRef = ref<null | HTMLElement>(null);
-
-const formData = reactive<NewLocalityData>({
-  name: "",
-  englishName: "",
-  cityId: "",
+// let logoName = ref<string>(t('uploadLogo'))
+const imagePath = ref<string>("")
+const formData = reactive<AddUpdatePromotionDto>({
+  information: "",
+  image: "",
 });
 
 const emit = defineEmits<{
-  (event: "submit", data: NewLocalityData);
+  (event: "submit", data: AddUpdatePromotionDto);
 }>();
 
 defineExpose({
   modalRef,
 });
+
+
+const handleLogoUpload = async (file: File | null) => {
+  if (!file) return;
+  imagePath.value = file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
+  formData.image = file;
+
+}
+
 
 const submit = () => {
   if (!formRef.value) {
@@ -193,8 +235,8 @@ const submit = () => {
   formRef.value.validate((valid) => {
     if (valid) {
       emit("submit", formData);
-      formData.englishName = '';
-    
+      formData.information = '';
+
     }
   });
 };
@@ -202,38 +244,20 @@ const submit = () => {
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
     if (formRef.value)
-      localitiesStore.unselectLocality();
-
-    countriesStore.loadCountries();
-    formData.cityId =  localitiesStore.selectedCityId
-
+      promotionStore.unselectPromotion();
   });
 });
 onUnmounted(()=> {
-  formData.name  =""
-  formData.englishName  =""
+  formData.information  =""
+  formData.image = null
 })
 
 
-watch(
-    () => citiesStore.selectedCountryId,
-    (id) => {
-      console.log(id);
-      if (id) {
-        citiesStore.loadCities({ countryId: id });
-      }
-    }
-);
-
-watch(
-    () => localitiesStore.selectedCityId,
-    (id) => {
-      if (id) {
-        localitiesStore.loadLocalities(id);
-        formData.cityId = citiesStore.cities.find(x=> true)?.id ?? ""
-      }
-    }
-);
+const rules = ref({
+  information: [
+    { required: true, message: t("required"), trigger: "blur" },
+  ],
+});
 
 
 </script>

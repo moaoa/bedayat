@@ -61,21 +61,34 @@
               {{ scope.$index + 1 }}
             </template>
           </el-table-column>
-          <el-table-column :label="$t('grades')" width="120" align="center"
+          <el-table-column :label="$t('grades')"  align="center"
                            header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
               {{ scope.row.grade.name}}
             </template>
           </el-table-column>
+          <el-table-column :label="$t('gradesEnglish')" align="center"
+                           header-align="center">
+            <template #default="scope: { row: GradeSubject, $index: number }">
+              {{ scope.row.grade.englishName}}
+            </template>
+          </el-table-column>
 
-          <el-table-column :label="$t('subjects')" width="120" align="center"
+          <el-table-column :label="$t('subjects')" align="center"
                            header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
               {{ scope.row.subject.name}}
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('book')" width="120" align="center"
+          <el-table-column :label="$t('subjectsEnglish')"  align="center"
+                           header-align="center">
+            <template #default="scope: { row: GradeSubject, $index: number }">
+              {{ scope.row.subject.englishName}}
+            </template>
+          </el-table-column>
+
+          <el-table-column :label="$t('book')"  align="center"
                            header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
               <a
@@ -87,7 +100,7 @@
             </template>
 
           </el-table-column>
-          <el-table-column :label="$t('logo')" width="120" align="center"
+          <el-table-column :label="$t('logo')"  align="center"
                            header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
               <a

@@ -65,6 +65,15 @@ const DocMenuConfig = [
         ],
       },
       {
+
+        // todo: need packages permission
+        heading: "packages",
+        route: "/dashboard/packages",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+      },
+      {
         heading: "courses",
         route: "/dashboard/Courses",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
@@ -128,6 +137,7 @@ const DocMenuConfig = [
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
       {
+
         sectionTitle: "cards",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
@@ -163,7 +173,30 @@ const DocMenuConfig = [
             requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
           },
         ],
+
+        // todo: need promotion permission
+        heading: "promotions",
+        route: "/dashboard/promotions",
+        svgIcon: "/media/svg/bug.svg",
+        fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+
       },
+      // {
+      //   sectionTitle: "packages",
+      //   svgIcon: "/media/icons/duotune/general/gen019.svg",
+      //   fontIcon: "bi-sticky",
+      //   requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+      //   sub: [
+      //     {
+      //       heading: "packages",
+      //       route: "/dashboard/packages",
+      //       svgIcon: "/media/svg/bug.svg",
+      //       fontIcon: "bi-layers",
+      //       requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+      //     }
+      //   ],
+      // },
       {
         sectionTitle: "Reports",
         svgIcon: "/media/icons/duotune/general/gen019.svg",

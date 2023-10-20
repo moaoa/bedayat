@@ -105,11 +105,11 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="gradeType">
-                    <el-input
-                      v-model="formData.gradeType"
-                      type="text"
-                      :placeholder="$t('gradeType')"
-                    />
+                    <el-select class="" v-model="formData.gradeType" filterable>
+                      <el-option v-for="category in Object.keys(AppConstants.GradeTypes)" :key="category" :value="AppConstants.GradeTypes[category]"
+                                 :label="t(category.toLowerCase())">
+                      </el-option>
+                    </el-select>
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -170,6 +170,7 @@ import { useI18n } from "vue-i18n";
 import { NewGradeData } from "@/types/Grades";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import Toaster from "@/core/services/Toaster";
+import {AppConstants} from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
 
@@ -215,7 +216,6 @@ const submit = () => {
     try {
       await gradesStore.updateItem(formData);
       hideModal(modalRef.value);
-      Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
       console.log(error);
     }

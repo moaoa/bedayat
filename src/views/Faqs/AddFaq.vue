@@ -194,7 +194,7 @@ import {Faq, NewFaqData} from "@/types/Faq";
 import {useFaqsStore} from "@/store/pinia_store/modules/FaqsModule";
 import Toaster from "@/core/services/Toaster";
 import {hideModal} from "@/core/helpers/dom";
-import {FormRules} from "element-plus";
+import {FormInstance} from "element-plus";
 
 const {t} = useI18n();
 
@@ -234,7 +234,6 @@ const submit = () => {
 
   formRef.value.validate((valid) => {
     if (valid) {
-      // faqsStore.addFaq(formData);
       emit("submit", formData);
       formRef.value.resetFields();
       hideModal(modalRef.value)
@@ -281,14 +280,14 @@ const rules = reactive<FormRules<Faq>>({
     {
       message: t("nameMustBeEnglish", {field: t("englishQuestion")}),
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: /^[a-zA-Z0-9\s!@#$%^&*()-=_+{}\[\]|\\;:'",.<>/?`~]*$/,
       trigger: ["blur", "change"],
     }
   ], englishAnswer: [
     {
       message: t("nameMustBeEnglish", {field: t("englishAnswer")}),
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: /^[a-zA-Z0-9\s!@#$%^&*()-=_+{}\[\]|\\;:'",.<>/?`~]*$/,
       trigger: ["blur", "change"],
     }
   ]

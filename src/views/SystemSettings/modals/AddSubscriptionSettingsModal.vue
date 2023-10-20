@@ -9,7 +9,7 @@
         <!--begin::Modal header-->
         <div class="modal-header">
           <!--begin::Modal title-->
-          <h2>Add new General Subscription Date</h2>
+          <h2>{{ t('addnewGeneralSubscriptionDate') }}</h2>
           <!--end::Modal title-->
 
           <!--begin::Close-->
@@ -30,7 +30,7 @@
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                <span class="required">Number of Days </span>
+                <span class="required">{{ t('numberOfDays') }}</span>
                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
                   title="Specify a card holder's name"></i>
               </label>
@@ -63,9 +63,9 @@
               </button>
 
               <button ref="submitButtonRef" type="submit" id="kt_modal_new_card_submit" class="btn btn-primary">
-                <span class="indicator-label"> Submit </span>
+                <span class="indicator-label">  {{ $t("submit") }}</span>
                 <span class="indicator-progress">
-                  Please wait...
+                  {{ $t("pleaseWait") }}...
                   <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               </button>
@@ -87,9 +87,12 @@
 import { onMounted, ref, defineEmits, defineExpose, VNodeRef } from "vue";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
+const {t} = useI18n();
 import { Modal } from "bootstrap";
 import Toaster from "@/core/services/Toaster";
 import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
+import {t} from "element-plus/es/locale";
+import {useI18n} from "vue-i18n";
 
 const store = useSubscriptionSettingsStore();
 

@@ -5,7 +5,7 @@
     <!--begin::Header-->
     <div class="card-header border-0">
 
-        <h3 class="card-title fw-bolder text-dark">{{ t("Localities") }}</h3>
+        <h3 class="card-title fw-bolder text-dark">{{ t("localities") }}</h3>
       <div class="card-toolbar d-flex flex-row">
 
 
@@ -173,9 +173,7 @@ const updateLocality = async (data: NewLocalityData) => {
     hideModal(updateLocalityModalRef.value?.modalRef!);
 
     localitiesStore.unselectLocality();
-
-    Toaster.Success("asdf", "asdfa");
-  } catch (error) {
+  }catch (error) {
     console.log(error);
   }
 };
@@ -183,14 +181,14 @@ const formatter = (key: keyof Locality) => {
   return (locality: Locality) => formatDate(locality[key]);
 };
 
-setCurrentPageBreadcrumbs(t("Localities"), [t("Localities")]);
+// setCurrentPageBreadcrumbs(t("localities"), [t("localities")]);
 
 const localityDeleted = (locality: Locality) => {
   hideModal(deleteLocalityModalRef.value?.modalRef!);
   localitiesStore.deleteItem(locality);
 };
 
-setCurrentPageBreadcrumbs(t("Localities"), [t("Localities")]);
+setCurrentPageBreadcrumbs(t("localities"), [t("localities")]);
 
 
 onMounted(() => {

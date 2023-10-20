@@ -8,7 +8,7 @@
         <!--begin::Modal header-->
         <div class="modal-header">
           <!--begin::Modal title-->
-          <h2>Delete General Subscription period</h2>
+          <h2>{{t('deleteGeneralSubscriptionPeriod')}}</h2>
           <!--end::Modal title-->
 
           <!--begin::Close-->
@@ -28,25 +28,23 @@
             <!--begin::Input group-->
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
-              <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                <span class="required">Are you Sure you Want to Delete this subscitption Setting? </span>
-                <i class="fas  ms-2 fs-7" data-bs-toggle="tooltip"
-                  title="Type in 'delete' to confirm "></i>
-              </label>
+              <div class="modal-body py-10 px-lg-17">
+                <h3>{{ t("areYouSure") }}</h3>
+              </div>
               <!--end::Label-->
-              <Field 
-              id="confirmDeleteText"
-              ref="confirmDeleteText"
-              name="typeDelete" 
-              :validate-on-blur="true"
-              :validate-on-change="true" 
-              type="text" 
-              class="form-select form-select-solid" 
-              data-hide-search="true"  
-              place-holder="Enter 'delete' to Confirm"
-              :rules="mustBeValidNumber">               
-              </Field>
- 
+<!--              <Field -->
+<!--              id="confirmDeleteText"-->
+<!--              ref="confirmDeleteText"-->
+<!--              name="typeDelete" -->
+<!--              :validate-on-blur="true"-->
+<!--              :validate-on-change="true" -->
+<!--              type="text" -->
+<!--              class="form-select form-select-solid" -->
+<!--              data-hide-search="true"  -->
+<!--              place-holder="Enter 'delete' to Confirm"-->
+<!--              :rules="mustBeValidNumber">               -->
+<!--              </Field>-->
+<!-- -->
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
                   <ErrorMessage name="typeDelete" />
@@ -92,9 +90,11 @@
 import { onMounted, ref, defineEmits, defineExpose } from "vue";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
+const {t} = useI18n();
 import { Modal } from "bootstrap";
 import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
 import { formatDate } from "@/core/helpers/formatDate";
+import {useI18n} from "vue-i18n";
 
 const store = useSubscriptionSettingsStore();
 
@@ -108,8 +108,7 @@ onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
 
     const input = document.getElementById('confirmDeleteText')
-    console.log(input);
-    
+
     if (input?.innerText) 
     {  
       input!.innerText = ''
@@ -131,12 +130,8 @@ defineExpose({ modalRef });
 const submit = async () => {
   // here run the validation
   
-  console.log(" am in the submit");
-  console.log(submitButtonRef.value);
-  
   if (!submitButtonRef.value)
     return;
-
 
     submitButtonRef.value.click();
 
@@ -159,7 +154,7 @@ const submit = async () => {
 
 const mustBeValidNumber = yup.string()
     .oneOf(['delete'], 'Field must equal "delete"')
-    .required('Field is required');
+    .required('Field must equal "delete"');
 
 
 /////////////////////// helpers

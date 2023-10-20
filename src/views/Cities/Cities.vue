@@ -41,7 +41,7 @@
 
         <div class="col-md-5 col-lg-4 col-7">
 
-          <el-select v-model="citiesStore.selectedCountryId" clearable filterable>
+          <el-select v-model="citiesStore.selectedCountryId" filterable>
             <el-option v-for="country in countriesStore.countries" :key="country.id" :value="country.id"
               :label="country.name">
             </el-option>
@@ -158,8 +158,6 @@ const updateCity = async (data: NewCityData) => {
     hideModal(updateCityModalRef.value!.modalRef!);
 
     citiesStore.unselectCity();
-
-    Toaster.Success("asdf", "asdfa");
   } catch (error) {
     console.log(error);
   }

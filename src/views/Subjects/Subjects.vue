@@ -55,7 +55,7 @@
 
 
       <div v-loading="subjectsStore.dataIsLoading" class="card-body pt-2">
-      <el-table :data="subjectsTable" style="width: 100%" height="250">
+      <el-table :data="subjectsTable" style="width: 100%" height="70vh">
         <el-table-column
           index="scope.$index"
           :label="t('noNumber')"
@@ -67,25 +67,25 @@
             {{ scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column prop="name" :label="$t('arabicName')" width="120" />
+        <el-table-column prop="name" :label="$t('arabicName')"  />
         <el-table-column
           prop="englishName"
           :label="$t('englishName')"
-          width="120"
+
         />
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
-          width="200"
+
           :formatter="formatter('createdAt')"
         />
         <el-table-column
           prop="lastUpdated"
           :label="$t('lastUpdated')"
-          width="200"
+
           :formatter="formatter('lastUpdated')"
         />
-        <el-table-column :label="$t('edit')" width="120" align="center">
+        <el-table-column :label="$t('edit')"  align="center">
           <template #default="scope">
             <a
               class="btn btn-icon btn-light-success btn-sm"
@@ -99,7 +99,7 @@
         </el-table-column>
         <el-table-column
           :label="$t('remove')"
-          width="90"
+
           align="center"
           header-align="center"
         >

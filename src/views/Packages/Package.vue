@@ -12,7 +12,6 @@
            @click="coursesStore.loadPackages(searchFilter)">
           <i class="bi bi-arrow-repeat"></i>
         </a>
-
         <a class="btn btn-sm btn-primary mx-1" target="#"
            @click="addPackage">
           <span class="svg-icon svg-icon-3">
@@ -20,9 +19,6 @@
           </span>
           {{ $t("addPackage") }}
         </a>
-
-
-
       </div>
     </div>
     <!--end::Header-->
@@ -37,17 +33,6 @@
           <el-select v-model="searchFilter.gradeId" clearable filterable>
             <el-option v-for="grade in gradesStore.grades" :key="grade.id" :value="grade.id"
                        :label="grade.name">
-            </el-option>
-          </el-select>
-        </div>
-        <div class="col-md-3 col-lg-2 col-7">
-          <label class="fs-6 fw-bold mb-2">
-            {{ $t("state") }}
-          </label>
-          <el-select v-model="searchFilter.status" clearable filterable>
-            <el-option v-for="status in Object.values(PackageStatus).slice(0,Object.values(PackageStatus).length/2 )"
-                       :key="status" :value="PackageStatus[status]"
-                       :label="t(`${status.toLowerCase()}`)">
             </el-option>
           </el-select>
         </div>
@@ -83,7 +68,21 @@
             >
             <el-table-column width="50" index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
               <template #default="scope">
+                <div
+                    class="d-flex align-items-center gap-3 justify-content-between"
+                >
+                <span
+                    v-if="scope.row.packageStatus === PackageStatus.Inactive"
+                    class="bullet bullet-vertical h-40px bg-danger"
+                ></span>
+                <span
+                    v-else
+                    class="bullet bullet-vertical h-40px bg-success"
+                ></span>
+
+
                 {{ scope.$index + 1 }}
+                </div>
               </template>
             </el-table-column>
 
@@ -104,14 +103,10 @@
               </template>
             </el-table-column>
 
-
             <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')"
                              align="center"
                              header-align="center"/>
-<!--            <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"-->
-<!--                             align="center" header-align="center"/>-->
-<!--            <el-table-column prop="price" :label="$t('price')"-->
-<!--                             align="center" header-align="center"/>-->
+
             <el-table-column prop="name" :label="$t('packageStatus')" align="center" header-align="center">
               <template #default="scope">
 
@@ -203,67 +198,72 @@ import Toaster from "@/core/services/Toaster";
 import DeleteCountry from "@/views/Countries/DeleteCountry.vue";
 import DeletePackage from "@/views/Packages/DeletePackage.vue";
 import {ErrorMessage, Field} from "vee-validate";
+import {AppConstants} from "@/core/constants/ApplicationsConstants";
 
 
 ////////// Declarations///////////////////
 const {t} = useI18n();
 const coursesStore = useCoursesStore();
 const gradesStore = useGradesStore();
-const packagesTable = computed(() => {
-  return coursesStore.packages.results?.filter(x=> x.packageStatus == searchFilter.status) ??[]
-});
+const packagesTable = ref<GetPackagesResponseDto[]>(coursesStore.packages.results)
+
+watch(()=> {
+return coursesStore.packages
+}, (value)=> {
+packagesTable.value = value.results;//?.filter(x=> x.packageStatus == searchFilter.status)
+})
 const router = useRouter();
 
 const deletePackageModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const formatter = (key: keyof Locality) => {
-  return (locality: Locality) => formatDate(locality[key]);
+return (locality: Locality) => formatDate(locality[key]);
 };
 const searchFilter = reactive<PackageFilter>({
-  name: "",
-  gradeId: "",
-  status: PackageStatus.Active,
-  packageType: PackageType.Path
+name: "",
+gradeId: "",
+packageType: PackageType.Path
 });
+// status: PackageStatus.Active,
 const changePackageState = async (packageId: string)=>  {
-  console.log('sdfsdfsdfsdfsdfsdf')
-  await coursesStore.changePackageActiveState(packageId)
-  await coursesStore.loadPackages(searchFilter)
+console.log('sdfsdfsdfsdfsdfsdf')
+await coursesStore.changePackageActiveState(packageId)
+await coursesStore.loadPackages(searchFilter)
 
 }
 
 /////////////Functions///////////////////////
 
 const addPackage = () => {
-  router.push({name: "AddPackages"})
+router.push({name: "AddPackages"})
 }
 
 
 const packageDeleted = async () => {
-  hideModal(deletePackageModalRef.value!.modalRef!);
-  Toaster.Success("Success!", "Package Deleted Successfully");
+hideModal(deletePackageModalRef.value!.modalRef!);
+Toaster.Success("Success!", "Package Deleted Successfully");
 };
 setCurrentPageBreadcrumbs(t("Packages"), [t("Packages")]);
 
 onMounted(() => {
-  gradesStore.loadGrades();
+gradesStore.loadGrades();
 
-  document.getElementById('input_search_package')?.addEventListener('keydown', async (event) => {
-    if (event.keyCode === 13 || event.key === 'Enter') {
-      console.log("entered")
-      if (searchFilter.gradeId)
-        await coursesStore.loadPackages(searchFilter)
-      else
-        toaster.error("please Select Grade")
-    }
-    // countriesStore.loadCountries();
-  })
+document.getElementById('input_search_package')?.addEventListener('keydown', async (event) => {
+if (event.keyCode === 13 || event.key === 'Enter') {
+console.log("entered")
+if (searchFilter.gradeId)
+await coursesStore.loadPackages(searchFilter)
+else
+toaster.error("please Select Grade")
+}
+// countriesStore.loadCountries();
+})
 
 
 });
 
 watch(()=> gradesStore.grades, async () => {
-  if(gradesStore.grades.length>0)
-    searchFilter.gradeId = gradesStore.grades[0].id
+if(gradesStore.grades.length>0)
+searchFilter.gradeId = gradesStore.grades[0].id
 })
 watch(()=> searchFilter.gradeId, async () => await coursesStore.loadPackages(searchFilter))
 watch(()=> searchFilter.packageType, async () => await coursesStore.loadPackages(searchFilter))

@@ -51,27 +51,27 @@
                 <el-table
                     max-width
                     ref="multipleTableRef"
-                    :data="coursesStore.coursesToSelectToAddToPackage.filter(x=> !coursesStore.selectedPackage.courses.map(x=> x.id).includes(x.id))"
+                    :data="coursesStore.coursesToSelectToAddToPackage.filter(x=> !coursesStore.selectedPackage.courses?.map(x=> x.id).includes(x.id))"
 
                     @selection-change="handleSelectionChange"
                 >
-                  <el-table-column type="selection" width="55"/>
-                  <el-table-column :label="t('courseLogo')" width="150"
+                  <el-table-column type="selection"/>
+                  <el-table-column :label="t('courseLogo')"
                                    align="center">
                     <template #default="scope">
                       <img :src="scope.row.logoPath">
                     </template>
                   </el-table-column>
-                  <el-table-column property="name" :label="t('name')" width="180"
+                  <el-table-column property="name" :label="t('name')"
                                    header-align="center"
-                                   align="right"
+                                   align="center"
                   />
-                   <el-table-column :label="t('subjectName')" width="150"
-                                   align="center">
-                    <template #default="scope">
-                      <p>{{scope.row?.gradeSubject?.subject?.name ?? "invalid subjectname"}}</p>
-                    </template>
-                  </el-table-column>
+<!--                   <el-table-column :label="t('subjectName')"-->
+<!--                                   align="center">-->
+<!--                    <template #default="scope">-->
+<!--                      <p>{{scope.row?.gradeSubject?.subject?.name ?? "invalid subjectname"}}</p>-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
                 </el-table>
                 <!--end::Scroll-->
               </div>
@@ -170,7 +170,7 @@ const emit = defineEmits<{
   (event: "courseAdded");
 }>();
 
-const submit = (e: Event) => {
+const submit = async (e: Event) => {
 
   console.log(e)
   console.log(e.target)
@@ -178,7 +178,7 @@ const submit = (e: Event) => {
   if (!formRef.value)
     return;
 
-  coursesStore.addCourseToPackage(courseSelectionToAdd.value)
+  await coursesStore.addCourseToPackage(courseSelectionToAdd.value)
   coursesStore.selectedCoursesForPackage = courseSelectionToAdd.value;
   document.getElementById('kt_modal_add_customer_close')?.click()
 
@@ -201,6 +201,10 @@ onMounted(() => {
       coursesStore.coursesToSelectToAddToPackage = [];
     if (formRef.value)
       console.log()
+
+
+    coursesStore.loadCoursesToAddToPackage("")
+
   })
 })
 

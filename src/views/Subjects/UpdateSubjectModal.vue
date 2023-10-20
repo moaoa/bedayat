@@ -105,11 +105,19 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="subjectType">
-                    <el-input
-                      v-model="formData.gradeType"
-                      type="text"
-                      :placeholder="$t('subjectType')"
-                    />
+<!--                    <el-input-->
+<!--                      v-model="formData.subjectType"-->
+<!--                      type="text"-->
+<!--                      :placeholder="$t('subjectType')"-->
+<!--                    />-->
+
+                    <el-select class="" v-model="formData.subjectType" clearable filterable>
+                      <el-option v-for="category in Object.values(SubjectType).slice(0,Object.values(SubjectType).length/2 )" :key="category" :value="SubjectType[category]"
+                                 :label="t(category.toLowerCase())">
+                      </el-option>
+                    </el-select>
+
+
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -167,9 +175,10 @@
 import { reactive, ref, watch, computed, onMounted } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useI18n } from "vue-i18n";
-import { NewSubjectData } from "@/types/Subjects";
+import {NewSubjectData, SubjectType} from "@/types/Subjects";
 import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
 import Toaster from "@/core/services/Toaster";
+import {BugStatusSearch} from "@/types/BugReports";
 
 const { t } = useI18n();
 
@@ -215,7 +224,6 @@ const submit = () => {
     try {
       await subjectsStore.updateItem(formData);
       hideModal(modalRef.value);
-      Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
       console.log(error);
     }

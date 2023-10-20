@@ -18,13 +18,11 @@
               class="btn btn-icon btn-sm btn-active-icon-primary"
           >
             <span class="svg-icon svg-icon-1">
-              <inline-svg src="/media/icons/duotune/arrows/arr061.svg" />
+              <inline-svg src="/media/icons/duotune/arrows/arr061.svg"/>
             </span>
           </div>
           <!--end::Close-->
         </div>
-
-
 
 
         <el-form
@@ -54,7 +52,7 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="name">
-                    <el-select v-model="formData.gradeId" clearable filterable>
+                    <el-select v-model="formData.gradeId" filterable>
                       <el-option v-for="grade in gradesStore.grades" :key="grade.id" :value="grade.id"
                                  :label="grade.name">
                       </el-option>
@@ -74,7 +72,7 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="name">
-                    <el-select v-model="formData.subjectId" clearable filterable>
+                    <el-select v-model="formData.subjectId" filterable>
                       <el-option v-for="subject in subjectStore.subjects" :key="subject.id" :value="subject.id"
                                  :label="subject.name">
                       </el-option>
@@ -93,37 +91,82 @@
                   </label>
                   <!--end::Label-->
 
-
-                  <!--                    <div>-->
-                  <!--                      <button>-->
-                  <!--                      <label for="logo_file_upload" class="image-button">Upload Image</label>-->
-                  <!--                      </button>-->
-                  <!--                      <input-->
-
-                  <!--                          id="logo_file_upload"-->
-                  <!--                          name="file"-->
-                  <!--                          type="file"-->
-                  <!--                          accept="image/*"-->
-                  <!--                          class="hidden"-->
-                  <!--                          @change="handleUploadLogo"-->
-                  <!--                      />-->
-                  <!--                    </div>-->
-
-
-
-
                   <!--begin::Input-->
-                  <el-form-item prop="book">
-                    <input
-                        id=""
-                        accept="application/pdf"
-                        type="file"
-                        :placeholder="t('book')"
-                        class="custom-file-input"
-                        @change="handleUploadBook"
-                    />
+                  <!--                    <input-->
+                  <!--                        id=""-->
+                  <!--                        accept="application/pdf"-->
+                  <!--                        type="file"-->
+                  <!--                        :placeholder="t('book')"-->
+                  <!--                        class="custom-file-input"-->
+                  <!--                        @change="handleUploadBook"-->
+                  <!--                    />-->
 
+
+                  <el-form-item prop="book">
+                    <div>
+
+                      <FileInput
+                          v-if="!bookPath"
+                          @change="handleUploadBook"
+                          :accept="'pdf'"
+                      >
+                        <template #default="scope">
+                          <div class="d-flex align-items-center gap-4">
+                            <AttachmentIcon
+                                class="cursor-pointer"
+                                @click.stop="scope.open()"
+                            />
+                            <input
+                                :value="scope.fileName"
+                                readonly
+                                type="text"
+                                class="form-control"
+                                :placeholder="$t('book')"
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                @click.stop="scope.open()"
+                                style="width: 200px"
+                            />
+                            <div
+                                v-if="scope.fileName"
+                                class="d-flex align-items-center gap-2"
+                            >
+                              <a
+                                  class="btn btn-icon btn-light-danger btn-sm"
+                                  @click="scope.reset"
+                              >
+                                <i class="bi bi-trash"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </template>
+                      </FileInput>
+                      <div v-else class="row">
+                  <span
+                      :href="bookPath"
+                      class="col-4 mx-2 my-2  justify-content-center align-content-center"
+                  >
+                        <a :href="bookPath" target="_blank"
+                           class=" justify-content-center align-content-center">
+                          <img style="width: 50px;" src="/public/media/icons/duotune/files/fil016.svg">
+                          <p class="">{{ bookPath.slice(-10) ?? '' }}</p>
+                        </a>
+                  </span>
+                        <span
+                            class="btn btn-danger col-2 mx-3 my-2"
+                            style="width: min-content; height: min-content"
+                            @click="()=> {
+                          bookPath = '';
+                          formData.book = null;
+                        }"
+                        >
+                    {{ $t("delete") }}
+                  </span>
+                      </div>
+                    </div>
                   </el-form-item>
+
+
                   <!--end::Input-->
                 </div>
 
@@ -137,24 +180,77 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
+
+
                   <el-form-item prop="logo">
+                    <div>
 
-
-                    <input
-                        accept="image/*"
-                        type="file"
-                        :placeholder="t('logo')"
-                        class="custom-file-input"
-                        @change="handleUploadLogo"
-                    />
+                      <FileInput
+                          v-if="!logoPath"
+                          @change="handleUploadLogo"
+                          :accept="'image'"
+                      >
+                        <template #default="scope">
+                          <div class="d-flex align-items-center gap-4">
+                            <AttachmentIcon
+                                class="cursor-pointer"
+                                @click.stop="scope.open()"
+                            />
+                            <input
+                                :value="scope.fileName"
+                                readonly
+                                type="text"
+                                class="form-control"
+                                :placeholder="$t('logo')"
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                @click.stop="scope.open()"
+                                style="width: 200px"
+                            />
+                            <div
+                                v-if="scope.fileName"
+                                class="d-flex align-items-center gap-2"
+                            >
+                              <a
+                                  class="btn btn-icon btn-light-danger btn-sm"
+                                  @click="scope.reset"
+                              >
+                                <i class="bi bi-trash"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </template>
+                      </FileInput>
+                      <div v-else class="row">
+                  <span
+                      :href="logoPath"
+                      class="col-4 mx-2 my-2  justify-content-center align-content-center"
+                  >
+                <a :href="logoPath" target="_blank"
+                   class=" justify-content-center align-content-center">
+                  <img style="width: 50px;" src="/public/media/icons/duotune/files/fil016.svg">
+                  <p class="">{{ logoPath.slice(-10) ?? '' }}</p>
+                </a>
+                  </span>
+                        <span
+                            class="btn btn-danger col-2 mx-3 my-2"
+                            style="width: min-content; height: min-content"
+                            @click="()=> {
+                          logoPath = '';
+                          formData.logo = null;
+                        }"
+                        >
+                    {{ $t("delete") }}
+                  </span>
+                      </div>
+                    </div>
                   </el-form-item>
+
                   <!--end::Input-->
                 </div>
 
 
-
               </div>
-
 
 
             </div>
@@ -219,6 +315,8 @@ import {NewGradeSubjectData} from "@/types/GradeSubjects";
 import {useSubjectsStore} from "@/store/pinia_store/modules/SubjectModule";
 import {useGradeSubjectsStore} from "@/store/pinia_store/modules/GradeSubjectsModule";
 import gradeSubjectsService from "@/core/repositories/GradeSubjectsService";
+import FileInput from "@/components/FileInput.vue";
+import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 
 const {t} = useI18n();
 
@@ -236,15 +334,10 @@ const formData = reactive<NewGradeSubjectData>({
   gradeId: ""
 });
 
+const logoPath = ref<string>(gradeSubjectStore?.selectedGradeSubject?.logo ?? t(''))
+const bookPath = ref<string>(gradeSubjectStore?.selectedGradeSubject?.bookLink ?? t(''))
 const emit = defineEmits(["close"]);
 
-const rules = ref({
-  grade: [{required: true, message: t("required"), trigger: "blur"}],
-  subject: [{required: true, message: t("required"), trigger: "blur"}],
-  book: [{required: false, message: t("required"), trigger: "blur"}],
-  logo: [{required: false, message: t("required"), trigger: "blur"}],
-  chaptersCount: [{required: true, message: t("required"), trigger: "blur"}],
-});
 
 const submit = () => {
   if (!formRef.value) {
@@ -258,58 +351,27 @@ const submit = () => {
     try {
       await gradeSubjectStore.updateItem(formData);
       hideModal(modalRef.value);
-      Toaster.Success(t("success"), t("createdNewItem"));
     } catch (error) {
       console.log(error);
     }
   });
 };
 
-const handleUploadBook = async (event: Event) => {
-  if ((event.target as HTMLInputElement).files) {
-    const files = (event.target as HTMLInputElement).files as FileList;
-    const file = files.length > 0 ? files[0] : null;
-
-
-    // if (event.target.value) {
-    //   event.target.setAttribute("data-title", this.value.replace(/^.*[\\\/]/, ''));
-    // } else {
-    //   this.setAttribute("data-title", "No file chosen");
-    // }
-    if (!file) return;
-
-    console.log(file);
-    formData.book = file;
-  }
+const handleUploadBook = async (file: File | null) => {
+  if (!file) return;
+  formData.book = file;
 };
-
-
-const handleUploadLogo = async (event: Event) => {
-
-  if ((event.target as HTMLInputElement).files) {
-    const files = (event.target as HTMLInputElement).files as FileList;
-    const file = files.length > 0 ? files[0] : null;
-
-    if (!file) return;
-
-    console.log(file);
-    formData.logo = file;
-  }
+const handleUploadLogo = async (file: File | null) => {
+  if (!file) return;
+  formData.logo = file;
 };
 watch(
     () => gradeSubjectStore.selectedGradeSubject,
     (value) => {
       // how to pass in the old file value ?
-
+      console.log(value)
       formData.subjectId = value?.subjectId ?? "";
       formData.gradeId = value?.gradeId ?? "";
-
-       // document.getElementById("input_upload_update_book")?.textContent = "lol"
-       // document.getElementById("input_upload_update_logo")?.textContent = "lolsf"
-
-      // book.textContent = "lol";
-      // logo.textContent = "lol";
-
 
     }
 );
@@ -322,6 +384,15 @@ onMounted(() => {
     gradesStore.unselectGrade();
   });
 });
+
+const rules = ref({
+  grade: [{required: true, message: t("required"), trigger: "blur"}],
+  subject: [{required: true, message: t("required"), trigger: "blur"}],
+  book: [{required: false, message: t("required"), trigger: "blur"}],
+  logo: [{required: false, message: t("required"), trigger: "blur"}],
+});
+
+
 </script>
 <style lang="scss">
 .el-select {

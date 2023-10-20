@@ -5,6 +5,7 @@ import { Country } from "@/types/Countries";
 import CitiesService from "@/core/repositories/CitiesService";
 import Toaster from "@/core/services/Toaster";
 import CountriesService from "@/core/repositories/CountriesService";
+import toaster from "@/core/services/Toaster";
 
 export const useCitiesStore = defineStore({
   id: "citiesStore",
@@ -70,6 +71,7 @@ export const useCitiesStore = defineStore({
 
         this.cities[index] = { ...this.selectedCity, ...updateResult };
         this.cities[index] = { ...this.selectedCity, ...newValues };
+        toaster.Success("city updated successfully")
       } catch (error) {
         console.log(error);
       } finally {
@@ -102,8 +104,9 @@ export const useCitiesStore = defineStore({
           return;
         }
         const result = await CitiesService.deleteCity(cityToDelete.id);
+        this.cities = this.cities.filter(x=> x.id != cityToDelete.id)
 
-
+        toaster.Success("Success", "City deleted")
       } catch (error) {
         console.log(error);
 
