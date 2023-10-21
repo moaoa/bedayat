@@ -43,16 +43,16 @@ export const useRegularUsersStore = defineStore({
             pageNumber,
             pageSize
           );
-          this.users = res;
+          this.users = res ?? [];
         } else if (this.selectedUserType === AppConstants.USER_ROLES.Parent) {
-          const res = await UsersService.searchParent(
+          const res = await UsersService.searchParents(
             searchBy,
             searchValue,
             userState,
             pageNumber,
             pageSize
           );
-          this.users = res;
+          this.users = res ?? [];
         } else if (this.selectedUserType === AppConstants.USER_ROLES.Child) {
           const res = await UsersService.searchChildren(
             searchBy,
@@ -61,10 +61,29 @@ export const useRegularUsersStore = defineStore({
             pageNumber,
             pageSize
           );
-          this.users = res;
+          this.users = res ?? [];
         } else {
           throw Error("only filter by teacher, parent or child");
         }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        this.dataIsLoading = false;
+      }
+    },
+    async searchParents(searchValue: string) {
+      this.dataIsLoading = true;
+      this.errorLoadingData = false;
+
+      try {
+        const res = await UsersService.searchParents(
+          AppConstants.FILTER_USER_BY_OPTIONS.ALL,
+          searchValue,
+          AppConstants.USER_STATE.All,
+          1,
+          10
+        );
+        this.users = res ?? [];
       } catch (e) {
         console.log(e);
       } finally {
@@ -76,7 +95,7 @@ export const useRegularUsersStore = defineStore({
       this.errorLoadingData = false;
 
       try {
-        const res = await UsersService.getUserFamily(userId);
+        const res = (await UsersService.getUserFamily(userId)) ?? [];
         this.selectedFamilyParents = res.filter(
           (member) => member.role === AppConstants.USER_ROLES.Parent
         );
