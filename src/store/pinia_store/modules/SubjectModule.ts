@@ -1,10 +1,9 @@
 import { defineStore } from "pinia";
-import {Subject, NewSubjectData, SubjectType} from "@/types/Subjects";
+import { Subject, NewSubjectData, SubjectType } from "@/types/Subjects";
 
 import subjectsService from "@/core/repositories/SubjectsService";
-import {bool} from "yup";
 import Toaster from "@/core/services/Toaster";
-import {t} from "element-plus/es/locale";
+import { t } from "element-plus/es/locale";
 
 export const useSubjectsStore = defineStore({
   id: "subjectsStore",
@@ -31,12 +30,14 @@ export const useSubjectsStore = defineStore({
   }),
 
   actions: {
-    async loadSubjects(allSubjects : boolean = false) {
+    async loadSubjects(allSubjects: boolean = false) {
       this.dataIsLoading = true;
       this.errorLoadingData = false;
 
       try {
-        const items = await subjectsService.getSubjects( allSubjects? null :  this.selectedSubjectType);
+        const items = await subjectsService.getSubjects(
+          allSubjects ? null : this.selectedSubjectType
+        );
         this.subjects = items;
       } catch (e) {
         console.log((e as Error).message);

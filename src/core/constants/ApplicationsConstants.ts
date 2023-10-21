@@ -32,6 +32,8 @@ export class AppConstants {
   static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
   static PROMOTIONS_URL = `${AppConstants.MANAGEMENT_URL}/Promotions`;
 
+  static COURSE_PURCHASE_URL = `${AppConstants.MANAGEMENT_URL}/CoursePurchase`;
+
   static FILTER_ADMIN_BY_OPTIONS = {
     ByPhoneNumber: 0,
     ByName: 1,

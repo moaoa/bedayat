@@ -65,7 +65,6 @@ const DocMenuConfig = [
         ],
       },
       {
-
         // todo: need packages permission
         heading: "packages",
         route: "/dashboard/packages",
@@ -137,7 +136,6 @@ const DocMenuConfig = [
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
       {
-
         sectionTitle: "cards",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
@@ -173,14 +171,14 @@ const DocMenuConfig = [
             requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
           },
         ],
-
+      },
+      {
         // todo: need promotion permission
         heading: "promotions",
         route: "/dashboard/promotions",
         svgIcon: "/media/svg/bug.svg",
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
-
       },
       // {
       //   sectionTitle: "packages",
@@ -209,6 +207,13 @@ const DocMenuConfig = [
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
             requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+          },
+          {
+            heading: "PurhcasedPackagesByUser",
+            route: "/dashboard/Reports/PurchasedPackagesByUser",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.None,
           },
         ],
       },
