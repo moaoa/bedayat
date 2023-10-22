@@ -69,7 +69,7 @@
             <template #default="scope">
               <img class="w-50 h-50 image-input-wrapper" style="height: 50%" :src="scope.row.image" />
             </template>
-          </el-table-column>a
+          </el-table-column>
           <el-table-column prop="information" :label="$t('information')" align="center" header-align="center">
             <template #default="scope">
               <b> {{ scope.row.information }}</b>

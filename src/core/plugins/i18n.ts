@@ -309,8 +309,32 @@ const messages = {
     updatePromotion: "Add Promotions",
     deletePromotion: "Add Promotions",
     promotions:"Promotions",
+
+
+    price:"Price",
+    gradeName:"Grade Name",
+    numberOfPurchases:"Number Of Purchases",
+    sumOfPrice:"Sum Of Price",
+    PurchasedPackagesWithCount:"Purchased Packages With Count",
+    fromDate:"From Date",
+    toDate:"To Date",
+    orderByMostPurchased:"Order By Most Purchased",
+
+
   },
   ar: {
+
+
+    gradeName:"السنة الدراسية",
+    price:"السعر",
+    numberOfPurchases:"عدد مرات البيع",
+    sumOfPrice:"إجمالي البيع",
+    PurchasedPackagesWithCount:"تقرير البيع و العدد",
+    fromDate:"من ",
+    toDate:"إلى",
+    orderByMostPurchased:"رتب بالأعلى مبيعا",
+
+
     promotions:"إدارة الدعايات",
     addPromotion: "إضافه دعاية",
     updatePromotion: "حذف الدعاية",
