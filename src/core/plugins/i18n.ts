@@ -308,6 +308,7 @@ const messages = {
     addPromotion: "Add Promotions",
     updatePromotion: "Add Promotions",
     deletePromotion: "Add Promotions",
+
     userName: "User Name",
     price: "Price",
     numberOfPurchases: "Number Of Purchases",
@@ -321,8 +322,23 @@ const messages = {
     purchasedPackagesByUser: "Purchased Packages By User",
     searchForUserWithPhoneEmail: "Search For User With Phone Or Email",
     user: "User",
+    promotions: "Promotions",
+
+    gradeName: "Grade Name",
+    PurchasedPackagesWithCount: "Purchased Packages With Count",
+    orderByMostPurchased: "Order By Most Purchased",
   },
   ar: {
+    gradeName: "السنة الدراسية",
+    price: "السعر",
+    numberOfPurchases: "عدد مرات البيع",
+    sumOfPrice: "إجمالي البيع",
+    PurchasedPackagesWithCount: "تقرير البيع و العدد",
+    fromDate: "من ",
+    toDate: "إلى",
+    orderByMostPurchased: "رتب بالأعلى مبيعا",
+
+    promotions: "إدارة الدعايات",
     addPromotion: "إضافه دعاية",
     updatePromotion: "حذف الدعاية",
     deletePromotion: "تعديل الدعاية",

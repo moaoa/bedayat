@@ -5,11 +5,8 @@
     <!--begin::Header-->
     <div class="card-header border-0">
 
-        <h3 class="card-title fw-bolder text-dark">{{ t("localities") }}</h3>
+        <h3 class="card-title fw-bolder text-dark">{{ t("promotions") }}</h3>
       <div class="card-toolbar d-flex flex-row">
-
-
-
 
         <a class="btn btn-icon btn-light-primary btn-sm me-3"
            @click="promotionStore.loadPromotions(promotionSearch == undefined ? '': promotionSearch)">
@@ -70,9 +67,9 @@
 
           <el-table-column prop="image" :label="$t('image')" align="center" header-align="center">
             <template #default="scope">
-              <img class="w-50 h-50 image-input-wrapper" :src="scope.row.image" />
+              <img class="w-50 h-50 image-input-wrapper" style="height: 50%" :src="scope.row.image" />
             </template>
-          </el-table-column>a
+          </el-table-column>
           <el-table-column prop="information" :label="$t('information')" align="center" header-align="center">
             <template #default="scope">
               <b> {{ scope.row.information }}</b>
@@ -91,16 +88,12 @@
                       form-check form-switch form-check-custom form-check-solid align-content-center justify-content-center
                     "
                 >
-                  <!--begin::Input-->
                   <input
                       class="form-check-input"
                       type="checkbox"
                       :checked="scope.row.activeState == PromotionState.Active"
                       @change="changePromotionState(scope.row)"
                   />
-
-                  <!--end::Input-->
-
                 </label>
               </div>
             </template>
@@ -113,9 +106,6 @@
               </a>
             </template>
           </el-table-column>
-
-
-
           <el-table-column :label="$t('remove')" width="90" align="center" header-align="center">
             <template #default="scope: { row: PromotionDto, $index: number }">
               <div class="flex">
@@ -131,19 +121,11 @@
 
       </div>
       <br/>
-      <!-- start::pagination -->
-<!--      <el-pagination v-if="!localitiesStore.dataIsLoading && !localitiesStore.errorLoadingData-->
-<!--        " background layout="total, sizes, prev, pager, next, jumper" :total="localitiesStore.total"-->
-<!--                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"-->
-<!--                     :page-sizes="[25, 100, 200, 300, 400]"/>-->
-      <!-- end::pagination -->
+
     </div>
-
-    <AddPromotionModal @submit="createPromotion" ref="addLocalityModalRef"></AddPromotionModal>
-
-    <UpdatePromotionModal @submit="updatePromotion" ref="updateLocalityModalRef"/>
-    <!-- <AddLocalityForm @submit="localityAdded"></AddLocalityForm> -->
-    <DeletePromotionModal @submit="promotionDeleted" ref="deleteLocalityModalRef"></DeletePromotionModal>
+    <AddPromotionModal @submit="createPromotion" ref="addPromotionModalRef"></AddPromotionModal>
+    <UpdatePromotionModal @submit="updatePromotion" ref="updatePromotionModalRef"/>
+    <DeletePromotionModal @submit="promotionDeleted" ref="deletePromotionModalRef"></DeletePromotionModal>
   </div>
   <!--end:List Widget 3-->
 </template>
@@ -164,20 +146,19 @@ import DeletePromotionModal from "@/views/Promotions/DeletePromotionModal.vue";
 const {t} = useI18n();
 const promotionStore = usePromotionsStore();
 
-const addLocalityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
-const updateLocalityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
-const deleteLocalityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
+const addPromotionModalRef = ref<{ modalRef: HTMLElement } | null>(null);
+const updatePromotionModalRef = ref<{ modalRef: HTMLElement } | null>(null);
+const deletePromotionModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const promotionSearch = ref<string>();
 const promotionsTable = computed(() => promotionStore.promotions);
 
 const createPromotion = async (data: AddUpdatePromotionDto) => {
   try {
-
     await promotionStore.createPromotion(data);
-
-    hideModal(addLocalityModalRef.value?.modalRef!);
-
+    hideModal(addPromotionModalRef.value?.modalRef!);
     promotionStore.unselectPromotion();
+    await promotionStore.loadPromotions(promotionSearch.value ?? '')
+
   } catch (error) {
     console.log(error);
   }
@@ -190,14 +171,14 @@ const openUpdatePromotionDialog = (promotionDto: PromotionDto) => {
 const updatePromotion = async (data: AddUpdatePromotionDto) => {
   try {
     await promotionStore.updatePromotion(data);
-
-    hideModal(updateLocalityModalRef.value?.modalRef!);
-
+    hideModal(updatePromotionModalRef.value?.modalRef!);
     promotionStore.unselectPromotion();
+    await promotionStore.loadPromotions(promotionSearch.value ?? '')
   }catch (error) {
     console.log(error);
   }
 };
+
 const formatter = (key: keyof Locality) => {
   return (locality: Locality) => formatDate(locality[key]);
 };
@@ -209,19 +190,17 @@ const changePromotionState = async (promotionDto : PromotionDto)=>  {
 
 const promotionDeleted = (promotionDto: PromotionDto) => {
   promotionStore.deleteItem(promotionDto);
-  hideModal(deleteLocalityModalRef.value?.modalRef!);
+  hideModal(deletePromotionModalRef.value?.modalRef!);
 };
+
 onMounted(()=> {
-
       promotionStore.loadPromotions('')
-
   document.getElementById('input_search_promotions')?.addEventListener('keydown',  async (event) => {
     if (event.keyCode === 13 || event.key === 'Enter') {
       promotionStore.loadPromotions(promotionSearch.value ?? '')
     }
   })
 })
+
 setCurrentPageBreadcrumbs(t("promotions"), [t("promotions")]);
-
-
 </script>
