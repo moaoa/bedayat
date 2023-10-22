@@ -308,9 +308,10 @@ const messages = {
     addPromotion: "Add Promotions",
     updatePromotion: "Add Promotions",
     deletePromotion: "Add Promotions",
-
+    promotions:"Promotions",
   },
   ar: {
+    promotions:"إدارة الدعايات",
     addPromotion: "إضافه دعاية",
     updatePromotion: "حذف الدعاية",
     deletePromotion: "تعديل الدعاية",
