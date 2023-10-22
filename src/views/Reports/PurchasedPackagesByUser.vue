@@ -95,6 +95,7 @@
           </lable>
         </div>
       </div>
+      <div class="mt-8">{{ $t("totalPurchases") }} : {{ totalPurchases }}</div>
       <div
         v-loading="purchasedPackagesByUserStore.dataIsLoading"
         class="card-body pt-2"
