@@ -133,7 +133,7 @@
           <el-table-column
             prop="numberOfPurchases"
             :label="$t('numberOfPurchases')"
-            width="120"
+            width="150"
           />
           <el-table-column
             prop="sumOfPrice"
@@ -148,7 +148,7 @@
           <el-table-column
             prop="purchasedAt"
             :label="$t('purchasedAt')"
-            width="200"
+            width="120"
             :formatter="formatter('purchasedAt')"
           />
         </el-table>
