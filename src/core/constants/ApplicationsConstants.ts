@@ -13,6 +13,7 @@ export class AppConstants {
   static COUNTRIES_URL = `${AppConstants.MANAGEMENT_URL}/Countries`;
   static FAQS_URL = `${AppConstants.MANAGEMENT_URL}/Faqs`;
   static GRADES_URL = `${AppConstants.MANAGEMENT_URL}/Grades`;
+  static PREPAID_CARDS_URL = `${AppConstants.MANAGEMENT_URL}/PrepaidCards`;
 
   static COURSES_URL = `${AppConstants.MANAGEMENT_URL}/Courses`;
 
@@ -20,7 +21,6 @@ export class AppConstants {
 
   static SECTIONS_URL = `${AppConstants.MANAGEMENT_URL}/Sections`;
   static lESSONS_URL = `${AppConstants.MANAGEMENT_URL}/Lessons`;
-
 
   static SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/Subjects`;
   static GRADE_SUBJECTS_URL = `${AppConstants.MANAGEMENT_URL}/GradesSubjects`;
@@ -31,6 +31,8 @@ export class AppConstants {
   static SUBSCRIPTION_URL = `${AppConstants.MANAGEMENT_URL}/Subscription`;
   static BUGS_REPORT_URL = `${AppConstants.MANAGEMENT_URL}/BugsReport`;
   static PROMOTIONS_URL = `${AppConstants.MANAGEMENT_URL}/Promotions`;
+
+  static COURSE_PURCHASE_URL = `${AppConstants.MANAGEMENT_URL}/CoursePurchase`;
 
   static FILTER_ADMIN_BY_OPTIONS = {
     ByPhoneNumber: 0,
@@ -159,5 +161,20 @@ export class AppConstants {
     PreviewImage: 0,
     VideoLesson: 1,
     File: 2,
+  };
+  static PREPAID_CARD_STATUS = {
+    Active: 0,
+    DisActive: 1,
+    Consumed: 2,
+  };
+  static PREPAID_CARD_COMSUMED_BY = {
+    None: 0,
+    ThirdParty: 1,
+    User: 2,
+  };
+  static EXPORT_AS = {
+    Json: 0,
+    Excel: 1,
+    Csv: 2,
   };
 }

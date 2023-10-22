@@ -1,8 +1,14 @@
 import ApiService from "./ApiService";
-// import { Country } from "@/types/Countries";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
-import { ApiResponse } from "@/types/ApiResponse";
-import { User, RoleValues, NewUserData } from "@/types/User";
+import {
+  User,
+  RoleValues,
+  NewUserData,
+  ResponseSchema,
+  Response,
+} from "@/types/User";
+import { red } from "console-log-colors";
+import { safeParse } from "valibot";
 
 class UsersService {
   public static async searchTeacher(
@@ -12,7 +18,7 @@ class UsersService {
     pageNumber?: number,
     pageSize?: number
   ) {
-    const res = await ApiService.query<ApiResponse<User[]>>(
+    const res = await ApiService.query<Response>(
       `${AppConstants.USERS_URL}/SearchTeacher`,
       {
         params: {
@@ -24,16 +30,20 @@ class UsersService {
         },
       }
     );
-    return res.data.data;
+    const validation = safeParse(ResponseSchema, res.data);
+    if (!validation.success) {
+      console.log(red(validation.issues));
+    }
+    return res.data.results;
   }
-  public static async searchParent(
+  public static async searchParents(
     searchBy: number,
     searchValue: string,
     userState: number,
     pageNumber?: number,
     pageSize?: number
   ) {
-    const res = await ApiService.query<ApiResponse<User[]>>(
+    const res = await ApiService.query<Response>(
       `${AppConstants.FAMILY_URL}/SearchParents`,
       {
         params: {
@@ -45,7 +55,11 @@ class UsersService {
         },
       }
     );
-    return res.data.data;
+    const validation = safeParse(ResponseSchema, res.data);
+    if (!validation.success) {
+      console.log(red("issues: "), validation.issues);
+    }
+    return res.data.results;
   }
   public static async searchChildren(
     searchBy: number,
@@ -54,7 +68,7 @@ class UsersService {
     pageNumber?: number,
     pageSize?: number
   ) {
-    const res = await ApiService.query<ApiResponse<User[]>>(
+    const res = await ApiService.query<Response>(
       `${AppConstants.FAMILY_URL}/SearchChildren`,
       {
         params: {
@@ -66,18 +80,19 @@ class UsersService {
         },
       }
     );
-    return res.data.data;
+    const validation = safeParse(ResponseSchema, res.data);
+    if (!validation.success) {
+      console.log(red("issues: "), validation.issues);
+    }
+    return res.data.results;
   }
   public static async createUser(newUserData: NewUserData) {
-    return await ApiService.post<ApiResponse<User>>(
-      `${AppConstants.USERS_URL}`,
-      {
-        ...newUserData,
-      }
-    );
+    return await ApiService.post<Response>(`${AppConstants.USERS_URL}`, {
+      ...newUserData,
+    });
   }
   public static async updateUser(userId: string, newUserData: NewUserData) {
-    return await ApiService.put<ApiResponse<User>>(
+    return await ApiService.put<Response>(
       `${AppConstants.USERS_URL}/Edit/${userId}`,
       {
         ...newUserData,
@@ -85,7 +100,7 @@ class UsersService {
     );
   }
   public static async getAdminsByPhone(phone: string) {
-    return await ApiService.query<ApiResponse<User[]>>(
+    const res = await ApiService.query<Response>(
       `${AppConstants.USERS_URL}/ByPhoneNumber`,
       {
         params: {
@@ -93,9 +108,14 @@ class UsersService {
         },
       }
     );
+    const validation = safeParse(ResponseSchema, res.data);
+    if (!validation.success) {
+      console.log(red("issues: "), validation.issues);
+    }
+    return res;
   }
   public static async getAdminsByName(name: string) {
-    return await ApiService.query<ApiResponse<User[]>>(
+    const res = await ApiService.query<Response>(
       `${AppConstants.USERS_URL}/ByName`,
       {
         params: {
@@ -103,9 +123,16 @@ class UsersService {
         },
       }
     );
+
+    const validation = safeParse(ResponseSchema, res.data);
+
+    if (!validation.success) {
+      console.log(red("issues: "), validation.issues);
+    }
+    return res;
   }
   public static async getUsersByRole(role: RoleValues) {
-    return await ApiService.query<ApiResponse<User[]>>(
+    const res = await ApiService.query<Response>(
       `${AppConstants.USERS_URL}/ByType`,
       {
         params: {
@@ -113,9 +140,15 @@ class UsersService {
         },
       }
     );
+    const validation = safeParse(ResponseSchema, res.data);
+
+    if (!validation.success) {
+      console.log(red("issues: "), validation.issues);
+    }
+    return res;
   }
   public static async getAdminUsers() {
-    return await ApiService.query<ApiResponse<User[]>>(
+    const res = await ApiService.query<Response>(
       `${AppConstants.USERS_URL}/ByType`,
       {
         params: {
@@ -123,16 +156,27 @@ class UsersService {
         },
       }
     );
+    const validation = safeParse(ResponseSchema, res.data);
+
+    if (!validation.success) {
+      console.log(red("issues: "), validation.issues);
+    }
+    return res;
   }
-  //TODO: FIX TYPES
   public static async getUserFamily(userId: string) {
-    const res = await ApiService.query<ApiResponse<User[]>>(
-      `${AppConstants.FAMILY_URL}/GetFamilyOfUser/${userId}`
+    const res = await ApiService.query<Response>(
+      `${AppConstants.FAMILY_URL}/GetFamilyOfUser/${userId}`,
+      {}
     );
-    return res.data.data;
+    const validation = safeParse(ResponseSchema, res.data);
+
+    if (!validation.success) {
+      console.log(red("issues: "), validation.issues);
+    }
+    return res.data.results;
   }
   public static async changeUserStatus(user: User, state: boolean) {
-    return await ApiService.put<ApiResponse<string>>(
+    return await ApiService.put<Response>(
       `${AppConstants.USERS_URL}/ActivateDeactivate`,
       {
         userId: user.id,

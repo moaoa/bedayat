@@ -65,7 +65,6 @@ const DocMenuConfig = [
         ],
       },
       {
-
         // todo: need packages permission
         heading: "packages",
         route: "/dashboard/packages",
@@ -137,6 +136,43 @@ const DocMenuConfig = [
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
       {
+        sectionTitle: "cards",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-sticky",
+        requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+        sub: [
+          {
+            heading: "prepaidCards",
+            route: "/dashboard/PrepaidCards",
+            svgIcon: "/media/svg/bug.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+          },
+          {
+            heading: "invoices",
+            route: "/dashboard/Invoices",
+            svgIcon: "/media/svg/bug.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+          },
+        ],
+      },
+      {
+        sectionTitle: "packages",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-sticky",
+        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+        sub: [
+          {
+            heading: "packages",
+            route: "/dashboard/packages",
+            svgIcon: "/media/svg/bug.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+          },
+        ],
+      },
+      {
         // todo: need promotion permission
         heading: "promotions",
         route: "/dashboard/promotions",
@@ -171,6 +207,13 @@ const DocMenuConfig = [
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
             requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+          },
+          {
+            heading: "PurhcasedPackagesByUser",
+            route: "/dashboard/Reports/PurchasedPackagesByUser",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.None,
           },
         ],
       },

@@ -37,7 +37,7 @@
     <div v-loading="lessonsStore.dataIsLoading" class="card-body pt-2">
       <!-- begin::table -->
 
-      <el-table :data="sectionsTable" style="width: 100%" height="500">
+      <el-table :data="tableData" style="width: 100%" height="500">
         <el-table-column
           index="scope.$index"
           :label="t('noNumber')"
@@ -161,32 +161,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive } from "vue";
-import type { Lesson, NewLessonData } from "@/types/Lessons";
+import { computed, ref } from "vue";
+import type { Lesson } from "@/types/Lessons";
 import CreateLessonModal from "@/views/Lessons/AddLessonModal.vue";
 import UpdateLessonModal from "@/views/Lessons/UpdateLessonModal.vue";
 import DeleteLessonModal from "@/views/Lessons/DeleteLessonModal.vue";
 import LessonAttachmentsModal from "@/views/Lessons/LessonAttachmentsModal.vue";
 import { formatDate } from "@/core/helpers/formatDate";
 import { useLessonsStore } from "@/store/pinia_store/modules/LessonsModule";
+import { useCourseSectionsStore } from "@/store/pinia_store/modules/CourseSectionModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
-import DotsIcon from "@/components/icons/DotsIcon.vue";
-import PlusIcon from "@/components/icons/CheckIcon.vue";
 import router from "@/router";
-import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 
 const { t } = useI18n();
 const lessonsStore = useLessonsStore();
+const sectionsStore = useCourseSectionsStore();
 
 const sectionSelectedId = router.currentRoute.value.params.id as string;
 
-const sectionsTable = computed(() => lessonsStore.lessons);
-
-const formRef = ref<null | HTMLFormElement>(null);
-
-const deleteSectionModalRef = ref<{ modalRef: HTMLElement } | null>(null);
+const tableData = computed(() => lessonsStore.lessons);
 
 lessonsStore.loadLessons(sectionSelectedId);
 
@@ -202,5 +197,8 @@ const formatter = (key: "createdAt" | "lastUpdated") => {
   return (section: Lesson) => formatDate(section[key]);
 };
 
-setCurrentPageBreadcrumbs(t("lessons"), [t("lessons")]);
+setCurrentPageBreadcrumbs(
+  sectionsStore.selectedCourseSection.title?.slice(0, 30) || t("lessons"),
+  [t("lessons")]
+);
 </script>

@@ -155,7 +155,34 @@ const routes: Array<RouteRecordRaw> = [
           requiredPermission: AppConstants.PERMISSIONS.ReadSubjects,
         },
       },
-
+      {
+        path: "/dashboard/PrepaidCards",
+        name: "PrepaidCards",
+        component: () => import("@/views/PrepaidCards/PrepaidCards.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+        },
+      },
+      {
+        path: "/dashboard/ExportPrepaidCards",
+        name: "ExportPrepaidCards",
+        component: () =>
+          import("@/views/PrepaidCards/ExportPrepaidCardsPage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+        },
+      },
+      {
+        path: "/dashboard/Invoices",
+        name: "Invoices",
+        component: () => import("@/views/Invoices/Invoices.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
+        },
+      },
       {
         path: "/dashboard/Countries",
         name: "Countries",
@@ -270,6 +297,15 @@ const routes: Array<RouteRecordRaw> = [
         path: "/dashboard/Reports/MostPurchasedCourses",
         name: "MostPurchasedCoursesReport",
         component: () => import("@/views/Reports/MostPurchasedCourses.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+        },
+      },
+      {
+        path: "/dashboard/Reports/PurchasedPackagesByUser",
+        name: "PurchasedPackagesByUser",
+        component: () => import("@/views/Reports/PurchasedPackagesByUser.vue"),
         meta: {
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
