@@ -209,7 +209,7 @@ const DocMenuConfig = [
             requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
           },
           {
-            heading: "PurchasedPackagesByUser",
+            heading: "purchasedPackagesByUser",
             route: "/dashboard/Reports/PurchasedPackagesByUser",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
