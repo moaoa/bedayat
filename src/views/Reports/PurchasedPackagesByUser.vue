@@ -189,18 +189,20 @@ import { useUrlSearchParams } from "@vueuse/core";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { watchDebounced } from "@vueuse/core";
 
-const filters = useUrlSearchParams<Filters>("history");
+const filters = useUrlSearchParams<Filters>("history", {
+  initialValue: {
+    userId: null,
+    packageType: AppConstants.PackageTypes.Course,
+    checkExpiryDate: false,
+    fromDate: null,
+    toDate: null,
+    pageNumber: 1,
+    pageSize: 10,
+  },
+});
 const parentsFilters = useUrlSearchParams<{ parentsSearchField: string }>(
   "history"
 );
-
-filters.userId = null;
-filters.packageType = AppConstants.PackageTypes.Course;
-filters.checkExpiryDate = false;
-filters.fromDate = null;
-filters.toDate = null;
-filters.pageNumber = 1;
-filters.pageSize = 10;
 
 const { t } = useI18n();
 
@@ -210,6 +212,13 @@ const usersStore = useRegularUsersStore();
 const tableData = computed(
   () => purchasedPackagesByUserStore.purchasedPackagesByUsers
 );
+
+const totalPurchases = computed(() => {
+  return (
+    purchasedPackagesByUserStore.purchasedPackagesByUsers[0]
+      ?.totalOfPurchases ?? 0
+  );
+});
 
 const isLoadingUsers = computed(() => {
   return usersStore.dataIsLoading;
