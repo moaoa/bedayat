@@ -8,7 +8,7 @@ import {
   Output,
 } from "valibot";
 
-export const PurchasedPackageByUserSchema = object({
+export const PurchasedPackageBySubjectSchema = object({
   packageId: string(),
   title: string(),
   englishTitle: string(),
@@ -24,12 +24,12 @@ export const PurchasedPackageByUserSchema = object({
   totalOfPurchases: number(),
 });
 
-export type PurchasedPackageByUser = Output<
-  typeof PurchasedPackageByUserSchema
+export type PurchasedPackageBySubject = Output<
+  typeof PurchasedPackageBySubjectSchema
 >;
 
 export const ResponseSchema = object({
-  results: nullable(array(PurchasedPackageByUserSchema)),
+  results: nullable(array(PurchasedPackageBySubjectSchema)),
   statusCode: number(),
   isSuccess: boolean(),
   message: nullable(string()),
@@ -45,7 +45,7 @@ export const ResponseSchema = object({
 export type Response = Output<typeof ResponseSchema>;
 
 export type Filters = {
-  userId: string | null;
+  subjectId: string | null;
   packageType: number;
   checkExpiryDate: boolean;
   fromDate: string | null;

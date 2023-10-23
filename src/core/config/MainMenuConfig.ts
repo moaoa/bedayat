@@ -216,6 +216,13 @@ const DocMenuConfig = [
             requiredPermission: AppConstants.PERMISSIONS.None,
           },
           {
+            heading: "purchasedPackagesBySubject",
+            route: "/dashboard/Reports/PurchasedPackagesBySubject",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.None,
+          },
+          {
             heading: "PurchasedPackagesWithCount",
             route: "/dashboard/Reports/PurchasedPackagesWithCount",
             svgIcon: "/media/icons/duotune/general/gen019.svg",

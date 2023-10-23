@@ -319,7 +319,7 @@ const messages = {
     fromDate: "From Date",
     toDate: "To Date",
     checkExpiryDate: "Check Expiry Date",
-    purchasedPackagesByUser: "Purchased Packages By User",
+    purchasedPackagesByUser: "User Purchases",
     searchForUserWithPhoneEmail: "Search For User With Phone Or Email",
     user: "User",
     promotions: "Promotions",
@@ -327,6 +327,8 @@ const messages = {
     gradeName: "Grade Name",
     PurchasedPackagesWithCount: "Purchased Packages With Count",
     orderByMostPurchased: "Order By Most Purchased",
+    purchasedPackagesBySubject: "Subject Purchases",
+    package: "Package",
   },
   ar: {
     gradeName: "السنة الدراسية",
@@ -649,9 +651,11 @@ const messages = {
     purchasedAt: "تاريخ الشراء",
     reports: "التقارير",
     checkExpiryDate: "تاريخ الإنتهاء",
-    purchasedPackagesByUser: "الحزم المشتراة من قبل المستخدم",
+    purchasedPackagesByUser: "مشريات المستخدمين",
     searchForUserWithPhoneEmail: "البحث عن طريق الهاتف او الايميل",
     user: "المستخدم",
+    purchasedPackagesBySubject: "مبيعات المواد",
+    package: "حزمة",
   },
 };
 
