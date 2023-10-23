@@ -330,6 +330,7 @@ const messages = {
     purchasedPackagesBySubject: "Subject Purchases",
     package: "Package",
     subject: "Subject",
+    purchasedPackagesBySpecificUser: "Purchased Packages By Scpecific User",
   },
   ar: {
     gradeName: "السنة الدراسية",
@@ -658,6 +659,7 @@ const messages = {
     purchasedPackagesBySubject: "مبيعات المواد",
     package: "حزمة",
     subject: "المادة",
+    purchasedPackagesBySpecificUser: "مشتريات مستخدم محدد",
   },
 };
 
