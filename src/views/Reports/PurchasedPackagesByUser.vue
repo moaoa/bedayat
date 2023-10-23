@@ -201,6 +201,9 @@ const filters = useUrlSearchParams<Filters>("history", {
     pageSize: 10,
   },
 });
+
+filters.packageType = Number(filters.packageType);
+
 const parentsFilters = useUrlSearchParams<{ parentsSearchField: string }>(
   "history"
 );

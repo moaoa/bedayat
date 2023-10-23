@@ -205,6 +205,8 @@ const filters = useUrlSearchParams<Filters>("history", {
   },
 });
 
+filters.packageType = Number(filters.packageType)
+
 const { t } = useI18n();
 
 const purchasedPackagesBySubjectStore = usePurchasedPackagesBySubjectStore();
