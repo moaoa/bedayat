@@ -5,7 +5,7 @@
     <!--begin::Header-->
     <div class="card-header border-0">
       <h3 class="card-title fw-bolder text-dark">
-        {{ $t("PurchasedPackagesWithCount") }}
+        {{ $t("purchasedPackagesByGrade") }}
       </h3>
 
       <div class="card-toolbar">
@@ -27,12 +27,20 @@
 
     <!--begin::Body-->
     <div
-        v-loading="purchasedPackagesWithCountStore.dataIsLoading"
+        v-loading="purchasedPackagesByGradeStore.dataIsLoading"
         class="card-body pt-2"
     >
       <!-- begin::table -->
 
       <div class="d-flex gap-4 align-items-center flex-wrap">
+        <div class="d-flex flex-column">
+          <label>{{ $t("grades") }}</label>
+          <el-select v-model="filters.gradeId" filterable>
+            <el-option v-for="grade in gradesStore.grades" :key="grade.id" :value="grade.id"
+                       :label="grade.name">
+            </el-option>
+          </el-select>
+        </div>
         <div class="d-flex flex-column">
           <label>{{ $t("packageType") }}</label>
           <el-select v-model="filters.packageType" style="width: 300px">
@@ -70,14 +78,14 @@
         </div>
         <div>
           <lable class="d-flex flex-column">
-            {{ $t("orderByMostPurchased") }}
-            <el-switch v-model="filters.orderByMostPurchased" style="width: 300px">
+            {{ $t("checkExpiryDate") }}
+            <el-switch v-model="filters.checkExpiryDate" style="width: 300px">
             </el-switch>
           </lable>
         </div>
       </div>
       <div
-          v-loading="purchasedPackagesWithCountStore.dataIsLoading"
+          v-loading="purchasedPackagesByGradeStore.dataIsLoading"
           class="card-body pt-2"
       >
         <el-table :data="tableData" class="table-responsive" max-width style="width: 100%" height="400">
@@ -89,52 +97,50 @@
               header-align="center"
           >
             <template
-                #default="scope: { row: PurchasedPackageWithCount, $index: number }"
+                #default="scope: { row: PurchasedPackageByGrade, $index: number }"
             >
               {{ scope.$index + 1 }}
             </template>
           </el-table-column>
           <el-table-column prop="title"
                            header-align="center"
-                           align="center" :label="$t('title')"/>
+                           align="center"
+                           :label="$t('title')"/>
           <el-table-column
               prop="englishTitle"
               header-align="center"
               align="center"
               :label="$t('englishTitle')"
-
           />
-
-
           <el-table-column
               :label="t('gradeName')"
-
               align="center"
               header-align="center"
           >
             <template
-                #default="scope: { row: PurchasedPackageWithCount, $index: number }"
+                #default="scope: { row: PurchasedPackageByGrade, $index: number }"
             >
               {{ gradesStore.grades.find(x => x.id == scope.row?.gradeId ?? '')?.name }}
             </template>
           </el-table-column>
 
-
           <el-table-column prop="price"
-                           header-align="center"
-                           align="center" :label="$t('price')"/>
+                           align="center"
+                           header-align="center" :label="$t('price')"/>
+
+<!--          <el-table-column-->
+<!--              prop="sumOfPrice"-->
+<!--              :label="$t('sumOfPrice')"-->
+
+<!--          />-->
+
           <el-table-column
-              prop="numberOfPurchases"
-              :label="$t('numberOfPurchases')"
-          />
-          <el-table-column
-              prop="sumOfPrice"
+              prop="purchasedAt"
               header-align="center"
               align="center"
-              :label="$t('sumOfPrice')"
-
+              :label="$t('purchasedAt')"
+              :formatter="formatter('purchasedAt')"
           />
-
         </el-table>
         <!-- end::table -->
 
@@ -146,10 +152,10 @@
 
             <!-- start::pagination -->
             <el-pagination
-                :loading="purchasedPackagesWithCountStore.dataIsLoading"
+                :loading="purchasedPackagesByGradeStore.dataIsLoading"
                 background
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="purchasedPackagesWithCountStore.purchasedPackagesWithCount.length"
+                :total="purchasedPackagesByGradeStore.purchasedPackagesByGrade.length"
                 v-model:current-page="filters.pageNumber"
                 @size-change="handleSizeChange"
             />
@@ -158,11 +164,9 @@
 
           <div class="col-3 flex ">
             <h3>
-              {{ t('totalOfPurchased') }}
+              {{ t('sumOfPrice') }}
             </h3>
             <h2>
-
-
               <b> {{ total }}
               </b>
             </h2>
@@ -180,40 +184,56 @@
 </template>
 
 <script setup lang="ts">
-import {computed} from "vue";
-
+import {computed, watch} from "vue";
+import type {
+  PurchasedPackageByGrade,
+  PurchasedPackageByGradeFilters,
+} from "@/types/Reports/PurchasedPackagesByGrade";
 import {formatDate} from "@/core/helpers/formatDate";
-import {useRegularUsersStore} from "@/store/pinia_store/modules/RegularUsersModule";
 import {useI18n} from "vue-i18n";
 import {setCurrentPageBreadcrumbs} from "@/core/helpers/breadcrumb";
 import {useUrlSearchParams} from "@vueuse/core";
 import {AppConstants} from "@/core/constants/ApplicationsConstants";
 import {watchDebounced} from "@vueuse/core";
-import {PurchasedPackageWithCount, PurchasedPackageWithCountFilters} from "@/types/Reports/PurchasedPackagesWithCount";
-import {usePurchasedPackagesWithCountStore} from "@/store/pinia_store/modules/Reports/PurchasedPackagesWithCountModule";
 import {useGradesStore} from "@/store/pinia_store/modules/GradesModule";
-
-const total = computed(() => tableData.value[0]?.totalOfPurchases)
-const filters = useUrlSearchParams<PurchasedPackageWithCountFilters>("history");
-const parentsFilters = useUrlSearchParams<{ parentsSearchField: string }>(
-    "history"
-);
-
-filters.orderByMostPurchased = false;
-filters.packageType = AppConstants.PackageTypes.Course;
-filters.fromDate = null;
-filters.toDate = null;
-filters.pageNumber = 1;
-filters.pageSize = 10;
+import {usePurchasedPackagesByGradeStore} from "@/store/pinia_store/modules/Reports/PurchasedPackagesByGradeModule";
 
 const {t} = useI18n();
 const gradesStore = useGradesStore();
 gradesStore.loadGrades();
 
-const purchasedPackagesWithCountStore = usePurchasedPackagesWithCountStore();
+const filters = useUrlSearchParams<PurchasedPackageByGradeFilters>("history",{
+  initialValue:{
+    gradeId : gradesStore.grades[0]?.id,
+    checkExpiryDate : false,
+    packageType : AppConstants.PackageTypes.Course,
+    fromDate : null,
+    toDate : null,
+    pageNumber : 1,
+    pageSize : 10,
+  },
+  write: true
+});
+filters.packageType = Number(filters.packageType)
+const total = computed(() => tableData.value[0]?.sumOfPrice)
+// const filters = useUrlSearchParams<PurchasedPackageByGradeFilters>("history");
+const parentsFilters = useUrlSearchParams<{ parentsSearchField: string }>(
+    "history"
+);
+
+// filters.gradeId = gradesStore.grades[0]?.id;
+// filters.checkExpiryDate = false;
+// filters.packageType = AppConstants.PackageTypes.Course;
+// filters.fromDate = null;
+// filters.toDate = null;
+// filters.pageNumber = 1;
+// filters.pageSize = 10;
+
+
+const purchasedPackagesByGradeStore = usePurchasedPackagesByGradeStore();
 
 const tableData = computed(
-    () => purchasedPackagesWithCountStore.purchasedPackagesWithCount as PurchasedPackageWithCount[]
+    () => purchasedPackagesByGradeStore.purchasedPackagesByGrade as PurchasedPackageByGrade[]
 );
 
 const handleSizeChange = (val: number) => {
@@ -221,27 +241,27 @@ const handleSizeChange = (val: number) => {
 };
 
 const loadPackagesReport = () => {
-  purchasedPackagesWithCountStore.loadPurchasedPackagesWithCount({
-    orderByMostPurchased: filters.orderByMostPurchased,
+  purchasedPackagesByGradeStore.loadPurchasedPackagesByGrade({
+    gradeId: filters.gradeId,
+    checkExpiryDate: filters.checkExpiryDate,
     fromDate: filters.fromDate || null,
     toDate: filters.toDate || null,
     pageNumber: filters.pageNumber,
     pageSize: filters.pageSize,
     packageType: filters.packageType,
   });
-
 };
 
 const formatter = (key: "createdAt" | "lastUpdated" | "purchasedAt") => {
-  return (record: PurchasedPackageWithCount) => formatDate(record[key]);
+  return (record: PurchasedPackageByGrade) => formatDate(record[key]);
 };
 
-setCurrentPageBreadcrumbs(t("reports"), [t("purchasedPackagesWithCount")]);
+setCurrentPageBreadcrumbs(t("reports"), [t("purchasedPackagesByGrade")]);
 
 watchDebounced(filters, () => loadPackagesReport(), {debounce: 700});
 
 loadPackagesReport();
-
+watch(()=> gradesStore.grades, ()=> filters.gradeId = gradesStore.grades[0].id);
 // watchDebounced(
 //   () => parentsFilters.parentsSearchField,
 //   () => {
