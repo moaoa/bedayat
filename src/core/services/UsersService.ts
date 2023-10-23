@@ -91,7 +91,10 @@ class UsersService {
       ...newUserData,
     });
   }
-  public static async updateUser(userId: string, newUserData: NewUserData) {
+  public static async updateUser(
+    userId: string,
+    newUserData: Omit<NewUserData, "email" | "password">
+  ) {
     return await ApiService.put<Response>(
       `${AppConstants.USERS_URL}/Edit/${userId}`,
       {

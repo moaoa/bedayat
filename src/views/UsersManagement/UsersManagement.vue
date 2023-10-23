@@ -309,7 +309,7 @@ const selectUser = (user: User) => {
   usersManagementStore.selectUser(user);
 };
 
-const updateUser = async (data: NewUserData) => {
+const updateUser = async (data: Omit<NewUserData, "email" | "password">) => {
   try {
     await usersManagementStore.updateItem(data);
 

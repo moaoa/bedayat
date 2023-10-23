@@ -93,7 +93,7 @@ export const useUsersStore = defineStore({
     selectUser(selectedUser: User) {
       this.selectedUser = selectedUser;
     },
-    async updateItem(newValues: NewUserData) {
+    async updateItem(newValues: Omit<NewUserData, "email" | "password">) {
       this.isUpdatingItem = true;
       try {
         if (!this.selectedUser) {
