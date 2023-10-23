@@ -34,7 +34,6 @@
 
 body {
   margin: 0;
-  font-family: var(--bs-font-sans-serif);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -46830,7 +46829,6 @@ body[data-kt-sticky-landing-header=on] {
   }
 }
 html {
-  font-family: sans-serif;
   text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -46843,7 +46841,7 @@ body {
   padding: 0px;
   font-size: 13px !important;
   font-weight: 400;
-  font-family: Cairo, Helvetica, "sans-serif";
+  font-family: Tajawal, Helvetica, "sans-serif";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -47638,32 +47636,4 @@ body {
   max-width: 200px !important;
 }
 
-@font-face {
-  font-family: 'Cairo';
-  src: url('/fonts/Cairo-Regular.ttf') format('truetype');
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: 'Cairo';
-  src: url('/fonts/Cairo-Medium.ttf') format('truetype');
-  font-weight: 500;
-}
-
-
-@font-face {
-  font-family: 'Cairo';
-  src: url('/fonts/Cairo-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-}
-
-@font-face {
-  font-family: 'Cairo';
-  src: url('/fonts/Cairo-Bold.ttf') format('truetype');
-  font-weight: 700
-}
-
-* {
-  font-family: 'Cairo', sans-serif
-}
 
