@@ -341,6 +341,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/dashboard/Reports/PurchasedPackagesByPackage",
+        name: "PurchasedPackagesByPackage",
+        component: () => import("@/views/Reports/PurchasedPackagesByPackage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+        },
+      },
+      {
         path: "/dashboard/packages/addPackages",
         name: "AddPackages",
         component: () => import("@/views/Packages/AddPackage.vue"),

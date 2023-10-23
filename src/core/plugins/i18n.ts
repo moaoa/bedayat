@@ -325,7 +325,7 @@ const messages = {
     promotions: "Promotions",
 
     gradeName: "Grade Name",
-    PurchasedPackagesWithCount: "Purchased Packages With Count",
+    purchasedPackagesWithCount: "Purchased Packages With Count",
     orderByMostPurchased: "Order By Most Purchased",
     totalOfPurchased:"Total Of Purchased",
     purchasedPackagesByGrade:"Purchased Packages By Grade",
@@ -340,7 +340,7 @@ const messages = {
     price: "السعر",
     numberOfPurchases: "عدد مرات البيع",
     sumOfPrice: "إجمالي البيع",
-    PurchasedPackagesWithCount: "تقرير البيع و العدد",
+    purchasedPackagesWithCount: "تقرير البيع و العدد",
     fromDate: "من ",
     toDate: "إلى",
     orderByMostPurchased: "رتب بالأعلى مبيعا",
