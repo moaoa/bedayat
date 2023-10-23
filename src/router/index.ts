@@ -312,9 +312,20 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/dashboard/Reports/PurchasedPackagesBySubject",
+        name: "PurchasedPackagesBySubject",
+        component: () =>
+          import("@/views/Reports/PurchasedPackagesBySubject.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+        },
+      },
+      {
         path: "/dashboard/Reports/PurchasedPackagesWithCount",
         name: "PurchasedPackagesWithCount",
-        component: () => import("@/views/Reports/PurchasedPackagesWithCount.vue"),
+        component: () =>
+          import("@/views/Reports/PurchasedPackagesWithCount.vue"),
         meta: {
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,

@@ -5,7 +5,7 @@
     <!--begin::Header-->
     <div class="card-header border-0">
       <h3 class="card-title fw-bolder text-dark">
-        {{ $t("purchasedPackagesByUser") }}
+        {{ $t("purchasedPackagesBySubject") }}
       </h3>
 
       <div class="card-toolbar">
@@ -25,29 +25,27 @@
 
     <!--begin::Body-->
     <div
-      v-loading="purchasedPackagesByUserStore.dataIsLoading"
+      v-loading="purchasedPackagesBySubjectStore.dataIsLoading"
       class="card-body pt-2"
     >
       <!-- begin::table -->
 
       <div class="d-flex gap-4 alig-items-center flex-wrap">
         <div class="d-flex flex-column">
-          <label>{{ $t("user") }}</label>
+          <label>{{ $t("subject") }}</label>
           <el-select
-            v-model="filters.userId"
+            v-model="filters.subjectId"
             clearable
             filterable
-            remote
-            :remote-method="handleChange"
             style="width: 300px"
-            :loading="isLoadingUsers"
-            :placeholder="$t('searchForUserWithPhoneEmail')"
+            :loading="isLoadingSubjects"
+            :placeholder="$t('subject')"
           >
             <el-option
-              v-for="user in usersStore.users"
-              :key="user.id"
-              :value="user.id"
-              :label="user.fullName"
+              v-for="subject in subjectsStore.subjects"
+              :key="subject.id"
+              :value="subject.id"
+              :label="subject.name"
             >
             </el-option>
           </el-select>
@@ -97,7 +95,7 @@
       </div>
       <div class="mt-8">{{ $t("totalPurchases") }} : {{ totalPurchases }}</div>
       <div
-        v-loading="purchasedPackagesByUserStore.dataIsLoading"
+        v-loading="purchasedPackagesBySubjectStore.dataIsLoading"
         class="card-body pt-2"
       >
         <el-table :data="tableData" style="width: 100%" height="400">
@@ -109,7 +107,10 @@
             header-align="center"
           >
             <template
-              #default="scope: { row: PurchasedPackageByUser, $index: number }"
+              #default="scope: {
+                row: PurchasedPackageBySubject,
+                $index: number,
+              }"
             >
               {{ scope.$index + 1 }}
             </template>
@@ -159,10 +160,12 @@
         <br />
         <!-- start::pagination -->
         <el-pagination
-          :loading="purchasedPackagesByUserStore.dataIsLoading"
+          :loading="purchasedPackagesBySubjectStore.dataIsLoading"
           background
           layout="total, sizes, prev, pager, next, jumper"
-          :total="purchasedPackagesByUserStore.purchasedPackagesByUsers.length"
+          :total="
+            purchasedPackagesBySubjectStore.purchasedPackagesBySubject.length
+          "
           v-model:current-page="filters.pageNumber"
           @size-change="handleSizeChange"
         />
@@ -178,12 +181,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import type {
-  PurchasedPackageByUser,
+  PurchasedPackageBySubject,
   Filters,
-} from "@/types/Reports/PurchasedPackagesByUser";
+} from "@/types/Reports/PurchasedPackagesBySubject";
 import { formatDate } from "@/core/helpers/formatDate";
-import { usePurchasedPackagesByUserStore } from "@/store/pinia_store/modules/Reports/PurchasedPackagesByUserModule";
-import { useRegularUsersStore } from "@/store/pinia_store/modules/RegularUsersModule";
+import { usePurchasedPackagesBySubjectStore } from "@/store/pinia_store/modules/Reports/PurchasedPackagesBySubjectModule";
+import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import { useUrlSearchParams } from "@vueuse/core";
@@ -192,7 +195,7 @@ import { watchDebounced } from "@vueuse/core";
 
 const filters = useUrlSearchParams<Filters>("history", {
   initialValue: {
-    userId: null,
+    subjectId: null,
     packageType: AppConstants.PackageTypes.Course,
     checkExpiryDate: false,
     fromDate: null,
@@ -202,30 +205,26 @@ const filters = useUrlSearchParams<Filters>("history", {
   },
 });
 
-filters.packageType = Number(filters.packageType);
-
-const parentsFilters = useUrlSearchParams<{ parentsSearchField: string }>(
-  "history"
-);
+filters.packageType = Number(filters.packageType)
 
 const { t } = useI18n();
 
-const purchasedPackagesByUserStore = usePurchasedPackagesByUserStore();
-const usersStore = useRegularUsersStore();
+const purchasedPackagesBySubjectStore = usePurchasedPackagesBySubjectStore();
+const subjectsStore = useSubjectsStore();
 
 const tableData = computed(
-  () => purchasedPackagesByUserStore.purchasedPackagesByUsers
+  () => purchasedPackagesBySubjectStore.purchasedPackagesBySubject
 );
 
 const totalPurchases = computed(() => {
   return (
-    purchasedPackagesByUserStore.purchasedPackagesByUsers[0]
+    purchasedPackagesBySubjectStore.purchasedPackagesBySubject[0]
       ?.totalOfPurchases ?? 0
   );
 });
 
-const isLoadingUsers = computed(() => {
-  return usersStore.dataIsLoading;
+const isLoadingSubjects = computed(() => {
+  return subjectsStore.dataIsLoading;
 });
 
 const handleSizeChange = (val: number) => {
@@ -233,36 +232,26 @@ const handleSizeChange = (val: number) => {
 };
 
 const loadPackagesReport = () => {
-  purchasedPackagesByUserStore.loadPurchasedPackagesByUsers({
+  purchasedPackagesBySubjectStore.loadPurchasedPackagesBySubject({
     checkExpiryDate: filters.checkExpiryDate,
     fromDate: filters.fromDate || null,
     toDate: filters.toDate || null,
     pageNumber: filters.pageNumber,
     pageSize: filters.pageSize,
-    userId: filters.userId || null,
+    subjectId: filters.subjectId || null,
     packageType: filters.packageType,
   });
 };
 
-const handleChange = (query: string) => {
-  parentsFilters.parentsSearchField = query;
-};
-
 const formatter = (key: "createdAt" | "lastUpdated" | "purchasedAt") => {
-  return (record: PurchasedPackageByUser) => formatDate(record[key]);
+  return (record: PurchasedPackageBySubject) => formatDate(record[key]);
 };
 
-setCurrentPageBreadcrumbs(t("reports"), [t("purchasedPackagesByUser")]);
+setCurrentPageBreadcrumbs(t("reports"), [t("purchasedPackagesBySubject")]);
 
 watchDebounced(filters, () => loadPackagesReport(), { debounce: 1000 });
 
 loadPackagesReport();
 
-watchDebounced(
-  () => parentsFilters.parentsSearchField,
-  () => {
-    usersStore.searchParents(parentsFilters.parentsSearchField as string);
-  },
-  { debounce: 1000 }
-);
+subjectsStore.loadSubjects();
 </script>

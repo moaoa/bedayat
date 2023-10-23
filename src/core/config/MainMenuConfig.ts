@@ -196,7 +196,7 @@ const DocMenuConfig = [
       //   ],
       // },
       {
-        sectionTitle: "Reports",
+        sectionTitle: "reports",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
@@ -211,6 +211,13 @@ const DocMenuConfig = [
           {
             heading: "purchasedPackagesByUser",
             route: "/dashboard/Reports/PurchasedPackagesByUser",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.None,
+          },
+          {
+            heading: "purchasedPackagesBySubject",
+            route: "/dashboard/Reports/PurchasedPackagesBySubject",
             svgIcon: "/media/icons/duotune/general/gen019.svg",
             fontIcon: "bi-layers",
             requiredPermission: AppConstants.PERMISSIONS.None,

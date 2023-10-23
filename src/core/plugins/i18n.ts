@@ -319,7 +319,7 @@ const messages = {
     fromDate: "From Date",
     toDate: "To Date",
     checkExpiryDate: "Check Expiry Date",
-    purchasedPackagesByUser: "Purchased Packages By User",
+    purchasedPackagesByUser: "User Purchases",
     searchForUserWithPhoneEmail: "Search For User With Phone Or Email",
     user: "User",
     promotions: "Promotions",
@@ -329,6 +329,9 @@ const messages = {
     orderByMostPurchased: "Order By Most Purchased",
     totalOfPurchased:"Total Of Purchased",
     purchasedPackagesByGrade:"Purchased Packages By Grade",
+    purchasedPackagesBySubject: "Subject Purchases",
+    package: "Package",
+    subject: "Subject",
   },
   ar: {
     purchasedPackagesByGrade:"الدورات المشتراة بناء علي الصف الدراسي",
