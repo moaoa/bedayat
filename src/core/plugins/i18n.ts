@@ -327,8 +327,12 @@ const messages = {
     gradeName: "Grade Name",
     PurchasedPackagesWithCount: "Purchased Packages With Count",
     orderByMostPurchased: "Order By Most Purchased",
+    totalOfPurchased:"Total Of Purchased",
+    purchasedPackagesByGrade:"Purchased Packages By Grade",
   },
   ar: {
+    purchasedPackagesByGrade:"الدورات المشتراة بناء علي الصف الدراسي",
+    totalOfPurchased:"إجمالي البيع",
     gradeName: "السنة الدراسية",
     price: "السعر",
     numberOfPurchases: "عدد مرات البيع",

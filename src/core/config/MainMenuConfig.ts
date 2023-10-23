@@ -222,6 +222,13 @@ const DocMenuConfig = [
             fontIcon: "bi-layers",
             requiredPermission: AppConstants.PERMISSIONS.None,
           },
+          {
+            heading: "PurchasedPackagesByGrade",
+            route: "/dashboard/Reports/PurchasedPackagesByGrade",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.None,
+          },
         ],
       },
     ],
