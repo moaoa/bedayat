@@ -196,7 +196,7 @@ const DocMenuConfig = [
       //   ],
       // },
       {
-        sectionTitle: "Reports",
+        sectionTitle: "reports",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,

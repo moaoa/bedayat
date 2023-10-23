@@ -329,6 +329,7 @@ const messages = {
     orderByMostPurchased: "Order By Most Purchased",
     purchasedPackagesBySubject: "Subject Purchases",
     package: "Package",
+    subject: "Subject",
   },
   ar: {
     gradeName: "السنة الدراسية",
@@ -656,6 +657,7 @@ const messages = {
     user: "المستخدم",
     purchasedPackagesBySubject: "مبيعات المواد",
     package: "حزمة",
+    subject: "المادة",
   },
 };
 
