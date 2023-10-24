@@ -168,6 +168,7 @@
             width="90"
             align="center"
             header-align="center"
+            fixed="left"
           >
             <template #default="scope">
               <a
@@ -185,6 +186,7 @@
             width="90"
             align="center"
             header-align="center"
+            fixed="left"
           >
             <template #default="scope: { row: User, $index: number }">
               <div
@@ -203,6 +205,7 @@
             width="90"
             align="center"
             header-align="center"
+            fixed="left"
           >
             <template #default="scope: { row: User, $index: number }">
               <div class="flex">
@@ -218,6 +221,7 @@
               </div>
             </template>
           </el-table-column>
+          <el-table-column fixed="left"></el-table-column>
         </el-table>
       </div>
       <!-- end::table -->
@@ -361,9 +365,15 @@ watch(
 .el-table tr.danger-row {
   background-color: rgba(255, 0, 0, 0.261);
 }
-</style>
-
-<!-- .el-table td.is-hidden > *,
+/*.el-table td.is-hidden > *,
 .el-table th.is-hidden > * {
   visibility: visible !important;
-} -->
+}*/
+.el-table td.is-hidden,
+.el-table th.is-hidden {
+  display: none !important;
+}
+.el-table td.is-hidden {
+  display: none !important;
+}
+</style>
