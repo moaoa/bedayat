@@ -341,7 +341,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/dashboard/Reports/PurchasedPackagesByPackage",
+        path: "/dashboard/Reports/PurchasedPackagesByPackage/:id/:packageType",
         name: "PurchasedPackagesByPackage",
         component: () => import("@/views/Reports/PurchasedPackagesByPackage.vue"),
         meta: {

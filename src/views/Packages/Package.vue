@@ -131,6 +131,27 @@
               </template>
             </el-table-column>
 
+            <el-table-column :label="$t('purchases')" align="center" header-align="center">
+              <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
+                <RouterLink
+                    :to="{
+                  name: 'PurchasedPackagesByPackage',
+                  params: { id: scope.row.id,
+                   packageType: scope.row.packageType},
+                }"
+                >
+                  <a
+                      class="btn btn-icon btn-light-success btn-sm"
+                  >
+                    <i class="bi bi-mortarboard-fill"></i>
+                  </a>
+
+                </RouterLink>
+              </template>
+
+            </el-table-column>
+
+
             <el-table-column :label="$t('edit')" align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
                 <RouterLink
