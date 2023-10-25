@@ -47,10 +47,10 @@ export const useUsersStore = defineStore({
       try {
         if (this.filterBy === AppConstants.FILTER_ADMIN_BY_OPTIONS.ByName) {
           const res = await UsersService.getAdminsByName(this.searchValue);
-          this.users = res.data.data;
+          this.users = res.data.results ?? [];
         } else {
           const res = await UsersService.getAdminsByPhone(this.searchValue);
-          this.users = res.data.data;
+          this.users = res.data.results ?? [];
         }
       } catch (e) {
         console.log(e);
@@ -66,10 +66,10 @@ export const useUsersStore = defineStore({
       try {
         if (this.filterBy === AppConstants.FILTER_ADMIN_BY_OPTIONS.ByName) {
           const res = await UsersService.getAdminsByName(this.searchValue);
-          this.users = res.data.data;
+          this.users = res.data.results ?? [];
         } else {
           const res = await UsersService.getAdminsByPhone(this.searchValue);
-          this.users = res.data.data;
+          this.users = res.data.results ?? [];
         }
       } catch (e) {
         console.log(e);
@@ -93,7 +93,7 @@ export const useUsersStore = defineStore({
     selectUser(selectedUser: User) {
       this.selectedUser = selectedUser;
     },
-    async updateItem(newValues: NewUserData) {
+    async updateItem(newValues: Omit<NewUserData, "email" | "password">) {
       this.isUpdatingItem = true;
       try {
         if (!this.selectedUser) {
@@ -118,7 +118,9 @@ export const useUsersStore = defineStore({
       try {
         const res = await UsersService.createUser(userData);
 
-        this.users.push(res.data.data);
+        if (res.data.results) {
+          this.users.push(...res.data.results);
+        }
 
         this.isCreatingNewItem = false;
       } catch (error) {

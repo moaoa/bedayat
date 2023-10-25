@@ -312,6 +312,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/dashboard/Reports/PurchasedPackagesBySpecificUser",
+        name: "PurchasedPackagesBySpecificUser",
+        component: () =>
+          import("@/views/Reports/AllPurchasedPackagesBySpecifcUser.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+        },
+      },
+      {
         path: "/dashboard/Reports/PurchasedPackagesBySubject",
         name: "PurchasedPackagesBySubject",
         component: () =>
@@ -343,7 +353,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/dashboard/Reports/PurchasedPackagesByPackage/:id/:packageType",
         name: "PurchasedPackagesByPackage",
-        component: () => import("@/views/Reports/PurchasedPackagesByPackage.vue"),
+        component: () =>
+          import("@/views/Reports/PurchasedPackagesByPackage.vue"),
         meta: {
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
@@ -439,7 +450,6 @@ router.beforeEach(async (to, from) => {
   const auth = useAuthenticationStore();
 
   if (!auth.isAuthenticated && to.meta.authRequired) {
-    Toaster.error("please sign in first");
     return router.push({ name: "sign-in" });
   }
 

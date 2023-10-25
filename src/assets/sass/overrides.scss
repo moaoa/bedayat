@@ -12,3 +12,8 @@
 .el-pagination .btn-next {
   transform: rotate(180deg);
 }
+
+.el-table__fixed-body-wrapper {
+  // inset-inline-start: 0;
+  right: 0;
+}
