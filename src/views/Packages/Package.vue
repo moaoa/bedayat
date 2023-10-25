@@ -36,17 +36,17 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-md-3 col-lg-2 col-7">
-          <label class="fs-6 fw-bold mb-2">
-            {{ $t("packageType") }}
-          </label>
-          <el-select v-model="searchFilter.packageType" clearable filterable>
-            <el-option v-for="status in Object.values(PackageType).slice(0,Object.values(PackageType).length/2 )"
-                       :key="status" :value="PackageType[status]"
-                       :label="t(`${status.toLowerCase()}`)">
-            </el-option>
-          </el-select>
-        </div>
+<!--        <div class="col-md-3 col-lg-2 col-7">-->
+<!--          <label class="fs-6 fw-bold mb-2">-->
+<!--            {{ $t("packageType") }}-->
+<!--          </label>-->
+<!--          <el-select v-model="searchFilter.packageType" clearable filterable>-->
+<!--            <el-option v-for="status in Object.values(PackageType).slice(0,Object.values(PackageType).length/2 )"-->
+<!--                       :key="status" :value="PackageType[status]"-->
+<!--                       :label="t(`${status.toLowerCase()}`)">-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </div>-->
 
         <div class="col-md-6 col-lg-4 col-7">
           <label class=" fs-6 fw-bold mb-2">

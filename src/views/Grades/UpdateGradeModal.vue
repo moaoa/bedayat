@@ -88,9 +88,10 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="priority">
-                    <el-input
+                    <input
+                        class="form-control "
                       v-model="formData.priority"
-                      type="text"
+                      type="number"
                       :placeholder="$t('priority')"
                     />
                   </el-form-item>

@@ -59,20 +59,12 @@
           header-align="center"
         />
         <el-table-column
-          prop="createdAt"
-          :label="$t('createdAt')"
+          prop="priority"
+          :label="$t('priority')"
+          align="center"
+          header-align="center"
+        />
 
-          align="center"
-          header-align="center"
-          :formatter="formatter('createdAt')"
-        />
-        <el-table-column
-          prop="lastUpdated"
-          :label="$t('lastUpdated')"
-          align="center"
-          header-align="center"
-          :formatter="formatter('lastUpdated')"
-        />
 
         <el-table-column
             :label="$t('subjects')"

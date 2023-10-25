@@ -59,6 +59,10 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+.el-table th>.cell{
+    white-space: nowrap !important;
+    width: auto !important;
+}
 hr {
   margin: 1rem 0;
   color: inherit;

@@ -36,15 +36,9 @@
               </label>
               <!--end::Label-->
               <Field v-model="cardData" name="numberOfDays" :validate-on-blur="true" :validate-on-change="true" type="number"
-                class="form-select form-select-solid" data-control="select2" data-hide-search="true"
-                data-placeholder="Month" as="select" :rules="mustBeValidNumber">
-                <option></option>
-                <template v-for="i in 365" :key="i">
-                  <option :value="i">{{ i }}</option>
-                </template>
-              </Field>
-              <!-- <Field type="text" class="form-control form-control-solid" placeholder="" name="nameOnCard"
-                v-model="cardData.nameOnCard" /> -->
+                class="form-control form-control-solid"
+                data-placeholder="Month"   :rules="mustBeValidNumber" />
+
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
                   <ErrorMessage name="numberOfDays" />
@@ -89,7 +83,6 @@ import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
 const {t} = useI18n();
 import { Modal } from "bootstrap";
-import Toaster from "@/core/services/Toaster";
 import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
 import {t} from "element-plus/es/locale";
 import {useI18n} from "vue-i18n";

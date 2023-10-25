@@ -50,7 +50,7 @@
 
         <div v-loading="citiesStore.dataIsLoading" class="card-body pt-2">
           <el-table class="table-responsive" max-width :data="citiesTable">
-            <el-table-column index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
+            <el-table-column index="scope.$index" width="50px" :label="t('noNumber')" align="center" header-align="center">
               <template #default="scope">
                 {{ scope.$index + 1 }}
               </template>
@@ -58,19 +58,16 @@
 
             <el-table-column prop="name" :label="$t('arabicName')" align="center" header-align="center">
               <template #default="scope">
-                <b> {{ scope.row.name }}</b>
+                <ClippedText :text="scope.row.name" length="20" />
               </template>
             </el-table-column>
+
             <el-table-column prop="englishName" :label="$t('englishName')" align="center" header-align="center">
               <template #default="scope">
-                <b> {{ scope.row.englishName }}</b>
+                <ClippedText :text="scope.row.englishName" length="20" />
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')" align="center"
-              header-align="center" />
-            <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"
-              align="center" header-align="center" />
-            <el-table-column :label="$t('edit')" align="center" header-align="center">
+            <el-table-column :label="$t('edit')" width="100px" align="center" header-align="center">
               <template #default="scope: { row: City, $index: number }">
                 <div class="flex">
                   <a class="btn btn-icon btn-light-success btn-sm" @click="selectCity(scope.row)" data-bs-toggle="modal"
@@ -81,7 +78,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column :label="$t('remove')" align="center" header-align="center">
+            <el-table-column :label="$t('remove')" width="100px" align="center" header-align="center">
               <template #default="scope: { row: City, $index: number }">
                 <div class="flex">
                   <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
@@ -126,6 +123,8 @@ import ErrorAlert from "@/components/alerts/ErrorAlert.vue";
 import { hideModal } from "@/core/helpers/dom";
 import DeleteCity from "@/views/Cities/DeleteCity.vue";
 import { ElSelect, ElOption } from "element-plus";
+import {Country} from "@/types/Countries";
+import ClippedText from "@/components/ClippedText.vue";
 
 const { t } = useI18n();
 const citiesStore = useCitiesStore();

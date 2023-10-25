@@ -10,6 +10,7 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 import FaqService from "@/core/services/FaqService";
+import toaster from "@/core/services/Toaster";
 
 
 
@@ -22,7 +23,7 @@ export const useFaqsStore = defineStore({
     currentPage: 1,
     currentSize: 0,
     selectedFaq: {} as Faq | null,
-    selectedCategory: 1 as FaqCategory ,
+    selectedCategory: null as FaqCategory | null ,
     dataIsLoading: false,
     isCreatingNewItem: false,
     isUpdatingItem: false,
@@ -67,9 +68,10 @@ export const useFaqsStore = defineStore({
     async deleteFaq() {
       try {
 
-        const result = await FaqService.deleteFaq(this.selectedFaq!.id!)
+        await FaqService.deleteFaq(this.selectedFaq!.id!)
 
         await this.loadFaqs(this.selectedCategory!)
+        toaster.Success("Success", "Question Deleted successfully")
 
       } catch (e) {
         Toaster.error(
@@ -80,7 +82,7 @@ export const useFaqsStore = defineStore({
         this.isCreatingNewItem = false;
       }
     },
-    async loadFaqs(faqCategory: FaqCategory) {
+    async loadFaqs(faqCategory: FaqCategory | null) {
       try {
         this.dataIsLoading = true;
 
