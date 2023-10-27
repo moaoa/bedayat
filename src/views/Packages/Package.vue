@@ -30,7 +30,7 @@
           <label class="fs-6 fw-bold mb-2">
             {{ $t("grades") }}
           </label>
-          <el-select v-model="searchFilter.gradeId" clearable filterable>
+          <el-select v-model="searchFilter.gradeId"  filterable>
             <el-option v-for="grade in gradesStore.grades" :key="grade.id" :value="grade.id"
                        :label="grade.name">
             </el-option>

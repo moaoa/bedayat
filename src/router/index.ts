@@ -293,15 +293,15 @@ const routes: Array<RouteRecordRaw> = [
           requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
         },
       },
-      {
-        path: "/dashboard/Reports/MostPurchasedCourses",
-        name: "MostPurchasedCoursesReport",
-        component: () => import("@/views/Reports/MostPurchasedCourses.vue"),
-        meta: {
-          authRequired: true,
-          requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-        },
-      },
+      // {
+      //   path: "/dashboard/Reports/MostPurchasedCourses",
+      //   name: "MostPurchasedCoursesReport",
+      //   component: () => import("@/views/Reports/MostPurchasedCourses.vue"),
+      //   meta: {
+      //     authRequired: true,
+      //     requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+      //   },
+      // },
       {
         path: "/dashboard/Reports/PurchasedPackagesByUser",
         name: "PurchasedPackagesByUser",
@@ -351,7 +351,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/dashboard/Reports/PurchasedPackagesByPackage/:id/:packageType",
+          path: "/dashboard/Reports/PurchasedPackagesByPackage/:id/:packageType",
         name: "PurchasedPackagesByPackage",
         component: () =>
           import("@/views/Reports/PurchasedPackagesByPackage.vue"),
