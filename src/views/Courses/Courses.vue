@@ -121,15 +121,6 @@
             style="width: 300px"
           />
         </label>
-        <label for="flag" class="col-sm-4 mt-4">
-          {{ $t("filteredInList") }}
-          <el-switch
-            class="col-sm-4"
-            v-model="filters.filteredInList"
-            :placeholder="$t('TODO')"
-            style="width: 300px"
-          />
-        </label>
         <div @click="coursesStore.loadCourses(filters)" class="col-sm-4 mt-9">
           <a class="btn btn-sm btn-primary mx-1">
             {{ $t("search") }}
@@ -331,7 +322,6 @@ const coursesTable = computed(() => coursesStore.courses);
 const deleteCourseModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 
 const filters = reactive<CourseFilters>({
-  filteredInList: true,
   maxNumberOfLessons: 10,
   maxPrice: 10,
   minNumberOfLessons: 0,

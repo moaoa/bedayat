@@ -1,12 +1,21 @@
-import { Course, NewCourseData, CourseFilters } from "@/types/Courses";
+import {
+  Course,
+  NewCourseData,
+  CourseFilters,
+  Response,
+} from "@/types/Courses";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
 import ApiService from "@/core/services/ApiService";
-import {Package, PackageAddData, PackageFilter} from "@/types/Packages/Packages";
+import {
+  Package,
+  PackageAddData,
+  PackageFilter,
+} from "@/types/Packages/Packages";
 
 class CoursesService {
   public static async getCourses(params: CourseFilters) {
-    const res = await ApiService.query<ApiResponse<Course[]>>(
+    const res = await ApiService.query<Response>(
       `${AppConstants.COURSES_URL}/SearchCourses`,
       {
         params: {
@@ -14,15 +23,15 @@ class CoursesService {
         },
       }
     );
-    return res.data.data;
+    return res.data.results ?? [];
   }
   public static async deleteCourse(courseId: string) {
-    return await ApiService.delete<ApiResponse<unknown>>(
+    return await ApiService.delete<Response>(
       `${AppConstants.COURSES_URL}/${courseId}`
     );
   }
   public static async updateCourse(itemId: string, data: NewCourseData) {
-    return await ApiService.put<ApiResponse<Course>>(
+    return await ApiService.put<Response>(
       `${AppConstants.COURSES_URL}/${itemId}`,
       {
         ...data,
@@ -30,7 +39,7 @@ class CoursesService {
     );
   }
   public static async toggleCourseStatus(itemId: string) {
-    return await ApiService.put<ApiResponse<Course>>(
+    return await ApiService.put<Response>(
       `${AppConstants.COURSES_URL}/ActivateDeActive/${itemId}`,
       {}
     );
@@ -52,23 +61,18 @@ class CoursesService {
     );
   }
 
-    static async createPackage(data: PackageAddData) {
-      return await ApiService.post<ApiResponse<Package>>(
-          `${AppConstants.Packages_URL}`,
-          {
-            ...data,
-          }
-      );
-    }
-
-  public static async getPackages(params: PackageFilter) {
-    const res = await ApiService.get<ApiResponse<Package[]>>(
-        `${AppConstants.COURSES_URL}/SearchCourses/${params}\``,
-    );
-    return res.data.data;
+  static async createPackage(data: PackageAddData) {
+    return await ApiService.post<Response>(`${AppConstants.Packages_URL}`, {
+      ...data,
+    });
   }
 
-
+  public static async getPackages(params: PackageFilter) {
+    const res = await ApiService.get<Response>(
+      `${AppConstants.COURSES_URL}/SearchCourses/${params}\``
+    );
+    return res.data.results;
+  }
 }
 
 export default CoursesService;

@@ -283,12 +283,12 @@ const rules = ref({
   gender: [{ required: true, message: t("required"), trigger: "blur" }],
   phoneNumber: [
     { required: false, message: t("required"), trigger: "blur" },
-    {
-      min: 10,
-      max: 10,
-      message: t("phoneMustBe10Digits"),
-      trigger: ["blur", "change"],
-    },
+    // {
+    //   min: 10,
+    //   max: 16,
+    //   message: t("phoneMustBe10Digits"),
+    //   trigger: ["blur", "change"],
+    // },
   ],
   otherPhone: [{ required: false, message: t("required"), trigger: "blur" }],
   permissions: [{ required: false, message: t("required"), trigger: "blur" }],
