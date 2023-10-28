@@ -32,13 +32,7 @@
       <div v-loading="bugReportStore.dataIsLoading">
       <!-- begin::table -->
       <el-table :data="bugReportsTable" style="width: 100%" height="250">
-        <!-- <el-table-column
-          fixed
-          prop="date"
-          label="Date"
-          width="150"
-          style="direction: rtl"
-        /> -->
+
         <el-table-column prop="title" :label="$t('title')" width="150" />
         <el-table-column
           prop="description"
@@ -108,23 +102,7 @@
       <!-- end::pagination -->
       </div>
     </div>
-    <!--end::Body-->
 
-    <!-- begin::dialog -->
-
-    <!-- <el-dialog
-      v-model="createBugReportDialogVisible"
-      :title="$t('createBugReport')"
-      destroy-on-close
-      :show-close="false"
-    >
-      <UpdateBugReportModal
-        @close="closeCreateBugReportDialog"
-        @submit="createBugReport"
-      />
-    </el-dialog> -->
-    <!-- end::dialog -->
-    <!-- begin::dialog -->
     <el-dialog
       v-model="respondToBugDialogIsVisible"
       :title="t('respondToBugDialogTitle')"

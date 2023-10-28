@@ -30,23 +30,23 @@
           <label class="fs-6 fw-bold mb-2">
             {{ $t("grades") }}
           </label>
-          <el-select v-model="searchFilter.gradeId" clearable filterable>
+          <el-select v-model="searchFilter.gradeId"  filterable>
             <el-option v-for="grade in gradesStore.grades" :key="grade.id" :value="grade.id"
                        :label="grade.name">
             </el-option>
           </el-select>
         </div>
-        <div class="col-md-3 col-lg-2 col-7">
-          <label class="fs-6 fw-bold mb-2">
-            {{ $t("packageType") }}
-          </label>
-          <el-select v-model="searchFilter.packageType" clearable filterable>
-            <el-option v-for="status in Object.values(PackageType).slice(0,Object.values(PackageType).length/2 )"
-                       :key="status" :value="PackageType[status]"
-                       :label="t(`${status.toLowerCase()}`)">
-            </el-option>
-          </el-select>
-        </div>
+<!--        <div class="col-md-3 col-lg-2 col-7">-->
+<!--          <label class="fs-6 fw-bold mb-2">-->
+<!--            {{ $t("packageType") }}-->
+<!--          </label>-->
+<!--          <el-select v-model="searchFilter.packageType" clearable filterable>-->
+<!--            <el-option v-for="status in Object.values(PackageType).slice(0,Object.values(PackageType).length/2 )"-->
+<!--                       :key="status" :value="PackageType[status]"-->
+<!--                       :label="t(`${status.toLowerCase()}`)">-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </div>-->
 
         <div class="col-md-6 col-lg-4 col-7">
           <label class=" fs-6 fw-bold mb-2">
@@ -130,6 +130,27 @@
 <!--                <b> {{ scope.row.packageStatus }}</b>-->
               </template>
             </el-table-column>
+
+            <el-table-column :label="$t('purchases')" align="center" header-align="center">
+              <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
+                <RouterLink
+                    :to="{
+                  name: 'PurchasedPackagesByPackage',
+                  params: { id: scope.row.id,
+                   packageType: scope.row.packageType},
+                }"
+                >
+                  <a
+                      class="btn btn-icon btn-light-success btn-sm"
+                  >
+                    <i class="bi bi-mortarboard-fill"></i>
+                  </a>
+
+                </RouterLink>
+              </template>
+
+            </el-table-column>
+
 
             <el-table-column :label="$t('edit')" align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">

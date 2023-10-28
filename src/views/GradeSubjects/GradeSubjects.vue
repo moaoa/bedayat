@@ -49,11 +49,11 @@
       </div>
 
       <div v-loading="gradeSubjectsStore.dataIsLoading" class="card-body pt-2">
-        <el-table :data="gradeSubjectsTable" style="width: 100%" height="500">
+        <el-table :data="gradeSubjectsTable" max-width  height="500">
           <el-table-column
               index="scope.$index"
               :label="t('noNumber')"
-              width="55"
+              width="50"
               align="center"
               header-align="center"
           >
@@ -61,30 +61,30 @@
               {{ scope.$index + 1 }}
             </template>
           </el-table-column>
-          <el-table-column :label="$t('grades')"  align="center"
+          <el-table-column :label="$t('grades')" min-width="100"  align="center"
                            header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
-              {{ scope.row.grade.name}}
+              <ClippedText :text="scope.row.grade.name"  />
             </template>
           </el-table-column>
-          <el-table-column :label="$t('gradesEnglish')" align="center"
+          <el-table-column :label="$t('gradesEnglish')" min-width="100"   align="center"
                            header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
-              {{ scope.row.grade.englishName}}
-            </template>
-          </el-table-column>
-
-          <el-table-column :label="$t('subjects')" align="center"
-                           header-align="center">
-            <template #default="scope: { row: GradeSubject, $index: number }">
-              {{ scope.row.subject.name}}
+              <ClippedText :text="scope.row.grade.englishName"  />
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('subjectsEnglish')"  align="center"
+          <el-table-column :label="$t('subjects')" min-width="100"   align="center"
                            header-align="center">
             <template #default="scope: { row: GradeSubject, $index: number }">
-              {{ scope.row.subject.englishName}}
+              <ClippedText :text="scope.row.subject.name"  />
+            </template>
+          </el-table-column>
+
+          <el-table-column :label="$t('subjectsEnglish')" min-width="100"   align="center"
+                           header-align="center">
+            <template #default="scope: { row: GradeSubject, $index: number }">
+              <ClippedText :text="scope.row.subject.englishName"  />
             </template>
           </el-table-column>
 
@@ -112,26 +112,6 @@
             </template>
 
           </el-table-column>
-
-
-
-          <el-table-column
-              prop="createdAt"
-              :label="$t('createdAt')"
-              width="150"
-              align="center"
-              header-align="center"
-
-              :formatter="formatter('createdAt')"
-          />
-          <el-table-column
-              prop="lastUpdated"
-              :label="$t('lastUpdated')"
-              width="150"
-              align="center"
-              header-align="center"
-              :formatter="formatter('lastUpdated')"
-          />
 
 
           <el-table-column :label="$t('edit')" width="120" align="center"
@@ -211,6 +191,7 @@ import {hideModal} from "@/core/helpers/dom";
 import {useGradeSubjectsStore} from "@/store/pinia_store/modules/GradeSubjectsModule";
 import {GradeSubject} from "@/types/GradeSubjects";
 import {useRoute} from "vue-router";
+import ClippedText from "@/components/ClippedText.vue";
 
 const route = useRoute();
 const {t} = useI18n();

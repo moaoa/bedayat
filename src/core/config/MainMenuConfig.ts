@@ -201,13 +201,13 @@ const DocMenuConfig = [
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
         sub: [
-          {
-            heading: "MostPurchasedCourses",
-            route: "/dashboard/Reports/MostPurchasedCourses",
-            svgIcon: "/media/icons/duotune/general/gen019.svg",
-            fontIcon: "bi-layers",
-            requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
-          },
+          // {
+          //   heading: "MostPurchasedCourses",
+          //   route: "/dashboard/Reports/MostPurchasedCourses",
+          //   svgIcon: "/media/icons/duotune/general/gen019.svg",
+          //   fontIcon: "bi-layers",
+          //   requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+          // },
           {
             heading: "purchasedPackagesByUser",
             route: "/dashboard/Reports/PurchasedPackagesByUser",
@@ -243,13 +243,13 @@ const DocMenuConfig = [
             fontIcon: "bi-layers",
             requiredPermission: AppConstants.PERMISSIONS.None,
           },
-          {
-            heading: "purchasedPackagesByPackage",
-            route: "/dashboard/Reports/PurchasedPackagesByPackage",
-            svgIcon: "/media/icons/duotune/general/gen019.svg",
-            fontIcon: "bi-layers",
-            requiredPermission: AppConstants.PERMISSIONS.None,
-          },
+          // {
+          //   heading: "purchasedPackagesByPackage",
+          //   route: "/dashboard/Reports/PurchasedPackagesByPackage",
+          //   svgIcon: "/media/icons/duotune/general/gen019.svg",
+          //   fontIcon: "bi-layers",
+          //   requiredPermission: AppConstants.PERMISSIONS.None,
+          // },
         ],
       },
     ],

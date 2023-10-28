@@ -33,16 +33,25 @@
       <div>
 
         <el-table class="table-responsive" max-width :data="countriesTable">
-          <el-table-column index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
+          <el-table-column index="scope.$index" :label="t('noNumber')"  width="50px" align="center" header-align="center">
             <template #default="scope: { row: Country, $index: number }">
               {{ scope.$index + 1 }}
             </template>
           </el-table-column>
-          <el-table-column prop="name" :label="$t('arabicName')" width="120" />
-          <el-table-column prop="englishName" :label="$t('englishName')" />
-          <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')" />
-          <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')" />
-          <el-table-column :label="$t('edit')" width="120" align="center">
+
+          <el-table-column prop="name" :label="$t('arabicName')" align="center" header-align="center">
+            <template #default="scope: { row: Country }">
+              <ClippedText :text="scope.row.name" length="20" style="white-space: nowrap " />
+            </template>
+          </el-table-column>
+
+
+          <el-table-column prop="englishName" :label="$t('englishName')" align="center" header-align="center">
+            <template #default="scope: { row: Country }">
+              <ClippedText :text="scope.row.englishName" length="20" />
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('edit')"  width="100px"  align="center" header-align="center">
             <template #default="scope">
               <a class="btn btn-icon btn-light-success btn-sm" data-bs-toggle="modal"
                 :data-bs-target="`#update_country_modal`" @click="selectCountry(scope.row)">
@@ -50,7 +59,7 @@
               </a>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('remove')" align="center" header-align="center">
+          <el-table-column :label="$t('remove')" width="100px" align="center" header-align="center">
             <template #default="scope: { row: Country, $index: number }">
               <div class="flex">
                 <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
@@ -98,6 +107,7 @@ import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import Toaster from "@/core/services/Toaster";
 import DeleteCountry from "./DeleteCountry.vue";
 import { hideModal } from "@/core/helpers/dom";
+import ClippedText from "@/components/ClippedText.vue";
 
 const { t } = useI18n();
 const countriesStore = useCountriesStore();

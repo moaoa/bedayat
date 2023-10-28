@@ -31,40 +31,6 @@
       <!-- begin::table -->
 
       <div class="d-flex gap-4 alig-items-center flex-wrap">
-        <div class="d-flex flex-column">
-          <label>{{ $t("user") }}</label>
-          <el-select
-            v-model="filters.userId"
-            clearable
-            filterable
-            remote
-            :remote-method="handleChange"
-            style="width: 300px"
-            :loading="isLoadingPackages"
-            :placeholder="$t('searchForUserWithPhoneEmail')"
-          >
-            <el-option
-              v-for="user in packagesStore.packages.results"
-              :key="user.id"
-              :value="user.id"
-              :label="user.title"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="d-flex flex-column">
-          <label>{{ $t("packageType") }}</label>
-          <el-select v-model="filters.packageType" style="width: 300px">
-            <el-option
-              :value="AppConstants.PackageTypes.Course"
-              :label="$t('course')"
-            />
-            <el-option
-              :value="AppConstants.PackageTypes.Package"
-              :label="$t('package')"
-            />
-          </el-select>
-        </div>
         <div>
           <lable class="d-flex flex-column">
             {{ $t("fromDate") }}
@@ -176,25 +142,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import {computed, onMounted} from "vue";
 import type {
   PurchasedPackageByPackage,
   Filters,
 } from "../../types/Reports/PurchasedPackagesByPackage";
 import { formatDate } from "@/core/helpers/formatDate";
 import { usePurchasedPackagesByPackageStore } from "../../store/pinia_store/modules/Reports/PurchasedPackagesByPackageModule";
-import { useRegularUsersStore } from "@/store/pinia_store/modules/RegularUsersModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import { useUrlSearchParams } from "@vueuse/core";
-import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { watchDebounced } from "@vueuse/core";
 import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
+import {useRoute} from "vue-router";
 
+const route = useRoute();
 const filters = useUrlSearchParams<Filters>("history", {
   initialValue: {
-    userId: null,
-    packageType: AppConstants.PackageTypes.Course,
+    packageId:  route.params.id as string,
+    packageType: Number(route.params.packageType ?? 0),
     checkExpiryDate: false,
     fromDate: null,
     toDate: null,
@@ -236,18 +202,15 @@ const handleSizeChange = (val: number) => {
 const loadPackagesReport = () => {
   purchasedPackagesByPackageStore.loadPurchasedPackagesByPackages({
     checkExpiryDate: filters.checkExpiryDate,
+    packageId: filters.packageId,
     fromDate: filters.fromDate || null,
     toDate: filters.toDate || null,
     pageNumber: filters.pageNumber,
     pageSize: filters.pageSize,
-    userId: filters.userId || null,
     packageType: filters.packageType,
   });
 };
 
-const handleChange = (query: string) => {
-  parentsFilters.parentsSearchField = query;
-};
 
 const formatter = (key: "createdAt" | "lastUpdated" | "purchasedAt") => {
   return (record: PurchasedPackageByPackage) => formatDate(record[key]);
@@ -258,12 +221,23 @@ setCurrentPageBreadcrumbs(t("reports"), [t("purchasedPackagesByPackage")]);
 watchDebounced(filters, () => loadPackagesReport(), { debounce: 1000 });
 
 loadPackagesReport();
+onMounted(()=> {
 
-watchDebounced(
-  () => parentsFilters.parentsSearchField,
-  () => {
-    packagesStore.loadPackages(parentsFilters.parentsSearchField as string);
-  },
-  { debounce: 1000 }
-);
+  const id = route.params.id;
+  const packageType = route.params.packageType;
+
+  console.log(`these are the params id ${id}  and this is the pacakge type = ${packageType}` )
+
+
+
+
+})
+
+// watchDebounced(
+//   () => parentsFilters.parentsSearchField,
+//   () => {
+//     packagesStore.loadPackages(parentsFilters.parentsSearchField as string);
+//   },
+//   { debounce: 1000 }
+// );
 </script>

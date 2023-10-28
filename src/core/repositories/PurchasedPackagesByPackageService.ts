@@ -6,6 +6,7 @@ import {
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import ApiService from "@/core/services/ApiService";
 import { safeParse } from "valibot";
+// @ts-ignore
 import { red } from "console-log-colors";
 
 class PurchasedPackagesByPackagesService {

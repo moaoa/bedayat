@@ -45,7 +45,7 @@ export const ResponseSchema = object({
 export type Response = Output<typeof ResponseSchema>;
 
 export type Filters = {
-  userId: string | null;
+  packageId : string;
   packageType: number;
   checkExpiryDate: boolean;
   fromDate: string | null;

@@ -31,7 +31,7 @@
 
             <div>
           <div class="row">
-            <div class="col-4 mt-2 mx-10">
+            <div class="col-8 mt-2 mx-10">
 
               <!--begin::Input-->
                 <el-input

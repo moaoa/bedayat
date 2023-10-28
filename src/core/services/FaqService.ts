@@ -4,10 +4,10 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { AddSettingsRequestDto, systemSettingsResponse } from "@/types/SystemSettings";
 import {Faq, FaqCategory, NewFaqData} from "@/types/Faq";
 class FaqService {
-    public static async getFaqs(category: FaqCategory):Promise<ApiResponse<Faq[]>> {
+    public static async getFaqs(category: FaqCategory | null):Promise<ApiResponse<Faq[]>> {
         console.log(category as number)
         const result =  await ApiService.get(
-          `${AppConstants.FAQS_URL}`, `GetByCategory?faqCategory=${category as number}`);
+          `${AppConstants.FAQS_URL}`, `GetByCategory?faqCategory=${category == null ? '' : category as number}`);
 
           const data = result.data as ApiResponse<Faq[]>;
         return data;

@@ -37,7 +37,7 @@
         <div class="col-md-3 col-lg-2 col-7">
 
           <el-select v-model="faqsStore.selectedCategory" clearable filterable>
-            <el-option v-for="category in Object.values(FaqCategory).slice(0,Object.values(FaqCategory).length/2 )" :key="category" :value="FaqCategory[category]"
+            <el-option v-for="category in ['all', ...Object.values(FaqCategory).slice(0,Object.values(FaqCategory).length/2 )]" :key="category" :value="category == 'all' ? null : FaqCategory[category]"
                        :label="t(category.toLowerCase())">
             </el-option>
           </el-select>
@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <el-table :data="faqsTable" height="400">
+      <el-table :data="faqsTable" max-width height="400">
         >
         <el-table-column
           index="scope.$index"
@@ -62,23 +62,22 @@
         <el-table-column
           prop="name"
           :label="$t('faqQuestion')"
-          width="200"
           align="center"
           header-align="center"
         >
           <template #default="scope: { row: Faq, $index: number }">
-            <b> {{ scope.row.question }}</b>
+              <ClippedText :text="scope.row.question" length="20" />
           </template>
         </el-table-column>
         <el-table-column
           prop="englishName"
           :label="$t('faqAnswer')"
-          width="300"
+
           align="center"
           header-align="center"
         >
           <template #default="scope:{ row: Faq, $index: number }">
-            <b> {{ scope.row.answer }}</b>
+            <ClippedText :text="scope.row.answer" length="30" />
           </template>
         </el-table-column>
         <el-table-column
@@ -96,22 +95,7 @@
             </b>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="createdAt"
-          :label="$t('createdAt')"
-          width="120"
-          :formatter="formatter('createdAt')"
-          align="center"
-          header-align="center"
-        />
-        <el-table-column
-          prop="lastUpdated"
-          :label="$t('lastUpdated')"
-          width="120"
-          :formatter="formatter('lastUpdated')"
-          align="center"
-          header-align="center"
-        />
+
         <el-table-column
           :label="$t('edit')"
           width="90"
@@ -188,6 +172,8 @@ import AddFaq from "@/views/Faqs/AddFaq.vue";
 import UpdateFaq from "@/views/Faqs/UpdateFaq.vue";
 import DeleteFaq from "@/views/Faqs/DeleteFaq.vue";
 import faqService from "@/core/services/FaqService";
+import {User} from "@/types/User";
+import ClippedText from "@/components/ClippedText.vue";
 
 const { t } = useI18n();
 const faqsStore = useFaqsStore();
@@ -230,7 +216,9 @@ const faqAdded = async (faq:NewFaqData) =>{
 
 }
 onMounted(()=> {
-  faqsStore.selectedCategory =0;
+  faqsStore.selectedCategory =null;
+
+  faqsStore.loadFaqs(faqsStore.selectedCategory)
 })
 
 watch(

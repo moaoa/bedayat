@@ -55,8 +55,6 @@ export const useSubscriptionSettingsStore = defineStore({
           await SubscriptionSettingsService.addSubscriptionSettings(
             numberOfDays
           );
-        if (!result.isSuccess)
-          Toaster.error("could not add Subscription Settings");
 
         Toaster.Success("Settings updated successfully !");
 
@@ -67,10 +65,9 @@ export const useSubscriptionSettingsStore = defineStore({
   
         this.subscriptionSettings = getResult.data;
 
-        
         return true;
       } catch (error) {
-        Toaster.error((error as Error).message)
+        // Toaster.error((error as Error).message)
         this.dataLoading = false;
         return false;
       } finally {

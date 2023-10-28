@@ -73,11 +73,12 @@ export const useGradeSubjectsStore = defineStore({
         );
         await this.loadGradeSubjects();
 
-        toaster.Success("item udpated")
+        toaster.Success("item updated")
+
         this.isUpdatingItem = false;
       } catch (error) {
         this.isUpdatingItem = false;
-        console.log(error);
+        console.log((error as Error).message);
       }
     },
     async createNewItem(newGradeSubjectData: NewGradeSubjectData) {
@@ -109,8 +110,11 @@ export const useGradeSubjectsStore = defineStore({
           (item) => item.id !== this.selectedGradeSubject?.id
         );
         this.unselectGradeSubject();
+        toaster.Success("item deleted")
       } catch (error) {
         console.log(error);
+
+        toaster.error((error as Error).message)
       } finally {
         this.isDeletingItem = false;
       }
