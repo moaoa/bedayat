@@ -27,14 +27,15 @@ export const useCitiesStore = defineStore({
   }),
 
   actions: {
-    async loadCities({ countryId }: { countryId: string }) {
+    async loadCities(  countryId: string, cityName: string  ) {
       this.dataIsLoading = true;
       this.errorLoadingData = false;
 
       try {
-        const result = await CountriesService.getCountryWithCities(countryId);
+        console.log(cityName)
+        const result = await CitiesService.getCities(countryId, cityName);
         const data = result.data;
-        this.cities = data.data.cities;
+        this.cities = data.data;
       } catch (e) {
         this.errorLoadingData = true;
         this.errorMessage =
