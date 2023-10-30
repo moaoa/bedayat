@@ -155,7 +155,7 @@
                   <!--begin::Input-->
                   <el-form-item prop="phoneNumber">
                     <el-input
-                      v-model="formData.phoneNumber"
+                      v-model="formData.phone"
                       type="text"
                       :placeholder="$t('phone')"
                     />
@@ -312,8 +312,8 @@ const formData = reactive<NewUserData & { passwordConfirmation: string }>({
   fatherName: "",
   surName: "",
   firstName: "",
-  phoneNumber: "",
-  otherPhone: "",
+  phone: "",
+  otherPhone: null,
   gender: AppConstants.USER_GENDER.Male,
   permissions: [],
 });
@@ -368,7 +368,10 @@ const rules = ref({
   ],
   gender: [{ required: true, message: t("required"), trigger: "blur" }],
   phoneNumber: [
-    { required: true, message: t("required"), trigger: "blur" },
+    {
+      required: true,
+      // pattern: /^([2]{1}[1]{1}[8]{1}[9]{1}[1,2,4,5]{1}[0-9]{7})|([0]{1}[9]{1}[1,2,4,5]{1}[0-9]{7})+$/,
+      message: t("required"), trigger: "blur" },
     {
       //TODO: ADD REGEX
       max: 14,
@@ -401,8 +404,8 @@ onMounted(() => {
     formData.fatherName = "";
     formData.surName = "";
     formData.firstName = "";
-    formData.phoneNumber = "";
-    formData.otherPhone = "";
+    formData.phone = "";
+    formData.otherPhone = null;
     formData.permissions = [];
     formData.gender = AppConstants.USER_GENDER.Male;
   });

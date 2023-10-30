@@ -3,6 +3,8 @@ import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
 
 import ApiService from "../services/ApiService";
+import {Country} from "@/types/Countries";
+import {isLuhnAlgo} from "valibot";
 
 class CitiesService {
   public static async createCity(data: NewCityData) {
@@ -31,6 +33,23 @@ class CitiesService {
       }
     );
   }
+
+    public static async getCities(countryId: string, cityName: string) {
+
+        console.log(countryId)
+      console.log(cityName)
+        return await ApiService.query<ApiResponse<City[]>>(
+            `${AppConstants.CITIES_URL}/${countryId}`,
+            {
+                params: {
+                    name: cityName,
+                    includeLocalities: false,
+                },
+            }
+        );
+    }
 }
+
+
 
 export default CitiesService;

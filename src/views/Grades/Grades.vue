@@ -50,14 +50,22 @@
             {{ scope.$index + 1 }}
           </template>
         </el-table-column >
-        <el-table-column prop="name" :label="$t('arabicName')"  align="center"
-                         header-align="center" />
-        <el-table-column
-          prop="englishName"
-          :label="$t('englishName')"
-          align="center"
-          header-align="center"
-        />
+
+        <el-table-column :label="$t('arabicName')" min-width="100"   align="center"
+                         header-align="center">
+          <template #default="scope: { row: Grade, $index: number }">
+            <ClippedText :text="scope.row.name"  />
+          </template>
+        </el-table-column>
+
+
+        <el-table-column :label="$t('englishName')" min-width="100"   align="center"
+                         header-align="center">
+          <template #default="scope: { row: Grade, $index: number }">
+            <ClippedText :text="scope.row.englishName"  />
+          </template>
+        </el-table-column>
+
         <el-table-column
           prop="priority"
           :label="$t('priority')"
@@ -161,6 +169,8 @@ import Toaster from "@/core/services/Toaster";
 import { hideModal } from "@/core/helpers/dom";
 import {User} from "@/types/User";
 import DotsIcon from "@/components/icons/DotsIcon.vue";
+import {Subject} from "@/types/Subjects";
+import ClippedText from "@/components/ClippedText.vue";
 
 const { t } = useI18n();
 const gradesStore = useGradesStore();

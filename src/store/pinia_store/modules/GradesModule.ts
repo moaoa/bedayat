@@ -63,6 +63,7 @@ export const useGradesStore = defineStore({
 
         this.grades[index] = { ...this.selectedGrade, ...newValues };
         this.isUpdatingItem = false;
+        console.log("in here")
         Toaster.Success("Grade updated Successfully")
       } catch (error) {
         this.isUpdatingItem = false;

@@ -127,7 +127,7 @@
                   <!--begin::Input-->
                   <el-form-item prop="phoneNumber">
                     <el-input
-                      v-model="formData.phoneNumber"
+                      v-model="formData.phone"
                       type="text"
                       :placeholder="$t('phone')"
                     />
@@ -262,7 +262,7 @@ const formData = reactive<Omit<NewUserData, "email" | "password">>({
   fatherName: "",
   surName: "",
   firstName: "",
-  phoneNumber: "",
+  phone: "",
   otherPhone: "",
   gender: AppConstants.USER_GENDER.Male,
   permissions: [],
@@ -317,7 +317,7 @@ watch(
     formData.firstName = user.firstName;
     formData.surName = user.surName;
     formData.gender = user.gender;
-    formData.phoneNumber = user.phoneNumber;
+    formData.phone = user.phoneNumber;
     formData.otherPhone = user.otherPhone;
     formData.permissions = user.permissions;
   }
@@ -328,7 +328,7 @@ onMounted(() => {
     formData.fatherName = "";
     formData.surName = "";
     formData.firstName = "";
-    formData.phoneNumber = "";
+    formData.phone = "";
     formData.otherPhone = "";
     formData.permissions = [];
     formData.gender = AppConstants.USER_GENDER.Male;

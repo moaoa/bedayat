@@ -67,13 +67,18 @@
 
           <el-table-column prop="image" :label="$t('image')" align="center" header-align="center">
             <template #default="scope">
-              <img class="w-50 h-50 image-input-wrapper" style="height: 50%" :src="scope.row.image" />
+
+              <img class="w-50 h-50 image-input-wrapper" style="height: 50%" :src="scope.row.image"  />
             </template>
           </el-table-column>
           <el-table-column prop="information" :label="$t('information')" align="center" header-align="center">
-            <template #default="scope">
-              <b> {{ scope.row.information }}</b>
-            </template>
+
+
+                <template #default="scope: { row: PromotionDto, $index: number }">
+                  <ClippedText :text="scope.row.information"  />
+                </template>
+
+
           </el-table-column>
 
           <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')" align="center"
@@ -142,6 +147,7 @@ import {AddUpdatePromotionDto, PromotionDto, PromotionState} from "@/types/Promo
 import AddPromotionModal from "@/views/Promotions/AddPromotionModal.vue";
 import UpdatePromotionModal from "@/views/Promotions/UpdatePromotionModal.vue";
 import DeletePromotionModal from "@/views/Promotions/DeletePromotionModal.vue";
+import ClippedText from "@/components/ClippedText.vue";
 
 const {t} = useI18n();
 const promotionStore = usePromotionsStore();

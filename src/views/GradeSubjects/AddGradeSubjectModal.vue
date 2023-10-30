@@ -6,7 +6,6 @@
     tabindex="-1"
     aria-hidden="true"
   >
-{{formData}}
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">

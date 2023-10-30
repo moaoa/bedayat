@@ -34,7 +34,7 @@
     <div v-loading="faqsStore.dataIsLoading" class="card-body pt-2">
 
       <div class="row">
-        <div class="col-md-3 col-lg-2 col-7">
+        <div class="col-md-4 col-lg-3 col-7">
 
           <el-select v-model="faqsStore.selectedCategory" clearable filterable>
             <el-option v-for="category in ['all', ...Object.values(FaqCategory).slice(0,Object.values(FaqCategory).length/2 )]" :key="category" :value="category == 'all' ? null : FaqCategory[category]"

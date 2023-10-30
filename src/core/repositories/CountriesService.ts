@@ -4,7 +4,8 @@ import { ApiResponse } from "@/types/ApiResponse";
 import ApiService from "@/core/services/ApiService";
 
 class CountriesService {
-  public static async getCountryWithCities(countryId: string) {
+  public static async getCountryWithCities(countryId: string, cityName: string) {
+
     return await ApiService.query<ApiResponse<Country>>(
       `${AppConstants.COUNTRIES_URL}/${countryId}`,
       {

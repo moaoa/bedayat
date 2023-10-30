@@ -150,6 +150,18 @@
               <div class="card-body pt-2">
                 <!-- begin::table -->
                 <el-table :data="SubscriptionSettingsStore.subscriptionSettings" style="width: 100%" height="500">
+
+                  <el-table-column width="50" index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
+                    <template  #default="scope">
+                      <div
+                          class="d-flex align-items-center gap-3 justify-content-between"
+                      >
+                         {{ scope.$index + 1 }}
+                      </div>
+                    </template>
+                  </el-table-column>
+
+
                   <el-table-column prop="period" :label="$t('period')" width="100" align="center" header-align="center" />
                   <el-table-column prop="createdAt" :formatter="formatter('createdAt')" :label="$t('createdDate')"
                     width="150" align="center" header-align="center" />
@@ -221,6 +233,7 @@ import UpdateSubscriptionSettingModal from "@/views/SystemSettings/modals/Update
 import AddSubscriptionSettingModal from "@/views/SystemSettings/modals/AddSubscriptionSettingsModal.vue";
 import { SubscriptionSettings } from '@/types/SubscriptionSettings';
 import { formatDate } from '@/core/helpers/formatDate';
+import {PromotionState} from "@/types/Promotions";
 const { t } = useI18n();
 
 const tabIndex = ref(0);

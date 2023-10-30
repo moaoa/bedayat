@@ -335,8 +335,10 @@ const messages = {
     purchasedPackagesBySpecificUser: "Purchased Packages By Specific User",
     deleteCountry:"Delete Country",
     chooseGrade:"chooseGrade",
+    purchases:"purchases",
   },
   ar: {
+    purchases:"تاريخ الشراء",
     chooseGrade:"chooseGrade",
     deleteCountry:"حذف بلد",
     purchasedPackagesByGrade: "الدورات المشتراة بناء علي الصف الدراسي",

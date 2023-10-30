@@ -11,7 +11,7 @@
 
         <!-- TODO: add the load cities button -->
         <a class="btn btn-icon btn-light-primary btn-sm me-3"
-          @click="citiesStore.loadCities({ countryId: citiesStore.selectedCountryId })">
+          @click="citiesStore.loadCities( citiesStore.selectedCountryId, searchCityName )">
           <i class="bi bi-arrow-repeat"></i>
         </a>
         <a href="#" class="btn btn-sm btn-primary mx-1" target="#" data-bs-toggle="modal"
@@ -46,6 +46,16 @@
               :label="country.name">
             </el-option>
           </el-select>
+        </div>
+        <div class="col-md-6 col-lg-4 col-7">
+
+          <el-input
+              id="input_search_package"
+              v-model="searchCityName"
+              type="text"
+              :placeholder="t('name')"
+              clearable
+          />
         </div>
 
         <div v-loading="citiesStore.dataIsLoading" class="card-body pt-2">
@@ -125,11 +135,13 @@ import DeleteCity from "@/views/Cities/DeleteCity.vue";
 import { ElSelect, ElOption } from "element-plus";
 import {Country} from "@/types/Countries";
 import ClippedText from "@/components/ClippedText.vue";
+import {watchDebounced} from "@vueuse/core";
 
 const { t } = useI18n();
 const citiesStore = useCitiesStore();
 const countriesStore = useCountriesStore();
 
+const searchCityName = ref<string>('');
 const addCityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const updateCityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const deleteCityModalRef = ref<{ modalRef: HTMLElement } | null>(null);
@@ -184,10 +196,18 @@ countriesStore.loadCountries();
 watch(
   () => citiesStore.selectedCountryId,
   (id) => {
-    console.log(id);
     if (id) {
-      citiesStore.loadCities({ countryId: id });
+      citiesStore.loadCities(  id,  searchCityName.value);
     }
   }
 );
+watchDebounced(()=>searchCityName.value,   (name) => {
+
+  if (name) {
+    citiesStore.loadCities( citiesStore.selectedCountryId, name);
+  }}
+    , { debounce: 500 } )
+
+
+
 </script>

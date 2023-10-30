@@ -54,7 +54,9 @@
                   <el-table-column :label="t('courseLogo')"
                                    align="center">
                     <template #default="scope">
+                      <a :href="scope.row.logoPath">
                       <img :src="scope.row.logoPath">
+                      </a>
                     </template>
                   </el-table-column>
                   <el-table-column property="name" :label="t('name')"

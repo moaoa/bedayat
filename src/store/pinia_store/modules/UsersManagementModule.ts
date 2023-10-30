@@ -122,10 +122,11 @@ export const useUsersStore = defineStore({
           this.users.push(...res.data.results);
         }
 
-        this.isCreatingNewItem = false;
+        Toaster.Success("User created successfully")
       } catch (error) {
-        this.isCreatingNewItem = false;
         console.log(error);
+      }finally {
+        this.isCreatingNewItem = false;
       }
     },
   },
