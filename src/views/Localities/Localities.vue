@@ -208,7 +208,7 @@ watch(
     (id) => {
       console.log(id);
       if (id) {
-        citiesStore.loadCities({countryId: id});
+        citiesStore.loadCities(id, '');
       }
     }
 );

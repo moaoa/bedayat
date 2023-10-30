@@ -192,13 +192,23 @@ const formData = reactive<NewGradeData>({
 });
 
 const rules = ref({
-  name: [{ required: true, message: t("required"), trigger: "blur" }],
+
+  name: [
+    { required: true, message: t("required"), trigger: "blur" },
+    {
+      required: true,
+      pattern:  /^[ء-ي\s]+$/,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    }
+  ],
   englishName: [
     {
       required: true,
-      message: t("englishName"),
-      trigger: "blur",
-    },
+      pattern: /^[A-Za-z\s]+$/,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    }
   ],
   note: [{ required: true, message: t("required"), trigger: "blur" }],
   gradeType: [{ required: true, message: t("required"), trigger: "blur" }],

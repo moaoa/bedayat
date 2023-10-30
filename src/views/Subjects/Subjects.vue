@@ -67,12 +67,20 @@
             {{ scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column prop="name" :label="$t('arabicName')"  />
-        <el-table-column
-          prop="englishName"
-          :label="$t('englishName')"
+        <el-table-column :label="$t('arabicName')" min-width="100"   align="center"
+                         header-align="center">
+          <template #default="scope: { row: Subject, $index: number }">
+            <ClippedText :text="scope.row.name"  />
+          </template>
+        </el-table-column>
 
-        />
+        <el-table-column :label="$t('englishName')" min-width="100"   align="center"
+                         header-align="center">
+          <template #default="scope: { row: Subject, $index: number }">
+            <ClippedText :text="scope.row.englishName"  />
+          </template>
+        </el-table-column>
+
         <el-table-column
           prop="createdAt"
           :label="$t('createdAt')"
@@ -159,6 +167,8 @@ import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
 import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import {BugStatusSearch} from "@/types/BugReports";
+import {GradeSubject} from "@/types/GradeSubjects";
+import ClippedText from "@/components/ClippedText.vue";
 
 const { t } = useI18n();
 const subjectsStore = useSubjectsStore();
