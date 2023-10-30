@@ -198,12 +198,6 @@ onMounted(() => {
 });
 
 watch(
-    () => countriesStore.countries,
-    (id) => {
-      citiesStore.selectedCountryId = countriesStore.countries[0].id
-    }
-);
-watch(
     () => citiesStore.selectedCountryId,
     (id) => {
       console.log(id);
@@ -212,12 +206,7 @@ watch(
       }
     }
 );
-watch(
-    () => citiesStore.cities,
-    (id) => {
-      localitiesStore.selectedCityId = citiesStore.cities[0].id;
-    }
-);
+
 
 watch(
     () => localitiesStore.selectedCityId,

@@ -7,7 +7,7 @@
     placement="top-start"
     v-if="text.length > props.length"
   >
-    <div class="d-flex"  style="white-space: nowrap">
+    <div class="d-flex justify-content-center"  style="white-space: nowrap">
       <span class="">...</span>
       <span  >{{ text.slice(0, length) }}</span>
     </div>

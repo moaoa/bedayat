@@ -78,8 +78,8 @@ export type NewUserData = {
   firstName: string;
   fatherName: string;
   surName: string;
-  phoneNumber: string;
-  otherPhone: string;
+  phone: string;
+  otherPhone: string | null;
   gender: number;
 };
 

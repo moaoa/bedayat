@@ -111,7 +111,7 @@
           </el-table-column>
 
           <el-table-column
-            prop="otherPhone"
+            prop="phoneNumber"
             :label="$t('phoneNumber')"
             width="200"
             align="center"
@@ -147,28 +147,12 @@
               <GenderBadge :gender="scope.row.gender" />
             </template>
           </el-table-column>
-          <el-table-column
-            prop="createdAt"
-            :label="$t('createdAt')"
-            width="120"
-            :formatter="formatter('createdAt')"
-            align="center"
-            header-align="center"
-          />
-          <el-table-column
-            prop="lastUpdated"
-            :label="$t('lastUpdated')"
-            width="120"
-            :formatter="formatter('lastUpdated')"
-            align="center"
-            header-align="center"
-          />
+
           <el-table-column
             :label="$t('edit')"
             width="90"
             align="center"
             header-align="center"
-            fixed="left"
           >
             <template #default="scope">
               <a
@@ -186,7 +170,6 @@
             width="90"
             align="center"
             header-align="center"
-            fixed="left"
           >
             <template #default="scope: { row: User, $index: number }">
               <div
@@ -205,7 +188,6 @@
             width="90"
             align="center"
             header-align="center"
-            fixed="left"
           >
             <template #default="scope: { row: User, $index: number }">
               <div class="flex">
@@ -221,7 +203,6 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column fixed="left"></el-table-column>
         </el-table>
       </div>
       <!-- end::table -->
@@ -296,8 +277,6 @@ const createUser = async (data: NewUserData) => {
     if (addUserModalRef.value) {
       hideModal(addUserModalRef.value.modalRef);
     }
-
-    Toaster.Success("Success", "sucess");
   } catch (error) {
     console.log(error);
   }

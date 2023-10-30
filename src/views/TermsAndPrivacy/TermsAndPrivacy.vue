@@ -1,6 +1,6 @@
 <template>
   <div class="card mb-10">
-    <div v-if="store.termsAndPrivacy.length < 2" class="d-flex justify-content-end  align-items-center">
+    <div v-if="store.termsAndPrivacy.length < 2  && !store.dataLoading" class="d-flex justify-content-end  align-items-center">
 
 
       <div class="flex gap-3">
@@ -34,7 +34,7 @@
       </ul>
     </div>
 
-    <div class="card-body container">
+    <div class="card-body container" v-loading="store.dataLoading">
 
       <div v-if="!store.termsAndPrivacy.length" class="d-flex gap-3 text-center justify-content-center">
         <p>{{t('noDataToDisplay')}}</p>
@@ -86,21 +86,6 @@
 
     </div>
     <div class="card-footer d-flex justify-content-center">
-      <!-- <button :data-kt-indicator="true ? 'on' : null" class="btn btn-sm btn-primary" type="submit"
-        @click="handleUpdate(tabIndex as TermsAndPrivacyType)">
-
-        <span v-if="!store.termsDataSubmitting">
-          {{ $t(" save") }}
-          <span class="svg-icon svg-icon-3 ms-2 me-0">
-          </span>
-
-        </span>
-        <span v-else class="indicator-progress btn-sm">
-          {{ $t("pleaseWait") }}...
-          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-        </span>
-      </button> -->
-
 
       <button v-if="store.termsAndPrivacy.length > 0" ref="submitMobileButtonRef" type="submit" data-kt-element="sms-submit"
         class="btn btn-primary" @click="handleUpdate(tabIndex as TermsAndPrivacyType)">
@@ -118,14 +103,14 @@
 <script setup lang="ts">
 import { setCurrentPageBreadcrumbs } from '@/core/helpers/breadcrumb';
 import { useI18n } from "vue-i18n";
-import { onMounted, ref } from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import { useTermsAndPrivacyStore } from '@/store/pinia_store/modules/TermsAndPrivacyModule';
 import Toaster from '@/core/services/Toaster';
 import { TermsAndPrivacyType } from '@/types/TermsAndPrivacy';
 import Editor from '@tinymce/tinymce-vue'
 
 const { t } = useI18n();
-
+const dataloading = computed(()=> store.dataLoading);
 const tabIndex = ref(0);
 const changelanguage = () => {
 

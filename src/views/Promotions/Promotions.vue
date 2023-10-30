@@ -67,11 +67,8 @@
 
           <el-table-column prop="image" :label="$t('image')" align="center" header-align="center">
             <template #default="scope">
-              <a
-                  :href="scope.row.image">
 
-              <img class="w-50 h-50 image-input-wrapper" style="height: 50%" :src="scope.row.image" :href="scope.row.image" />
-              </a>
+              <img class="w-50 h-50 image-input-wrapper" style="height: 50%" :src="scope.row.image"  />
             </template>
           </el-table-column>
           <el-table-column prop="information" :label="$t('information')" align="center" header-align="center">

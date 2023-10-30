@@ -44,8 +44,6 @@
               <ClippedText :text="scope.row.name" length="20" style="white-space: nowrap " />
             </template>
           </el-table-column>
-
-
           <el-table-column prop="englishName" :label="$t('englishName')" align="center" header-align="center">
             <template #default="scope: { row: Country }">
               <ClippedText :text="scope.row.englishName" length="20" />
