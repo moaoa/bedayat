@@ -36,18 +36,33 @@
             </el-option>
           </el-select>
         </div>
-<!--        <div class="col-md-3 col-lg-2 col-7">-->
-<!--          <label class="fs-6 fw-bold mb-2">-->
-<!--            {{ $t("packageType") }}-->
-<!--          </label>-->
-<!--          <el-select v-model="searchFilter.packageType" clearable filterable>-->
-<!--            <el-option v-for="status in Object.values(PackageType).slice(0,Object.values(PackageType).length/2 )"-->
-<!--                       :key="status" :value="PackageType[status]"-->
-<!--                       :label="t(`${status.toLowerCase()}`)">-->
-<!--            </el-option>-->
-<!--          </el-select>-->
-<!--        </div>-->
+        <div class="col-md-3 col-lg-2 col-7">
+          <label class="fs-6 fw-bold mb-2">
+            {{ $t("packageType") }}
+          </label>
+          <el-select v-model="searchFilter.packageType" clearable filterable>
+            <el-option v-for="status in ['all', ...Object.values(PackageType).slice(0,Object.values(PackageType).length/2 )]"
+                       :key="status"
+                       :value="status == 'all' ? null :PackageType[status]"
+                       :label="t(`${status.toLowerCase()}`)">
+            </el-option>
+          </el-select>
 
+
+
+
+        </div>
+        <div class="col-md-4 col-lg-3 col-7">
+          <label class="fs-6 fw-bold mb-2">
+            {{ $t("packageType") }}
+          </label>
+          <el-select v-model="searchFilter.packageStatus" clearable filterable>
+            <el-option v-for="packageStatus in ['all', ...Object.values(PackageStatus).slice(0,Object.values(PackageStatus).length/2 )]" :key="packageStatus" :value="packageStatus == 'all' ? null : PackageStatus[packageStatus]"
+                       :label="t(packageStatus.toLowerCase())">
+            </el-option>
+          </el-select>
+
+        </div>
         <div class="col-md-6 col-lg-4 col-7">
           <label class=" fs-6 fw-bold mb-2">
             {{ $t("name") }}
@@ -141,16 +156,34 @@
                 }"
                 >
                   <a
-                      class="btn btn-icon btn-light-success btn-sm"
+                      class="btn btn-icon btn-light-info btn-sm"
                   >
-                    <i class="bi bi-mortarboard-fill"></i>
+                    <i class="bi bi-book-half"></i>
                   </a>
 
                 </RouterLink>
               </template>
 
             </el-table-column>
+            <el-table-column :label="$t('subscriptions')" align="center" header-align="center">
+              <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
+                <RouterLink
+                    @click="()=>{ coursesStore.selectPackage(scope.row); coursesStore.selectedGradeId= searchFilter.gradeId}"
+                    :to="{
+                  name: 'Subscriptions',
+                  params: { id: scope.row.id },
+                }"
+                >
+                  <a
+                      class="btn btn-icon btn-light-success btn-sm"
+                  >
+                    <i class="bi bi-currency-dollar"></i>
+                  </a>
 
+                </RouterLink>
+              </template>
+
+            </el-table-column>
 
             <el-table-column :label="$t('edit')" align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
@@ -162,9 +195,9 @@
                 }"
                 >
                   <a
-                      class="btn btn-icon btn-light-success btn-sm"
+                      class="btn btn-icon btn-light-warning btn-sm"
                   >
-                    <i class="bi bi-mortarboard-fill"></i>
+                    <i class="bi bi-pencil"></i>
                   </a>
 
                 </RouterLink>
@@ -220,6 +253,7 @@ import DeleteCountry from "@/views/Countries/DeleteCountry.vue";
 import DeletePackage from "@/views/Packages/DeletePackage.vue";
 import {ErrorMessage, Field} from "vee-validate";
 import {AppConstants} from "@/core/constants/ApplicationsConstants";
+import {FaqCategory} from "@/types/Faq";
 
 
 ////////// Declarations///////////////////
@@ -228,11 +262,7 @@ const coursesStore = useCoursesStore();
 const gradesStore = useGradesStore();
 const packagesTable = ref<GetPackagesResponseDto[]>(coursesStore.packages.results)
 
-watch(()=> {
-return coursesStore.packages
-}, (value)=> {
-packagesTable.value = value.results;//?.filter(x=> x.packageStatus == searchFilter.status)
-})
+
 const router = useRouter();
 
 const deletePackageModalRef = ref<{ modalRef: HTMLElement } | null>(null);
@@ -242,14 +272,13 @@ return (locality: Locality) => formatDate(locality[key]);
 const searchFilter = reactive<PackageFilter>({
 name: "",
 gradeId: "",
-packageType: PackageType.Path
+packageType: null,
+packageStatus: null,
 });
 // status: PackageStatus.Active,
 const changePackageState = async (packageId: string)=>  {
-console.log('sdfsdfsdfsdfsdfsdf')
 await coursesStore.changePackageActiveState(packageId)
 await coursesStore.loadPackages(searchFilter)
-
 }
 
 /////////////Functions///////////////////////
@@ -281,14 +310,18 @@ toaster.error("please Select Grade")
 
 
 });
-
+watch(()=> {
+  return coursesStore.packages
+}, (value)=> {
+  packagesTable.value = value.results;//?.filter(x=> x.packageStatus == searchFilter.status)
+})
 watch(()=> gradesStore.grades, async () => {
 if(gradesStore.grades.length>0)
 searchFilter.gradeId = gradesStore.grades[0].id
 })
 watch(()=> searchFilter.gradeId, async () => await coursesStore.loadPackages(searchFilter))
 watch(()=> searchFilter.packageType, async () => await coursesStore.loadPackages(searchFilter))
-watch(()=> searchFilter.status, async () => await coursesStore.loadPackages(searchFilter))
+watch(()=> searchFilter.packageStatus, async () => await coursesStore.loadPackages(searchFilter))
 
 
 

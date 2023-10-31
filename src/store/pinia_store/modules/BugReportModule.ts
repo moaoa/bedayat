@@ -10,27 +10,7 @@ export const useBugReportsStore = defineStore({
 
     state: () => ({
         bugReports: [
-            {
-                id: "1",
-                attachments: [
-                    "/media/stock/300x270/9.jpg",
-                    "/media/stock/300x270/7.jpg",
-                ],
-                bugResponse: "",
-                department: BugDepartmentType.Admin,
-                description: "description 1",
-                issueStatus: "Pending",
-                title: "title 1",
-            },
-            {
-                id: "2",
-                attachments: [],
-                department: BugDepartmentType.Technical,
-                bugResponse: "",
-                description: "description 2",
-                issueStatus: "Pending",
-                title: "title 2",
-            },
+
         ] as BugReport[],
         selectedBugToRespond: {} as BugReport,
         dataIsLoading: false,

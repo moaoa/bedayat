@@ -387,6 +387,33 @@ const routes: Array<RouteRecordRaw> = [
           requiredPermission: AppConstants.PERMISSIONS.None,
         },
       },
+      {
+        path: "/dashboard/packages/Subscriptions/:id",
+        name: "Subscriptions",
+        component: () => import("@/views/Packages/Subscriptions/Subscriptions.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+      },
+      {
+        path: "/dashboard/packages/Subscriptions/AddSubscription/:id",
+        name: "AddSubscription",
+        component: () => import("@/views/Packages/Subscriptions/AddSubscriptionPage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+      },
+      {
+        path: "/dashboard/packages/Subscriptions/EditSubscriptions/:id",
+        name: "EditSubscriptions",
+        component: () => import("@/views/Packages/Subscriptions/EditSubscriptionPage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+      },
     ],
   },
   {

@@ -1,19 +1,25 @@
 import ApiService from "./ApiService";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
-import {ApiResponse, PagedList, PagedResult} from "@/types/ApiResponse";
-import { AddSettingsRequestDto, systemSettingsResponse } from "@/types/SystemSettings";
+import {ApiResponse, PagedResult} from "@/types/ApiResponse";
+import { systemSettingsResponse } from "@/types/SystemSettings";
 import {
     CourseSelection,
     GetPackagesResponseDto,
     Package,
-    PackageAddData,
     PackageFilter, PackageUpdateData
 } from "@/types/Packages/Packages";
 class PackagesService {
 
     public static async getPackages(params : PackageFilter):Promise<PagedResult<GetPackagesResponseDto>> {
-        const result =  await ApiService.get(
-          `${AppConstants.COURSES_URL}`, `GetPackagesByGradeAndName/${params.gradeId}?title=${params.name}&packageType=${params.packageType as number}` );
+        const result =  await ApiService.query(
+          `${AppConstants.COURSES_URL}/GetPackagesByGradeAndName/${params.gradeId}`,
+            {
+                params: {
+                    name: params.name,
+                    packageType: params.packageType,
+                    packageStatus: params.packageStatus
+                },
+            }  )//`/${params.gradeId}?title=${params.name}&packageType=${params.packageType as number}&packageStatus=${params.packageStatus as number}` );
           const data = result.data as PagedResult<GetPackagesResponseDto>;
         return data;
       }
