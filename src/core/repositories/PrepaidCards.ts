@@ -47,10 +47,8 @@ class PrepaidCardsService {
   }
   public static async togglePrepaidCardStatus(itemId: string, state: boolean) {
     return await ApiService.put<ApiResponse<PrepaidCard>>(
-      `${AppConstants.PREPAID_CARDS_URL}/Activation/${itemId}`,
-      {
-        activeState: state,
-      }
+      `${AppConstants.PREPAID_CARDS_URL}/Activation/${itemId}?activeState=${state}`,
+      {}
     );
   }
   public static async createPrepaidCard(data: NewPrepaidCard) {
