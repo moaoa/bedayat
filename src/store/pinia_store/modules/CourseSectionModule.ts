@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
-import { CourseSection, NewCourseSectionData } from "@/types/CourseSection";
+import {
+  CourseSectionSchema,
+  NewCourseSectionData,
+  CourseSection,
+} from "@/types/CourseSection";
 
 import courseSectionService from "@/core/repositories/CourseSectionsService";
 import { useLocalStorage } from "@vueuse/core";
