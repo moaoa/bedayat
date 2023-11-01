@@ -27,7 +27,7 @@ export type NewCourseSectionData = {
 };
 
 export const ResponseSchema = object({
-  data: array(CourseSectionSchema),
+  data: nullable(array(CourseSectionSchema)),
   isSuccess: boolean(),
   message: nullable(string()),
   statusCode: string(),
