@@ -89,6 +89,8 @@ export const useSubscriptionStore = defineStore({
     },
     async updateItem(newValues: NewSubscriptionData) {
       this.isUpdatingItem = true;
+
+      this.isCreatingNewItem = true;
       try {
         if (!this.selectedSubscription) {
           throw Error("no selected course");
@@ -108,15 +110,16 @@ export const useSubscriptionStore = defineStore({
           ...(this.selectedSubscription as Subscription),
           ...newValues,
         };
-        this.isUpdatingItem = false;
         this.unselectSubscription();
         await router.push({
           name:"Subscriptions"
         })
-
       } catch (error) {
-        this.isUpdatingItem = false;
         console.log(error);
+      }finally {
+
+        this.isUpdatingItem = false;
+        this.isCreatingNewItem = false;
       }
     },
     async deleteItem() {
@@ -139,7 +142,7 @@ export const useSubscriptionStore = defineStore({
           (item) => item.id !== this.selectedSubscription?.id
         );
         this.unselectSubscription();
-        Toaster.Success(t("success"), t("deletedItem"));
+        Toaster.Success("success", "deletedItem");
       } catch (error) {
         console.log(error);
       } finally {

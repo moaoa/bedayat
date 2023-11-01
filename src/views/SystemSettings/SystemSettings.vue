@@ -162,7 +162,7 @@
                   </el-table-column>
 
 
-                  <el-table-column prop="period" :label="$t('period')" width="100" align="center" header-align="center" />
+                  <el-table-column prop="period" :label="$t('periodInDays')" width="100" align="center" header-align="center" />
                   <el-table-column prop="createdAt" :formatter="formatter('createdAt')" :label="$t('createdDate')"
                     width="150" align="center" header-align="center" />
                   <el-table-column prop="lastUpdated" :formatter="formatter('lastUpdated')" :label="$t('updatedDate')"
@@ -177,9 +177,6 @@
                         >
                           <i class="bi bi-pencil"></i>
                         </a>
-
-
-
                     </template>
                   </el-table-column>
                   <el-table-column :label="$t('delete')" width="150" align="center" header-align="center">

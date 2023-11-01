@@ -21,7 +21,6 @@ export const useTermsAndPrivacyStore = defineStore({
         
         const data = await TermsAndPrivacyService.getTermsAndPrivacy();
 
-        
         if (!data.isSuccess) {
           Toaster.Success(data.message ?? "failed to get data");
         }

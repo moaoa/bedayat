@@ -17,9 +17,33 @@ const DocMenuConfig = [
     ],
   },
   {
-    heading: "other",
+    heading: "sections",
     route: "/reprots",
     pages: [
+
+      {
+        sectionTitle: "contentManagement",
+        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        fontIcon: "bi-sticky",
+        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+        sub: [
+          // todo: need packages permission
+          {
+            heading: "packages",
+            route: "/dashboard/packages",
+            svgIcon: "/media/svg/bug.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+          },
+          {
+            heading: "courses",
+            route: "/dashboard/Courses",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.ReadCourses,
+          },
+        ],
+      },
       {
         sectionTitle: "usersManagement",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
@@ -43,7 +67,7 @@ const DocMenuConfig = [
         ],
       },
       {
-        sectionTitle: "grades",
+        sectionTitle: "gradesManagement",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadGrades,
@@ -64,21 +88,7 @@ const DocMenuConfig = [
           },
         ],
       },
-      {
-        // todo: need packages permission
-        heading: "packages",
-        route: "/dashboard/packages",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
-        fontIcon: "bi-layers",
-        requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-      },
-      {
-        heading: "courses",
-        route: "/dashboard/Courses",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
-        fontIcon: "bi-layers",
-        requiredPermission: AppConstants.PERMISSIONS.ReadCourses,
-      },
+
       {
         sectionTitle: "citiesAndCountries",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
@@ -136,7 +146,7 @@ const DocMenuConfig = [
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
       {
-        sectionTitle: "cards",
+        sectionTitle: "cardsManagement",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
@@ -157,21 +167,7 @@ const DocMenuConfig = [
           },
         ],
       },
-      {
-        sectionTitle: "packages",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
-        fontIcon: "bi-sticky",
-        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
-        sub: [
-          {
-            heading: "packages",
-            route: "/dashboard/packages",
-            svgIcon: "/media/svg/bug.svg",
-            fontIcon: "bi-layers",
-            requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-          },
-        ],
-      },
+
       {
         // todo: need promotion permission
         heading: "promotions",
@@ -180,34 +176,13 @@ const DocMenuConfig = [
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
-      // {
-      //   sectionTitle: "packages",
-      //   svgIcon: "/media/icons/duotune/general/gen019.svg",
-      //   fontIcon: "bi-sticky",
-      //   requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
-      //   sub: [
-      //     {
-      //       heading: "packages",
-      //       route: "/dashboard/packages",
-      //       svgIcon: "/media/svg/bug.svg",
-      //       fontIcon: "bi-layers",
-      //       requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-      //     }
-      //   ],
-      // },
+
       {
         sectionTitle: "reports",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
         sub: [
-          // {
-          //   heading: "MostPurchasedCourses",
-          //   route: "/dashboard/Reports/MostPurchasedCourses",
-          //   svgIcon: "/media/icons/duotune/general/gen019.svg",
-          //   fontIcon: "bi-layers",
-          //   requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
-          // },
           {
             heading: "purchasedPackagesByUser",
             route: "/dashboard/Reports/PurchasedPackagesByUser",

@@ -5,7 +5,7 @@
     <!--begin::Header-->
     <div class="card-header border-0">
       <h3 class="card-title fw-bolder text-dark">
-        {{ $t("PurchasedPackagesWithCount") }}
+        {{ $t("purchasedPackagesWithCount") }}
       </h3>
 
       <div class="card-toolbar">

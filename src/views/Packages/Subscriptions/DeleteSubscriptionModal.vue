@@ -23,7 +23,6 @@
         <div class="modal-body py-10 px-lg-17">
           <h3>{{ t("areYouSure") }}</h3>
         </div>
-        {{subscriptionStore.selectedSubscription}}
         <!--end::Modal body-->
 
         <!--begin::Modal footer-->

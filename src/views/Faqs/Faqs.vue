@@ -138,14 +138,17 @@
 
       <br />
       <!-- start::pagination -->
-      <el-pagination
-        v-if="!faqsStore.dataIsLoading && !faqsStore.errorLoadingData"
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="faqsStore.total"
+<!--      <el-pagination-->
+<!--        v-if="!faqsStore.dataIsLoading && !faqsStore.errorLoadingData"-->
+<!--        background-->
+<!--        layout="total, sizes, prev, pager, next, jumper"-->
+<!--        :total="faqsStore.total"-->
 
-        :page-sizes="[25, 100, 200, 300, 400]"
-      />
+<!--        :page-sizes="[25, 100, 200, 300, 400]"-->
+<!--      />-->
+
+
+
       <!--      current-page="{{currentPage}}"-->
       <!--      page-size="{{currentSize}}"-->
       <!--      pager-count="{{pageCount}}"-->
