@@ -1,7 +1,15 @@
-import { Lesson, NewLessonData, LessonAttachment } from "@/types/Lessons";
+import {
+  Lesson,
+  NewLessonData,
+  LessonAttachment,
+  Response,
+  ResponseSchema,
+} from "@/types/Lessons";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
 import ApiService from "@/core/services/ApiService";
+import { nullType, number, safeParse } from "valibot";
+import { red } from "console-log-colors";
 
 class LessonsService {
   public static async getAttachmentLinkById(attachmentId: string) {
@@ -11,10 +19,15 @@ class LessonsService {
     return res.data.data;
   }
   public static async getLessons(sectionId: string) {
-    const res = await ApiService.get<ApiResponse<Lesson[]>>(
+    const res = await ApiService.get<Response>(
       `${AppConstants.lESSONS_URL}/LessonsBySectionId/${sectionId}`
     );
-    return res.data.data;
+
+    const validation = safeParse(ResponseSchema, res.data);
+    if (validation.success === false) {
+      console.log(red("issues: "), validation.issues);
+    }
+    return res.data.results;
   }
   public static async deleteLesson(lessonId: string) {
     return await ApiService.delete<ApiResponse<unknown>>(
@@ -40,7 +53,7 @@ class LessonsService {
   public static async createNewLesson(sectionId: string, data: NewLessonData) {
     return await ApiService.post<ApiResponse<Lesson>>(
       `${AppConstants.lESSONS_URL}/AddLesson/${sectionId}`,
-      //TODO: swtich this to an object
+      //TODO: when the backend swtich this to an object you need to switch as well
       [data] // 👈
     );
   }

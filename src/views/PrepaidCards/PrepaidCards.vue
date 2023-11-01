@@ -165,19 +165,6 @@
         />
 
         <el-table-column
-          prop="createdAt"
-          :label="$t('createdAt')"
-          width="150"
-          :formatter="formatter('createdAt')"
-        />
-        <el-table-column
-          prop="lastUpdated"
-          :label="$t('lastUpdated')"
-          width="150"
-          :formatter="formatter('lastUpdated')"
-        />
-
-        <el-table-column
           :label="$t('status')"
           width="90"
           align="center"
@@ -265,6 +252,7 @@ import CrossIcon from "@/components/icons/CrossIcon.vue";
 import ReportIcon from "@/components/icons/ReportIcon.vue";
 import Toaster from "@/core/services/Toaster";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import { watchDebounced } from "@vueuse/core";
 
 const { t } = useI18n();
 const prepaidCardsStore = usePrepaidCardsStore();
@@ -298,4 +286,12 @@ const handleToggleUser = async (prepaidCard: PrepaidCard) => {
 };
 
 setCurrentPageBreadcrumbs(t("prepaidCards"), [t("prepaidCards")]);
+
+watchDebounced(
+  filters,
+  () => {
+    prepaidCardsStore.loadPrepaidCards(filters);
+  },
+  { debounce: 500 }
+);
 </script>

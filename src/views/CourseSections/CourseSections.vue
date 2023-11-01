@@ -81,22 +81,6 @@
             {{ mapIndexToSectionLabel(scope.row.gradeTypeIndex) }}
           </template>
         </el-table-column>
-        <el-table-column
-          prop="createdAt"
-          :label="$t('createdAt')"
-          width="150"
-          align="center"
-          header-align="center"
-          :formatter="formatter('createdAt')"
-        />
-        <el-table-column
-          prop="lastUpdated"
-          :label="$t('lastUpdated')"
-          width="150"
-          align="center"
-          header-align="center"
-          :formatter="formatter('lastUpdated')"
-        />
 
         <el-table-column
           :label="$t('lessons')"

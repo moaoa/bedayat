@@ -90,7 +90,10 @@
         <div>
           <lable class="d-flex flex-column">
             {{ $t("checkExpiryDate") }}
-            <el-switch v-model="filters.checkExpiryDate" style="width: 300px">
+            <el-switch
+              v-model="filters.checkExpiryDate"
+              style="width: 300px; mt-4"
+            >
             </el-switch>
           </lable>
         </div>

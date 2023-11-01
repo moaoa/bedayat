@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
-import { Lesson, LessonAttachment, NewLessonData } from "@/types/Lessons";
+import {
+  LessonSchema,
+  LessonAttachment,
+  NewLessonData,
+  Lesson,
+} from "@/types/Lessons";
 
 import lessonService from "@/core/repositories/LessonsService";
 import { useLocalStorage } from "@vueuse/core";
@@ -55,7 +60,7 @@ export const useLessonsStore = defineStore({
       try {
         const items = await lessonService.getLessons(courseId);
 
-        this.lessons = items;
+        this.lessons = items ?? [];
       } catch (e) {
         console.log((e as Error).message);
       } finally {
