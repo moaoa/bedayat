@@ -81,7 +81,7 @@
               <div class="fv-row mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("gradeType") }}
+                  {{ $t("forPreview") }}
                 </label>
                 <!--end::Label-->
 

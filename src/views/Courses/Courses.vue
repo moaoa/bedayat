@@ -193,18 +193,6 @@
           width="170"
           align="center"
         />
-        <el-table-column
-          prop="createdAt"
-          :label="$t('createdAt')"
-          width="150"
-          :formatter="formatter('createdAt')"
-        />
-        <el-table-column
-          prop="lastUpdated"
-          :label="$t('lastUpdated')"
-          width="150"
-          :formatter="formatter('lastUpdated')"
-        />
         <el-table-column :label="$t('sections')" width="120" align="center">
           <template #default="scope: { row: Course, $index: number }">
             <router-link
