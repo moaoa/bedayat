@@ -230,7 +230,7 @@ const DocMenuConfig = [
     ],
   },
   {
-    heading: "craft",
+      heading: "session",
     route: "/crafted",
     pages: [
       {
@@ -278,42 +278,42 @@ const DocMenuConfig = [
           },
         ],
       },
-      {
-        sectionTitle: "modals",
-        route: "/modals",
-        svgIcon: "/media/icons/duotune/art/art009.svg",
-        fontIcon: "bi-shield-check",
-        requiredPermission: AppConstants.PERMISSIONS.None,
-        sub: [
-          {
-            sectionTitle: "forms",
-            route: "/forms",
-            requiredPermission: AppConstants.PERMISSIONS.None,
-            sub: [
-              {
-                heading: "newTarget",
-                route: "/crafted/modals/forms/new-target",
-                requiredPermission: AppConstants.PERMISSIONS.None,
-              },
-              {
-                heading: "newCard",
-                route: "/crafted/modals/forms/new-card",
-                requiredPermission: AppConstants.PERMISSIONS.None,
-              },
-              {
-                heading: "newAddress",
-                route: "/crafted/modals/forms/new-address",
-                requiredPermission: AppConstants.PERMISSIONS.None,
-              },
-              {
-                heading: "createAPIKey",
-                route: "/crafted/modals/forms/create-api-key",
-                requiredPermission: AppConstants.PERMISSIONS.None,
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   sectionTitle: "modals",
+      //   route: "/modals",
+      //   svgIcon: "/media/icons/duotune/art/art009.svg",
+      //   fontIcon: "bi-shield-check",
+      //   requiredPermission: AppConstants.PERMISSIONS.None,
+      //   sub: [
+      //     {
+      //       sectionTitle: "forms",
+      //       route: "/forms",
+      //       requiredPermission: AppConstants.PERMISSIONS.None,
+      //       sub: [
+      //         {
+      //           heading: "newTarget",
+      //           route: "/crafted/modals/forms/new-target",
+      //           requiredPermission: AppConstants.PERMISSIONS.None,
+      //         },
+      //         {
+      //           heading: "newCard",
+      //           route: "/crafted/modals/forms/new-card",
+      //           requiredPermission: AppConstants.PERMISSIONS.None,
+      //         },
+      //         {
+      //           heading: "newAddress",
+      //           route: "/crafted/modals/forms/new-address",
+      //           requiredPermission: AppConstants.PERMISSIONS.None,
+      //         },
+      //         {
+      //           heading: "createAPIKey",
+      //           route: "/crafted/modals/forms/create-api-key",
+      //           requiredPermission: AppConstants.PERMISSIONS.None,
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
   },
 ];

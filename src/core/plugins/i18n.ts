@@ -540,7 +540,7 @@ const messages = {
     confirmDelete: "هل أنت متأكد من حذف بيانات {field}",
     dashboard: "Générateur de mise",
     layoutBuilder: "التخطيط",
-    craft: "Fabriqué",
+    session: "الجلسة",
     pages: "Pages",
     profile: "Profil",
     profileOverview: "Aperçu",

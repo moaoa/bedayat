@@ -79,7 +79,7 @@
       <div class="row">
         <div v-loading="coursesStore.dataIsLoading">
 
-          <el-table class="table-responsive" max-width :data="packagesTable">
+          <el-table class="table-responsive" width="100%"    :data="packagesTable">
             >
             <el-table-column width="50" index="scope.$index" :label="t('noNumber')" align="center" header-align="center">
               <template #default="scope">
@@ -101,24 +101,26 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="name" :label="$t('arabicName')" align="center" header-align="center">
+            <el-table-column prop="name" :label="$t('arabicName')" width="150" align="center" header-align="center">
               <template #default="scope">
-                <b> {{ scope.row.title }}</b>
+
+                <ClippedText :text="scope.row.title" length="20" />
+
               </template>
             </el-table-column>
-            <el-table-column prop="englishName" :label="$t('englishName')" align="center" header-align="center">
+            <el-table-column prop="englishName" :label="$t('englishName')" width="150"  align="center" header-align="center">
               <template #default="scope">
-                <b> {{ scope.row.englishTitle }}</b>
+                <ClippedText :text="scope.row.englishTitle" length="20" />
               </template>
             </el-table-column>
 
-            <el-table-column prop="name" :label="$t('coursesCount')" align="center" header-align="center">
+            <el-table-column prop="name" :label="$t('coursesCount')" width="150"  align="center" header-align="center">
               <template #default="scope">
                 <b> {{ scope.row.coursesCount }}</b>
               </template>
             </el-table-column>
 
-            <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')"
+            <el-table-column prop="createdAt" :label="$t('createdAt')" width="120"  :formatter="formatter('createdAt')"
                              align="center"
                              header-align="center"/>
 
@@ -146,7 +148,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column :label="$t('purchases')" align="center" header-align="center">
+            <el-table-column :label="$t('purchases')" width="100"  align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
                 <RouterLink
                     :to="{
@@ -165,7 +167,7 @@
               </template>
 
             </el-table-column>
-            <el-table-column :label="$t('subscriptions')" align="center" header-align="center">
+            <el-table-column :label="$t('subscriptions')" width="110"   align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
                 <RouterLink
                     @click="()=>{coursesStore.selectPackage(scope.row); coursesStore.selectedGradeId= searchFilter.gradeId}"
@@ -186,7 +188,7 @@
             </el-table-column>
             
 
-            <el-table-column :label="$t('edit')" align="center" header-align="center">
+            <el-table-column :label="$t('edit')" width="110" align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
                 <RouterLink
                     @click="()=>{ coursesStore.selectPackage(scope.row); coursesStore.selectedGradeId= searchFilter.gradeId}"
@@ -206,7 +208,7 @@
 
             </el-table-column>
 
-            <el-table-column :label="$t('remove')" width="90" align="center" header-align="center">
+            <el-table-column :label="$t('remove')" width="110" align="center" header-align="center">
               <template #default="scope: { row: GetPackagesResponseDto, $index: number }">
                 <div class="flex">
                   <a class="btn btn-icon btn-light-danger btn-sm" data-bs-toggle="modal"
@@ -255,6 +257,7 @@ import DeletePackage from "@/views/Packages/DeletePackage.vue";
 import {ErrorMessage, Field} from "vee-validate";
 import {AppConstants} from "@/core/constants/ApplicationsConstants";
 import {FaqCategory} from "@/types/Faq";
+import ClippedText from "@/components/ClippedText.vue";
 
 
 ////////// Declarations///////////////////
