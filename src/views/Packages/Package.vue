@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-4 col-lg-3 col-7">
           <label class="fs-6 fw-bold mb-2">
-            {{ $t("packageType") }}
+            {{ $t("packageStatus") }}
           </label>
           <el-select v-model="searchFilter.packageStatus" clearable filterable>
             <el-option v-for="packageStatus in ['all', ...Object.values(PackageStatus).slice(0,Object.values(PackageStatus).length/2 )]" :key="packageStatus" :value="packageStatus == 'all' ? null : PackageStatus[packageStatus]"
@@ -168,7 +168,7 @@
             <el-table-column :label="$t('subscriptions')" align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">
                 <RouterLink
-                    @click="()=>{ coursesStore.selectPackage(scope.row); coursesStore.selectedGradeId= searchFilter.gradeId}"
+                    @click="()=>{coursesStore.selectPackage(scope.row); coursesStore.selectedGradeId= searchFilter.gradeId}"
                     :to="{
                   name: 'Subscriptions',
                   params: { id: scope.row.id },
@@ -184,6 +184,7 @@
               </template>
 
             </el-table-column>
+            
 
             <el-table-column :label="$t('edit')" align="center" header-align="center">
               <template v-slot="scope: { row: GetPackagesResponseDto, $index: number }">

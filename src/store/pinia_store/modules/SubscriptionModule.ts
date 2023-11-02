@@ -112,7 +112,8 @@ export const useSubscriptionStore = defineStore({
         };
         this.unselectSubscription();
         await router.push({
-          name:"Subscriptions"
+          name:"Subscriptions",
+          params: { id: this.selectedPackage.id  },
         })
       } catch (error) {
         console.log(error);

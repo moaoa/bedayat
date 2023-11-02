@@ -134,7 +134,7 @@
         :data="coursesTable"
         style="width: 100%"
         class="mt-8"
-        height="250"
+        height="400"
       >
         <el-table-column
           index="scope.$index"

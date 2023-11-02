@@ -12,7 +12,7 @@ class PackagesService {
 
     public static async getPackages(params : PackageFilter):Promise<PagedResult<GetPackagesResponseDto>> {
         const result =  await ApiService.query(
-          `${AppConstants.COURSES_URL}/GetPackagesByGradeAndName/${params.gradeId}`,
+          `${AppConstants.Packages_URL}s/GetPackagesByGradeAndName/${params.gradeId}`,
             {
                 params: {
                     name: params.name,

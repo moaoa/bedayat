@@ -349,9 +349,23 @@ const messages = {
     gradesManagement:"Grades Management",
 
     cardsManagement: "Prepaid Cards Management",
+    addSubscription:"Add Subscription",
   },
+
+
+
+
+
+
+
+
+
+
+
+
   ar: {
     gradesManagement:"إدارة الفصول و المواد",
+    addSubscription:"إضافة إشتراك",
 
     contentManagement:"إدارة المحتوى",
     subscriptions:"الإشتراكات",

@@ -305,17 +305,50 @@ const formData = reactive<NewSubscriptionData>({
 });
 
 const rules = ref<Record<keyof NewSubscriptionData, object[]>>({
-  details: [{ required: true, message: t("required"), trigger: "blur" }],
-  discount: [],
-  englishDetails: [],
-  englishSubTitle: [],
-  fakePrice: [],
-  packageId: [], price: [], subTitle: [],
-  subscriptionSettingId: [],
-  englishTitle: [{ required: true, message: t("required"), trigger: "blur" }],
-  title: [{ required: true, message: t("required"), trigger: "blur" }]
-});
+  title: [    {
+    required: true,
+    pattern:  /^[ء-ي\s]+$/,
+    message: t("nameMustBeArabic"),
+    trigger: ["blur", "change"],
+  }],
+  details: [    {
+    required: true,
+    pattern:  /^[ء-ي\s]+$/,
+    message: t("nameMustBeArabic"),
+    trigger: ["blur", "change"],
+  }],
+  subTitle: [    {
+    required: true,
+    pattern:  /^[ء-ي\s]+$/,
+    message: t("nameMustBeArabic"),
+    trigger: ["blur", "change"],
+  }],
 
+  englishDetails: [    {
+    required: true,
+    pattern: /^[A-Za-z\s]+$/,
+    message: t("nameMustBeEnglish"),
+    trigger: ["blur", "change"],
+  }],
+  englishSubTitle: [    {
+    required: true,
+    pattern: /^[A-Za-z\s]+$/,
+    message: t("nameMustBeEnglish"),
+    trigger: ["blur", "change"],
+  }],
+  englishTitle: [    {
+    required: true,
+    pattern: /^[A-Za-z\s]+$/,
+    message: t("nameMustBeEnglish"),
+    trigger: ["blur", "change"],
+  }],
+
+  packageId: [{ required: true, message: t("required"), trigger: "blur" }],
+  fakePrice: [{ required: true, message: t("required"), trigger: "blur" }],
+  subscriptionSettingId: [{ required: true, message: t("required"), trigger: "blur" }],
+  price: [{ required: true, message: t("required"), trigger: "blur" }],
+  discount: [{ required: true, message: t("required"), trigger: "blur" }],
+});
 const submit = () => {
   if (!formRef.value) {
     return;
