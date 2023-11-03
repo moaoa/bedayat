@@ -20,7 +20,6 @@ const DocMenuConfig = [
     heading: "sections",
     route: "/reprots",
     pages: [
-
       {
         sectionTitle: "contentManagement",
         svgIcon: "/media/icons/duotune/general/gen019.svg",
@@ -46,7 +45,7 @@ const DocMenuConfig = [
       },
       {
         sectionTitle: "usersManagement",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        svgIcon: "/media/icons/duotune/general/user.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadUsers,
         sub: [
@@ -68,7 +67,7 @@ const DocMenuConfig = [
       },
       {
         sectionTitle: "gradesManagement",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        svgIcon: "/media/icons/duotune/general/lesson.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadGrades,
         sub: [
@@ -91,7 +90,7 @@ const DocMenuConfig = [
 
       {
         sectionTitle: "citiesAndCountries",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        svgIcon: "/media/icons/duotune/general/location.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadCountries,
         sub: [
@@ -120,14 +119,14 @@ const DocMenuConfig = [
       {
         heading: "systemSettings",
         route: "/dashboard/systemSettings",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        svgIcon: "/media/icons/duotune/general/settings.svg",
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadSystemSettings,
       },
       {
         heading: "termsAndPrivacy",
         route: "/dashboard/termsAndPrivacy",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        svgIcon: "/media/icons/duotune/general/privacy.svg",
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
       },
@@ -141,13 +140,13 @@ const DocMenuConfig = [
       {
         heading: "faqs",
         route: "/dashboard/faqs",
-        svgIcon: "/media/svg/bug.svg",
+        svgIcon: "/media/icons/duotune/general/question.svg",
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
       {
         sectionTitle: "cardsManagement",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        svgIcon: "/media/svg/brand-logos/mastercard-icon.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadPrepaidCards,
         sub: [
@@ -172,14 +171,14 @@ const DocMenuConfig = [
         // todo: need promotion permission
         heading: "promotions",
         route: "/dashboard/promotions",
-        svgIcon: "/media/svg/bug.svg",
+        svgIcon: "/media/icons/duotune/general/speaker.svg",
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
 
       {
         sectionTitle: "reports",
-        svgIcon: "/media/icons/duotune/general/gen019.svg",
+        svgIcon: "/media/icons/duotune/general/reportsIcon.svg",
         fontIcon: "bi-sticky",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
         sub: [
@@ -230,7 +229,7 @@ const DocMenuConfig = [
     ],
   },
   {
-      heading: "session",
+    heading: "session",
     route: "/crafted",
     pages: [
       {
