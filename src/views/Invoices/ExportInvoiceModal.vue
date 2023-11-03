@@ -120,9 +120,7 @@ import { reactive, ref, onMounted, computed } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { usePrepaidCardsStore } from "@/store/pinia_store/modules/PrepaidCardsModule";
 import { useI18n } from "vue-i18n";
-import { NewPrepaidCard } from "@/types/PrepaidCards";
 import Toaster from "@/core/services/Toaster";
-import router from "@/router";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { NewInvoice } from "@/types/Invoices";
 

@@ -61,4 +61,6 @@ onChange((files) => {
   }
   emit("change", files?.[0] ?? null);
 });
+
+defineExpose({ reset, fileName, open });
 </script>

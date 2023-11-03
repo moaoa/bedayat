@@ -21,281 +21,377 @@
           </div>
           <!--end::Close-->
         </div>
-        <div class="modal-body py-10 px-lg-17">
-          <div
-            class="scroll-y me-n7 pe-7"
-            id="kt_modal_add_customer_scroll"
-            data-kt-scroll="true"
-            data-kt-scroll-activate="{default: false, lg: true}"
-            data-kt-scroll-max-height="auto"
-            data-kt-scroll-dependencies="#kt_modal_add_customer_header"
-            data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
-            data-kt-scroll-offset="300px"
-          >
-            <div class="">
-              <div class="fv-row mb-7 col-md-6">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("previewImage") }}
-                </label>
-                <!--end::Label-->
-
-                <!--begin::Input-->
-                <FileInput
-                  v-if="!lessonsStore.getImageAttachmentForSelectedLesson"
-                  @change="handleImageChange"
-                  :accept="'all'"
+        <el-form
+          @submit.prevent="submit()"
+          :model="attachmentData"
+          :rules="rules"
+          ref="formRef"
+        >
+          <div class="modal-body py-10 px-lg-17">
+            <div
+              class="scroll-y me-n7 pe-7"
+              id="kt_modal_add_customer_scroll"
+              data-kt-scroll="true"
+              data-kt-scroll-activate="{default: false, lg: true}"
+              data-kt-scroll-max-height="auto"
+              data-kt-scroll-dependencies="#kt_modal_add_customer_header"
+              data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
+              data-kt-scroll-offset="300px"
+            >
+              <div class="row">
+                <!-- begin: preview image -->
+                <div
+                  class="fv-row mb-7 col-md-4"
+                  v-if="lessonsStore.getImageAttachmentForSelectedLesson"
                 >
-                  <template #default="scope">
-                    <div class="d-flex align-items-center gap-4">
-                      <AttachmentIcon
-                        class="cursor-pointer"
-                        @click.stop="scope.open()"
-                      />
-                      <input
-                        :value="scope.fileName"
-                        readonly
-                        type="text"
-                        class="form-control"
-                        :placeholder="$t('previewImage')"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                        style="width: 150px"
-                      />
-                      <div
-                        v-if="scope.fileName"
-                        class="d-flex align-items-center gap-2"
-                      >
-                        <a
-                          class="btn btn-icon btn-light-danger btn-sm"
-                          @click="scope.reset"
-                        >
-                          <i class="bi bi-trash"></i>
-                        </a>
-                        <button
-                          v-if="!loading"
-                          class="btn btn-success"
-                          @click="handleUploadImage"
-                        >
-                          {{ $t("save") }}
-                          <span class="indicator-label">
-                            <span class="svg-icon svg-icon-3 ms-2 me-0">
-                              <inline-svg
-                                src="icons/duotune/arrows/arr064.svg"
-                              />
-                            </span>
-                          </span>
-                        </button>
+                  <!--begin::Label-->
+                  <label class="fs-6 fw-bold mb-2">
+                    {{ $t("previewImage") }}
+                  </label>
+                  <!--end::Label-->
 
-                        <span v-if="loading" class="indicator-progress">
-                          {{ $t("pleaseWait") }}...
-
-                          <span
-                            class="spinner-border spinner-border-sm align-middle ms-2"
-                          ></span>
-                        </span>
-                      </div>
-                    </div>
-                  </template>
-                </FileInput>
-                <div v-else>
-                  <span
-                    @click="
-                      lessonsStore.getAttachmentLinkById(
-                        lessonsStore.getImageAttachmentForSelectedLesson.id
-                      )
-                    "
+                  <div
+                    class="d-flex align-items-center justify-content-center gap-1"
                   >
-                    {{ lessonsStore.getImageAttachmentForSelectedLesson?.name }}
-                  </span>
-                  <span
-                    class="btn btn-danger"
-                    @click="
-                      lessonsStore.removeAttachmentFromLesson(
-                        lessonsStore.getImageAttachmentForSelectedLesson.id
-                      )
-                    "
-                  >
-                    {{ $t("delete") }}
-                  </span>
-                </div>
-
-                <!--end::Input-->
-              </div>
-              <div class="fv-row mb-7 col-md-6">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("lessonVideo") }}
-                </label>
-                <!--end::Label-->
-
-                <!--begin::Input-->
-                <FileInput
-                  v-if="!lessonsStore.getVideoAttachmentForSelectedLesson"
-                  @change="handleCotentFileChange"
-                  :accept="'video'"
-                >
-                  <template #default="scope">
-                    <div class="d-flex align-items-center gap-4">
-                      <AttachmentIcon
-                        class="cursor-pointer"
-                        @click.stop="scope.open()"
-                      />
-                      <input
-                        :value="scope.fileName"
-                        readonly
-                        type="text"
-                        class="form-control"
-                        :placeholder="$t('lessonVideo')"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                        style="width: 150px"
-                      />
-
-                      <div
-                        v-if="scope.fileName"
-                        class="d-flex align-items-center gap-2"
-                      >
-                        <a
-                          class="btn btn-icon btn-light-danger btn-sm"
-                          @click="scope.reset"
-                        >
-                          <i class="bi bi-trash"></i>
-                        </a>
-                        <button
-                          v-if="!loading"
-                          class="btn btn-success"
-                          @click="handleUploadContent"
-                        >
-                          {{ $t("save") }}
-                          <span class="indicator-label">
-                            <span class="svg-icon svg-icon-3 ms-2 me-0">
-                              <inline-svg
-                                src="icons/duotune/arrows/arr064.svg"
-                              />
-                            </span>
-                          </span>
-                        </button>
-
-                        <span v-if="loading" class="indicator-progress">
-                          {{ $t("pleaseWait") }}...
-
-                          <span
-                            class="spinner-border spinner-border-sm align-middle ms-2"
-                          ></span>
-                        </span>
-                      </div>
-                    </div>
-                  </template>
-                </FileInput>
-                <div v-else>
-                  <span
-                    class="mr-2"
-                    @click="
-                      lessonsStore.getAttachmentLinkById(
-                        lessonsStore.getVideoAttachmentForSelectedLesson!.id
-                      )
-                    "
-                  >
-                    {{ lessonsStore.getVideoAttachmentForSelectedLesson?.name }}
-                  </span>
-                  <span
-                    class="btn btn-danger"
-                    @click="
-                      lessonsStore.removeAttachmentFromLesson(
-                        lessonsStore.getVideoAttachmentForSelectedLesson.id
-                      )
-                    "
-                  >
-                    {{ $t("delete") }}
-                  </span>
-                </div>
-
-                <!--end::Input-->
-              </div>
-
-              <div class="fv-row mb-7 col-md-6">
-                <!--begin::Label-->
-                <label class="fs-6 fw-bold mb-2">
-                  {{ $t("additionalContent") }}
-                </label>
-                <!--end::Label-->
-
-                <!--begin::Input-->
-                <FileInput
-                  @change="handleAdditionalContentChange"
-                  :accept="'pdf'"
-                  v-if="!lessonsStore.getFileAttachmentForSelectedLesson"
-                >
-                  <template #default="scope">
-                    <div class="d-flex align-items-center gap-4">
-                      <AttachmentIcon
-                        class="cursor-pointer"
-                        @click.stop="scope.open()"
-                      />
-                      <input
-                        :value="scope.fileName"
-                        readonly
-                        type="text"
-                        class="form-control"
-                        :placeholder="$t('additionalContent')"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                        style="width: 150px"
-                      />
-
-                      <a
-                        v-if="scope.fileName"
-                        class="btn btn-icon btn-light-danger btn-sm"
-                        @click="scope.reset"
-                      >
+                    <span
+                      class="cursor-pointer"
+                      @click="
+                        lessonsStore.getAttachmentLinkById(
+                          lessonsStore.getImageAttachmentForSelectedLesson.id!
+                        )
+                      "
+                    >
+                      {{
+                        lessonsStore.getImageAttachmentForSelectedLesson.name
+                      }}
+                      <DownloadFileIcon />
+                    </span>
+                    <span
+                      @click="
+                        lessonsStore.removeAttachmentFromLesson(
+                          lessonsStore.getImageAttachmentForSelectedLesson.id
+                        )
+                      "
+                    >
+                      <a class="btn btn-icon btn-light-danger btn-sm">
                         <i class="bi bi-trash"></i>
                       </a>
-                      <button
-                        v-if="scope.fileName"
-                        class="btn btn-success"
-                        @click="handleUploadAdditionalContent"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </template>
-                </FileInput>
-                <div v-else>
-                  <span
-                    @click="
-                      lessonsStore.getAttachmentLinkById(
-                        lessonsStore.getFileAttachmentForSelectedLesson!.id
-                      )
-                    "
+                    </span>
+                  </div>
+                  <!-- end: preview image -->
+                </div>
+                <!-- end: preview image -->
+
+                <!-- start: lesson content preview -->
+                <div
+                  class="fv-row mb-7 col-md-4"
+                  v-if="lessonsStore.getLessonContentForSelectedLesson"
+                >
+                  <!--begin::Label-->
+                  <label class="fs-6 fw-bold mb-2">
+                    {{ $t("lessonContent") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <div
+                    class="d-flex align-items-center justify-content-center gap-1"
                   >
-                    {{ lessonsStore.getFileAttachmentForSelectedLesson!.name }}
-                  </span>
-                  <span
-                    class="btn btn-danger"
-                    @click="
-                      lessonsStore.removeAttachmentFromLesson(
-                        lessonsStore.getFileAttachmentForSelectedLesson.id
-                      )
-                    "
+                    <span
+                      class="cursor-pointer"
+                      @click="
+                        lessonsStore.getAttachmentLinkById(
+                          lessonsStore.getLessonContentForSelectedLesson.id!
+                        )
+                      "
+                    >
+                      {{ lessonsStore.getLessonContentForSelectedLesson.name }}
+                      <DownloadFileIcon />
+                    </span>
+                    <span
+                      @click="
+                        lessonsStore.removeAttachmentFromLesson(
+                          lessonsStore.getLessonContentForSelectedLesson.id
+                        )
+                      "
+                    >
+                      <a class="btn btn-icon btn-light-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <!-- end: preview image -->
+                </div>
+                <!-- end: lesson content preview -->
+
+                <!-- start: additional content preview -->
+                <div
+                  class="fv-row mb-7 col-md-4"
+                  v-if="
+                    lessonsStore.getAdditionalContentAttachmentForSelectedLesson
+                  "
+                >
+                  <!--begin::Label-->
+                  <label class="fs-6 fw-bold mb-2">
+                    {{ $t("additionalContent") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <div
+                    class="d-flex align-items-center justify-content-center gap-1"
                   >
-                    {{ $t("delete") }}
-                  </span>
+                    <span
+                      @click="
+                        lessonsStore.getAttachmentLinkById(
+                          lessonsStore
+                            .getAdditionalContentAttachmentForSelectedLesson.id!
+                        )
+                      "
+                    >
+                      {{
+                        lessonsStore
+                          .getAdditionalContentAttachmentForSelectedLesson.name
+                      }}
+                      <DownloadFileIcon />
+                    </span>
+                    <span
+                      @click="
+                        lessonsStore.removeAttachmentFromLesson(
+                          lessonsStore
+                            .getAdditionalContentAttachmentForSelectedLesson.id
+                        )
+                      "
+                    >
+                      <a class="btn btn-icon btn-light-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <!-- end: preview image -->
+                </div>
+                <!-- end: additional content preview -->
+              </div>
+              <div class="row">
+                <div class="fv-row mb-7 col-md-6">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("title") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-input-item prop="titleOfUploadedContent">
+                    <input
+                      v-model="attachmentData.titleOfUploadedContent"
+                      type="text"
+                      class="form-control"
+                      :placeholder="$t('title')"
+                      style="width: 150px"
+                    />
+                  </el-input-item>
+                  <!--end::Input-->
+                </div>
+                <div class="fv-row mb-7 col-md-6">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("description") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-input-item prop="description">
+                    <input
+                      v-model="attachmentData.description"
+                      type="text"
+                      class="form-control"
+                      :placeholder="$t('description')"
+                      style="width: 150px"
+                    />
+                  </el-input-item>
+                  <!--end::Input-->
+                </div>
+                <div class="fv-row mb-7 col-md-6">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("fileType") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-input-item prop="selectedTypeOfAttachment">
+                    <el-select
+                      v-model="attachmentData.selectedTypeOfAttachment"
+                      type="text"
+                      :placeholder="$t('previewImageTitle')"
+                      style="width: 150px; display: block"
+                    >
+                      <el-option
+                        :label="$t('previewImage')"
+                        :value="AppConstants.ATTATCHMENT_TYPES.PreviewImage"
+                      />
+                      <el-option
+                        :label="$t('lessonContent')"
+                        :value="AppConstants.ATTATCHMENT_TYPES.LessonContent"
+                      />
+                      <el-option
+                        :label="$t('additinoalContent')"
+                        :value="
+                          AppConstants.ATTATCHMENT_TYPES.AdditionalContent
+                        "
+                      />
+                    </el-select>
+                  </el-input-item>
+                  <!--end::Input-->
+                </div>
+                <div class="fv-row mb-7 col-md-6">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("resolution") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-input-item prop="resolution">
+                    <el-select
+                      v-model="attachmentData.resolution"
+                      type="text"
+                      :placeholder="$t('previewImageTitle')"
+                      style="width: 150px; display: block"
+                    >
+                      <el-option :label="'480'" :value="'480'" />
+                      <el-option :label="'720'" :value="'720'" />
+                      <el-option :label="'1028'" :value="'1028'" />
+                    </el-select>
+                  </el-input-item>
+                  <!--end::Input-->
+                </div>
+                <div class="fv-row mb-7 col-md-6">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("fileType") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-input-item prop="fileMimeType">
+                    <el-select
+                      v-model="attachmentData.fileMimeType"
+                      type="text"
+                      :placeholder="$t('fileType')"
+                      style="width: 150px; display: block"
+                    >
+                      <el-option
+                        :label="'pdf'"
+                        :value="AppConstants.FILE_MIME_TYPES.Pdf"
+                      />
+                      <el-option
+                        :label="'sound'"
+                        :value="AppConstants.FILE_MIME_TYPES.Sound"
+                      />
+                      <el-option
+                        :label="'video'"
+                        :value="AppConstants.FILE_MIME_TYPES.Video"
+                      />
+                      <el-option
+                        :label="'word'"
+                        :value="AppConstants.FILE_MIME_TYPES.Word"
+                      />
+                      <el-option
+                        :label="$t('other')"
+                        :value="AppConstants.FILE_MIME_TYPES.Other"
+                      />
+                    </el-select>
+                  </el-input-item>
+                  <!--end::Input-->
                 </div>
 
-                <!--end::Input-->
+                <div class="fv-row mb-7 col-md-6">
+                  <!--begin::Label-->
+                  <label class="required fs-6 fw-bold mb-2">
+                    {{ $t("file") }}
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-input-item prop="fileMimeType">
+                    <FileInput
+                      @change="handleImageChange"
+                      :accept="'all'"
+                      ref="fileInput"
+                    >
+                      <template #default="scope">
+                        <div class="d-flex align-items-center gap-4">
+                          <el-input
+                            @click.stop="scope.open()"
+                            :value="scope.fileName"
+                            readonly
+                            type="text"
+                            :placeholder="$t('file')"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                            style="width: 150px"
+                          >
+                            <template #suffix>
+                              <AttachmentIcon class="cursor-pointer" />
+                            </template>
+                          </el-input>
+                          <div
+                            v-if="scope.fileName"
+                            class="d-flex align-items-center gap-2"
+                          >
+                            <a
+                              class="btn btn-icon btn-light-danger btn-sm"
+                              @click="scope.reset"
+                            >
+                              <i class="bi bi-trash"></i>
+                            </a>
+
+                            <span v-if="loading" class="indicator-progress">
+                              {{ $t("pleaseWait") }}...
+
+                              <span
+                                class="spinner-border spinner-border-sm align-middle ms-2"
+                              ></span>
+                            </span>
+                          </div>
+                        </div>
+                      </template>
+                    </FileInput>
+                  </el-input-item>
+
+                  <!--end::Input-->
+                </div>
               </div>
             </div>
+            <!--end::Scroll-->
           </div>
-          <!--end::Scroll-->
-        </div>
-        <!--end::Modal body-->
+          <!--end::Modal body-->
 
-        <!--begin::Modal footer-->
-        <div class="modal-footer flex-center">
-          <!--end::Button-->
-        </div>
-        <!--end::Modal footer-->
+          <!--begin::Modal footer-->
+          <div class="modal-footer flex-center">
+            <button
+              :data-kt-indicator="loading ? 'on' : null"
+              class="btn btn-sm btn-primary"
+              type="submit"
+              style="width: 200px"
+            >
+              <span v-if="!loading" class="indicator-label">
+                {{ $t("save") }}
+                <span class="svg-icon svg-icon-3 ms-2 me-0">
+                  <inline-svg src="icons/duotune/arrows/arr064.svg" />
+                </span>
+              </span>
+              <span v-if="loading" class="indicator-progress">
+                {{ $t("pleaseWait") }}...
+
+                <span
+                  class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+            </button>
+            <!--end::Button-->
+          </div>
+          <!--end::Modal footer-->
+        </el-form>
         <!--end::Form-->
       </div>
     </div>
@@ -303,78 +399,131 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { useLessonsStore } from "@/store/pinia_store/modules/LessonsModule";
 import { useI18n } from "vue-i18n";
-import { AttachmentForm } from "@/types/Lessons";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import FileInput from "@/components/FileInput.vue";
 import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
+import DownloadFileIcon from "@/components/icons/DownloadFileIcon.vue";
+import { hideModal } from "@/core/helpers/dom";
 
 const { t } = useI18n();
 
 const lessonsStore = useLessonsStore();
 const modalRef = ref<null | HTMLElement>(null);
+const fileInput = ref<null | HTMLInputElement>(null);
 const loading = computed(() => lessonsStore.isAddingAttachment);
-const formData = reactive<AttachmentForm>({
-  additionalContent: null,
-  content: null,
-  image: null,
+
+interface AttachmentData {
+  selectedTypeOfAttachment: number;
+  fileMimeType: number;
+  fileInput: File | null;
+  titleOfUploadedContent: string;
+  resolution: string;
+  description: string;
+}
+
+const attachmentData: AttachmentData = reactive<AttachmentData>({
+  selectedTypeOfAttachment: AppConstants.ATTATCHMENT_TYPES.PreviewImage,
+  fileMimeType: AppConstants.FILE_MIME_TYPES.Pdf,
+  fileInput: null,
+  titleOfUploadedContent: "",
+  resolution: "480",
+  description: "",
 });
 
 const handleImageChange = (file: File | null) => {
-  formData.image = file;
+  attachmentData.fileInput = file;
 };
 
-const handleCotentFileChange = (file: File | null) => {
-  formData.content = file;
-};
-
-const handleAdditionalContentChange = (file: File | null) => {
-  formData.additionalContent = file;
-};
-
-const handleUploadContent = async () => {
-  if (formData.content === null) {
+const handleUploadFile = async () => {
+  if (attachmentData.fileInput === null) {
     return;
   }
-  lessonsStore.addAttachmentToLesson(
-    formData.content,
-    AppConstants.ATTATCHMENT_TYPES.VideoLesson,
-    formData.content.name,
-    formData.content.size
-  );
+  await lessonsStore.addAttachmentToLesson({
+    attachmentName: attachmentData.fileInput.name,
+    attachmentType: attachmentData.selectedTypeOfAttachment,
+    file: attachmentData.fileInput,
+    mimeType: attachmentData.fileMimeType.toString(),
+    resolution: attachmentData.resolution,
+    size: attachmentData.fileInput.size,
+    title: attachmentData.titleOfUploadedContent,
+  });
 };
 
-const handleUploadImage = () => {
-  if (formData.image === null) {
-    return;
-  }
-  lessonsStore.addAttachmentToLesson(
-    formData.image,
-    AppConstants.ATTATCHMENT_TYPES.PreviewImage,
-    formData.image.name,
-    formData.image.size
-  );
-};
+const formRef = ref<null | HTMLFormElement>(null);
 
-const handleUploadAdditionalContent = () => {
-  if (formData.additionalContent === null) {
+const rules = ref<Record<keyof AttachmentData, object[]>>({
+  description: [
+    {
+      required: true,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  fileInput: [
+    {
+      required: true,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  fileMimeType: [
+    {
+      required: true,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  resolution: [
+    {
+      required: true,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  selectedTypeOfAttachment: [
+    {
+      required: true,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  titleOfUploadedContent: [
+    {
+      required: true,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+});
+
+const submit = () => {
+  if (!formRef.value) {
     return;
   }
-  lessonsStore.addAttachmentToLesson(
-    formData.additionalContent,
-    AppConstants.ATTATCHMENT_TYPES.File,
-    formData.additionalContent.name,
-    formData.additionalContent.size
-  );
+
+  formRef.value.validate(async (valid) => {
+    if (!valid) {
+      return;
+    }
+    await handleUploadFile();
+    hideModal(modalRef.value);
+  });
 };
 
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", () => {
-    formData.image = null;
-    formData.content = null;
-    formData.additionalContent = null;
+    if (
+      fileInput.value &&
+      "reset" in fileInput.value &&
+      typeof fileInput.value.reset === "function"
+    ) {
+      fileInput.value?.reset();
+    }
+    attachmentData.description = "";
+    attachmentData.titleOfUploadedContent = "";
   });
 });
 </script>

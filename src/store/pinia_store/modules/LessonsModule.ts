@@ -11,6 +11,7 @@ import { useLocalStorage } from "@vueuse/core";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import Toaster from "@/core/services/Toaster";
 import i18n from "@/core/plugins/i18n";
+import saveFile from "@/core/helpers/saveFile";
 
 export const useLessonsStore = defineStore({
   id: "lessonsStore",
@@ -34,10 +35,10 @@ export const useLessonsStore = defineStore({
     errorLoadingData: false,
   }),
   getters: {
-    getVideoAttachmentForSelectedLesson(state) {
+    getLessonContentForSelectedLesson(state) {
       return state.selectedLesson?.lessonAttachments?.find(
         (item) =>
-          item.attachmentType === AppConstants.ATTATCHMENT_TYPES.VideoLesson
+          item.attachmentType === AppConstants.ATTATCHMENT_TYPES.LessonContent
       );
     },
     getImageAttachmentForSelectedLesson(state) {
@@ -46,9 +47,13 @@ export const useLessonsStore = defineStore({
           item.attachmentType === AppConstants.ATTATCHMENT_TYPES.PreviewImage
       );
     },
-    getFileAttachmentForSelectedLesson(state): LessonAttachment | undefined {
+    getAdditionalContentAttachmentForSelectedLesson(
+      state
+    ): LessonAttachment | undefined {
       return state.selectedLesson?.lessonAttachments?.find(
-        (item) => item.attachmentType === AppConstants.ATTATCHMENT_TYPES.File
+        (item) =>
+          item.attachmentType ===
+          AppConstants.ATTATCHMENT_TYPES.AdditionalContent
       );
     },
   },
@@ -68,47 +73,42 @@ export const useLessonsStore = defineStore({
       }
     },
     async getAttachmentLinkById(attachmentId: string) {
-      // this.dataIsLoading = true;
       this.errorLoadingData = false;
 
       try {
-        const res = await lessonService.getAttachmentLinkById(attachmentId);
-        const a = document.createElement("a");
-        a.target = "_blank";
-        document.body.appendChild(a);
-        //TODO: get the link from the backend
-        a.href =
-          "https://www.istockphoto.com/photo/close-up-side-view-of-an-orange-luxury-sports-car-gm1468178137-499766569?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fcar&utm_term=car%3A%3A%3A";
-        a.click();
+        const link = await lessonService.getAttachmentLinkById(attachmentId);
+        saveFile(link, "attachment");
       } catch (e) {
         console.log((e as Error).message);
       } finally {
         this.dataIsLoading = false;
       }
     },
-    async addAttachmentToLesson(
-      file: File,
-      attachmentType: number,
-      attachmentName: string,
-      size: number
-    ) {
+    async addAttachmentToLesson(params: {
+      file: File;
+      attachmentType: number;
+      attachmentName: string;
+      mimeType: string;
+      size: number;
+      title: string;
+      resolution: string;
+    }) {
       this.isAddingAttachment = true;
       this.errorLoadingData = false;
 
       try {
-        const items = await lessonService.addAttachmentToLesson(
-          this.selectedLesson!.id!,
-          file,
-          attachmentType,
-          attachmentName,
-          size
-        );
+        const items = await lessonService.addAttachmentToLesson({
+          ...params,
+          lessonId: this.selectedLesson!.id!,
+        });
 
         this.selectedLesson!.lessonAttachments?.push(items.data.data);
 
         Toaster.Success(i18n.global.t("attachmentAddedSuccessfully"));
       } catch (e) {
         console.log((e as Error).message);
+        Toaster.error((e as Error).message);
+        throw e;
       } finally {
         this.isAddingAttachment = false;
       }

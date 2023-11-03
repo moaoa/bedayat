@@ -4,18 +4,23 @@ import {
   LessonAttachment,
   Response,
   ResponseSchema,
+  LessonAttachmentSchema,
 } from "@/types/Lessons";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
 import ApiService from "@/core/services/ApiService";
-import { nullType, number, safeParse } from "valibot";
+import { safeParse, string } from "valibot";
 import { red } from "console-log-colors";
 
 class LessonsService {
   public static async getAttachmentLinkById(attachmentId: string) {
-    const res = await ApiService.get<ApiResponse<Lesson[]>>(
+    const res = await ApiService.get<ApiResponse<string>>(
       `${AppConstants.lESSONS_URL}/GetAttachmentLink/${attachmentId}`
     );
+    const validation = safeParse(string(), res.data.data);
+    if (validation.success === false) {
+      console.log(red("issues: "), validation.issues);
+    }
     return res.data.data;
   }
   public static async getLessons(sectionId: string) {
@@ -57,23 +62,40 @@ class LessonsService {
       [data] // 👈
     );
   }
-  public static async addAttachmentToLesson(
-    lessonId: string,
-    file: File,
-    attachmentType: number,
-    attachmentName: string,
-    size: number
-  ) {
+  public static async addAttachmentToLesson(params: {
+    lessonId: string;
+    file: File;
+    attachmentType: number;
+    attachmentName: string;
+    mimeType: string;
+    size: number;
+    title: string;
+    resolution: string;
+  }) {
     const data = new FormData();
-    data.append("Attachment", file);
-    data.append("AttachmentType", attachmentType.toString());
-    data.append("Name", attachmentName);
-    data.append("Size", size.toString());
+    data.append("Attachment", params.file);
 
-    return await ApiService.post<ApiResponse<LessonAttachment>>(
-      `${AppConstants.lESSONS_URL}/AddAttachmentToLesson/${lessonId}`,
+    const queryParams = new URLSearchParams({
+      name: params.attachmentName,
+      attachmentType: params.attachmentType.toString(),
+      lessonId: params.lessonId,
+      mimeType: params.mimeType,
+      title: params.title,
+      resolution: params.resolution,
+      size: params.size.toString(),
+    }).toString();
+
+    const res = await ApiService.post<ApiResponse<LessonAttachment>>(
+      `${AppConstants.lESSONS_URL}/AddAttachmentToLesson2?${queryParams}`,
       data
     );
+
+    const validation = safeParse(LessonAttachmentSchema, res.data.data);
+    if (validation.success === false) {
+      console.log(red("issues: "), validation.issues);
+    }
+
+    return res;
   }
 }
 

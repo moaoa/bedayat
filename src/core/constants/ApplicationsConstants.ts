@@ -159,8 +159,15 @@ export class AppConstants {
   };
   static ATTATCHMENT_TYPES = {
     PreviewImage: 0,
-    VideoLesson: 1,
-    File: 2,
+    LessonContent: 1,
+    AdditionalContent: 2,
+  };
+  static FILE_MIME_TYPES = {
+    Video: 1,
+    Sound: 2,
+    Pdf: 3,
+    Word: 4,
+    Other: 5,
   };
   static PREPAID_CARD_STATUS = {
     Active: 0,
@@ -177,4 +184,7 @@ export class AppConstants {
     Excel: 1,
     Csv: 2,
   };
+
+  static ARABIC_LETTERS_REGEX =
+    /^[\u0621-\u064A0-9\s\-\_\.\,\!\@\#\$\%\^\&\*\(\)\+\=\{\}\[\]\:\;\"\'\<\>\?\|\\\/]+$/;
 }
