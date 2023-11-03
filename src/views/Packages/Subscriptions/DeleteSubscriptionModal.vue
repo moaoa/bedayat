@@ -1,29 +1,27 @@
 <template>
   <div
     class="modal fade"
-    id="kt_modal_delete_package"
-    ref="deletePacakgeModalRef"
+    id="kt_modal_delete_item"
+    ref="modalRef"
     tabindex="-1"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered mw-550px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("deletePackage") }}</h2>
+          <h2 class="fw-bolder">{{ $t("deleteSubscription") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"
             class="btn btn-icon btn-sm btn-active-icon-primary"
           >
-            <span class="svg-icon svg-icon-1">
-              <inline-svg src="/media/icons/duotune/arrows/arr061.svg" />
-            </span>
+
           </div>
           <!--end::Close-->
         </div>
 
         <div class="modal-body py-10 px-lg-17">
-          <h3>{{t('areYouSure')}}</h3>
+          <h3>{{ t("areYouSure") }}</h3>
         </div>
         <!--end::Modal body-->
 
@@ -44,14 +42,12 @@
           <button
             :data-kt-indicator="deleting ? 'on' : null"
             class="btn btn-sm btn-danger"
-            @click="deletePackage"
+            @click="deleteCourse"
             style="width: 200px"
           >
             <span v-if="!deleting" class="indicator-label">
               {{ $t("ok") }}
-              <span class="svg-icon svg-icon-3 ms-2 me-0">
-                <inline-svg src="icons/duotune/arrows/arr064.svg" />
-              </span>
+
             </span>
             <span v-if="deleting" class="indicator-progress">
               {{ $t("pleaseWait") }}...
@@ -70,38 +66,6 @@
   </div>
 </template>
 
-
-
-<script lang="ts" setup>
-import { Country } from "@/types/Countries";
-import { ref, computed } from "vue";
-// import { hideModal } from "@/core/helpers/dom";
-import { useI18n } from "vue-i18n";
-import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
-import {GetPackagesResponseDto} from "@/types/Packages/Packages";
-
-const { t } = useI18n();
-const deleting = computed(() => {
-  return courseStore.isDeletingItem;
-});
-
-// eslint-disable-next-line no-undef
-const emit = defineEmits<{
-  (event: "packageDeleted");
-}>();
-
-const courseStore = useCoursesStore();
-
-const deletePacakgeModalRef = ref<HTMLElement | null>(null);
-
-// eslint-disable-next-line no-undef
-defineExpose({ modalRef: deletePacakgeModalRef });
-
-const deletePackage = async () => {
-  await courseStore.deletePackage()
-    emit("packageDeleted");
-};
-</script>
 <style lang="scss">
 .el-select {
   width: 100%;
@@ -112,3 +76,35 @@ const deletePackage = async () => {
   width: 100%;
 }
 </style>
+
+<script lang="ts" setup>
+import { useCourseSectionsStore } from "@/store/pinia_store/modules/CourseSectionModule";
+import { ref, computed } from "vue";
+import { hideModal } from "@/core/helpers/dom";
+import { useI18n } from "vue-i18n";
+import Toaster from "@/core/services/Toaster";
+import {useSubscriptionStore} from "@/store/pinia_store/modules/SubscriptionModule";
+
+const { t } = useI18n();
+
+const emit = defineEmits<{
+  (event: "close", data: any);
+}>();
+
+const subscriptionStore = useSubscriptionStore();
+
+const deleting = computed(() => {
+  return subscriptionStore.isDeletingItem;
+});
+
+const modalRef = ref<HTMLElement | null>(null);
+
+const deleteCourse = async () => {
+  try {
+    await subscriptionStore.deleteItem();
+    hideModal(modalRef.value);
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>

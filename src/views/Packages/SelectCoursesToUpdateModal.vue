@@ -143,6 +143,7 @@ import {NewLocalityData} from "@/types/Localities";
 import {ElTable} from 'element-plus'
 import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
 import {CourseSelection, SelectCoursesDto} from "@/types/Packages/Packages";
+import {watchDebounced} from "@vueuse/core";
 
 const {t} = useI18n();
 const coursesSearchValue = ref<string>("")
@@ -204,13 +205,15 @@ onMounted(() => {
     if (formRef.value)
       console.log()
 
-
     coursesStore.loadCoursesToAddToPackage("")
 
   })
 })
 
-
+///////////watchers
+watchDebounced(()=> coursesSearchValue,
+    ()=>coursesStore.loadCoursesToAddToPackage(coursesSearchValue.value),
+    { debounce: 500 } )
 /////////////// validation
 
 </script>

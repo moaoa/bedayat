@@ -98,7 +98,7 @@
       <!-- end::table -->
 
       <!-- start::pagination -->
-      <el-pagination layout="prev, pager, next" :total="1000" />
+<!--      <el-pagination layout="prev, pager, next" :total="1000" />-->
       <!-- end::pagination -->
       </div>
     </div>

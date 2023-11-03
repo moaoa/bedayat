@@ -24,7 +24,8 @@ export type PackageFilter = {
     // status: PackageStatus;
     name: string;
     gradeId: string;
-    packageType: PackageType;
+    packageType: PackageType | null;
+    packageStatus: PackageStatus | null
 };
 export enum PackageStatus{
     Inactive,

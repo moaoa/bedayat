@@ -293,15 +293,6 @@ const routes: Array<RouteRecordRaw> = [
           requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
         },
       },
-      // {
-      //   path: "/dashboard/Reports/MostPurchasedCourses",
-      //   name: "MostPurchasedCoursesReport",
-      //   component: () => import("@/views/Reports/MostPurchasedCourses.vue"),
-      //   meta: {
-      //     authRequired: true,
-      //     requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-      //   },
-      // },
       {
         path: "/dashboard/Reports/PurchasedPackagesByUser",
         name: "PurchasedPackagesByUser",
@@ -382,6 +373,33 @@ const routes: Array<RouteRecordRaw> = [
         path: "/dashboard/packages",
         name: "ViewPackages",
         component: () => import("@/views/Packages/Package.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+      },
+      {
+        path: "/dashboard/packages/Subscriptions/:id",
+        name: "Subscriptions",
+        component: () => import("@/views/Packages/Subscriptions/Subscriptions.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+      },
+      {
+        path: "/dashboard/packages/Subscriptions/AddSubscription/:id",
+        name: "AddSubscription",
+        component: () => import("@/views/Packages/Subscriptions/AddSubscriptionPage.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+      },
+      {
+        path: "/dashboard/packages/Subscriptions/EditSubscriptions/:id",
+        name: "EditSubscriptions",
+        component: () => import("@/views/Packages/Subscriptions/EditSubscriptionPage.vue"),
         meta: {
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.None,
