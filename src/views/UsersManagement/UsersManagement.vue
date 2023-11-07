@@ -255,11 +255,14 @@ import CrossIcon from "@/components/icons/CrossIcon.vue";
 import GenderBadge from "@/components/GenderBadge.vue";
 import debounce from "lodash/debounce";
 import ClippedText from "@/components/ClippedText.vue";
-import NotificationsModal from "./NotificationsModal.vue";
+import NotificationsModal from "@/views/Notifications/NotificationsModal.vue";
 import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
+import { NotificationForm } from "@/types/Notifications";
+import { useNotificationsStore } from "@/store/pinia_store/modules/NotificationsModule";
 
 const { t } = useI18n();
 const usersManagementStore = useUsersStore();
+const notificationsStore = useNotificationsStore();
 
 const addUserModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const updateUserModalRef = ref<{ modalRef: HTMLElement } | null>(null);
@@ -282,8 +285,14 @@ const createUser = async (data: NewUserData) => {
   }
 };
 
-const notifyUser = () => {
+const notifyUser = (data: NotificationForm) => {
   if (notifyUserModalRef.value) {
+    const payload = {
+      ...data,
+      image: data.image!,
+      users: [usersManagementStore.selectedUser!.id],
+    };
+    notificationsStore.sendNotification(payload);
     hideModal(notifyUserModalRef.value.modalRef);
   }
 };

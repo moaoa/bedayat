@@ -332,8 +332,11 @@ import GenderBadge from "@/components/GenderBadge.vue";
 import debounce from "lodash/debounce";
 import ClippedText from "@/components/ClippedText.vue";
 import DotsIcon from "@/components/icons/DotsIcon.vue";
-import NotificationsModal from "./NotificationsModal.vue";
+import NotificationsModal from "@/views/Notifications/NotificationsModal.vue";
 import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
+import { useNotificationsStore } from "@/store/pinia_store/modules/NotificationsModule";
+import { hideModal } from "@/core/helpers/dom";
+import { NotificationForm } from "@/types/Notifications";
 
 const { t } = useI18n();
 const regularUsersMangementStore = useRegularUsersStore();
@@ -345,8 +348,11 @@ const userRoles = AppConstants.USER_ROLES;
 const usersTable = computed(() => regularUsersMangementStore.users);
 
 const searchValue = ref("");
+const notifyUserModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const filterBy = ref(FilterByOptions.Name);
 const userState = ref(AppConstants.USER_STATE.All);
+
+const notificationsStore = useNotificationsStore();
 
 const formatter = (key: "createdAt" | "lastUpdated" | "birthDate") => {
   return (user: User) => formatDate(user[key]);
@@ -368,8 +374,16 @@ const handleLoadUser = () => {
   }
 };
 
-const notifyUser = () => {
-  console.log("notifyUser");
+const notifyUser = (data: NotificationForm) => {
+  if (notifyUserModalRef.value) {
+    const payload = {
+      ...data,
+      image: data.image!,
+      users: [usersMangementStore.selectedUser!.id],
+    };
+    notificationsStore.sendNotification(payload);
+    hideModal(notifyUserModalRef.value.modalRef);
+  }
 };
 
 const handleToggleUser = async (user: User) => {

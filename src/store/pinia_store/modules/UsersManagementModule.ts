@@ -10,6 +10,7 @@ import {
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import UsersService from "@/core/services/UsersService";
 import Toaster from "@/core/services/Toaster";
+import NotificationsService from "@/core/repositories/NotificationsService";
 
 export const useUsersStore = defineStore({
   id: "usersStore",
@@ -29,6 +30,7 @@ export const useUsersStore = defineStore({
     searchValue: "",
     isSwitchingUserStatus: false,
     isLoadingRegularUsers: false,
+    isSendingNotification: false,
 
     selectedUser: null as User | null,
     dataIsLoading: false,
@@ -122,10 +124,10 @@ export const useUsersStore = defineStore({
           this.users.push(...res.data.results);
         }
 
-        Toaster.Success("User created successfully")
+        Toaster.Success("User created successfully");
       } catch (error) {
         console.log(error);
-      }finally {
+      } finally {
         this.isCreatingNewItem = false;
       }
     },
