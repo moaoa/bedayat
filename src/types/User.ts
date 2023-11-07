@@ -17,7 +17,7 @@ export const UserSchema = object({
   fatherName: string(),
   surName: string(),
   motherName: string(),
-  otherPhone: string(),
+  otherPhone: nullable(string()),
   fullName: string(),
   permissions: array(number()),
   avatar: nullable(string()),

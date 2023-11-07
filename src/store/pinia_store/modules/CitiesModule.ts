@@ -27,12 +27,11 @@ export const useCitiesStore = defineStore({
   }),
 
   actions: {
-    async loadCities(  countryId: string, cityName: string  ) {
+    async loadCities(countryId: string, cityName: string) {
       this.dataIsLoading = true;
       this.errorLoadingData = false;
 
       try {
-        console.log(cityName)
         const result = await CitiesService.getCities(countryId, cityName);
         const data = result.data;
         this.cities = data.data;
@@ -72,7 +71,7 @@ export const useCitiesStore = defineStore({
 
         this.cities[index] = { ...this.selectedCity, ...updateResult };
         this.cities[index] = { ...this.selectedCity, ...newValues };
-        toaster.Success("city updated successfully")
+        toaster.Success("city updated successfully");
       } catch (error) {
         console.log(error);
       } finally {
@@ -105,12 +104,11 @@ export const useCitiesStore = defineStore({
           return;
         }
         const result = await CitiesService.deleteCity(cityToDelete.id);
-        this.cities = this.cities.filter(x=> x.id != cityToDelete.id)
+        this.cities = this.cities.filter((x) => x.id != cityToDelete.id);
 
-        toaster.Success("Success", "City deleted")
+        toaster.Success("Success", "City deleted");
       } catch (error) {
         console.log(error);
-
       } finally {
         this.isDeletingItem = false;
       }

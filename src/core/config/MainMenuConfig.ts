@@ -175,7 +175,14 @@ const DocMenuConfig = [
         fontIcon: "bi-layers",
         requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
       },
-
+      {
+        // todo: need promotion permission
+        heading: "notifications",
+        route: "/dashboard/notifications",
+        svgIcon: "/media/icons/duotune/general/notificationsIcon.svg",
+        fontIcon: "bi-layers",
+        requiredPermission: AppConstants.PERMISSIONS.ReadFaqs,
+      },
       {
         sectionTitle: "reports",
         svgIcon: "/media/icons/duotune/general/reportsIcon.svg",

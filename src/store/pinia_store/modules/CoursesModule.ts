@@ -204,6 +204,19 @@ export const useCoursesStore = defineStore({
         this.dataIsLoading = false;
       }
     },
+    async loadAllPackages(params: { pageNumber: number; pageSize: number }) {
+      this.dataIsLoading = true;
+      this.errorLoadingData = false;
+      try {
+        const result = await PackagesService.getAllPackages(params);
+        this.packages = result;
+      } catch (e: any) {
+        console.log((e as Error).message);
+        // this.packages = [];
+      } finally {
+        this.dataIsLoading = false;
+      }
+    },
     getPackageById(id: string) {
       return this.packages.results.find((x) => x.id == id);
     },

@@ -219,7 +219,16 @@ const routes: Array<RouteRecordRaw> = [
           requiredPermission: AppConstants.PERMISSIONS.ReadBugs,
         },
       },
-
+      {
+        path: "/dashboard/notifications",
+        name: "notifications",
+        component: () =>
+          import("@/views/Notifications/NotificationsManagement.vue"),
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.ReadNotifications,
+        },
+      },
       {
         path: "/dashboard/faqs",
         name: "faqs",
@@ -342,7 +351,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-          path: "/dashboard/Reports/PurchasedPackagesByPackage/:id/:packageType",
+        path: "/dashboard/Reports/PurchasedPackagesByPackage/:id/:packageType",
         name: "PurchasedPackagesByPackage",
         component: () =>
           import("@/views/Reports/PurchasedPackagesByPackage.vue"),
@@ -381,7 +390,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/dashboard/packages/Subscriptions/:id",
         name: "Subscriptions",
-        component: () => import("@/views/Packages/Subscriptions/Subscriptions.vue"),
+        component: () =>
+          import("@/views/Packages/Subscriptions/Subscriptions.vue"),
         meta: {
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.None,
@@ -390,7 +400,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/dashboard/packages/Subscriptions/AddSubscription/:id",
         name: "AddSubscription",
-        component: () => import("@/views/Packages/Subscriptions/AddSubscriptionPage.vue"),
+        component: () =>
+          import("@/views/Packages/Subscriptions/AddSubscriptionPage.vue"),
         meta: {
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.None,
@@ -399,7 +410,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/dashboard/packages/Subscriptions/EditSubscriptions/:id",
         name: "EditSubscriptions",
-        component: () => import("@/views/Packages/Subscriptions/EditSubscriptionPage.vue"),
+        component: () =>
+          import("@/views/Packages/Subscriptions/EditSubscriptionPage.vue"),
         meta: {
           authRequired: true,
           requiredPermission: AppConstants.PERMISSIONS.None,

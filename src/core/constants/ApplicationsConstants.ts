@@ -34,6 +34,8 @@ export class AppConstants {
 
   static COURSE_PURCHASE_URL = `${AppConstants.MANAGEMENT_URL}/CoursePurchase`;
 
+  static NOTIFICATIONS_URL = `${AppConstants.MANAGEMENT_URL}/Notifications`;
+
   static FILTER_ADMIN_BY_OPTIONS = {
     ByPhoneNumber: 0,
     ByName: 1,
@@ -184,7 +186,14 @@ export class AppConstants {
     Excel: 1,
     Csv: 2,
   };
-
   static ARABIC_LETTERS_REGEX =
     /^[\u0621-\u064A0-9\s\-\_\.\,\!\@\#\$\%\^\&\*\(\)\+\=\{\}\[\]\:\;\"\'\<\>\?\|\\\/]+$/;
+  static ENGLISH_LETTERS_REGEX =
+    /^[a-zA-Z0-9\s\-\_\.\,\!\@\#\$\%\^\&\*\(\)\+\=\{\}\[\]\:\;\"\'\<\>\?\|\\\/]+$/;
+  static NOTIFICATION_TARGETS = {
+    Users: 0,
+    CountriesAndCities: 1,
+    Families: 2,
+    Courses: 3,
+  };
 }

@@ -7,6 +7,7 @@ import {
   ResponseSchema,
   Response,
 } from "@/types/User";
+//@ts-ignore
 import { red } from "console-log-colors";
 import { safeParse } from "valibot";
 
