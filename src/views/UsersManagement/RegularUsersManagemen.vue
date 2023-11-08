@@ -236,6 +236,7 @@
             "
             :label="$t('family')"
             width="90"
+            align="center"
           >
             <template v-slot="scope: { row: User, $index: number }">
               <RouterLink
@@ -244,7 +245,7 @@
                   params: { id: scope.row.id },
                 }"
               >
-                <DotsIcon />
+                <UserIcon />
               </RouterLink>
             </template>
           </el-table-column>
@@ -331,7 +332,7 @@ import { useUsersStore } from "@/store/pinia_store/modules/UsersManagementModule
 import GenderBadge from "@/components/GenderBadge.vue";
 import debounce from "lodash/debounce";
 import ClippedText from "@/components/ClippedText.vue";
-import DotsIcon from "@/components/icons/DotsIcon.vue";
+import UserIcon from "@/components/icons/UserIcon.vue";
 import NotificationsModal from "@/views/Notifications/NotificationsModal.vue";
 import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
 import { useNotificationsStore } from "@/store/pinia_store/modules/NotificationsModule";
