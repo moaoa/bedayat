@@ -14,6 +14,7 @@ export const useAuthenticationStore = defineStore({
     dataLoading: false as boolean,
     userPermissions: useLocalStorage<number[]>("userPermissions", []),
     emailForPasswordReset: useLocalStorage<string>("emailForPasswordReset", ""),
+    email: useLocalStorage<string>("email", ""),
   }),
   getters: {
     hasPermission(state) {
@@ -39,14 +40,13 @@ export const useAuthenticationStore = defineStore({
           payload.value!.Permissions as string
         ) as number[];
 
+        this.email = email;
         router.push({ name: "dashboard" });
       } catch (error) {
         console.log(error);
       } finally {
         this.dataLoading = false;
       }
-
-      return;
     },
     async refreshToken(email: string, password: string) {
       this.dataLoading = true;
