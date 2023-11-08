@@ -270,7 +270,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            :label="$t('actions')"
+            :label="$t('notify')"
             width="90"
             align="center"
             header-align="center"

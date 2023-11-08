@@ -350,11 +350,15 @@ import { useUsersStore } from "@/store/pinia_store/modules/UsersManagementModule
 import GenderBadge from "@/components/GenderBadge.vue";
 import ClippedText from "@/components/ClippedText.vue";
 import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
-import NotificationsModal from "./NotificationsModal.vue";
+import NotificationsModal from "@/views/Notifications/NotificationsModal.vue";
+import { NotificationForm } from "@/types/Notifications";
+import { hideModal } from "@/core/helpers/dom";
+import { useNotificationsStore } from "@/store/pinia_store/modules/NotificationsModule";
 
 const { t } = useI18n();
 const regularUsersMangementStore = useRegularUsersStore();
 const usersMangementStore = useUsersStore();
+const notificationsStore = useNotificationsStore();
 
 const notifyUserModalRef = ref<InstanceType<typeof NotificationsModal>>();
 
@@ -388,7 +392,15 @@ const handleToggleUser = async (user: User) => {
   }
 };
 
-const notifyUser = () => {
-  console.log("notifyUser");
+const notifyUser = (data: NotificationForm) => {
+  if (notifyUserModalRef.value) {
+    const payload = {
+      ...data,
+      image: data.image!,
+      users: [usersMangementStore.selectedUser!.id],
+    };
+    notificationsStore.sendNotification(payload);
+    hideModal(notifyUserModalRef.value.modalRef);
+  }
 };
 </script>
