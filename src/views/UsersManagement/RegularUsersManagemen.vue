@@ -301,9 +301,9 @@
         background
         layout="total, sizes, prev, pager, next, jumper"
         :total="regularUsersMangementStore.pagination.total"
-        current-page="{{currentPage}}"
-        page-size="{{currentSize}}"
-        pager-count="{{pageCount}}"
+        v-model:current-page="pagination.currentPage"
+        v-model:page-size="pagination.pageSize"
+        v-model:pager-count="pagination.pagerCount"
         :page-sizes="[25, 100, 200, 300, 400]"
       />
       <!-- end::pagination -->
@@ -338,6 +338,7 @@ import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
 import { useNotificationsStore } from "@/store/pinia_store/modules/NotificationsModule";
 import { hideModal } from "@/core/helpers/dom";
 import { NotificationForm } from "@/types/Notifications";
+import { useUrlSearchParams } from "@vueuse/core";
 
 const { t } = useI18n();
 const regularUsersMangementStore = useRegularUsersStore();
@@ -351,6 +352,22 @@ const usersTable = computed(() => regularUsersMangementStore.users);
 const searchValue = ref("");
 const notifyUserModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const filterBy = ref(FilterByOptions.Name);
+const pagination = useUrlSearchParams<{
+  currentPage: number;
+  pageSize: number;
+  pagerCount;
+}>("history", {
+  initialValue: {
+    currentPage: 1,
+    pageSize: 25,
+    pagerCount: 1,
+  },
+});
+
+pagination.currentPage = Number(pagination.currentPage ?? 1);
+pagination.pageSize = Number(pagination.pageSize ?? 25);
+pagination.pagerCount = Number(pagination.pagerCount ?? 1);
+
 const userState = ref(AppConstants.USER_STATE.All);
 
 const notificationsStore = useNotificationsStore();

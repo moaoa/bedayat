@@ -239,7 +239,7 @@
         :total="usersManagementStore.pagination.total"
         v-model:current-page="pagination.currentPage"
         v-model:page-size="pagination.pageSize"
-        pager-count="{{pageCount}}"
+        v-model:pager-count="pagination.pagerCount"
         :page-sizes="[25, 100, 200, 300, 400]"
       />
       <!-- end::pagination -->
@@ -297,15 +297,18 @@ const notifyUserModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 const pagination = useUrlSearchParams<{
   currentPage: number;
   pageSize: number;
+  pagerCount: number;
 }>("history", {
   initialValue: {
     currentPage: 1,
     pageSize: 25,
+    pagerCount: 1,
   },
 });
 
-pagination.currentPage = Number(pagination.currentPage ?? 0);
-pagination.pageSize = Number(pagination.pageSize ?? 0);
+pagination.currentPage = Number(pagination.currentPage ?? 1);
+pagination.pageSize = Number(pagination.pageSize ?? 25);
+pagination.pagerCount = Number(pagination.pagerCount ?? 1);
 
 const createUser = async (data: NewUserData) => {
   try {

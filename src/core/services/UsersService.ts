@@ -35,7 +35,7 @@ class UsersService {
     if (!validation.success) {
       console.log(red(validation.issues));
     }
-    return res.data.results;
+    return res.data;
   }
   public static async searchParents(
     searchBy: number,
@@ -60,7 +60,7 @@ class UsersService {
     if (!validation.success) {
       console.log(red("issues: "), validation.issues);
     }
-    return res.data.results;
+    return res.data;
   }
   public static async searchChildren(
     searchBy: number,

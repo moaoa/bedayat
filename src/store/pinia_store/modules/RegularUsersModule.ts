@@ -43,7 +43,8 @@ export const useRegularUsersStore = defineStore({
             pageNumber,
             pageSize
           );
-          this.users = res ?? [];
+          this.users = res.results ?? [];
+          this.pagination.total = res.rowsCount;
         } else if (this.selectedUserType === AppConstants.USER_ROLES.Parent) {
           const res = await UsersService.searchParents(
             searchBy,
@@ -52,7 +53,8 @@ export const useRegularUsersStore = defineStore({
             pageNumber,
             pageSize
           );
-          this.users = res ?? [];
+          this.users = res.results ?? [];
+          this.pagination.total = res.rowsCount;
         } else if (this.selectedUserType === AppConstants.USER_ROLES.Child) {
           const res = await UsersService.searchChildren(
             searchBy,
