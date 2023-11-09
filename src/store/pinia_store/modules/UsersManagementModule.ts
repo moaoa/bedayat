@@ -19,8 +19,6 @@ export const useUsersStore = defineStore({
     users: [] as User[],
     pagination: {
       total: 0,
-      currentPage: 1,
-      currentSize: 0,
     },
     filterBy: AppConstants.FILTER_ADMIN_BY_OPTIONS
       .ByName as FilterByOptionsValues,
@@ -42,17 +40,33 @@ export const useUsersStore = defineStore({
   }),
 
   actions: {
-    async loadAdmins() {
+    async loadAdmins({
+      currentPage,
+      pageSize,
+    }: {
+      currentPage: number;
+      pageSize: number;
+    }) {
       this.dataIsLoading = true;
       this.errorLoadingData = false;
 
       try {
         if (this.filterBy === AppConstants.FILTER_ADMIN_BY_OPTIONS.ByName) {
-          const res = await UsersService.getAdminsByName(this.searchValue);
+          const res = await UsersService.getAdminsByName({
+            name: this.searchValue,
+            currentPage,
+            pageSize,
+          });
           this.users = res.data.results ?? [];
+          this.pagination.total = res.data.rowsCount;
         } else {
-          const res = await UsersService.getAdminsByPhone(this.searchValue);
+          const res = await UsersService.getAdminsByPhone({
+            phoneNumber: this.searchValue,
+            currentPage,
+            pageSize,
+          });
           this.users = res.data.results ?? [];
+          this.pagination.total = res.data.rowsCount;
         }
       } catch (e) {
         console.log(e);
@@ -61,17 +75,27 @@ export const useUsersStore = defineStore({
       }
     },
 
-    async loadUsers() {
+    async loadUsers(params: { currentPage: number; pageSize: number }) {
       this.dataIsLoading = true;
       this.errorLoadingData = false;
 
       try {
         if (this.filterBy === AppConstants.FILTER_ADMIN_BY_OPTIONS.ByName) {
-          const res = await UsersService.getAdminsByName(this.searchValue);
+          const res = await UsersService.getAdminsByName({
+            name: this.searchValue,
+            currentPage: params.currentPage,
+            pageSize: params.pageSize,
+          });
           this.users = res.data.results ?? [];
+          this.pagination.total = res.data.rowsCount;
         } else {
-          const res = await UsersService.getAdminsByPhone(this.searchValue);
+          const res = await UsersService.getAdminsByPhone({
+            phoneNumber: this.searchValue,
+            currentPage: params.currentPage,
+            pageSize: params.pageSize,
+          });
           this.users = res.data.results ?? [];
+          this.pagination.total = res.data.rowsCount;
         }
       } catch (e) {
         console.log(e);

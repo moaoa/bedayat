@@ -11,7 +11,13 @@
 
         <a
           class="btn btn-icon btn-light-primary btn-sm me-3"
-          @click="usersManagementStore.loadAdmins"
+          @click="
+            () =>
+              usersManagementStore.loadAdmins({
+                currentPage: pagination.currentPage,
+                pageSize: pagination.pageSize,
+              })
+          "
         >
           <i class="bi bi-arrow-repeat"></i>
         </a>
@@ -61,10 +67,24 @@
             v-model="usersManagementStore.searchValue"
             :placeholder="$t('search')"
             style="width: 300px"
-            @keyup.enter="usersManagementStore.loadAdmins"
+            @keyup.enter="
+              () =>
+                usersManagementStore.loadAdmins({
+                  currentPage: pagination.currentPage,
+                  pageSize: pagination.pageSize,
+                })
+            "
           />
 
-          <div @click="usersManagementStore.loadAdmins">
+          <div
+            @click="
+              () =>
+                usersManagementStore.loadAdmins({
+                  currentPage: pagination.currentPage,
+                  pageSize: pagination.pageSize,
+                })
+            "
+          >
             <a class="btn btn-sm btn-primary mx-1">
               {{ $t("search") }}
             </a>
@@ -217,8 +237,8 @@
         background
         layout="total, sizes, prev, pager, next, jumper"
         :total="usersManagementStore.pagination.total"
-        current-page="{{currentPage}}"
-        page-size="{{currentSize}}"
+        v-model:current-page="pagination.currentPage"
+        v-model:page-size="pagination.pageSize"
         pager-count="{{pageCount}}"
         :page-sizes="[25, 100, 200, 300, 400]"
       />
@@ -259,6 +279,7 @@ import NotificationsModal from "@/views/Notifications/NotificationsModal.vue";
 import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
 import { NotificationForm } from "@/types/Notifications";
 import { useNotificationsStore } from "@/store/pinia_store/modules/NotificationsModule";
+import { useUrlSearchParams } from "@vueuse/core";
 
 const { t } = useI18n();
 const usersManagementStore = useUsersStore();
@@ -272,6 +293,19 @@ const FilterByOptions = AppConstants.FILTER_ADMIN_BY_OPTIONS;
 const usersTable = computed(() => usersManagementStore.users);
 
 const notifyUserModalRef = ref<{ modalRef: HTMLElement } | null>(null);
+
+const pagination = useUrlSearchParams<{
+  currentPage: number;
+  pageSize: number;
+}>("history", {
+  initialValue: {
+    currentPage: 1,
+    pageSize: 25,
+  },
+});
+
+pagination.currentPage = Number(pagination.currentPage ?? 0);
+pagination.pageSize = Number(pagination.pageSize ?? 0);
 
 const createUser = async (data: NewUserData) => {
   try {
@@ -324,10 +358,14 @@ setCurrentPageBreadcrumbs(t("usersManagement"), [t("admins")]);
 
 setCurrentPageBreadcrumbs(t("usersManagement"), [t("admins")]);
 
-usersManagementStore.loadAdmins();
+usersManagementStore.loadAdmins({
+  currentPage: pagination.currentPage,
+  pageSize: pagination.pageSize,
+});
 
 const loadUsersDebounced = debounce(
-  () => usersManagementStore.loadUsers(),
+  (currentPage: number, pageSize: number) =>
+    usersManagementStore.loadUsers({ currentPage, pageSize }),
   1000
 );
 
@@ -342,9 +380,14 @@ const handleToggleUser = async (user: User) => {
 };
 
 watch(
-  () => [usersManagementStore.searchValue, usersManagementStore.filterBy],
+  () => [
+    usersManagementStore.searchValue,
+    usersManagementStore.filterBy,
+    pagination.currentPage,
+    pagination.pageSize,
+  ],
   () => {
-    loadUsersDebounced();
+    loadUsersDebounced(pagination.currentPage, pagination.pageSize);
   }
 );
 </script>

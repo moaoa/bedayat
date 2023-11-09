@@ -103,13 +103,15 @@ class UsersService {
       }
     );
   }
-  public static async getAdminsByPhone(phone: string) {
+  public static async getAdminsByPhone(params: {
+    phoneNumber: string;
+    currentPage: number;
+    pageSize: number;
+  }) {
     const res = await ApiService.query<Response>(
       `${AppConstants.USERS_URL}/ByPhoneNumber`,
       {
-        params: {
-          phoneNumber: phone,
-        },
+        params,
       }
     );
     const validation = safeParse(ResponseSchema, res.data);
@@ -118,13 +120,15 @@ class UsersService {
     }
     return res;
   }
-  public static async getAdminsByName(name: string) {
+  public static async getAdminsByName(params: {
+    name: string;
+    currentPage: number;
+    pageSize: number;
+  }) {
     const res = await ApiService.query<Response>(
       `${AppConstants.USERS_URL}/ByName`,
       {
-        params: {
-          name,
-        },
+        params,
       }
     );
 
