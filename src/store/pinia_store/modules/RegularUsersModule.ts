@@ -85,7 +85,7 @@ export const useRegularUsersStore = defineStore({
           1,
           10
         );
-        this.users = res ?? [];
+        this.users = res.results ?? [];
       } catch (e) {
         console.log(e);
       } finally {
