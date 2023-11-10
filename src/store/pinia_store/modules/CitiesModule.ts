@@ -49,7 +49,7 @@ export const useCitiesStore = defineStore({
     selectCity(selectedCity: City) {
       this.selectedCity = { ...selectedCity };
     },
-    updateItem(newValues: NewCityData) {
+    async updateItem(newValues: NewCityData) {
       this.isUpdatingItem = true;
       try {
         if (!this.selectedCity) {
@@ -64,7 +64,7 @@ export const useCitiesStore = defineStore({
           (city) => city.id === this.selectedCity?.id
         );
 
-        const updateResult = CitiesService.updateCity(
+        const updateResult = await CitiesService.updateCity(
           this.selectedCity.id,
           newValues
         );
