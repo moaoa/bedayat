@@ -194,13 +194,14 @@
 
 <style lang="scss">
 .aside-menu .menu .menu-sub .menu-item a a.menu-link {
-  padding-left: calc(0.75rem + 25px);
+  /*padding-left: calc(0.75rem + 25px);*/
   cursor: pointer;
   display: flex;
   align-items: center;
   flex: 0 0 100%;
   transition: none;
   outline: none !important;
+  white-space: nowrap;
 }
 
 .aside-menu .menu .menu-sub .menu-sub .menu-item a a.menu-link {

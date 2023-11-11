@@ -33991,6 +33991,7 @@ a:hover {
   display: flex;
   align-items: center;
   flex-grow: 1;
+  white-space: nowrap;
 }
 .menu-item .menu-link .menu-badge {
   flex-shrink: 0;

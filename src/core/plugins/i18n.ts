@@ -382,7 +382,7 @@ const messages = {
     deleteSubscription: "حذف إشتراك",
 
     chooseGrade: "إختر الصف",
-    purchasedPackagesByGrade: "الدورات المشتراة بناء علي الصف الدراسي",
+    purchasedPackagesByGrade: "المبيعات بناء على الصف",
     totalOfPurchased: "إجمالي البيع",
     gradeName: "السنة الدراسية",
     price: "السعر",
