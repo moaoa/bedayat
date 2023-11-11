@@ -75,7 +75,10 @@
             header-align="center"
           >
             <template
-              #default="scope: { row: PurchasedPackageByPackage, $index: number }"
+              #default="scope: {
+                row: PurchasedPackageByPackage,
+                $index: number,
+              }"
             >
               {{ scope.$index + 1 }}
             </template>
@@ -128,9 +131,10 @@
           :loading="purchasedPackagesByPackageStore.dataIsLoading"
           background
           layout="total, sizes, prev, pager, next, jumper"
-          :total="purchasedPackagesByPackageStore.purchasedPackagesByPackages.length"
+          :total="purchasedPackagesByPackageStore.total"
           v-model:current-page="filters.pageNumber"
-          @size-change="handleSizeChange"
+          v-model:page-size="filters.pageSize"
+          v-model:pager-count="pagerCount"
         />
         <!-- end::pagination -->
       </div>
@@ -142,7 +146,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted} from "vue";
+import { computed, ref } from "vue";
 import type {
   PurchasedPackageByPackage,
   Filters,
@@ -153,13 +157,13 @@ import { useI18n } from "vue-i18n";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import { useUrlSearchParams } from "@vueuse/core";
 import { watchDebounced } from "@vueuse/core";
-import {useCoursesStore} from "@/store/pinia_store/modules/CoursesModule";
-import {useRoute} from "vue-router";
+import { useCoursesStore } from "@/store/pinia_store/modules/CoursesModule";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 const filters = useUrlSearchParams<Filters>("history", {
   initialValue: {
-    packageId:  route.params.id as string,
+    packageId: route.params.id as string,
     packageType: Number(route.params.packageType ?? 0),
     checkExpiryDate: false,
     fromDate: null,
@@ -169,16 +173,15 @@ const filters = useUrlSearchParams<Filters>("history", {
   },
 });
 
-filters.packageType = Number(filters.packageType);
+const pagerCount = ref(1);
 
-const parentsFilters = useUrlSearchParams<{ parentsSearchField: string }>(
-  "history"
-);
+filters.packageType = Number(filters.packageType);
+filters.pageNumber = Number(filters.pageNumber);
+filters.pageSize = Number(filters.pageSize);
 
 const { t } = useI18n();
 
 const purchasedPackagesByPackageStore = usePurchasedPackagesByPackageStore();
-const packagesStore = useCoursesStore();
 
 const tableData = computed(
   () => purchasedPackagesByPackageStore.purchasedPackagesByPackages
@@ -190,14 +193,6 @@ const totalPurchases = computed(() => {
       ?.totalOfPurchases ?? 0
   );
 });
-
-const isLoadingPackages = computed(() => {
-  return packagesStore.dataIsLoading;
-});
-
-const handleSizeChange = (val: number) => {
-  filters.pageSize = val;
-};
 
 const loadPackagesReport = () => {
   purchasedPackagesByPackageStore.loadPurchasedPackagesByPackages({
@@ -211,7 +206,6 @@ const loadPackagesReport = () => {
   });
 };
 
-
 const formatter = (key: "createdAt" | "lastUpdated" | "purchasedAt") => {
   return (record: PurchasedPackageByPackage) => formatDate(record[key]);
 };
@@ -221,23 +215,4 @@ setCurrentPageBreadcrumbs(t("reports"), [t("purchasedPackagesByPackage")]);
 watchDebounced(filters, () => loadPackagesReport(), { debounce: 1000 });
 
 loadPackagesReport();
-onMounted(()=> {
-
-  const id = route.params.id;
-  const packageType = route.params.packageType;
-
-  console.log(`these are the params id ${id}  and this is the pacakge type = ${packageType}` )
-
-
-
-
-})
-
-// watchDebounced(
-//   () => parentsFilters.parentsSearchField,
-//   () => {
-//     packagesStore.loadPackages(parentsFilters.parentsSearchField as string);
-//   },
-//   { debounce: 1000 }
-// );
 </script>

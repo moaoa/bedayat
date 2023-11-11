@@ -163,11 +163,10 @@
           :loading="purchasedPackagesBySubjectStore.dataIsLoading"
           background
           layout="total, sizes, prev, pager, next, jumper"
-          :total="
-            purchasedPackagesBySubjectStore.purchasedPackagesBySubject.length
-          "
+          :total="purchasedPackagesBySubjectStore.total"
           v-model:current-page="filters.pageNumber"
-          @size-change="handleSizeChange"
+          v-model:page-size="filters.pageSize"
+          v-model:pager-count="pagerCount"
         />
         <!-- end::pagination -->
       </div>
@@ -179,7 +178,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import type {
   PurchasedPackageBySubject,
   Filters,
@@ -204,8 +203,11 @@ const filters = useUrlSearchParams<Filters>("history", {
     pageSize: 10,
   },
 });
+const pagerCount = ref(1);
 
-filters.packageType = Number(filters.packageType)
+filters.packageType = Number(filters.packageType);
+filters.pageNumber = Number(filters.pageNumber);
+filters.pageSize = Number(filters.pageSize);
 
 const { t } = useI18n();
 
@@ -226,10 +228,6 @@ const totalPurchases = computed(() => {
 const isLoadingSubjects = computed(() => {
   return subjectsStore.dataIsLoading;
 });
-
-const handleSizeChange = (val: number) => {
-  filters.pageSize = val;
-};
 
 const loadPackagesReport = () => {
   purchasedPackagesBySubjectStore.loadPurchasedPackagesBySubject({

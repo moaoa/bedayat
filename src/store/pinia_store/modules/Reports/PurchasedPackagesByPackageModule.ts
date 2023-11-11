@@ -14,11 +14,7 @@ export const usePurchasedPackagesByPackageStore = defineStore({
   id: "purchasedPackagesByPackagesStore",
   state: () => ({
     purchasedPackagesByPackages: [] as PurchasedPackageByPackage[],
-    pagination: {
-      total: 0,
-      currentPage: 1,
-      currentSize: 0,
-    },
+    total: 0,
     dataIsLoading: false,
   }),
 
@@ -38,6 +34,7 @@ export const usePurchasedPackagesByPackageStore = defineStore({
         }
         const items = res.data.results;
         this.purchasedPackagesByPackages = items ?? [];
+        this.total = res.data.rowsCount;
       } catch (e) {
         console.log((e as Error).message);
       } finally {

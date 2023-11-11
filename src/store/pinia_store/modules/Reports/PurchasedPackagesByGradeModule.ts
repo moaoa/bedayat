@@ -11,21 +11,22 @@ import purchasedPackagesByUsersService from "@/core/repositories/PurchasedPackag
 import { safeParse } from "valibot";
 // @ts-ignore
 import { red } from "console-log-colors";
-import {PurchasedPackageWithCount, PurchasedPackageWithCountFilters} from "@/types/Reports/PurchasedPackagesWithCount";
+import {
+  PurchasedPackageWithCount,
+  PurchasedPackageWithCountFilters,
+} from "@/types/Reports/PurchasedPackagesWithCount";
 import purchasedPackagesWithCountService from "@/core/repositories/PurchasedPackagesWithCountService";
-import {PurchasedPackageByGrade, PurchasedPackageByGradeFilters} from "@/types/Reports/PurchasedPackagesByGrade";
+import {
+  PurchasedPackageByGrade,
+  PurchasedPackageByGradeFilters,
+} from "@/types/Reports/PurchasedPackagesByGrade";
 import purchasedPackagesByGradeService from "@/core/repositories/PurchasedPackagesByGradeService";
 
 export const usePurchasedPackagesByGradeStore = defineStore({
-  id: "purchasedPackagesByGrade" +
-      "Store",
+  id: "purchasedPackagesByGrade" + "Store",
   state: () => ({
     purchasedPackagesByGrade: [] as PurchasedPackageByGrade[],
-    pagination: {
-      total: 0,
-      currentPage: 1,
-      currentSize: 0,
-    },
+    total: 0,
     dataIsLoading: false,
   }),
 
@@ -34,8 +35,7 @@ export const usePurchasedPackagesByGradeStore = defineStore({
       this.dataIsLoading = true;
 
       try {
-
-        console.log('test test')
+        console.log("test test");
         const res =
           await purchasedPackagesByGradeService.getPurchasedPackagesByGrade(
             params
@@ -48,11 +48,11 @@ export const usePurchasedPackagesByGradeStore = defineStore({
         const items = res.data.results;
 
         this.purchasedPackagesByGrade = items ?? [];
+        this.total = res.data.rowsCount;
       } catch (e) {
         console.log((e as Error).message);
 
-
-        console.log('testcatch exception')
+        console.log("testcatch exception");
       } finally {
         this.dataIsLoading = false;
       }
