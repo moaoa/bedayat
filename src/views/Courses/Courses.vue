@@ -35,7 +35,7 @@
     <div v-loading="coursesStore.dataIsLoading" class="card-body pt-2">
       <!-- begin: filters -->
       <div class="row align-items-center">
-        <label for="name" class="col-sm-4 mt-4">
+        <label for="name" class="col-sm-4 mt-4 d-flex flex-column">
           {{ $t("name") }}
           <el-input
             name="name"
@@ -46,7 +46,7 @@
           />
         </label>
 
-        <label for="minPrice" class="col-sm-4 mt-4">
+        <label for="minPrice" class="col-sm-4 mt-4 d-flex flex-column">
           {{ $t("minPrice") }}
           <el-input-number
             class="col-sm-4"
@@ -58,7 +58,7 @@
           />
         </label>
 
-        <label for="maxPrice" class="col-sm-4 mt-4">
+        <label for="maxPrice" class="col-sm-4 mt-4 d-flex flex-column">
           {{ $t("maxPrice") }}
           <el-input-number
             class="col-sm-4"
@@ -70,7 +70,10 @@
           />
         </label>
 
-        <label for="minNumberOfLessons" class="col-sm-4 mt-4">
+        <label
+          for="minNumberOfLessons"
+          class="col-sm-4 mt-4 d-flex flex-column"
+        >
           {{ $t("minNumberOfLessons") }}
           <el-input-number
             class="col-sm-4"
@@ -81,7 +84,10 @@
           />
         </label>
 
-        <label for="maxNumberOfLessons" class="col-sm-4 mt-4">
+        <label
+          for="maxNumberOfLessons"
+          class="col-sm-4 mt-4 d-flex flex-column"
+        >
           {{ $t("maxNumberOfLessons") }}
           <el-input-number
             class="col-sm-4"
@@ -90,7 +96,7 @@
             style="width: 300px"
           />
         </label>
-        <label for="subjects" class="col-sm-4 mt-4">
+        <label for="subjects" class="col-sm-4 mt-4 d-flex flex-column">
           {{ $t("subjects") }}
           <el-select
             v-model="filters.subjectIds"
@@ -112,7 +118,7 @@
             />
           </el-select>
         </label>
-        <label for="rating" class="col-sm-4 mt-4">
+        <label for="rating" class="col-sm-4 mt-4 d-flex flex-column">
           {{ $t("rating") }}
           <el-input
             class="col-sm-4"
