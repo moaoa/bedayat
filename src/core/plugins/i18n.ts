@@ -362,6 +362,7 @@ const messages = {
     child: "Child",
     schoolManager: "School Manager",
     CountriesAndCities: "Countries And Cities",
+    selectUserFirst: "Please select a user first",
   },
   ar: {
     purchases: "تاريخ الشراء",
@@ -724,6 +725,7 @@ const messages = {
     child: "طفل",
     schoolManager: "مدير المدرسة",
     CountriesAndCities: "بلدان ومدن",
+    selectUserFirst: "قم بإختيار المستخدم أولا",
   },
 };
 
