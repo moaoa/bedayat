@@ -39,7 +39,7 @@ class Repository {
     });
 
     return await ApiService.post<Response>(
-      `${AppConstants.NOTIFICATIONS_URL}/AddUserNotifications`,
+      `${AppConstants.NOTIFICATIONS_URL}/AddUsersNotifications`,
       form
     );
   }
