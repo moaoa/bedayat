@@ -354,7 +354,7 @@ const rules = ref<Record<keyof NotificationForm, object[]>>({
       trigger: "blur",
     },
   ],
-  image: [{ required: true, message: t("required"), trigger: "blur" }],
+  image: [{ required: false, message: t("required"), trigger: "blur" }],
   level: [{ required: true, message: t("required"), trigger: "blur" }],
   notificationFor: [
     { required: true, message: t("required"), trigger: "blur" },
