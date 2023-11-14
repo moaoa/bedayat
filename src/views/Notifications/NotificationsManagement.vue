@@ -38,75 +38,79 @@
       <!-- begin::table -->
 
       <div>
-        <div class="row">
+        <div class="row d-flex align-items-center">
           <div class="col-md-4 mb-6">
-            <label>{{ $t("users") }}</label>
-            <br />
-            <el-select
-              style="width: 250px"
-              v-model="filters.notificationTarget"
-              filterable
-            >
-              <el-option
-                :value="AppConstants.NOTIFICATION_TARGETS.Users"
-                :label="$t('users')"
-              />
-              <el-option
-                :value="AppConstants.NOTIFICATION_TARGETS.CountriesAndCities"
-                :label="$t('countriesAndCities')"
-              />
-              <el-option
-                :value="AppConstants.NOTIFICATION_TARGETS.Families"
-                :label="$t('family')"
-              />
-              <el-option
-                :value="AppConstants.NOTIFICATION_TARGETS.Courses"
-                :label="$t('courses')"
-              />
-            </el-select>
+            <label class="d-flex flex-column">
+              {{ $t("users") }}
+              <el-select
+                style="width: 250px"
+                v-model="filters.notificationTarget"
+                filterable
+              >
+                <el-option
+                  :value="AppConstants.NOTIFICATION_TARGETS.Users"
+                  :label="$t('users')"
+                />
+                <el-option
+                  :value="AppConstants.NOTIFICATION_TARGETS.CountriesAndCities"
+                  :label="$t('countriesAndCities')"
+                />
+                <el-option
+                  :value="AppConstants.NOTIFICATION_TARGETS.Families"
+                  :label="$t('family')"
+                />
+                <el-option
+                  :value="AppConstants.NOTIFICATION_TARGETS.Courses"
+                  :label="$t('courses')"
+                />
+              </el-select>
+            </label>
           </div>
-          <div class="col-md-4 mb-6">
-            <label>{{ $t("country") }}</label>
-            <br />
-            <el-select
-              style="width: 250px"
-              v-model="filters.countryId"
-              filterable
-              clearable
-              :placeholder="$t('country')"
-            >
-              <el-option
-                v-for="country in countriesStore.countries"
-                :label="country.name"
-                :value="country.id"
-                :key="country.id"
-              />
-            </el-select>
-          </div>
-
-          <div class="col-md-4 mb-6">
-            <label>{{ $t("city") }}</label>
-            <br />
-            <el-select
-              style="width: 250px"
-              v-model="filters.cityId"
-              filterable
-              clearable
-              :placeholder="$t('city')"
-              v-loading="citiesStore.dataIsLoading"
-            >
-              <el-option
-                v-for="city in citiesStore.cities"
-                :label="city.name"
-                :value="city.id"
-                :key="city.id"
-              />
-            </el-select>
+          <div class="col-md-4 mb-6 d-flex flex-column">
+            <label class="d-flex flex-column">
+              {{ $t("country") }}
+              <el-select
+                style="width: 250px"
+                v-model="filters.countryId"
+                filterable
+                clearable
+                :placeholder="$t('country')"
+              >
+                <el-option
+                  v-for="country in countriesStore.countries"
+                  :label="country.name"
+                  :value="country.id"
+                  :key="country.id"
+                />
+              </el-select>
+            </label>
           </div>
 
-          <div class="col-md-4 mb-6">
-            <label>{{ $t("locality") }}</label>
-            <br />
+          <div class="col-md-4 mb-6 d-flex flex-column">
+            <label class="d-flex flex-column">
+              {{ $t("city") }}
+              <el-select
+                style="width: 250px"
+                v-model="filters.cityId"
+                filterable
+                clearable
+                :placeholder="$t('city')"
+                v-loading="citiesStore.dataIsLoading"
+              >
+                <el-option
+                  v-for="city in citiesStore.cities"
+                  :label="city.name"
+                  :value="city.id"
+                  :key="city.id"
+                />
+              </el-select>
+            </label>
+          </div>
+
+          <div class="col-md-4 mb-6 d-flex flex-column">
+            <div>
+              <label>{{ $t("locality") }}</label>
+            </div>
             <el-select
               style="width: 250px"
               v-model="filters.localityId"
@@ -123,9 +127,10 @@
               />
             </el-select>
           </div>
-          <div class="col-md-4 mb-6">
-            <label>{{ $t("package") }}</label>
-            <br />
+          <div class="col-md-4 mb-6 d-flex flex-column">
+            <div>
+              <label>{{ $t("package") }}</label>
+            </div>
             <el-select
               style="width: 250px"
               v-model="filters.packageId"
@@ -142,9 +147,9 @@
               />
             </el-select>
           </div>
-          <div class="col-md-4 mb-6">
+          <div class="col-md-4 mb-6 d-flex flex-column">
+            <div></div>
             <label>{{ $t("userRole") }}</label>
-            <br />
             <el-select
               style="width: 250px"
               v-model.number="filters.roleType"
@@ -174,9 +179,8 @@
             </el-select>
           </div>
 
-          <div class="col-md-4 mb-6">
+          <div class="col-md-4 mb-6 d-flex flex-column">
             <label>{{ $t("search") }}</label>
-            <br />
             <el-input
               v-model="filters.searchContent"
               :placeholder="$t('search')"
