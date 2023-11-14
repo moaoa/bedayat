@@ -40,6 +40,8 @@
       <div>
         <div class="row">
           <div class="col-md-4 mb-6">
+            <label>{{ $t("users") }}</label>
+            <br />
             <el-select
               style="width: 250px"
               v-model="filters.notificationTarget"
@@ -64,6 +66,8 @@
             </el-select>
           </div>
           <div class="col-md-4 mb-6">
+            <label>{{ $t("country") }}</label>
+            <br />
             <el-select
               style="width: 250px"
               v-model="filters.countryId"
@@ -81,6 +85,8 @@
           </div>
 
           <div class="col-md-4 mb-6">
+            <label>{{ $t("city") }}</label>
+            <br />
             <el-select
               style="width: 250px"
               v-model="filters.cityId"
@@ -99,6 +105,8 @@
           </div>
 
           <div class="col-md-4 mb-6">
+            <label>{{ $t("locality") }}</label>
+            <br />
             <el-select
               style="width: 250px"
               v-model="filters.localityId"
@@ -116,6 +124,8 @@
             </el-select>
           </div>
           <div class="col-md-4 mb-6">
+            <label>{{ $t("package") }}</label>
+            <br />
             <el-select
               style="width: 250px"
               v-model="filters.packageId"
@@ -133,23 +143,8 @@
             </el-select>
           </div>
           <div class="col-md-4 mb-6">
-            <el-select
-              style="width: 250px"
-              v-model="filters.localityId"
-              filterable
-              clearable
-              :placeholder="$t('locality')"
-              v-loading="localitiesStore.dataIsLoading"
-            >
-              <el-option
-                v-for="locality in localitiesStore.localities"
-                :label="locality.name"
-                :value="locality.id"
-                :key="locality.id"
-              />
-            </el-select>
-          </div>
-          <div class="col-md-4 mb-6">
+            <label>{{ $t("userRole") }}</label>
+            <br />
             <el-select
               style="width: 250px"
               v-model.number="filters.roleType"
@@ -180,6 +175,8 @@
           </div>
 
           <div class="col-md-4 mb-6">
+            <label>{{ $t("search") }}</label>
+            <br />
             <el-input
               v-model="filters.searchContent"
               :placeholder="$t('search')"
@@ -337,7 +334,7 @@ const notifyUser = (data: NotificationForm) => {
       users: multipleSelection.value.map((user) => user.userId),
     };
     notificationsStore.sendNotification(payload);
-    hideModal(notifyUserModalRef.value.modalRef);
+    // hideModal(notifyUserModalRef.value.modalRef);
   }
 };
 
