@@ -116,11 +116,27 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="notificationFor">
-                    <el-input
+                    <el-select
                       v-model="formData.notificationFor"
-                      type="text"
                       :placeholder="$t('notificationFor')"
-                    />
+                    >
+                      <el-option
+                        :label="$t('none')"
+                        :value="AppConstants.NotificationFor.None"
+                      />
+                      <el-option
+                        :label="$t('courses')"
+                        :value="AppConstants.NotificationFor.Courses"
+                      />
+                      <el-option
+                        :label="$t('account')"
+                        :value="AppConstants.NotificationFor.Account"
+                      />
+                      <el-option
+                        :label="$t('wallet')"
+                        :value="AppConstants.NotificationFor.Wallet"
+                      />
+                    </el-select>
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -134,11 +150,29 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="notificationType">
-                    <el-input
+                    <el-select
                       v-model="formData.notificationType"
-                      type="text"
                       :placeholder="$t('notificationType')"
-                    />
+                    >
+                      <el-option
+                        :label="$t('users')"
+                        :value="AppConstants.NOTIFICATION_TARGETS.Users"
+                      />
+                      <el-option
+                        :label="$t('countriesAndCities')"
+                        :value="
+                          AppConstants.NOTIFICATION_TARGETS.CountriesAndCities
+                        "
+                      />
+                      <el-option
+                        :label="$t('families')"
+                        :value="AppConstants.NOTIFICATION_TARGETS.Families"
+                      />
+                      <el-option
+                        :label="$t('courses')"
+                        :value="AppConstants.NOTIFICATION_TARGETS.Courses"
+                      />
+                    </el-select>
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -151,11 +185,68 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="level">
-                    <el-input
+                    <el-select
                       v-model="formData.level"
                       type="text"
                       :placeholder="$t('level')"
-                    />
+                    >
+                      <el-option
+                        :label="$t('all')"
+                        :value="AppConstants.NotificationMulticastLevel.All"
+                      />
+                      <el-option
+                        :label="$t('allParents')"
+                        :value="
+                          AppConstants.NotificationMulticastLevel.AllParents
+                        "
+                      />
+                      <el-option
+                        :label="$t('allChildren')"
+                        :value="
+                          AppConstants.NotificationMulticastLevel.AllChildren
+                        "
+                      />
+                      <el-option
+                        :label="$t('parens')"
+                        :value="AppConstants.NotificationMulticastLevel.Parents"
+                      />
+                      <el-option
+                        :label="$t('children')"
+                        :value="
+                          AppConstants.NotificationMulticastLevel.Children
+                        "
+                      />
+                      <el-option
+                        :label="$t('teachers')"
+                        :value="
+                          AppConstants.NotificationMulticastLevel.Teachers
+                        "
+                      />
+                      <el-option
+                        :label="$t('countries')"
+                        :value="
+                          AppConstants.NotificationMulticastLevel.Countries
+                        "
+                      />
+                      <el-option
+                        :label="$t('cities')"
+                        :value="AppConstants.NotificationMulticastLevel.Cities"
+                      />
+                      <el-option
+                        :label="$t('localities')"
+                        :value="
+                          AppConstants.NotificationMulticastLevel.Localities
+                        "
+                      />
+                      <el-option
+                        :label="$t('courses')"
+                        :value="AppConstants.NotificationMulticastLevel.Courses"
+                      />
+                      <el-option
+                        :label="$t('family')"
+                        :value="AppConstants.NotificationMulticastLevel.Family"
+                      />
+                    </el-select>
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -183,7 +274,7 @@
                             :placeholder="$t('file')"
                             aria-label="Username"
                             aria-describedby="basic-addon1"
-                            style="width: 150px"
+                            style="width: 100%"
                           >
                             <template #suffix>
                               <AttachmentIcon class="cursor-pointer" />
@@ -277,7 +368,6 @@
 
 <script lang="ts" setup>
 import { ref, computed, reactive, onMounted } from "vue";
-
 import { useI18n } from "vue-i18n";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { useUsersStore } from "@/store/pinia_store/modules/UsersManagementModule";

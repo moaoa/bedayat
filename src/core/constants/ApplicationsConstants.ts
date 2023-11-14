@@ -186,6 +186,26 @@ export class AppConstants {
     Excel: 1,
     Csv: 2,
   };
+  static NotificationMulticastLevel = {
+    All: 0,
+    AllParents: 1,
+    AllChildren: 2,
+    AllTeachers: 3,
+    Parents: 4,
+    Children: 5,
+    Teachers: 6,
+    Countries: 7,
+    Cities: 8,
+    Localities: 9,
+    Courses: 10,
+    Family: 11,
+  };
+  static NotificationFor = {
+    None: 0,
+    Courses: 1,
+    Account: 2,
+    Wallet: 3,
+  };
   static ARABIC_LETTERS_REGEX =
     /^[\u0621-\u064A0-9\s\-\_\.\,\!\@\#\$\%\^\&\*\(\)\+\=\{\}\[\]\:\;\"\'\<\>\?\|\\\/]+$/;
   static ENGLISH_LETTERS_REGEX =
