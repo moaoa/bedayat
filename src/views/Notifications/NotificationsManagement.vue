@@ -169,13 +169,12 @@
                 :label="item.title"
                 :key="item.id"
               >
-                <div class="d-flex">
-                  <p>
+                <div class="d-flex gap-4">
+                  <strong>
                     {{ item.title }}
-                  </p>
-                  -
-                  <p>
-                    {{ item.id }}
+                  </strong>
+                  <p class="small">
+                    {{ item.description }}
                   </p>
                 </div>
               </el-option>
