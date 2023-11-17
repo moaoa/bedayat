@@ -155,22 +155,32 @@
                       :placeholder="$t('notificationType')"
                     >
                       <el-option
-                        :label="$t('users')"
-                        :value="AppConstants.NOTIFICATION_TARGETS.Users"
+                        :label="$t('critical')"
+                        :value="AppConstants.NOTIFICATION_TYPES.Critical"
                       />
                       <el-option
-                        :label="$t('countriesAndCities')"
-                        :value="
-                          AppConstants.NOTIFICATION_TARGETS.CountriesAndCities
-                        "
+                        :label="$t('default')"
+                        :value="AppConstants.NOTIFICATION_TYPES.Default"
                       />
                       <el-option
-                        :label="$t('families')"
-                        :value="AppConstants.NOTIFICATION_TARGETS.Families"
+                        :label="$t('error')"
+                        :value="AppConstants.NOTIFICATION_TYPES.Error"
                       />
                       <el-option
-                        :label="$t('courses')"
-                        :value="AppConstants.NOTIFICATION_TARGETS.Courses"
+                        :label="$t('none')"
+                        :value="AppConstants.NOTIFICATION_TYPES.None"
+                      />
+                      <el-option
+                        :label="$t('promotional')"
+                        :value="AppConstants.NOTIFICATION_TYPES.Promotional"
+                      />
+                      <el-option
+                        :label="$t('userGuide')"
+                        :value="AppConstants.NOTIFICATION_TYPES.UserGuide"
+                      />
+                      <el-option
+                        :label="$t('warning')"
+                        :value="AppConstants.NOTIFICATION_TYPES.Warning"
                       />
                     </el-select>
                   </el-form-item>
@@ -397,9 +407,9 @@ const formData = reactive<NotificationForm>({
   englishDescription: "",
   englishTitle: "",
   image: null,
-  level: 1, // TODO: change to enum
-  notificationFor: 1, // TODO: change to enum
-  notificationType: 1, // TODO: change to enum
+  level: AppConstants.NotificationMulticastLevel.All,
+  notificationFor: AppConstants.NotificationFor.None,
+  notificationType: AppConstants.NOTIFICATION_TYPES.None,
   title: "",
 });
 
@@ -483,9 +493,9 @@ onMounted(() => {
     ) {
       fileInput.value?.reset();
     }
-    formData.level = 1;
-    formData.notificationFor = 1;
-    formData.notificationType = 1;
+    formData.level = AppConstants.NotificationMulticastLevel.All;
+    formData.notificationFor = AppConstants.NotificationFor.None;
+    formData.notificationType = AppConstants.NOTIFICATION_TYPES.None;
     formData.title = "";
   });
 });
