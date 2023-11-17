@@ -216,4 +216,13 @@ export class AppConstants {
     Families: 2,
     Courses: 3,
   };
+  static NOTIFICATION_TYPES = {
+    None: 0,
+    Default: 1,
+    UserGuide: 2,
+    Promotional: 3,
+    Critical: 4,
+    Warning: 5,
+    Error: 6,
+  };
 }
