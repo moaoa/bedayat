@@ -66,7 +66,13 @@
               </el-select>
             </label>
           </div>
-          <div class="col-md-4 mb-6 d-flex flex-column">
+          <div
+            v-if="
+              filters.notificationTarget ===
+              AppConstants.NOTIFICATION_TARGETS.CountriesAndCities
+            "
+            class="col-md-4 mb-6 d-flex flex-column"
+          >
             <label class="d-flex flex-column">
               {{ $t("country") }}
               <el-select
@@ -86,7 +92,13 @@
             </label>
           </div>
 
-          <div class="col-md-4 mb-6 d-flex flex-column">
+          <div
+            v-if="
+              filters.notificationTarget ===
+              AppConstants.NOTIFICATION_TARGETS.CountriesAndCities
+            "
+            class="col-md-4 mb-6 d-flex flex-column"
+          >
             <label class="d-flex flex-column">
               {{ $t("city") }}
               <el-select
@@ -107,7 +119,13 @@
             </label>
           </div>
 
-          <div class="col-md-4 mb-6 d-flex flex-column">
+          <div
+            v-if="
+              filters.notificationTarget ===
+              AppConstants.NOTIFICATION_TARGETS.CountriesAndCities
+            "
+            class="col-md-4 mb-6 d-flex flex-column"
+          >
             <div>
               <label>{{ $t("locality") }}</label>
             </div>
@@ -127,7 +145,13 @@
               />
             </el-select>
           </div>
-          <div class="col-md-4 mb-6 d-flex flex-column">
+          <div
+            v-if="
+              filters.notificationTarget ===
+              AppConstants.NOTIFICATION_TARGETS.Courses
+            "
+            class="col-md-4 mb-6 d-flex flex-column"
+          >
             <div>
               <label>{{ $t("package") }}</label>
             </div>
@@ -141,13 +165,29 @@
             >
               <el-option
                 v-for="item in coursesStore.packages.results"
-                :label="item.title"
                 :value="item.id"
+                :label="item.title"
                 :key="item.id"
-              />
+              >
+                <div class="d-flex">
+                  <p>
+                    {{ item.title }}
+                  </p>
+                  -
+                  <p>
+                    {{ item.id }}
+                  </p>
+                </div>
+              </el-option>
             </el-select>
           </div>
-          <div class="col-md-4 mb-6 d-flex flex-column">
+          <div
+            v-if="
+              filters.notificationTarget ===
+              AppConstants.NOTIFICATION_TARGETS.Users
+            "
+            class="col-md-4 mb-6 d-flex flex-column"
+          >
             <div></div>
             <label>{{ $t("userRole") }}</label>
             <el-select
@@ -229,7 +269,7 @@
           </el-table-column>
           <el-table-column
             :label="$t('email')"
-            width="250"
+            width="300"
             align="center"
             header-align="center"
           >
@@ -338,7 +378,7 @@ const notifyUser = (data: NotificationForm) => {
       users: multipleSelection.value.map((user) => user.userId),
     };
     notificationsStore.sendNotification(payload);
-    // hideModal(notifyUserModalRef.value.modalRef);
+    hideModal(notifyUserModalRef.value.modalRef);
   }
 };
 
