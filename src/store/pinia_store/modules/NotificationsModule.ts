@@ -59,5 +59,22 @@ export const useNotificationsStore = defineStore({
         this.isCreatingNewItem = false;
       }
     },
+    async sendNotificationForFamily(
+      notificationPayload: NewNotificationPayload
+    ) {
+      this.isCreatingNewItem = true;
+      try {
+        const res = await NotificationsService.sendNotificationForFamily(
+          notificationPayload
+        );
+
+        Toaster.Success("notificationWasSentSuccessfully");
+      } catch (error) {
+        Toaster.error((error as Error).message);
+        console.log(error);
+      } finally {
+        this.isCreatingNewItem = false;
+      }
+    },
   },
 });

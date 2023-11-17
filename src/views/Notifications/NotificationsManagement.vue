@@ -227,7 +227,7 @@
             />
           </div>
           <div class="col-md-4 mb-6" @click="getUsers">
-            <a class="btn btn-sm btn-primary mx-1">
+            <a class="btn btn-sm btn-primary mx-1 mt-6">
               {{ $t("search") }}
             </a>
           </div>
@@ -369,14 +369,20 @@ const handleSelectionChange = (val: User[]) => {
   multipleSelection.value = val;
 };
 
-const notifyUser = (data: NotificationForm) => {
+const notifyUser = async (data: NotificationForm) => {
   if (notifyUserModalRef.value) {
     const payload = {
       ...data,
       image: data.image!,
       users: multipleSelection.value.map((user) => user.userId),
     };
-    notificationsStore.sendNotification(payload);
+    if (
+      filters.notificationTarget === AppConstants.NOTIFICATION_TARGETS.Families
+    ) {
+      await notificationsStore.sendNotificationForFamily(payload);
+    } else {
+      await notificationsStore.sendNotification(payload);
+    }
     hideModal(notifyUserModalRef.value.modalRef);
   }
 };

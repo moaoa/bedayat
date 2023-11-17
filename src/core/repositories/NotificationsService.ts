@@ -43,6 +43,28 @@ class Repository {
       form
     );
   }
+  public static async sendNotificationForFamily(
+    newUserData: NewNotificationPayload
+  ) {
+    const form = new FormData();
+    form.append("Title", newUserData.title);
+    form.append("EnglishTitle", newUserData.englishTitle);
+    form.append("Description", newUserData.description);
+    form.append("EnglishDescription", newUserData.englishDescription);
+    form.append("Level", newUserData.level.toString());
+    form.append("NotificationFor", newUserData.notificationFor.toString());
+    form.append("NotificationType", newUserData.notificationType.toString());
+    form.append("Image", newUserData.image);
+
+    newUserData.users.forEach((id) => {
+      form.append("Parents", id);
+    });
+
+    return await ApiService.post<Response>(
+      `${AppConstants.NOTIFICATIONS_URL}/AddFamiliesUsersNotifications`,
+      form
+    );
+  }
 }
 
 export default Repository;
