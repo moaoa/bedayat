@@ -380,6 +380,7 @@ const messages = {
     allChildren: "All Children",
     teachers: "All Teachers",
     teachers: "Teachres",
+    file: "File",
   },
   ar: {
     purchases: "تاريخ الشراء",
@@ -760,6 +761,7 @@ const messages = {
     allChildren: "كل الابناء",
     teachers: "الأساتذة",
     teachers: "الأساتذة",
+    file: "الملف",
   },
 };
 
