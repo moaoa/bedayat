@@ -375,6 +375,11 @@ const messages = {
     error: "Error",
     promotional: "Promotional",
     userGuide: "User Guide",
+    level: "Level",
+    allParents: "All Parents",
+    allChildren: "All Children",
+    teachers: "All Teachers",
+    teachers: "Teachres",
   },
   ar: {
     purchases: "تاريخ الشراء",
@@ -750,6 +755,11 @@ const messages = {
     error: "خطأ",
     promotional: "ترويجي",
     userGuide: "دليل المستخدم",
+    level: "المستوى",
+    allParents: "كل الأباء",
+    allChildren: "كل الابناء",
+    teachers: "الأساتذة",
+    teachers: "الأساتذة",
   },
 };
 

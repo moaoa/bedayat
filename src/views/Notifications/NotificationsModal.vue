@@ -217,7 +217,7 @@
                         "
                       />
                       <el-option
-                        :label="$t('parens')"
+                        :label="$t('parents')"
                         :value="AppConstants.NotificationMulticastLevel.Parents"
                       />
                       <el-option
