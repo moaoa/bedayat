@@ -74,15 +74,7 @@
     <!--begin::Body-->
     <div class="card-body pt-2">
       <div
-        class="
-          notice
-          d-flex
-          bg-light-warning
-          rounded
-          border-warning border border-dashed
-          mb-9
-          p-6
-        "
+        class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-9 p-6"
       >
         <span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
           <inline-svg src="/media/icons/duotune/general/gen044.svg" />
@@ -120,7 +112,7 @@ import { Actions } from "@/store/enums/StoreEnums";
 
 onMounted(() => {
   MenuComponent.reInitialization();
-  setCurrentPageBreadcrumbs("pageHeader", ["Ss", "ss"]);
+  setCurrentPageBreadcrumbs("cities", ["Ss", "ss"]);
   store.dispatch(Actions.LOAD_CITIES);
 });
 </script>
