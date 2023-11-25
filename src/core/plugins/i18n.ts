@@ -378,9 +378,10 @@ const messages = {
     level: "Level",
     allParents: "All Parents",
     allChildren: "All Children",
-    teachers: "All Teachers",
     teachers: "Teachres",
     file: "File",
+    welcomeToHomeScreen: "Welcome To Home Screen",
+    mainPage: "Main Page",
   },
   ar: {
     purchases: "تاريخ الشراء",
@@ -760,8 +761,9 @@ const messages = {
     allParents: "كل الأباء",
     allChildren: "كل الابناء",
     teachers: "الأساتذة",
-    teachers: "الأساتذة",
     file: "الملف",
+    welcomeToHomeScreen: "مرحبا بك في الشاشة الرئيسية",
+    mainPage: "الصفحة الرئيسية",
   },
 };
 
