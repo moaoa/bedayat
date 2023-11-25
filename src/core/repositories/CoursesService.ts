@@ -7,20 +7,16 @@ import {
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
 import ApiService from "@/core/services/ApiService";
-import {
-  Package,
-  PackageAddData,
-  PackageFilter,
-} from "@/types/Packages/Packages";
+import { PackageAddData, PackageFilter } from "@/types/Packages/Packages";
+import { removeEmptyStringValues } from "@/core/helpers/removeEmptyStringValues";
 
 class CoursesService {
   public static async getCourses(params: CourseFilters) {
+    const payload = removeEmptyStringValues(params);
     const res = await ApiService.query<Response>(
       `${AppConstants.COURSES_URL}/SearchCourses`,
       {
-        params: {
-          ...params,
-        },
+        params: payload,
       }
     );
     return res.data.results ?? [];
