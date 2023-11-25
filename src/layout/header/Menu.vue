@@ -34,63 +34,16 @@
       class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
       id="#kt_header_menu"
       data-kt-menu="true"
-    >
-      <!--      <div-->
-      <!--        data-kt-menu-trigger="click"-->
-      <!--        data-kt-menu-placement="bottom-start"-->
-      <!--        class="menu-item menu-lg-down-accordion me-lg-1"-->
-      <!--      >-->
-      <!--        <span class="menu-link py-3">-->
-      <!--          <span class="menu-title fs-5">-->
-      <!--            &lt;!&ndash; <inline-svg src="/media/svg/lang.svg" /> &ndash;&gt;-->
-      <!--            <el-menu-->
-      <!--              :default-active="activeIndex"-->
-      <!--              class="el-menu-demo"-->
-      <!--              active-text-color="#ffd04b"-->
-      <!--              mode="horizontal"-->
-      <!--              @select="handleSelect"-->
-      <!--            >-->
-      <!--              <el-submenu index="1">-->
-      <!--                <template #title>lang</template>-->
-      <!--                <el-menu-item index="2-1" @click="langStore.setLang('ar')">-->
-      <!--                  العربية-->
-      <!--                </el-menu-item>-->
-      <!--                <el-menu-item index="2-2" @click="langStore.setLang('en')">-->
-      <!--                  English-->
-      <!--                </el-menu-item>-->
-      <!--              </el-submenu>-->
-      <!--            </el-menu>-->
-      <!--          </span>-->
-      <!--          <span class="menu-arrow d-lg-none"></span>-->
-      <!--        </span>-->
-      <!--      </div>-->
-    </div>
+    ></div>
   </div>
   <!--end::Menu wrapper-->
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
+import { onMounted } from "vue";
 import { MenuComponent } from "@/assets/ts/components";
-import { useLangStore } from "@/store/pinia_store/modules/LangModule";
-
-const { t, te } = useI18n();
-const route = useRoute();
-const langStore = useLangStore();
-
-const hasActiveChildren = (match) => {
-  return route.path.indexOf(match) !== -1;
-};
 
 onMounted(() => {
   MenuComponent.reInitialization();
 });
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-  activeIndex.value = key;
-};
-
-const activeIndex = ref("1");
 </script>
