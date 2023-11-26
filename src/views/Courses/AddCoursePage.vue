@@ -283,6 +283,7 @@ import Toaster from "@/core/services/Toaster";
 import { useGradeSubjectsStore } from "@/store/pinia_store/modules/GradeSubjectsModule";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import { useFileDialog } from "@vueuse/core";
+import router from "@/router";
 
 const { t } = useI18n();
 
@@ -348,6 +349,7 @@ const submit = () => {
       await coursesStore.createNewItem(formData);
       hideModal(modalRef.value);
       Toaster.Success(t("success"), t("createdNewItem"));
+      router.push({ name: "Courses" });
     } catch (error) {
       console.log(error);
     }
