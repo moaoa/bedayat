@@ -107,6 +107,7 @@ export const useCoursesStore = defineStore({
           ...newValues,
         };
         this.isUpdatingItem = false;
+        router.push({ name: "Courses" });
       } catch (error) {
         this.isUpdatingItem = false;
         console.log(error);
@@ -122,6 +123,7 @@ export const useCoursesStore = defineStore({
           params: { id: res.data.data.id },
         });
         this.isCreatingNewItem = false;
+        router.push({ name: "Courses" });
       } catch (error) {
         this.isCreatingNewItem = false;
         console.log(error);
