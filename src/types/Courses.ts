@@ -77,4 +77,6 @@ export type CourseFilters = {
   maxNumberOfLessons: number;
   name: string;
   rating: number[];
+  currentPage: number;
+  pageSize: number;
 };

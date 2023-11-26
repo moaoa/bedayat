@@ -277,7 +277,10 @@
         v-if="!coursesStore.dataIsLoading && coursesStore.courses"
         background
         layout="total, sizes, prev, pager, next, jumper"
-        :total="coursesStore.courses.length"
+        :total="coursesStore.pagination.total"
+        v-model:current-page="filters.currentPage"
+        v-model:page-size="filters.pageSize"
+        v-model:pager-count="pagerCount"
       />
       <!-- end::pagination -->
     </div>
@@ -305,6 +308,7 @@ import CrossIcon from "@/components/icons/CrossIcon.vue";
 import DotsIcon from "@/components/icons/DotsIcon.vue";
 import Toaster from "@/core/services/Toaster";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import { watch } from "vue";
 
 const { t } = useI18n();
 const coursesStore = useCoursesStore();
@@ -312,8 +316,6 @@ const coursesStore = useCoursesStore();
 const subjectsStore = useSubjectsStore();
 
 const coursesTable = computed(() => coursesStore.courses);
-
-const deleteCourseModalRef = ref<{ modalRef: HTMLElement } | null>(null);
 
 const filters = reactive<CourseFilters>({
   maxNumberOfLessons: 10,
@@ -323,7 +325,11 @@ const filters = reactive<CourseFilters>({
   name: "",
   rating: [],
   subjectIds: [],
+  currentPage: 1,
+  pageSize: 10,
 });
+
+const pagerCount = ref(1);
 
 coursesStore.loadCourses(filters);
 
@@ -352,4 +358,9 @@ const handleToggleUser = async (course: Course) => {
 setCurrentPageBreadcrumbs(t("courses"), [t("courses")]);
 
 subjectsStore.loadSubjects();
+
+watch(
+  () => [filters.currentPage, filters.pageSize],
+  () => coursesStore.loadCourses(filters)
+);
 </script>

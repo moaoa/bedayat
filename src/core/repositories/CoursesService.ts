@@ -16,10 +16,13 @@ class CoursesService {
     const res = await ApiService.query<Response>(
       `${AppConstants.COURSES_URL}/SearchCourses`,
       {
-        params: payload,
+        params: {
+          ...payload,
+          pageNumber: payload.currentPage,
+        },
       }
     );
-    return res.data.results ?? [];
+    return res;
   }
   public static async deleteCourse(courseId: string) {
     return await ApiService.delete<Response>(

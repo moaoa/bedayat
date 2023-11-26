@@ -58,9 +58,10 @@ export const useCoursesStore = defineStore({
       this.errorLoadingData = false;
 
       try {
-        const items = await coursesService.getCourses(params);
+        const res = await coursesService.getCourses(params);
 
-        this.courses = items;
+        this.courses = res.data.results;
+        this.pagination.total = res.data.rowsCount;
       } catch (e) {
         console.log((e as Error).message);
       } finally {
