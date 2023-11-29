@@ -16,7 +16,12 @@ class PackagesService {
     const result = await ApiService.query(
       `${AppConstants.Packages_URL}s/GetPackagesByGradeAndName/${params.gradeId}`,
       {
-        params,
+        params: {
+          gradeId: params.gradeId,
+          packageStatus: params.packageStatus,
+          title: params.name,
+          packageType: params.packageType,
+        },
       }
     );
     const data = result.data as PagedResult<GetPackagesResponseDto>;
