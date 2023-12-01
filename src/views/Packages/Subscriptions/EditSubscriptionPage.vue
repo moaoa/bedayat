@@ -2,7 +2,9 @@
   <div class="card">
     <!--begin::Header-->
     <div class="card-header border-0">
-      <h3 class="card-title fw-bolder text-dark">{{ $t("editSubscription") }}</h3>
+      <h3 class="card-title fw-bolder text-dark">
+        {{ $t("editSubscription") }}
+      </h3>
 
       <div class="card-toolbar">
         <!--begin::Menu-->
@@ -106,15 +108,13 @@
                 <!--begin::Input-->
                 <el-form-item prop="subTitle">
                   <el-input
-                      v-model="formData.subTitle"
-                      type="text"
-                      :placeholder="$t('subTitle')"
+                    v-model="formData.subTitle"
+                    type="text"
+                    :placeholder="$t('subTitle')"
                   />
                 </el-form-item>
                 <!--end::Input-->
               </div>
-
-
 
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
@@ -126,14 +126,13 @@
                 <!--begin::Input-->
                 <el-form-item prop="englishSubTitle">
                   <el-input
-                      v-model="formData.englishSubTitle"
-                      type="text"
-                      :placeholder="$t('englishSubTitle')"
+                    v-model="formData.englishSubTitle"
+                    type="text"
+                    :placeholder="$t('englishSubTitle')"
                   />
                 </el-form-item>
                 <!--end::Input-->
               </div>
-
 
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
@@ -162,9 +161,9 @@
                 <!--begin::Input-->
                 <el-form-item prop="discount">
                   <el-input
-                      v-model="formData.discount"
-                      type="number"
-                      :placeholder="$t('discount')"
+                    v-model="formData.discount"
+                    type="number"
+                    :placeholder="$t('discount')"
                   />
                 </el-form-item>
                 <!--end::Input-->
@@ -180,14 +179,13 @@
                 <!--begin::Input-->
                 <el-form-item prop="fakePrice">
                   <el-input
-                      v-model="formData.fakePrice"
-                      type="number"
-                      :placeholder="$t('fakePrice')"
+                    v-model="formData.fakePrice"
+                    type="number"
+                    :placeholder="$t('fakePrice')"
                   />
                 </el-form-item>
                 <!--end::Input-->
               </div>
-
 
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
@@ -216,7 +214,6 @@
                 </el-form-item>
                 <!--end::Input-->
               </div>
-
             </div>
           </div>
           <!--end::Scroll-->
@@ -265,87 +262,97 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, computed, watch } from "vue";
-import { hideModal } from "@/core/helpers/dom";
+import { reactive, ref, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
-import { useFileDialog } from "@vueuse/core";
-import {useSubscriptionSettingsStore} from "@/store/pinia_store/modules/SubscriptionSettings";
-import {useSubscriptionStore} from "@/store/pinia_store/modules/SubscriptionModule";
-import {NewSubscriptionData} from "@/types/Subscription";
+import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
+import { useSubscriptionStore } from "@/store/pinia_store/modules/SubscriptionModule";
+import { NewSubscriptionData } from "@/types/Subscription";
 import router from "@/router";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
-
-const {  open, files } = useFileDialog();
-
-
 
 const gradesStore = useGradesStore();
 
 const subscriptionSettingsStore = useSubscriptionSettingsStore();
-subscriptionSettingsStore.getSubscriptionSettings()
+subscriptionSettingsStore.getSubscriptionSettings();
 
 const subscriptionsStore = useSubscriptionStore();
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
 const loading = computed(() => subscriptionsStore.isCreatingNewItem);
 const formData = reactive<NewSubscriptionData>({
-  englishTitle: subscriptionsStore.selectedSubscription.englishTitle,
-  title: subscriptionsStore.selectedSubscription.title,
-  details: subscriptionsStore.selectedSubscription.details,
-  discount: subscriptionsStore.selectedSubscription.discount,
-  englishDetails: subscriptionsStore.selectedSubscription.englishDetails,
-  englishSubTitle: subscriptionsStore.selectedSubscription.englishSubTitle,
-  fakePrice: subscriptionsStore.selectedSubscription.fakePrice,
+  englishTitle: subscriptionsStore.selectedSubscription.englishTitle!,
+  title: subscriptionsStore.selectedSubscription.title!,
+  details: subscriptionsStore.selectedSubscription.details!,
+  discount: subscriptionsStore.selectedSubscription.discount!,
+  englishDetails: subscriptionsStore.selectedSubscription.englishDetails!,
+  englishSubTitle: subscriptionsStore.selectedSubscription.englishSubTitle!,
+  fakePrice: subscriptionsStore.selectedSubscription.fakePrice!, //TODO: fix the type
   packageId: router.currentRoute.value.params.id as string,
-  price: subscriptionsStore.selectedSubscription.price,
-  subTitle: subscriptionsStore.selectedSubscription.subTitle,
-  subscriptionSettingId: subscriptionsStore.selectedSubscription.subscriptionSettingId
+  price: subscriptionsStore.selectedSubscription.price!,
+  subTitle: subscriptionsStore.selectedSubscription.subTitle!,
+  subscriptionSettingId:
+    subscriptionsStore.selectedSubscription.subscriptionSettingId!, //TODO: check for this one
 });
 
 const rules = ref<Record<keyof NewSubscriptionData, object[]>>({
-  title: [    {
-    required: true,
-    pattern:  /^[ء-ي\s]+$/,
-    message: t("nameMustBeArabic"),
-    trigger: ["blur", "change"],
-  }],
-  details: [    {
-    required: true,
-    pattern:  /^[ء-ي\s]+$/,
-    message: t("nameMustBeArabic"),
-    trigger: ["blur", "change"],
-  }],
-  subTitle: [    {
-    required: true,
-    pattern:  /^[ء-ي\s]+$/,
-    message: t("nameMustBeArabic"),
-    trigger: ["blur", "change"],
-  }],
+  title: [
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  details: [
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  subTitle: [
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    },
+  ],
 
-  englishDetails: [    {
-    required: true,
-    pattern: /^[A-Za-z\s]+$/,
-    message: t("nameMustBeEnglish"),
-    trigger: ["blur", "change"],
-  }],
-  englishSubTitle: [    {
-    required: true,
-    pattern: /^[A-Za-z\s]+$/,
-    message: t("nameMustBeEnglish"),
-    trigger: ["blur", "change"],
-  }],
-  englishTitle: [    {
-    required: true,
-    pattern: /^[A-Za-z\s]+$/,
-    message: t("nameMustBeEnglish"),
-    trigger: ["blur", "change"],
-  }],
+  englishDetails: [
+    {
+      required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  englishSubTitle: [
+    {
+      required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  englishTitle: [
+    {
+      required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    },
+  ],
 
   packageId: [{ required: true, message: t("required"), trigger: "blur" }],
   fakePrice: [{ required: true, message: t("required"), trigger: "blur" }],
-  subscriptionSettingId: [{ required: true, message: t("required"), trigger: "blur" }],
+  subscriptionSettingId: [
+    { required: true, message: t("required"), trigger: "blur" },
+  ],
   price: [{ required: true, message: t("required"), trigger: "blur" }],
   discount: [{ required: true, message: t("required"), trigger: "blur" }],
 });
@@ -360,7 +367,6 @@ const submit = () => {
     }
     try {
       await subscriptionsStore.updateItem(formData);
-
     } catch (error) {
       console.log(error);
     }
@@ -374,8 +380,6 @@ onMounted(() => {
 });
 
 gradesStore.loadGrades();
-
-
 </script>
 
 <style lang="scss">

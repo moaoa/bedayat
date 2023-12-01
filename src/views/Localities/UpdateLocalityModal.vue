@@ -82,7 +82,7 @@
           <div class="modal-footer flex-center">
             <!--begin::Button-->
             <button
-            id="update_locality_modal_close"
+              id="update_locality_modal_close"
               type="reset"
               class="btn btn-light me-3 btn-sm"
               style="width: 100px"
@@ -122,11 +122,9 @@
   </div>
 </template>
 
-
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from "vue";
-import Swal from "sweetalert2/dist/sweetalert2.js";
-
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { useI18n } from "vue-i18n";
 import { NewLocalityData } from "@/types/Localities";
 import { useLocalitiesStore } from "@/store/pinia_store/modules/LocalitiesModule";
@@ -161,18 +159,18 @@ const rules = ref({
     { required: true, message: t("required"), trigger: "blur" },
     {
       required: true,
-      pattern:  /^[ء-ي\s]+$/,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
       message: t("nameMustBeArabic"),
       trigger: ["blur", "change"],
-    }
+    },
   ],
   englishName: [
     {
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       message: t("nameMustBeEnglish"),
       trigger: ["blur", "change"],
-    }
+    },
   ],
 });
 

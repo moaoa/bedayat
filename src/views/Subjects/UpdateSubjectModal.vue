@@ -1,43 +1,43 @@
 <template>
   <div
-      id="update_item_modal"
-      ref="modalRef"
-      class="modal fade"
-      tabindex="-1"
-      aria-hidden="true"
+    id="update_item_modal"
+    ref="modalRef"
+    class="modal fade"
+    tabindex="-1"
+    aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
           <h2 class="fw-bolder">{{ $t("updateSubject") }}</h2>
           <div
-              id="kt_modal_add_customer_close"
-              data-bs-dismiss="modal"
-              class="btn btn-icon btn-sm btn-active-icon-primary"
-              @click="$emit('close')"
+            id="kt_modal_add_customer_close"
+            data-bs-dismiss="modal"
+            class="btn btn-icon btn-sm btn-active-icon-primary"
+            @click="$emit('close')"
           >
             <span class="svg-icon svg-icon-1">
-              <inline-svg src="/media/icons/duotune/arrows/arr061.svg"/>
+              <inline-svg src="/media/icons/duotune/arrows/arr061.svg" />
             </span>
           </div>
           <!--end::Close-->
         </div>
         <el-form
-            @submit.prevent="submit()"
-            :model="formData"
-            :rules="rules"
-            ref="formRef"
+          @submit.prevent="submit()"
+          :model="formData"
+          :rules="rules"
+          ref="formRef"
         >
           <div class="modal-body py-10 px-lg-17">
             <div
-                class="scroll-y me-n7 pe-7"
-                id="kt_modal_add_customer_scroll"
-                data-kt-scroll="true"
-                data-kt-scroll-activate="{default: false, lg: true}"
-                data-kt-scroll-max-height="auto"
-                data-kt-scroll-dependencies="#kt_modal_add_customer_header"
-                data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
-                data-kt-scroll-offset="300px"
+              class="scroll-y me-n7 pe-7"
+              id="kt_modal_add_customer_scroll"
+              data-kt-scroll="true"
+              data-kt-scroll-activate="{default: false, lg: true}"
+              data-kt-scroll-max-height="auto"
+              data-kt-scroll-dependencies="#kt_modal_add_customer_header"
+              data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
+              data-kt-scroll-offset="300px"
             >
               <div class="row">
                 <div class="fv-row mb-7 col-md-6">
@@ -50,10 +50,10 @@
                   <!--begin::Input-->
                   <el-form-item prop="name">
                     <el-input
-                        v-model="formData.name"
-                        type="text"
-                        :placeholder="$t('arabicName')"
-                        clearable
+                      v-model="formData.name"
+                      type="text"
+                      :placeholder="$t('arabicName')"
+                      clearable
                     />
                   </el-form-item>
 
@@ -69,10 +69,10 @@
                   <!--begin::Input-->
                   <el-form-item prop="englishName">
                     <el-input
-                        v-model="formData.englishName"
-                        type="text"
-                        :placeholder="$t('englishName')"
-                        clearable
+                      v-model="formData.englishName"
+                      type="text"
+                      :placeholder="$t('englishName')"
+                      clearable
                     />
                   </el-form-item>
 
@@ -89,9 +89,9 @@
                   <!--begin::Input-->
                   <el-form-item prop="priority">
                     <el-input
-                        v-model="formData.priority"
-                        type="text"
-                        :placeholder="$t('priority')"
+                      v-model="formData.priority"
+                      type="text"
+                      :placeholder="$t('priority')"
                     />
                   </el-form-item>
                   <!--end::Input-->
@@ -105,15 +105,21 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="subjectType">
-                    <el-select class="" v-model="formData.subjectType" clearable filterable>
+                    <el-select
+                      v-model="formData.subjectType"
+                      clearable
+                      filterable
+                    >
+                      <el-option :label="t('none')" :value="SubjectType.None" />
                       <el-option
-                          v-for="category in Object.values(SubjectType).slice(0,Object.values(SubjectType).length/2 )"
-                          :key="category" :value="SubjectType[category]"
-                          :label="t(category.toLowerCase())">
-                      </el-option>
+                        :label="t('literary')"
+                        :value="SubjectType.Literary"
+                      />
+                      <el-option
+                        :label="t('scientific')"
+                        :value="SubjectType.Scientific"
+                      />
                     </el-select>
-
-
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -127,10 +133,10 @@
           <div class="modal-footer flex-center">
             <!--begin::Button-->
             <button
-                type="reset"
-                id="update_subject_modal_close"
-                class="btn btn-light me-3 btn-sm"
-                style="width: 100px"
+              type="reset"
+              id="update_subject_modal_close"
+              class="btn btn-light me-3 btn-sm"
+              style="width: 100px"
             >
               {{ $t("cancel") }}
             </button>
@@ -138,22 +144,22 @@
 
             <!--begin::Button-->
             <button
-                :data-kt-indicator="loading ? 'on' : null"
-                class="btn btn-sm btn-primary"
-                type="submit"
-                style="width: 200px"
+              :data-kt-indicator="loading ? 'on' : null"
+              class="btn btn-sm btn-primary"
+              type="submit"
+              style="width: 200px"
             >
               <span v-if="!loading" class="indicator-label">
                 {{ $t("save") }}
                 <span class="svg-icon svg-icon-3 ms-2 me-0">
-                  <inline-svg src="icons/duotune/arrows/arr064.svg"/>
+                  <inline-svg src="icons/duotune/arrows/arr064.svg" />
                 </span>
               </span>
               <span v-if="loading" class="indicator-progress">
                 {{ $t("pleaseWait") }}...
 
                 <span
-                    class="spinner-border spinner-border-sm align-middle ms-2"
+                  class="spinner-border spinner-border-sm align-middle ms-2"
                 ></span>
               </span>
             </button>
@@ -168,15 +174,14 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref, watch, computed, onMounted} from "vue";
-import {hideModal} from "@/core/helpers/dom";
-import {useI18n} from "vue-i18n";
-import {NewSubjectData, SubjectType} from "@/types/Subjects";
-import {useSubjectsStore} from "@/store/pinia_store/modules/SubjectModule";
-import Toaster from "@/core/services/Toaster";
-import {BugStatusSearch} from "@/types/BugReports";
+import { reactive, ref, watch, computed, onMounted } from "vue";
+import { hideModal } from "@/core/helpers/dom";
+import { useI18n } from "vue-i18n";
+import { NewSubjectData, SubjectType } from "@/types/Subjects";
+import { useSubjectsStore } from "@/store/pinia_store/modules/SubjectModule";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
-const {t} = useI18n();
+const { t } = useI18n();
 
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
@@ -195,30 +200,33 @@ const formData = reactive<NewSubjectData>({
 const emit = defineEmits(["close"]);
 
 const rules = ref({
-
   name: [
     { required: true, message: t("required"), trigger: "blur" },
     {
       required: true,
-      pattern:  /^[ء-ي\s]+$/,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
       message: t("nameMustBeArabic"),
       trigger: ["blur", "change"],
-    }
+    },
   ],
   englishName: [
     {
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       message: t("nameMustBeEnglish"),
       trigger: ["blur", "change"],
-    }
+    },
   ],
-  note: [{required: true, message: t("required"), trigger: "blur"}
-  ],
-  subjectType: [{required: true,
+  note: [{ required: true, message: t("required"), trigger: "blur" }],
+  subjectType: [
+    {
+      required: true,
 
-    message: t("required"), trigger: "blur"}],
-  priority: [{required: true, message: t("required"), trigger: "blur"}],
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  priority: [{ required: true, message: t("required"), trigger: "blur" }],
 });
 
 const submit = () => {
@@ -240,14 +248,14 @@ const submit = () => {
 };
 
 watch(
-    () => subjectsStore.selectedSubject,
-    (value) => {
-      formData.englishName = value?.englishName ?? "";
-      formData.name = value?.name ?? "";
-      // formData.subjectType = value?.subjectType ?? 1;
-      formData.priority = value?.priority ?? 1;
-      formData.note = value?.note ?? "";
-    }
+  () => subjectsStore.selectedSubject,
+  (value) => {
+    formData.englishName = value?.englishName ?? "";
+    formData.name = value?.name ?? "";
+    // formData.subjectType = value?.subjectType ?? 1;
+    formData.priority = value?.priority ?? 1;
+    formData.note = value?.note ?? "";
+  }
 );
 
 onMounted(() => {

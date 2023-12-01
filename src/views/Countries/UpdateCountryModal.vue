@@ -24,14 +24,14 @@
           <!--end::Close-->
         </div>
         <el-form
-        ref="formRef"
-        :model="formData"
-        :rules="rules"
-        @submit.prevent="submit()"
+          ref="formRef"
+          :model="formData"
+          :rules="rules"
+          @submit.prevent="submit()"
         >
           <div class="modal-body py-10 px-lg-17">
             <div
-            id="kt_modal_add_customer_scroll"
+              id="kt_modal_add_customer_scroll"
               class="scroll-y me-n7 pe-7"
               data-kt-scroll="true"
               data-kt-scroll-activate="{default: false, lg: true}"
@@ -126,7 +126,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref, watch, computed, onMounted } from "vue";
-
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { useI18n } from "vue-i18n";
 import { Country, NewCountryData } from "@/types/Countries";
 import { useCountriesStore } from "@/store/pinia_store/modules/CountriesModule";
@@ -179,23 +179,13 @@ onMounted(() => {
   });
 });
 
-//todo: what is this ? 
-watch(
-  () => countriesStore.selectedCountry,
-  (value : Country) => {
-    formData.name = value?.name;
-    formData.englishName = value?.englishName;
-  }
-);
-
-
-///////////////////////////////////////////// validation rules 
+///////////////////////////////////////////// validation rules
 
 const rules = ref({
   name: [
     { required: true, message: t("required"), trigger: "blur" },
     {
-      pattern:  /^[ء-ي\s]+$/,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
       message: t("nameMustBeArabic"),
       trigger: ["blur", "change"],
     },
@@ -207,14 +197,12 @@ const rules = ref({
       trigger: "blur",
     },
     {
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       message: t("nameMustBeEnglish"),
       trigger: ["blur", "change"],
     },
   ],
 });
-
-
 </script>
 <style lang="scss">
 .el-select {
@@ -226,4 +214,3 @@ const rules = ref({
   width: 100%;
 }
 </style>
-

@@ -12,8 +12,6 @@ import axios from "axios";
 import FaqService from "@/core/services/FaqService";
 import toaster from "@/core/services/Toaster";
 
-
-
 export const useFaqsStore = defineStore({
   id: "useFaqsStore",
 
@@ -23,7 +21,7 @@ export const useFaqsStore = defineStore({
     currentPage: 1,
     currentSize: 0,
     selectedFaq: {} as Faq | null,
-    selectedCategory: null as FaqCategory | null ,
+    selectedCategory: null as FaqCategory | null,
     dataIsLoading: false,
     isCreatingNewItem: false,
     isUpdatingItem: false,
@@ -36,30 +34,26 @@ export const useFaqsStore = defineStore({
       this.isCreatingNewItem = true;
       try {
         const result = await FaqService.createFaq(faq);
-            this.faqs.push(result.data);
-            Toaster.Success(
-              "Faq added Successfully "
-            );
+        this.faqs.push(result.data);
+        Toaster.Success("Faq added Successfully ");
       } catch (e: unknown) {
-          Toaster.error(
-            "حدث خطأ",
-            (e as Error).message || "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
-          );
+        Toaster.error(
+          "حدث خطأ",
+          (e as Error).message || "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
+        );
       } finally {
         this.isCreatingNewItem = false;
       }
     },
     async updateFaq(faq: NewFaqData) {
       try {
-
-        const result = await FaqService.updateFaq(this.selectedFaq!.id, faq)
+        const result = await FaqService.updateFaq(this.selectedFaq!.id, faq);
 
         await this.loadFaqs(this.selectedCategory);
-
       } catch (e) {
         Toaster.error(
           "حدث خطأ",
-          e.message || "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
+          (e as Error).message || "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
         );
       } finally {
         this.isCreatingNewItem = false;
@@ -67,16 +61,14 @@ export const useFaqsStore = defineStore({
     },
     async deleteFaq() {
       try {
+        await FaqService.deleteFaq(this.selectedFaq!.id!);
 
-        await FaqService.deleteFaq(this.selectedFaq!.id!)
-
-        await this.loadFaqs(this.selectedCategory!)
-        toaster.Success("Success", "Question Deleted successfully")
-
+        await this.loadFaqs(this.selectedCategory!);
+        toaster.Success("Success", "Question Deleted successfully");
       } catch (e) {
         Toaster.error(
           "حدث خطأ",
-          e.message || "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
+          (e as Error).message || "حدث خطأ أثناء جلب بيانات الأسئلة الشائعة"
         );
       } finally {
         this.isCreatingNewItem = false;
@@ -87,9 +79,7 @@ export const useFaqsStore = defineStore({
         this.dataIsLoading = true;
 
         const response = await FaqService.getFaqs(faqCategory);
-            this.faqs = response.data;
-
-
+        this.faqs = response.data;
       } catch (e) {
         this.errorLoadingData = true;
         this.errorMessage =

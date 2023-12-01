@@ -88,10 +88,10 @@
                   <!--begin::Input-->
                   <el-form-item prop="priority">
                     <input
-                        class="form-control "
-                        v-model="formData.priority"
-                        type="number"
-                        :placeholder="$t('priority')"
+                      class="form-control"
+                      v-model="formData.priority"
+                      type="number"
+                      :placeholder="$t('priority')"
                     />
                   </el-form-item>
                   <!--end::Input-->
@@ -105,15 +105,15 @@
 
                   <!--begin::Input-->
                   <el-form-item prop="gradeType">
-
-
-
                     <el-select class="" v-model="formData.gradeType" filterable>
-                      <el-option v-for="category in Object.keys(AppConstants.GradeTypes)" :key="category" :value="AppConstants.GradeTypes[category]"
-                                 :label="t(category.toLowerCase())">
+                      <el-option
+                        v-for="category in Object.keys(AppConstants.GradeTypes)"
+                        :key="category"
+                        :value="AppConstants.GradeTypes[category]"
+                        :label="t(category.toLowerCase())"
+                      >
                       </el-option>
                     </el-select>
-
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -173,9 +173,7 @@ import { hideModal } from "@/core/helpers/dom";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import { useI18n } from "vue-i18n";
 import { NewGradeData } from "@/types/Grades";
-import Toaster from "@/core/services/Toaster";
-import {BugStatusSearch} from "@/types/BugReports";
-import {AppConstants} from "@/core/constants/ApplicationsConstants";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
 
@@ -192,23 +190,22 @@ const formData = reactive<NewGradeData>({
 });
 
 const rules = ref({
-
   name: [
     { required: true, message: t("required"), trigger: "blur" },
     {
       required: true,
-      pattern:  /^[ء-ي\s]+$/,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
       message: t("nameMustBeArabic"),
       trigger: ["blur", "change"],
-    }
+    },
   ],
   englishName: [
     {
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       message: t("nameMustBeEnglish"),
       trigger: ["blur", "change"],
-    }
+    },
   ],
   note: [{ required: true, message: t("required"), trigger: "blur" }],
   gradeType: [{ required: true, message: t("required"), trigger: "blur" }],

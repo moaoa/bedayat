@@ -38,22 +38,33 @@
               data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
               data-kt-scroll-offset="300px"
             >
-            <div class="d-flex flex-column mb-7 fv-row">
+              <div class="d-flex flex-column mb-7 fv-row">
                 <label class="fs-6 fw-bold mb-2">
                   <span class="required"> {{ $t("choseCategory") }}</span>
 
-                  <i  class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                   title="Country of origination"
-                 ></i>
+                  <i
+                    class="fas fa-exclamation-circle ms-1 fs-7"
+                    data-bs-toggle="tooltip"
+                    title="Country of origination"
+                  ></i>
                 </label>
                 <el-form-item prop="faqCategory">
                   <el-select v-model.number="formData.faqCategory">
-                    <el-option :label="$t('choseCategory')" :value="-1" disabled>{{ $t("choseCategory") }}...
+                    <el-option :label="$t('choseCategory')" :value="-1" disabled
+                      >{{ $t("choseCategory") }}...
                     </el-option>
-                    <el-option :label="$t('general')" :value="0">{{ $t("general") }}</el-option>
-                    <el-option :label="$t('login')" :value="1">{{ $t("login") }}</el-option>
-                    <el-option :label="$t('courses')" :value="2">{{ $t("courses") }}</el-option>
-                    <el-option :label="$t('subscription')" :value="3">{{ $t("subscription") }}</el-option>
+                    <el-option :label="$t('general')" :value="0">{{
+                      $t("general")
+                    }}</el-option>
+                    <el-option :label="$t('login')" :value="1">{{
+                      $t("login")
+                    }}</el-option>
+                    <el-option :label="$t('courses')" :value="2">{{
+                      $t("courses")
+                    }}</el-option>
+                    <el-option :label="$t('subscription')" :value="3">{{
+                      $t("subscription")
+                    }}</el-option>
                   </el-select>
                 </el-form-item>
               </div>
@@ -121,7 +132,6 @@
                 </el-form-item>
                 <!--end::Input-->
               </div>
-
             </div>
             <!--end::Scroll-->
           </div>
@@ -129,18 +139,17 @@
 
           <!--begin::Modal footer-->
           <div class="modal-footer flex-center">
-
             <!--begin::Button-->
-                        <button
-                          id="kt_modal_add_faq"
-                          type="reset"
-                          class="btn btn-light me-3 btn-sm"
-                          style="width: 100px"
-                          data-bs-dismiss="modal"
-                          @click="resetForm(formRef)"
-                        >
-                          {{ $t("cancel") }}
-                        </button>
+            <button
+              id="kt_modal_add_faq"
+              type="reset"
+              class="btn btn-light me-3 btn-sm"
+              style="width: 100px"
+              data-bs-dismiss="modal"
+              @click="resetForm(formRef)"
+            >
+              {{ $t("cancel") }}
+            </button>
             <!--end::Button-->
 
             <!--begin::Button-->
@@ -150,9 +159,7 @@
               class="btn btn-sm btn-primary"
               type="submit"
               style="width: 200px"
-
             >
-
               <span v-if="!loading" class="indicator-label">
                 {{ $t("save") }}
                 <span class="svg-icon svg-icon-3 ms-2 me-0">
@@ -181,88 +188,92 @@
 import { Faq, NewFaqData } from "@/types/Faq";
 import { useFaqsStore } from "@/store/pinia_store/modules/FaqsModule";
 import Toaster from "@/core/services/Toaster";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 import { computed, onMounted, reactive, ref, watch } from "vue";
 
 import { useI18n } from "vue-i18n";
 
-import { FormInstance, FormRules } from "element-plus";
 import { hideModal } from "@/core/helpers/dom";
 const { t } = useI18n();
 const faqsStore = useFaqsStore();
 const loading = computed(() => faqsStore.isCreatingNewItem);
-const formRef = ref<FormInstance>();
+const formRef = ref<HTMLFormElement | null>(null);
 const modalRef = ref<null | HTMLElement>(null);
 
-
+//FIXME: fix the type
 const formData = reactive<NewFaqData>({
   faqCategory: -1,
   question: "",
   answer: "",
   englishQuestion: "",
-  englishAnswer: ""
+  englishAnswer: "",
 });
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits<{
-  (event: "submit", data: NewFaqData)
+  (event: "submit", data: NewFaqData);
 }>();
 // eslint-disable-next-line no-undef
 defineExpose({
-  modalRef
+  modalRef,
 });
 
 const isValidCategory = (rule: any, value: any, callback: any) => {
   if (value === -1) {
-    callback(new Error(t("required")))
+    callback(new Error(t("required")));
   } else {
-    callback()
+    callback();
   }
-}
-const rules =reactive<FormRules<Faq>>({
+};
+const rules = reactive<Record<string, object[]>>({
   faqCategory: [
     {
       required: true,
-      message: t("theFieldIsRequired", {field: t("faqCategory")}),
+      message: t("theFieldIsRequired", { field: t("faqCategory") }),
       trigger: "change",
-      validator: isValidCategory
-    }
+      validator: isValidCategory,
+    },
   ],
   question: [
     {
-      message: t("nameMustBeArabic", {field: t("question")}),
+      message: t("nameMustBeArabic", { field: t("question") }),
       required: true,
-      pattern: /^[ء-ي\s]+$/,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
       trigger: ["blur", "change"],
-    }
-  ], answer: [
+    },
+  ],
+  answer: [
     {
-      message: t("nameMustBeArabic", {field: t("answer")}),
+      message: t("nameMustBeArabic", { field: t("answer") }),
       required: true,
-      pattern: /^[ء-ي\s]+$/,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
       trigger: ["blur", "change"],
-    }
-  ], englishQuestion: [
+    },
+  ],
+  englishQuestion: [
     {
-      message: t("nameMustBeEnglish", {field: t("englishQuestion")}),
+      message: t("nameMustBeEnglish", { field: t("englishQuestion") }),
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       trigger: ["blur", "change"],
-    }
-  ], englishAnswer: [
+    },
+  ],
+  englishAnswer: [
     {
-      message: t("nameMustBeEnglish", {field: t("englishAnswer")}),
+      message: t("nameMustBeEnglish", { field: t("englishAnswer") }),
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       trigger: ["blur", "change"],
-    }
-  ]
+    },
+  ],
 });
 
+//FIXME: fix the type of selectedFaq
 watch(
   () => faqsStore.selectedFaq,
 
-  (value : Faq) => {
+  (value: Faq) => {
     formData.faqCategory = value?.faqCategory ?? "";
     formData.question = value?.question;
     formData.answer = value?.answer;
@@ -280,22 +291,22 @@ const submit = () => {
     if (valid) {
       faqsStore.updateFaq(formData);
       emit("submit", formData);
-      formRef.value.resetFields();
-      hideModal(modalRef.value)
+      formRef.value?.resetFields();
+      hideModal(modalRef.value);
     } else {
       Toaster.error("حدث خطأ", t("someFieldsNotFill"));
     }
   });
 };
-const resetForm = (formEl: FormInstance | undefined) => {
+const resetForm = (formEl: HTMLFormElement | null) => {
   if (!formEl) return;
-  formRef.value.resetFields();
+  formRef.value?.resetFields();
 };
-onMounted(()=>{
-  modalRef.value?.addEventListener("hidden.bs.modal",(e)=>{
-    formRef.value.resetFields();
-  })
-})
+onMounted(() => {
+  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
+    formRef.value?.resetFields();
+  });
+});
 </script>
 
 <style lang="scss">

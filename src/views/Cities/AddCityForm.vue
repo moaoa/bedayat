@@ -108,6 +108,7 @@ import { NewCityData } from "@/types/Cities";
 import { useCitiesStore } from "@/store/pinia_store/modules/CitiesModule";
 import { useCountriesStore } from "@/store/pinia_store/modules/CountriesModule";
 import toaster from "@/core/services/Toaster";
+import {AppConstants} from '@/core/constants/ApplicationsConstants'
 
 const { t } = useI18n();
 
@@ -149,7 +150,7 @@ const rules = ref({
     { required: true, message: t("required"), trigger: "blur" },
     {
       required: true,
-      pattern:  /^[ء-ي\s]+$/,
+      pattern:  AppConstants.ARABIC_LETTERS_REGEX,
       message: t("nameMustBeArabic"),
       trigger: ["blur", "change"],
     }
@@ -157,7 +158,7 @@ const rules = ref({
   englishName: [
     {
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern:  AppConstants.ENGLISH_LETTERS_REGEX,
       message: t("nameMustBeEnglish"),
       trigger: ["blur", "change"],
     }

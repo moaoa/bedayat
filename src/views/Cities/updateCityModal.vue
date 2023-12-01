@@ -127,6 +127,7 @@ import { computed, reactive, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { NewCityData } from "@/types/Cities";
 import { useCitiesStore } from "@/store/pinia_store/modules/CitiesModule";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 const { t } = useI18n();
 
 const formRef = ref<null | HTMLFormElement>(null);
@@ -158,18 +159,18 @@ const rules = ref({
     { required: true, message: t("required"), trigger: "blur" },
     {
       required: true,
-      pattern:  /^[ء-ي\s]+$/,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
       message: t("nameMustBeArabic"),
       trigger: ["blur", "change"],
-    }
+    },
   ],
   englishName: [
     {
       required: true,
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       message: t("nameMustBeEnglish"),
       trigger: ["blur", "change"],
-    }
+    },
   ],
 });
 
@@ -180,7 +181,7 @@ const submit = () => {
 
   formRef.value.validate((valid: boolean) => {
     if (!valid) {
-      return ;
+      return;
     }
     emit("submit", formData);
   });

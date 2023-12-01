@@ -124,9 +124,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, watch, computed } from "vue";
-import { hideModal } from "@/core/helpers/dom";
+import { reactive, ref, onMounted, computed } from "vue";
 import { useCountriesStore } from "@/store/pinia_store/modules/CountriesModule";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 import { useI18n } from "vue-i18n";
 import * as Yup from "yup";
@@ -146,12 +146,11 @@ const formData = reactive<NewCountryData>({
 const emit = defineEmits<{ (event: "submit", data: NewCountryData) }>();
 
 const validationSchema = Yup.object().shape({
-      name: Yup.string().required().label("name"),
-      englishName: Yup.string().required().label("englishName"),
-    });
+  name: Yup.string().required().label("name"),
+  englishName: Yup.string().required().label("englishName"),
+});
 // eslint-disable-next-line no-undef
 defineExpose({ modalRef });
-
 
 const submit = () => {
   if (!formRef.value) {
@@ -169,19 +168,17 @@ const submit = () => {
 
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
-    if(formRef.value)
-      formRef.value.resetFields();
+    if (formRef.value) formRef.value.resetFields();
   });
 });
 
-
-///////////////////////////////////////////// validation rules 
+///////////////////////////////////////////// validation rules
 
 const rules = ref({
   name: [
     { required: true, message: t("required"), trigger: "blur" },
     {
-      pattern:  /^[ء-ي\s]+$/,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
       message: t("nameMustBeArabic"),
       trigger: ["blur", "change"],
     },
@@ -193,7 +190,7 @@ const rules = ref({
       trigger: "blur",
     },
     {
-      pattern: /^[A-Za-z\s]+$/,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       message: t("nameMustBeEnglish"),
       trigger: ["blur", "change"],
     },
