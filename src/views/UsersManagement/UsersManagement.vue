@@ -126,7 +126,7 @@
             header-align="center"
           >
             <template v-slot="scope: { row: User, $index: number }">
-              <ClippedText :text="scope.row.fullName" />
+              <ClippedText :text="scope.row.fullName ?? ''" />
             </template>
           </el-table-column>
 
@@ -145,7 +145,7 @@
             header-align="center"
           >
             <template #default="scope: { $index: number, row: User }">
-              <ClippedText :text="scope.row.address" />
+              <ClippedText :text="scope.row.address ?? ''" />
             </template>
           </el-table-column>
           <el-table-column
@@ -354,7 +354,7 @@ const updateUser = async (data: Omit<NewUserData, "email" | "password">) => {
   }
 };
 const formatter = (key: "createdAt" | "lastUpdated" | "birthDate") => {
-  return (user: User) => formatDate(user[key]);
+  return (user: User) => formatDate(user[key] ?? "");
 };
 
 setCurrentPageBreadcrumbs(t("usersManagement"), [t("admins")]);
