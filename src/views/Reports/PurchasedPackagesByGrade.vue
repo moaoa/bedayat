@@ -172,7 +172,6 @@
               :total="purchasedPackagesByGradeStore.total"
               v-model:current-page="filters.pageNumber"
               v-model:page-size="filters.pageSize"
-              v-model:pager-count="pagerCount"
             />
           </div>
 
@@ -226,8 +225,6 @@ const filters = useUrlSearchParams<PurchasedPackageByGradeFilters>("history", {
   },
   write: true,
 });
-
-const pagerCount = ref(1);
 
 filters.packageType = Number(filters.packageType);
 filters.pageNumber = Number(filters.pageNumber);

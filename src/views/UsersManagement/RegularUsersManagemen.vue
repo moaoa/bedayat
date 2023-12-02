@@ -303,7 +303,6 @@
         :total="regularUsersMangementStore.pagination.total"
         v-model:current-page="pagination.currentPage"
         v-model:page-size="pagination.pageSize"
-        v-model:pager-count="pagination.pagerCount"
         :page-sizes="[25, 100, 200, 300, 400]"
       />
       <!-- end::pagination -->
@@ -355,18 +354,15 @@ const filterBy = ref(FilterByOptions.Name);
 const pagination = useUrlSearchParams<{
   currentPage: number;
   pageSize: number;
-  pagerCount;
 }>("history", {
   initialValue: {
     currentPage: 1,
     pageSize: 25,
-    pagerCount: 1,
   },
 });
 
 pagination.currentPage = Number(pagination.currentPage ?? 1);
 pagination.pageSize = Number(pagination.pageSize ?? 25);
-pagination.pagerCount = Number(pagination.pagerCount ?? 1);
 
 const userState = ref(AppConstants.USER_STATE.All);
 

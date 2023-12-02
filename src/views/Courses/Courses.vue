@@ -280,7 +280,6 @@
         :total="coursesStore.pagination.total"
         v-model:current-page="filters.currentPage"
         v-model:page-size="filters.pageSize"
-        v-model:pager-count="pagerCount"
       />
       <!-- end::pagination -->
     </div>
@@ -328,8 +327,6 @@ const filters = reactive<CourseFilters>({
   currentPage: 1,
   pageSize: 10,
 });
-
-const pagerCount = ref(1);
 
 coursesStore.loadCourses(filters);
 

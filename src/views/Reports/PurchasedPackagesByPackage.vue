@@ -134,7 +134,6 @@
           :total="purchasedPackagesByPackageStore.total"
           v-model:current-page="filters.pageNumber"
           v-model:page-size="filters.pageSize"
-          v-model:pager-count="pagerCount"
         />
         <!-- end::pagination -->
       </div>
@@ -172,8 +171,6 @@ const filters = useUrlSearchParams<Filters>("history", {
     pageSize: 10,
   },
 });
-
-const pagerCount = ref(1);
 
 filters.packageType = Number(filters.packageType);
 filters.pageNumber = Number(filters.pageNumber);
