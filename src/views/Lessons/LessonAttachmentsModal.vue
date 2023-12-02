@@ -42,7 +42,7 @@
                 <!-- begin: preview image -->
                 <div
                   class="fv-row mb-7 col-md-4"
-                  v-if="lessonsStore.getImageAttachmentForSelectedLesson"
+                  style="border-inline-end: 1px solid #ccc"
                 >
                   <!--begin::Label-->
                   <label class="fs-6 fw-bold mb-2">
@@ -52,6 +52,8 @@
 
                   <div
                     class="d-flex align-items-center justify-content-center gap-1"
+                    style="border: 1px solid blue"
+                    v-if="lessonsStore.getImageAttachmentForSelectedLesson"
                   >
                     <span
                       class="cursor-pointer"
@@ -78,6 +80,9 @@
                       </a>
                     </span>
                   </div>
+                  <p v-else>
+                    {{ $t("noFileToShow") }}
+                  </p>
                   <!-- end: preview image -->
                 </div>
                 <!-- end: preview image -->
@@ -85,7 +90,7 @@
                 <!-- start: lesson content preview -->
                 <div
                   class="fv-row mb-7 col-md-4"
-                  v-if="lessonsStore.getLessonContentForSelectedLesson"
+                  style="border-inline-end: 1px solid #ccc"
                 >
                   <!--begin::Label-->
                   <label class="fs-6 fw-bold mb-2">
@@ -95,6 +100,7 @@
 
                   <div
                     class="d-flex align-items-center justify-content-center gap-1"
+                    v-if="lessonsStore.getLessonContentForSelectedLesson"
                   >
                     <span
                       class="cursor-pointer"
@@ -119,17 +125,15 @@
                       </a>
                     </span>
                   </div>
+                  <p v-else>
+                    {{ $t("noFileToShow") }}
+                  </p>
                   <!-- end: preview image -->
                 </div>
                 <!-- end: lesson content preview -->
 
                 <!-- start: additional content preview -->
-                <div
-                  class="fv-row mb-7 col-md-4"
-                  v-if="
-                    lessonsStore.getAdditionalContentAttachmentForSelectedLesson
-                  "
-                >
+                <div class="fv-row mb-7 col-md-4">
                   <!--begin::Label-->
                   <label class="fs-6 fw-bold mb-2">
                     {{ $t("additionalContent") }}
@@ -137,6 +141,9 @@
                   <!--end::Label-->
 
                   <div
+                    v-if="
+                      lessonsStore.getAdditionalContentAttachmentForSelectedLesson
+                    "
                     class="d-flex align-items-center justify-content-center gap-1"
                   >
                     <span
@@ -166,6 +173,9 @@
                       </a>
                     </span>
                   </div>
+                  <p v-else>
+                    {{ $t("noFileToShow") }}
+                  </p>
                   <!-- end: preview image -->
                 </div>
                 <!-- end: additional content preview -->

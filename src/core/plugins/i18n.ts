@@ -382,6 +382,7 @@ const messages = {
     file: "File",
     welcomeToHomeScreen: "Welcome To Home Screen",
     mainPage: "Main Page",
+    noFileToShow: "No file to show",
   },
   ar: {
     purchases: "تاريخ الشراء",
@@ -764,6 +765,7 @@ const messages = {
     file: "الملف",
     welcomeToHomeScreen: "مرحبا بك في الشاشة الرئيسية",
     mainPage: "الصفحة الرئيسية",
+    noFileToShow: "لا يوجد ملفات لعرضها",
   },
 };
 
