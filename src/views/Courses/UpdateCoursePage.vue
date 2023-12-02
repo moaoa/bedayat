@@ -140,6 +140,7 @@
                 <el-form-item prop="gradeId">
                   <el-select
                     v-model="gradesSubjectsStore.selectedGradeId"
+                    v-loading="gradesSubjectsStore.dataIsLoading"
                     type="text"
                     :placeholder="$t('gradeId')"
                     filterable
@@ -274,7 +275,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, computed, watch, onMounted } from "vue";
+import { reactive, ref, computed, watch } from "vue";
 import { hideModal } from "@/core/helpers/dom";
 import { useCoursesStore } from "@/store/pinia_store/modules/CoursesModule";
 import { useI18n } from "vue-i18n";
@@ -303,8 +304,6 @@ const coursesStore = useCoursesStore();
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
 const loading = computed(() => coursesStore.isCreatingNewItem);
-
-const selectedCourseGradeId = ref();
 
 const formData = reactive<NewCourseData>({
   englishName: coursesStore.selectedCourse.englishName ?? "",
