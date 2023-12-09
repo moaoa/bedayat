@@ -397,6 +397,7 @@ const messages = {
     video: "Video",
     word: "Word",
     signOut: "Sign Out",
+    addNewCourseSection: "Add New Section",
   },
   ar: {
     signOut: "تسجيل الخروج",
@@ -794,6 +795,7 @@ const messages = {
     fileType: "نوع الملف",
     attachmentFor: "المرفق لـ",
     resolution: "الدقة",
+    addNewCourseSection: "إضافة قسم جديد",
   },
 };
 
