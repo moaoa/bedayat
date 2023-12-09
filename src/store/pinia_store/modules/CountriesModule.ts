@@ -77,9 +77,7 @@ export const useCountriesStore = defineStore({
       if (!this.selectedCountry) {
         Toaster.error("", "");
       }
-
       this.isDeletingItem = true;
-
       try {
         const res = await ApiService.delete(
           `${AppConstants.COUNTRIES_URL}/${this.selectedCountry?.id}`

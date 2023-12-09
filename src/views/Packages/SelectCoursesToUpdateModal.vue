@@ -39,8 +39,29 @@
                     id="input_search_courses"
                     type="text"
                     v-on:keydown.enter.prevent="coursesStore.loadCoursesToAddToPackage(coursesSearchValue)"
-                    placeholder="search for course"
+                    :placeholder="t('search')"
                 />
+              <!--end::Input-->
+            </div>
+
+            <div class="col-2 mt-2 ">
+              <!--begin::Input-->
+              <button
+                  class="btn btn-sm btn-primary"
+                  type="button"
+                  style="width: 100px"
+                  @click="coursesStore.loadCoursesToAddToPackage(coursesSearchValue);"
+              >
+                <span
+                    class="indicator-label"
+                >
+                  {{ $t("search") }}
+                  <span class="svg-icon svg-icon-3 ms-2 me-0">
+                    <inline-svg src=".icons/.svg" />
+                  </span>
+                </span>
+
+              </button>
               <!--end::Input-->
             </div>
           </div>
@@ -60,7 +81,7 @@
                                    align="center">
                     <template #default="scope">
                       <a :href="scope.row.logoPath">
-                        <img :src="scope.row.logoPath">
+                        <img :src="scope.row.logoPath" class="object-fit-cover" width="100">
                       </a>
                     </template>
                   </el-table-column>

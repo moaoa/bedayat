@@ -9,15 +9,10 @@ const hideModal = (modalEl: HTMLElement | null): void => {
   myModal.hide();
 };
 const openModal = (modalEl: HTMLElement | null): void => {
-
-  console.log("in theope modal");
-
-  console.log(modalEl);
-  
   if (!modalEl) {
     return;
   }
-  
+
   const myModal = Modal.getInstance(modalEl);
 
   console.log(myModal);

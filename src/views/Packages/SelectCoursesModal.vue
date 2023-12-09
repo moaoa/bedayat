@@ -33,6 +33,27 @@
               />
               <!--end::Input-->
             </div>
+            <div class="col-2 mt-2 ">
+              <!--begin::Input-->
+              <button
+                  class="btn btn-sm btn-primary"
+                  type="button"
+                  style="width: 100px"
+                  @click="coursesStore.loadCoursesToAddToPackage(coursesSearchValue);"
+              >
+                <span
+                    class="indicator-label"
+                >
+                  {{ $t("search") }}
+                  <span class="svg-icon svg-icon-3 ms-2 me-0">
+                    <inline-svg src=".icons/.svg" />
+                  </span>
+                </span>
+
+              </button>
+              <!--end::Input-->
+            </div>
+
           </div>
           <div>
             <div
@@ -50,7 +71,7 @@
                   <el-table-column :label="t('courseLogo')" align="center">
                     <template #default="scope">
                       <a :href="scope.row.logoPath">
-                        <img :src="scope.row.logoPath" />
+                        <img :src="scope.row.logoPath" width="100" class="object-fit-cover"  />
                       </a>
                     </template>
                   </el-table-column>

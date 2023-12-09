@@ -1,15 +1,14 @@
 import { defineStore } from "pinia";
 import { Grade, NewGradeData } from "@/types/Grades";
-
 import gradesService from "@/core/repositories/GradesService";
 import { GradeSubject, NewGradeSubjectData } from "@/types/GradeSubjects";
 import { Subject } from "@/types/Subjects";
 import gradeSubjectsService from "@/core/repositories/GradeSubjectsService";
 import GradeSubjectsService from "@/core/repositories/GradeSubjectsService";
 import Toaster from "@/core/services/Toaster";
-import {t} from "element-plus/es/locale";
+import i18n from "@/core/plugins/i18n";
 import toaster from "@/core/services/Toaster";
-
+const t = i18n.global.t;
 export const useGradeSubjectsStore = defineStore({
   id: "gradeSubjectsStore",
   state: () => ({
@@ -31,8 +30,8 @@ export const useGradeSubjectsStore = defineStore({
     errorLoadingData: false,
   }),
   actions: {
-    async loadGradeSubjects() {
-      this.dataIsLoading = true;
+    async loadGradeSubjects(loadingIndicator : boolean = true) {
+      this.dataIsLoading = loadingIndicator;
       this.errorLoadingData = false;
 
       try {
@@ -71,7 +70,6 @@ export const useGradeSubjectsStore = defineStore({
           this.selectedGradeSubject.id,
             newGradeSubjectData
         );
-        await this.loadGradeSubjects();
 
         toaster.Success("item updated")
 
@@ -87,13 +85,11 @@ export const useGradeSubjectsStore = defineStore({
 
         await GradeSubjectsService.create(newGradeSubjectData);
 
-        await this.loadGradeSubjects();
-        this.isCreatingNewItem = false;
-
         Toaster.Success(t("success"), t("createdNewItem"));
       } catch (error) {
-        this.isCreatingNewItem = false;
         console.log(error);
+      }finally {
+        this.isCreatingNewItem = false;
       }
     },
     async deleteItem() {

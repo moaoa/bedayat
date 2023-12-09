@@ -340,8 +340,10 @@ const submit = () => {
     try {
 
       await gradeSubjectStore.createNewItem(formData);
+
       hideModal(modalRef.value);
 
+      await gradeSubjectStore.loadGradeSubjects(false);
 
     } catch (error) {
       console.log(error);

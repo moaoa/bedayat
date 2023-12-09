@@ -153,12 +153,12 @@
         <!-- start::pagination -->
         <br/>
         <!-- start::pagination -->
-        <el-pagination
-            v-if="!gradeSubjectsStore.dataIsLoading && gradeSubjectsStore.gradeSubjects"
-            background
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="gradeSubjectsStore.gradeSubjects.length"
-        />
+<!--        <el-pagination-->
+<!--            v-if="!gradeSubjectsStore.dataIsLoading && gradeSubjectsStore.gradeSubjects"-->
+<!--            background-->
+<!--            layout="total, sizes, prev, pager, next, jumper"-->
+<!--            :total="gradeSubjectsStore.gradeSubjects.length"-->
+<!--        />-->
         <!-- end::pagination -->
       </div>
     </div>

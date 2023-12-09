@@ -351,6 +351,7 @@ const submit = () => {
     try {
       await gradeSubjectStore.updateItem(formData);
       hideModal(modalRef.value);
+      await gradeSubjectStore.loadGradeSubjects(false);
     } catch (error) {
       console.log(error);
     }
@@ -384,6 +385,12 @@ onMounted(() => {
     gradesStore.unselectGrade();
   });
 });
+watch(()=> gradeSubjectStore?.selectedGradeSubject?.logo, (val)=> {
+  logoPath.value = val ?? ""
+})
+watch(()=> gradeSubjectStore?.selectedGradeSubject?.bookLink, (val)=> {
+  bookPath.value = val ?? ""
+})
 
 const rules = ref({
   grade: [{required: true, message: t("required"), trigger: "blur"}],

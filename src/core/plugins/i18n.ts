@@ -393,9 +393,10 @@ const messages = {
     sound: "Sound",
     video: "Video",
     word: "Word",
+    signOut: "Sign Out",
   },
   ar: {
-
+    signOut: "تسجيل الخروج",
     pdf: "بي دي اف",
     sound: "صوت",
     video: "فيديو",
