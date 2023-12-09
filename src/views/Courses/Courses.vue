@@ -120,12 +120,19 @@
         </label>
         <label for="rating" class="col-sm-4 mt-4 d-flex flex-column">
           {{ $t("rating") }}
-          <el-input
+          <el-select
             class="col-sm-4"
             v-model="filters.rating"
             :placeholder="$t('rating')"
             style="width: 300px"
-          />
+          >
+            <el-option
+              v-for="item in [1, 2, 3, 4, 5]"
+              :key="item + Date.now()"
+              :label="item"
+              :value="item"
+            />
+          </el-select>
         </label>
         <div @click="coursesStore.loadCourses(filters)" class="col-sm-4 mt-9">
           <a class="btn btn-sm btn-primary mx-1">
