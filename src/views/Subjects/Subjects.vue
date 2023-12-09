@@ -136,12 +136,12 @@
         <!-- start::pagination -->
         <br />
         <!-- start::pagination -->
-        <el-pagination
-          v-if="!subjectsStore.dataIsLoading && subjectsStore.subjects"
-          background
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="subjectsStore.subjects.length"
-        />
+<!--        <el-pagination-->
+<!--          v-if="!subjectsStore.dataIsLoading && subjectsStore.subjects"-->
+<!--          background-->
+<!--          layout="total, sizes, prev, pager, next, jumper"-->
+<!--          :total="subjectsStore.subjects.length"-->
+<!--        />-->
         <!-- end::pagination -->
       </div>
     </div>

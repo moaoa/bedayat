@@ -325,13 +325,7 @@ watch(
 
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", () => {
-    formData.fatherName = "";
-    formData.surName = "";
-    formData.firstName = "";
-    formData.phone = "";
-    formData.otherPhone = "";
-    formData.permissions = [];
-    formData.gender = AppConstants.USER_GENDER.Male;
+    usersStore.unselectUser()
   });
 });
 </script>

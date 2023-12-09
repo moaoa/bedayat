@@ -158,6 +158,7 @@ import { NewLocalityData } from "@/types/Localities";
 import { useLocalitiesStore } from "@/store/pinia_store/modules/LocalitiesModule";
 import {useCitiesStore} from "@/store/pinia_store/modules/CitiesModule";
 import {useCountriesStore} from "@/store/pinia_store/modules/CountriesModule";
+import {AppConstants} from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
 
@@ -234,7 +235,25 @@ watch(
       }
     }
 );
-
+const rules = ref({
+  name: [
+    { required: true, message: t("required"), trigger: "blur" },
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  englishName: [
+    {
+      required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    },
+  ],
+});
 
 </script>
 <style lang="scss">

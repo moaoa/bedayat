@@ -131,12 +131,12 @@
       <!-- start::pagination -->
       <br />
       <!-- start::pagination -->
-      <el-pagination
-        v-if="!gradesStore.dataIsLoading && gradesStore.grades"
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="gradesStore.grades.length"
-      />
+<!--      <el-pagination-->
+<!--        v-if="!gradesStore.dataIsLoading && gradesStore.grades"-->
+<!--        background-->
+<!--        layout="total, sizes, prev, pager, next, jumper"-->
+<!--        :total="gradesStore.grades.length"-->
+<!--      />-->
       <!-- end::pagination -->
     </div>
     <!--end::Body-->

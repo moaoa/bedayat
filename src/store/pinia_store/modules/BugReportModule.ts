@@ -32,6 +32,7 @@ export const useBugReportsStore = defineStore({
                 const result = await BugReportService.getBugReports(this.selectedBugCategory);
 
                 this.bugReports = result.data;
+                console.log(result)
 
             } catch (error) {
                 Toaster.error(error.message)

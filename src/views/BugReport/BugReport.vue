@@ -28,10 +28,10 @@
       </div>
 
 
-
+{{bugReportStore.bugReports}}
       <div v-loading="bugReportStore.dataIsLoading">
       <!-- begin::table -->
-      <el-table :data="bugReportsTable" style="width: 100%" height="250">
+      <el-table :data="bugReportStore.bugReports" style="width: 100%" height="250">
 
         <el-table-column prop="title" :label="$t('title')" width="150" />
         <el-table-column
@@ -187,6 +187,9 @@ watch(()=> bugReportStore.selectedBugCategory,
       console.log("in the watcher")
       bugReportStore.loadBugReports()
     })
+watch(()=> bugReportStore.bugReports, (val)=> {
+  bugReportsTable.value = val
+})
 setCurrentPageBreadcrumbs(t("bugReport"), [t("bugReport")]);
 </script>
 
