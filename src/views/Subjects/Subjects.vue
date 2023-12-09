@@ -90,16 +90,16 @@
             </template>
           </el-table-column>
 
-          <el-table-column
-            prop="createdAt"
-            :label="$t('createdAt')"
-            :formatter="formatter('createdAt')"
-          />
-          <el-table-column
-            prop="lastUpdated"
-            :label="$t('lastUpdated')"
-            :formatter="formatter('lastUpdated')"
-          />
+<!--          <el-table-column-->
+<!--            prop="createdAt"-->
+<!--            :label="$t('createdAt')"-->
+<!--            :formatter="formatter('createdAt')"-->
+<!--          />-->
+<!--          <el-table-column-->
+<!--            prop="lastUpdated"-->
+<!--            :label="$t('lastUpdated')"-->
+<!--            :formatter="formatter('lastUpdated')"-->
+<!--          />-->
           <el-table-column :label="$t('edit')" align="center">
             <template #default="scope">
               <a

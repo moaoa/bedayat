@@ -278,7 +278,7 @@ const formatter = (key: "createdAt" | "lastUpdated") => {
 const handleToggleUser = async (prepaidCard: PrepaidCard) => {
   try {
     await prepaidCardsStore.togglePrepaidCardStatus(prepaidCard);
-    Toaster.Success("Success", "sucess");
+    Toaster.Success("Success", "Success");
     return true;
   } catch (error) {
     return false;

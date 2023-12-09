@@ -371,7 +371,7 @@ const loadUsersDebounced = debounce(
 const handleToggleUser = async (user: User) => {
   try {
     await usersManagementStore.toggleUserStatus(user);
-    Toaster.Success("Success", "sucess");
+    Toaster.Success("Success", "Success");
     return true;
   } catch (error) {
     return false;

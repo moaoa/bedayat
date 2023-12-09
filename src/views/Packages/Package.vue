@@ -170,6 +170,7 @@
             <el-table-column
               prop="name"
               :label="$t('packageStatus')"
+              width="100"
               align="center"
               header-align="center"
             >

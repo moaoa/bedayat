@@ -345,7 +345,7 @@ const formatter = (key: "createdAt" | "lastUpdated") => {
 const handleToggleUser = async (course: Course) => {
   try {
     await coursesStore.toggleCourseStatus(course);
-    Toaster.Success("Success", "sucess");
+    Toaster.Success("Success", "Success");
     return true;
   } catch (error) {
     return false;

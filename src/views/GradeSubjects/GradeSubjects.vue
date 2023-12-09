@@ -109,6 +109,7 @@
               >
                 <i class="bi bi-images"></i>
               </a>
+
             </template>
 
           </el-table-column>
