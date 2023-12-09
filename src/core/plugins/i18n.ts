@@ -383,6 +383,9 @@ const messages = {
     welcomeToHomeScreen: "Welcome To Home Screen",
     mainPage: "Main Page",
     noFileToShow: "No file to show",
+    fileType: "File Type",
+    attachmentFor: "Attachment For",
+    resolution: "Resolution",
   },
   ar: {
     purchases: "تاريخ الشراء",
@@ -766,6 +769,9 @@ const messages = {
     welcomeToHomeScreen: "مرحبا بك في الشاشة الرئيسية",
     mainPage: "الصفحة الرئيسية",
     noFileToShow: "لا يوجد ملفات لعرضها",
+    fileType: "نوع الملف",
+    attachmentFor: "المرفق لـ",
+    resolution: "الدقة",
   },
 };
 

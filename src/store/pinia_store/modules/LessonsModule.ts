@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import {
   LessonSchema,
-  LessonAttachment,
+  UploadedLessonAttachment,
   NewLessonData,
   Lesson,
 } from "@/types/Lessons";
@@ -49,7 +49,7 @@ export const useLessonsStore = defineStore({
     },
     getAdditionalContentAttachmentForSelectedLesson(
       state
-    ): LessonAttachment | undefined {
+    ): UploadedLessonAttachment | undefined {
       return state.selectedLesson?.lessonAttachments?.find(
         (item) =>
           item.attachmentType ===
@@ -92,6 +92,7 @@ export const useLessonsStore = defineStore({
       size: number;
       title: string;
       resolution: string;
+      description: string;
     }) {
       this.isAddingAttachment = true;
       this.errorLoadingData = false;

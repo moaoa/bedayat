@@ -88,4 +88,16 @@ export type AttachmentForm = {
   additionalContent: File | null;
 };
 
-export type LessonAttachment = Output<typeof LessonAttachmentSchema>;
+export type UploadedLessonAttachment = Output<typeof LessonAttachmentSchema>;
+
+export type NewLessonAttachmentData = {
+  file: File;
+  attachmentType: number;
+  attachmentName: string;
+  lessonId: string;
+  mimeType: string;
+  size: number;
+  title: string;
+  resolution: string;
+  description: string;
+};

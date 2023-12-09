@@ -23,7 +23,7 @@
         </div>
         <el-form
           @submit.prevent="submit()"
-          :model="attachmentData"
+          :model="formData"
           :rules="rules"
           ref="formRef"
         >
@@ -191,7 +191,7 @@
                   <!--begin::Input-->
                   <el-input-item prop="titleOfUploadedContent">
                     <input
-                      v-model="attachmentData.titleOfUploadedContent"
+                      v-model="formData.titleOfUploadedContent"
                       type="text"
                       class="form-control"
                       :placeholder="$t('title')"
@@ -210,7 +210,7 @@
                   <!--begin::Input-->
                   <el-input-item prop="description">
                     <input
-                      v-model="attachmentData.description"
+                      v-model="formData.description"
                       type="text"
                       class="form-control"
                       :placeholder="$t('description')"
@@ -222,14 +222,14 @@
                 <div class="fv-row mb-7 col-md-6">
                   <!--begin::Label-->
                   <label class="required fs-6 fw-bold mb-2">
-                    {{ $t("fileType") }}
+                    {{ $t("attachmentFor") }}
                   </label>
                   <!--end::Label-->
 
                   <!--begin::Input-->
                   <el-input-item prop="selectedTypeOfAttachment">
                     <el-select
-                      v-model="attachmentData.selectedTypeOfAttachment"
+                      v-model="formData.selectedTypeOfAttachment"
                       type="text"
                       :placeholder="$t('previewImageTitle')"
                       style="width: 150px; display: block"
@@ -262,7 +262,7 @@
                   <!--begin::Input-->
                   <el-input-item prop="resolution">
                     <el-select
-                      v-model="attachmentData.resolution"
+                      v-model="formData.resolution"
                       type="text"
                       :placeholder="$t('previewImageTitle')"
                       style="width: 150px; display: block"
@@ -284,7 +284,7 @@
                   <!--begin::Input-->
                   <el-input-item prop="fileMimeType">
                     <el-select
-                      v-model="attachmentData.fileMimeType"
+                      v-model="formData.fileMimeType"
                       type="text"
                       :placeholder="$t('fileType')"
                       style="width: 150px; display: block"
@@ -425,7 +425,7 @@ const modalRef = ref<null | HTMLElement>(null);
 const fileInput = ref<null | HTMLInputElement>(null);
 const loading = computed(() => lessonsStore.isAddingAttachment);
 
-interface AttachmentData {
+interface AttachmentsForm {
   selectedTypeOfAttachment: number;
   fileMimeType: number;
   fileInput: File | null;
@@ -434,7 +434,7 @@ interface AttachmentData {
   description: string;
 }
 
-const attachmentData: AttachmentData = reactive<AttachmentData>({
+const formData: AttachmentsForm = reactive<AttachmentsForm>({
   selectedTypeOfAttachment: AppConstants.ATTATCHMENT_TYPES.PreviewImage,
   fileMimeType: AppConstants.FILE_MIME_TYPES.Pdf,
   fileInput: null,
@@ -444,27 +444,28 @@ const attachmentData: AttachmentData = reactive<AttachmentData>({
 });
 
 const handleImageChange = (file: File | null) => {
-  attachmentData.fileInput = file;
+  formData.fileInput = file;
 };
 
 const handleUploadFile = async () => {
-  if (attachmentData.fileInput === null) {
+  if (formData.fileInput === null) {
     return;
   }
   await lessonsStore.addAttachmentToLesson({
-    attachmentName: attachmentData.fileInput.name,
-    attachmentType: attachmentData.selectedTypeOfAttachment,
-    file: attachmentData.fileInput,
-    mimeType: attachmentData.fileMimeType.toString(),
-    resolution: attachmentData.resolution,
-    size: attachmentData.fileInput.size,
-    title: attachmentData.titleOfUploadedContent,
+    attachmentName: formData.fileInput.name,
+    attachmentType: formData.selectedTypeOfAttachment,
+    file: formData.fileInput,
+    mimeType: formData.fileMimeType.toString(),
+    resolution: formData.resolution,
+    size: formData.fileInput.size,
+    title: formData.titleOfUploadedContent,
+    description: formData.description,
   });
 };
 
 const formRef = ref<null | HTMLFormElement>(null);
 
-const rules = ref<Record<keyof AttachmentData, object[]>>({
+const rules = ref<Record<keyof AttachmentsForm, object[]>>({
   description: [
     {
       required: true,
@@ -532,8 +533,8 @@ onMounted(() => {
     ) {
       fileInput.value?.reset();
     }
-    attachmentData.description = "";
-    attachmentData.titleOfUploadedContent = "";
+    formData.description = "";
+    formData.titleOfUploadedContent = "";
   });
 });
 </script>
