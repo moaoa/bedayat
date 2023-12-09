@@ -290,19 +290,19 @@
                       style="width: 150px; display: block"
                     >
                       <el-option
-                        :label="'pdf'"
+                        :label="t('pdf')"
                         :value="AppConstants.FILE_MIME_TYPES.Pdf"
                       />
                       <el-option
-                        :label="'sound'"
+                        :label="t('sound')"
                         :value="AppConstants.FILE_MIME_TYPES.Sound"
                       />
                       <el-option
-                        :label="'video'"
+                        :label="t('video')"
                         :value="AppConstants.FILE_MIME_TYPES.Video"
                       />
                       <el-option
-                        :label="'word'"
+                        :label="t('word')"
                         :value="AppConstants.FILE_MIME_TYPES.Word"
                       />
                       <el-option

@@ -172,12 +172,7 @@ watch(
   }
 );
 
-onMounted(() => {
-  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
-    formData.name = "";
-    formData.englishName = "";
-  });
-});
+
 
 ///////////////////////////////////////////// validation rules
 

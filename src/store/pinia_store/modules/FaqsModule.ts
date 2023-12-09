@@ -48,7 +48,7 @@ export const useFaqsStore = defineStore({
     async updateFaq(faq: NewFaqData) {
       try {
         const result = await FaqService.updateFaq(this.selectedFaq!.id, faq);
-
+        toaster.Success("Success", "Question Updated successfully");
         await this.loadFaqs(this.selectedCategory);
       } catch (e) {
         Toaster.error(

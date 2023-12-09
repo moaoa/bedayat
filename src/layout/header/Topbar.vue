@@ -71,7 +71,7 @@
         data-kt-menu-placement="bottom-end"
         data-kt-menu-flip="bottom"
       >
-        <img src="/media/avatars/150-26.jpg" alt="metronic" />
+        <img :src="authStore.user.imagePath ?? '/media/avatars/blank.png'" alt="Avatar" />
       </div>
       <KTUserMenu></KTUserMenu>
       <!--end::Menu-->
@@ -103,5 +103,8 @@ import KTQuickLinksMenu from "@/layout/header/partials/QuickLinksMenu.vue";
 import KTUserMenu from "@/layout/header/partials/UserMenu.vue";
 
 import { useLangStore } from "@/store/pinia_store/modules/LangModule";
+import {useAuthenticationStore} from "@/store/pinia_store/modules/AuthModule";
+
 const langStore = useLangStore();
+const authStore = useAuthenticationStore();
 </script>

@@ -385,7 +385,7 @@ regularUsersMangementStore.geUserFamily(route.params.id as string);
 const handleToggleUser = async (user: User) => {
   try {
     await usersMangementStore.toggleUserStatus(user);
-    Toaster.Success("Success", "sucess");
+    Toaster.Success("Success", "Success");
     return true;
   } catch (error) {
     return false;

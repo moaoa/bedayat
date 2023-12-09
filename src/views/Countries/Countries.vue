@@ -73,8 +73,8 @@
       <!-- start::pagination -->
       <br />
       <!-- start::pagination -->
-      <el-pagination v-if="!countriesStore.dataIsLoading && countriesStore.countries" background
-        layout="total, sizes, prev, pager, next, jumper" :total="countriesStore.countries.length" />
+<!--      <el-pagination v-if="!countriesStore.dataIsLoading && countriesStore.countries" background-->
+<!--        layout="total, sizes, prev, pager, next, jumper" :total="countriesStore.countries.length" />-->
       <!-- end::pagination -->
     </div>
     <!--end::Body-->
@@ -128,11 +128,10 @@ const unselectCountry = () => {
 
 const createCountry = async (countryData: Country) => {
   try {
-    Toaster.Success("Success", "sucess");
     hideModal(addCountryModalRef.value!.modalRef);
   } catch (error) {
     console.log(error);
-    Toaster.error("Error", "sucess");
+    Toaster.error("Error");
   }
 };
 

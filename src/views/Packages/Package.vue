@@ -126,23 +126,23 @@
             <el-table-column
               prop="name"
               :label="$t('arabicName')"
-              width="150"
+              width="250"
               align="center"
               header-align="center"
             >
               <template #default="scope">
-                <ClippedText :text="scope.row.title" :length="20" />
+                <ClippedText :text="scope.row.title" :length="15" />
               </template>
             </el-table-column>
             <el-table-column
               prop="englishName"
               :label="$t('englishName')"
-              width="150"
+              width="250"
               align="center"
               header-align="center"
             >
               <template #default="scope">
-                <ClippedText :text="scope.row.englishTitle" :length="20" />
+                <ClippedText :text="scope.row.englishTitle" :length="15" />
               </template>
             </el-table-column>
 
@@ -170,6 +170,7 @@
             <el-table-column
               prop="name"
               :label="$t('packageStatus')"
+              width="100"
               align="center"
               header-align="center"
             >

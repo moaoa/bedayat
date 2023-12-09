@@ -39,7 +39,7 @@
         <!-- end:: Content Body -->
       </div>
       <!-- end:: Content -->
-      <KTFooter></KTFooter>
+<!--      <KTFooter></KTFooter>-->
     </div>
   </div>
   <!-- end:: Body -->

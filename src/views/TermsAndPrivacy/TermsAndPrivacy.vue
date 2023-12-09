@@ -64,7 +64,7 @@
 
                 <!-- <input class="form-control form-control-solid " type="text" v-model="term.content" /> -->
 
-                <editor v-model="term.content" />
+                <editor  v-model="term.content" />
               </div>
               <div v-else class="row m-1 p-5 border h-100">
 

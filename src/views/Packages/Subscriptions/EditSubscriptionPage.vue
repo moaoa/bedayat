@@ -186,20 +186,18 @@
                 </el-form-item>
                 <!--end::Input-->
               </div>
-
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("periods") }}
+                  {{ $t("period") }}
                 </label>
                 <!--end::Label-->
-
                 <!--begin::Input-->
                 <el-form-item prop="subscriptionSetting">
                   <el-select
                     v-model="formData.subscriptionSettingId"
                     type="text"
-                    :placeholder="$t('period')"
+                    :placeholder="subscriptionsStore.selectedSubscription.period"
                     filterable
                     clearable
                   >
@@ -262,7 +260,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, computed } from "vue";
+import {reactive, ref, onMounted, computed, watch} from "vue";
 import { useI18n } from "vue-i18n";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
@@ -378,6 +376,14 @@ onMounted(() => {
     formRef.value?.resetFields();
   });
 });
+watch(()=> subscriptionSettingsStore.subscriptionSettings, ()=>{
+
+    console.log("test test")
+  if(subscriptionSettingsStore.subscriptionSettings.length > 0){
+    console.log("test test")
+    formData.subscriptionSettingId = subscriptionSettingsStore.subscriptionSettings.find(x=> x.period == subscriptionsStore.selectedSubscription.period!)?.id
+  }
+})
 
 gradesStore.loadGrades();
 </script>

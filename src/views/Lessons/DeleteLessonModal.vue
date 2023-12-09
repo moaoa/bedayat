@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-dialog-centered mw-550px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_add_customer_header">
-          <h2 class="fw-bolder">{{ $t("deleteCourse") }}</h2>
+          <h2 class="fw-bolder">{{ $t("deleteLesson") }}</h2>
           <div
             id="kt_modal_add_customer_close"
             data-bs-dismiss="modal"

@@ -4,7 +4,12 @@ import type { ApiResponse, PagedList } from "@/types/ApiResponse";
 
 import ApiService from "@/core/services/ApiService";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
+
+import i18n from "@/core/plugins/i18n";
 import Toaster from "@/core/services/Toaster";
+
+
+
 
 export const useCountriesStore = defineStore({
   id: "countriesStore",
@@ -59,6 +64,8 @@ export const useCountriesStore = defineStore({
         }
 
         this.countries.push(data.data);
+
+        Toaster.Success(i18n.global.t('success'), i18n.global.t("createdNewItem"));
       } catch (error) {
         console.log(error);
         throw error;
@@ -70,9 +77,7 @@ export const useCountriesStore = defineStore({
       if (!this.selectedCountry) {
         Toaster.error("", "");
       }
-
       this.isDeletingItem = true;
-
       try {
         const res = await ApiService.delete(
           `${AppConstants.COUNTRIES_URL}/${this.selectedCountry?.id}`

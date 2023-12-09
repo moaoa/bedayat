@@ -403,7 +403,7 @@ const notifyUser = (data: NotificationForm) => {
 const handleToggleUser = async (user: User) => {
   try {
     await usersMangementStore.toggleUserStatus(user);
-    Toaster.Success("Success", "sucess");
+    Toaster.Success("Success", "Success");
     return true;
   } catch (error) {
     Toaster.error("Error", "Error");
