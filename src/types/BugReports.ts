@@ -6,7 +6,7 @@ export type BugReport = {
   attachments: string[];
   bugResponse: string;
   department: BugDepartmentType;
-  issueStatus: IssueStatus;
+  status: BugStatusSearch;
 };
 export enum BugStatusSearch {
   Pending,

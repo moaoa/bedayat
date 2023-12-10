@@ -15,7 +15,7 @@
           data-kt-scroll-offset="400px"
       >
 
-        <div  class="row">
+        <div v-if="bugReportStore.selectedBugToRespond?.attachments"  class="row" >
           <label class="required col-3">
             {{ $t("attachedBugImages") }}
           </label>
@@ -64,7 +64,7 @@
           class="btn btn-light me-3"
           @click.prevent="onClose"
       >
-        Discard
+        {{ $t("discard") }}
       </button>
       <!--end::Button-->
 
@@ -77,7 +77,7 @@
           @click.prevent="submitForm(formRef)"
       >
         <span class="indicator-label">
-          Submit
+          {{ $t("submit") }}
           <span class="svg-icon svg-icon-3 ms-2 me-0">
             <inline-svg src="icons/duotune/arrows/arr064.svg"/>
           </span>

@@ -394,8 +394,26 @@ const messages = {
     video: "Video",
     word: "Word",
     signOut: "Sign Out",
+    closedIssue: "Closed",
+    pending:  "Pending",
+    respondToBugDialogTitle: "Respond To Bug Report",
+    attachedBugImages: "Attached Images",
+    response: "Response",
+
+
+
+
+
+
+
   },
   ar: {
+    response: "الرد",
+    attachedBugImages: "الصور المرفقة",
+
+    respondToBugDialogTitle: "الرد على الشكوى",
+    pending: "قيد الانتظار",
+    closedIssue: "تم الحل",
     signOut: "تسجيل الخروج",
     pdf: "بي دي اف",
     sound: "صوت",

@@ -1,16 +1,16 @@
 import ApiService from "./ApiService";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
-import { ApiResponse } from "@/types/ApiResponse";
+import {ApiResponse, PagedResult} from "@/types/ApiResponse";
 import { AddSettingsRequestDto, systemSettingsResponse } from "@/types/SystemSettings";
 import {Faq, FaqCategory, NewFaqData} from "@/types/Faq";
 import {BugDepartmentType, BugReport, BugStatusSearch} from "@/types/BugReports";
 class BugReportService {
-    public static async getBugReports(category: BugStatusSearch):Promise<ApiResponse<BugReport[]>> {
+    public static async getBugReports(category: BugStatusSearch, currentPage: number, currentSize: number):Promise<PagedResult<BugReport>> {
         console.log(category as number)
         const result =  await ApiService.get(
-          `${AppConstants.BUGS_REPORT_URL}`, `?bugStatus=${category as number}`);
+          `${AppConstants.BUGS_REPORT_URL}`, `?bugStatus=${category as number}&pageSize=${currentSize}&pageNumber=${currentPage}`);
 
-          const data = result.data as ApiResponse<BugReport[]>;
+          const data = result.data as PagedResult<BugReport>;
         return data;
       }
 

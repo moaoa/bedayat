@@ -26,7 +26,7 @@ export const useCoursesStore = defineStore({
     pagination: {
       total: 0,
       currentPage: 1,
-      currentSize: 0,
+      currentSize: 10,
     },
     searchValue: "",
 

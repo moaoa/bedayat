@@ -27,8 +27,6 @@
         </div>
       </div>
 
-
-{{bugReportStore.bugReports}}
       <div v-loading="bugReportStore.dataIsLoading">
       <!-- begin::table -->
       <el-table :data="bugReportStore.bugReports" style="width: 100%" height="250">
@@ -70,8 +68,9 @@
                          align="center"
                          header-align="center" >
           <template v-slot="scope: { row: BugReport, $index: number }">
-            <el-tag v-if="scope.row.issueStatus === 'Pending'   ">Pending</el-tag>
-            <el-tag v-else type="danger">Closed</el-tag>
+
+            <el-tag v-if="scope.row.status == 0   ">Pending</el-tag>
+            <el-tag v-else type="success">{{ t("closedIssue") }}</el-tag>
           </template>
         </el-table-column>
 
@@ -97,9 +96,6 @@
       </el-table>
       <!-- end::table -->
 
-      <!-- start::pagination -->
-<!--      <el-pagination layout="prev, pager, next" :total="1000" />-->
-      <!-- end::pagination -->
       </div>
     </div>
 
@@ -114,6 +110,15 @@
         @submit="respondToBug"
       />
     </el-dialog>
+    <br>
+    <el-pagination
+        v-if="!bugReportStore.dataIsLoading && bugReportStore.bugReports"
+        background
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="bugReportStore.pagination.total"
+        v-model:current-page="bugReportStore.pagination.currentPage"
+        v-model:page-size="bugReportStore.pagination.currentSize"
+    />
     <!-- end::dialog -->
   </div>
   <!--end:List Widget 3-->
@@ -191,6 +196,11 @@ watch(()=> bugReportStore.bugReports, (val)=> {
   bugReportsTable.value = val
 })
 setCurrentPageBreadcrumbs(t("bugReport"), [t("bugReport")]);
+
+watch(
+    () => [bugReportStore.pagination.currentPage, bugReportStore.pagination.currentSize],
+    () => bugReportStore.loadBugReports()
+);
 </script>
 
 <style>
