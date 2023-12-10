@@ -283,6 +283,7 @@ import Toaster from "@/core/services/Toaster";
 import { useGradeSubjectsStore } from "@/store/pinia_store/modules/GradeSubjectsModule";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import { useFileDialog } from "@vueuse/core";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 const { t } = useI18n();
 
@@ -316,23 +317,57 @@ const formData = reactive<NewCourseData>({
 });
 
 const rules = ref<Record<keyof NewCourseData, object[]>>({
-  name: [{ required: true, message: t("required"), trigger: "blur" }],
+  name: [
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
   englishName: [
     {
       required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
       message: t("englishName"),
       trigger: "blur",
     },
   ],
-  description: [{ required: true, message: t("required"), trigger: "blur" }],
-  author: [{ required: false, message: t("required"), trigger: "blur" }],
-  englishDescription: [
-    { required: true, message: t("required"), trigger: "blur" },
+  title: [
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("required"),
+      trigger: "blur",
+    },
   ],
-  englishTitle: [{ required: true, message: t("required"), trigger: "blur" }],
+  englishTitle: [
+    {
+      required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  description: [
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  englishDescription: [
+    {
+      required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
+      message: t("required"),
+      trigger: "blur",
+    },
+  ],
+  author: [{ required: false, message: t("required"), trigger: "blur" }],
   gradeSubjectId: [{ required: true, message: t("required"), trigger: "blur" }],
   logo: [{ required: true, message: t("required"), trigger: "blur" }],
-  title: [{ required: true, message: t("required"), trigger: "blur" }],
 });
 
 const submit = () => {

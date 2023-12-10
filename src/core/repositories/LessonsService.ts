@@ -1,10 +1,11 @@
 import {
   Lesson,
   NewLessonData,
-  LessonAttachment,
+  UploadedLessonAttachment,
   Response,
   ResponseSchema,
   LessonAttachmentSchema,
+  NewLessonAttachmentData,
 } from "@/types/Lessons";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
@@ -62,30 +63,22 @@ class LessonsService {
       [data] // 👈
     );
   }
-  public static async addAttachmentToLesson(params: {
-    lessonId: string;
-    file: File;
-    attachmentType: number;
-    attachmentName: string;
-    mimeType: string;
-    size: number;
-    title: string;
-    resolution: string;
-  }) {
+  public static async addAttachmentToLesson(params: NewLessonAttachmentData) {
     const data = new FormData();
     data.append("Attachment", params.file);
 
     const queryParams = new URLSearchParams({
       name: params.attachmentName,
+      description: params.description,
       attachmentType: params.attachmentType.toString(),
       lessonId: params.lessonId,
-      mimeType: params.mimeType,
+      lessonContentType: params.mimeType,
       title: params.title,
       resolution: params.resolution,
       size: params.size.toString(),
     }).toString();
 
-    const res = await ApiService.post<ApiResponse<LessonAttachment>>(
+    const res = await ApiService.post<ApiResponse<UploadedLessonAttachment>>(
       `${AppConstants.lESSONS_URL}/AddAttachmentToLesson2?${queryParams}`,
       data
     );

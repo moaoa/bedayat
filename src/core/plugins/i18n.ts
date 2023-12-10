@@ -383,6 +383,9 @@ const messages = {
     welcomeToHomeScreen: "Welcome To Home Screen",
     mainPage: "Main Page",
     noFileToShow: "No file to show",
+    fileType: "File Type",
+    attachmentFor: "Attachment For",
+    resolution: "Resolution",
     updateSubject: "Update Subject",
     updateCountry: "Update Country",
     updateCourseSection: "Update Course Section",
@@ -406,6 +409,7 @@ const messages = {
 
 
 
+    addNewCourseSection: "Add New Section",
   },
   ar: {
     response: "الرد",
@@ -422,7 +426,7 @@ const messages = {
     deleteLesson: "حذف درس",
     updateLesson: "تعديل درس",
     deleteCourse: "حذف دورة",
-    updateCourseSection:"تعديل قسم الدورة",
+    updateCourseSection: "تعديل قسم الدورة",
     updateSubject: "تعديل مادة",
     updateCountry: "تعديل بلد",
     purchases: "تاريخ الشراء",
@@ -806,6 +810,10 @@ const messages = {
     welcomeToHomeScreen: "مرحبا بك في الشاشة الرئيسية",
     mainPage: "الصفحة الرئيسية",
     noFileToShow: "لا يوجد ملفات لعرضها",
+    fileType: "نوع الملف",
+    attachmentFor: "المرفق لـ",
+    resolution: "الدقة",
+    addNewCourseSection: "إضافة قسم جديد",
   },
 };
 
