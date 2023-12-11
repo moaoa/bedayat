@@ -398,22 +398,19 @@ const messages = {
     word: "Word",
     signOut: "Sign Out",
     closedIssue: "Closed",
-    pending:  "Pending",
+    pending: "Pending",
     respondToBugDialogTitle: "Respond To Bug Report",
     attachedBugImages: "Attached Images",
     response: "Response",
     cityName: "City Name",
-    cityEnglishName:"City Name",
-
-
-
-
+    cityEnglishName: "City Name",
 
     addNewCourseSection: "Add New Section",
+    addNewPrepaidCard: "Add new prepaid card",
   },
   ar: {
     cityName: "اسم المدينة",
-    cityEnglishName:"اسم المدينة بالإنجليزي",
+    cityEnglishName: "اسم المدينة بالإنجليزي",
     response: "الرد",
     attachedBugImages: "الصور المرفقة",
 
@@ -816,6 +813,7 @@ const messages = {
     attachmentFor: "المرفق لـ",
     resolution: "الدقة",
     addNewCourseSection: "إضافة قسم جديد",
+    addNewPrepaidCard: "إضافة بطاقة شحن جديدة",
   },
 };
 
