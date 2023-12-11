@@ -5,7 +5,7 @@ import {
   RoleValues,
   NewUserData,
   ResponseSchema,
-  Response,
+  Response, FamilyResponse,
 } from "@/types/User";
 //@ts-ignore
 import { red } from "console-log-colors";
@@ -172,7 +172,7 @@ class UsersService {
     return res;
   }
   public static async getUserFamily(userId: string) {
-    const res = await ApiService.query<Response>(
+    const res = await ApiService.query<FamilyResponse>(
       `${AppConstants.FAMILY_URL}/GetFamilyOfUser/${userId}`,
       {}
     );
@@ -181,7 +181,7 @@ class UsersService {
     if (!validation.success) {
       console.log(red("issues: "), validation.issues);
     }
-    return res.data.results;
+    return res.data.data;
   }
   public static async changeUserStatus(user: User, state: boolean) {
     return await ApiService.put<Response>(

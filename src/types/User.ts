@@ -48,8 +48,15 @@ export const ResponseSchema = object({
   hasNext: boolean(),
   pagesCount: number(),
 });
+export const FamilyResponseSchema = object({
+  data: nullable(array(UserSchema)),
+  statusCode: number(),
+  isSuccess: boolean(),
+  message: nullable(string()),
+});
 
 export type Response = Output<typeof ResponseSchema>;
+export type FamilyResponse = Output<typeof FamilyResponseSchema>;
 
 export type NewUserData = {
   email: string;
