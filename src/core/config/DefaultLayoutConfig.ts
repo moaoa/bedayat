@@ -8,12 +8,12 @@ const config: LayoutConfigTypes = {
     type: "default",
     primaryColor: "#009EF7",
     logo: {
-      dark: "/media/logos/logo-1-dark.svg",
-      light: "/media/logos/logo-1.svg",
+      dark: "/logo.svg",
+      light: "/logo.svg",
     },
   },
   loader: {
-    logo: "/media/logos/logo-1-dark.svg",
+    logo: "/logo.svg",
     display: true,
     type: "default",
   },
