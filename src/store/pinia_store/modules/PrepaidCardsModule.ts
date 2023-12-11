@@ -13,6 +13,7 @@ import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { Invoice, InvoiceFilters } from "@/types/Invoices";
 import { PrepaidCardsExportParams } from "@/types/PrepaidCards";
 import saveFile from "@/core/helpers/saveFile";
+import router from "@/router";
 
 export const usePrepaidCardsStore = defineStore({
   id: "prepaidCardsStore",
@@ -161,6 +162,7 @@ export const usePrepaidCardsStore = defineStore({
           saveFile(URL.createObjectURL(blob), "export.csv");
         }
 
+        router.push({ name: "PrepaidCards" });
         this.isExportingInvoice = false;
       } catch (error) {
         this.isExportingInvoice = false;
