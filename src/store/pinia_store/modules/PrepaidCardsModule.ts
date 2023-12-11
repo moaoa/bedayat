@@ -109,7 +109,7 @@ export const usePrepaidCardsStore = defineStore({
         const res = await prepaidCardsService.createPrepaidCard(
           prepaidCardData
         );
-        this.prepaidCards.push(res.data.data);
+        this.prepaidCards.push(...res.data.data);
         this.isCreatingNewItem = false;
       } catch (error) {
         this.isCreatingNewItem = false;

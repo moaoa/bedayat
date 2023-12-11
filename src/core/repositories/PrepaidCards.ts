@@ -52,7 +52,7 @@ class PrepaidCardsService {
     );
   }
   public static async createPrepaidCard(data: NewPrepaidCard) {
-    return await ApiService.post<ApiResponse<PrepaidCard>>(
+    return await ApiService.post<ApiResponse<PrepaidCard[]>>(
       `${AppConstants.PREPAID_CARDS_URL}`,
       data
     );
