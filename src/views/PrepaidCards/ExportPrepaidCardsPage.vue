@@ -245,7 +245,7 @@ const { t } = useI18n();
 
 const prepaidCardsStore = usePrepaidCardsStore();
 const formRef = ref<null | HTMLFormElement>(null);
-const loading = computed(() => prepaidCardsStore.isCreatingNewItem);
+const loading = computed(() => prepaidCardsStore.isExportingInvoice);
 const formData = reactive<PrepaidCardsExportParams>({
   exportAs: AppConstants.EXPORT_AS.Excel,
   details: "",
