@@ -196,6 +196,10 @@
               v-loading="localitiesStore.dataIsLoading"
             >
               <el-option
+                :label="$t('none')"
+                :value="AppConstants.USER_ROLES.None"
+              />
+              <el-option
                 :label="$t('parent')"
                 :value="AppConstants.USER_ROLES.Parent"
               />
@@ -400,6 +404,12 @@ coursesStore.loadAllPackages({ pageSize: 1000, pageNumber: 1 });
 watch(
   () => filters.notificationTarget,
   () => {
+    filters.countryId = "";
+    filters.cityId = "";
+    filters.localityId = "";
+    filters.packageId = "";
+    filters.roleType = AppConstants.USER_ROLES.None;
+    filters.searchContent = "";
     getUsers();
   }
 );
