@@ -380,21 +380,16 @@
 import { ref, computed, reactive, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
-import { useUsersStore } from "@/store/pinia_store/modules/UsersManagementModule";
-import {
-  NewNotificationPayload,
-  NotificationForm,
-} from "@/types/Notifications";
+import { NotificationForm } from "@/types/Notifications";
 import FileInput from "@/components/FileInput.vue";
 import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
+import { useNotificationsStore } from "@/store/pinia_store/modules/NotificationsModule";
 
 const { t } = useI18n();
 
-const usersStore = useUsersStore();
+const notificationStore = useNotificationsStore();
 
-const permissions = AppConstants.PERMISSIONS;
-
-const loading = computed(() => usersStore.isCreatingNewItem);
+const loading = computed(() => notificationStore.isCreatingNewItem);
 
 const formRef = ref<null | HTMLFormElement>(null);
 
