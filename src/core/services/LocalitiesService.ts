@@ -3,21 +3,23 @@ import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import { ApiResponse } from "@/types/ApiResponse";
 
 import ApiService from "./ApiService";
-import { Locality, NewLocalityData } from "@/types/Localities";
+import {GetLocalityVm, Locality, NewLocalityData} from "@/types/Localities";
 
 class LocalitiesService {
 
-  public static async loadLocalities(cityId: string): Promise<Locality[]> {
+  public static async loadLocalities(cityId: string): Promise<GetLocalityVm[]> {
     console.log(cityId  );
     
-    const result =  await ApiService.get<ApiResponse<City>>(
-      `${AppConstants.CITIES_URL}/${cityId}`
+    const result =  await ApiService.query<ApiResponse<GetLocalityVm[]>>(
+      `${AppConstants.LOCALITIES_URL}`,
+        {
+          params: {
+            cityId
+          }
+        }
     );
-    console.log(result.data.data);
-    console.log(result.data.data.localities);
-    
 
-    return result.data.data.localities;
+    return result.data.data;
   }
   public static async createLocality(data: NewLocalityData) {
     const result =  await ApiService.post<ApiResponse<Locality>>(

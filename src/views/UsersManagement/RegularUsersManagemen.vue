@@ -381,7 +381,9 @@ const handleLoadUser = () => {
     regularUsersMangementStore.loadUsers(
       filterBy.value,
       searchValue.value,
-      userState.value
+      userState.value,
+      pagination.currentPage,
+      pagination.pageSize
     );
   } catch (error) {
     console.log(error);
@@ -432,6 +434,8 @@ watch(
     filterBy.value,
     userState.value,
     regularUsersMangementStore.selectedUserType,
+      pagination.currentPage,
+      pagination.pageSize
   ],
   () => {
     handleLoadUser();

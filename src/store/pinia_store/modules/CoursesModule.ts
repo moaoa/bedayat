@@ -198,8 +198,9 @@ export const useCoursesStore = defineStore({
       this.dataIsLoading = true;
       this.errorLoadingData = false;
       try {
-        const result = await PackagesService.getPackages(params);
+        const result = await PackagesService.getPackages(params, this.pagination.currentPage, this.pagination.currentSize);
         this.packages = result;
+        this.pagination.total = result.rowsCount;
       } catch (e: any) {
         console.log((e as Error).message);
         // this.packages = [];

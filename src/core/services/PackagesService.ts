@@ -11,7 +11,9 @@ import {
 } from "@/types/Packages/Packages";
 class PackagesService {
   public static async getPackages(
-    params: PackageFilter
+    params: PackageFilter,
+    pageNumber: Number,
+    pageSize: Number
   ): Promise<PagedResult<GetPackagesResponseDto>> {
     const result = await ApiService.query(
       `${AppConstants.Packages_URL}s/GetPackagesByGradeAndName/${params.gradeId}`,
@@ -21,6 +23,8 @@ class PackagesService {
           packageStatus: params.packageStatus,
           title: params.name,
           packageType: params.packageType,
+          pageNumber: pageNumber,
+          pageSize: pageSize
         },
       }
     );

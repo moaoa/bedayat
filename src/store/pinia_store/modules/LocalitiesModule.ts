@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Locality, NewLocalityData } from "@/types/Localities";
+import {GetLocalityVm, Locality, NewLocalityData} from "@/types/Localities";
 import { City } from "@/types/Cities";
 import LocalitiesService from "@/core/services/LocalitiesService";
 import Toaster from "@/core/services/Toaster";
@@ -9,7 +9,7 @@ export const useLocalitiesStore = defineStore({
   id: "localitiesStore",
 
   state: () => ({
-    localities: [] as Locality[],
+    localities: [] as GetLocalityVm[],
     selectedCityId: "",
     total: 0,
     currentPage: 1,

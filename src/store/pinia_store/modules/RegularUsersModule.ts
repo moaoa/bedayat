@@ -98,9 +98,15 @@ export const useRegularUsersStore = defineStore({
 
       try {
         const res = (await UsersService.getUserFamily(userId)) ?? [];
+
+        console.log("res==============", res);
+
+
         this.selectedFamilyParents = res.filter(
           (member) => member.role === AppConstants.USER_ROLES.Parent
         );
+
+
         this.selectedFamilyChildren = res.filter(
           (member) => member.role === AppConstants.USER_ROLES.Child
         );

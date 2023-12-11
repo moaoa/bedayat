@@ -402,8 +402,8 @@ const messages = {
     respondToBugDialogTitle: "Respond To Bug Report",
     attachedBugImages: "Attached Images",
     response: "Response",
-
-
+    cityName: "City Name",
+    cityEnglishName:"City Name",
 
 
 
@@ -412,6 +412,8 @@ const messages = {
     addNewCourseSection: "Add New Section",
   },
   ar: {
+    cityName: "اسم المدينة",
+    cityEnglishName:"اسم المدينة بالإنجليزي",
     response: "الرد",
     attachedBugImages: "الصور المرفقة",
 

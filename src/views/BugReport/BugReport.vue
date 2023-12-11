@@ -69,7 +69,7 @@
                          header-align="center" >
           <template v-slot="scope: { row: BugReport, $index: number }">
 
-            <el-tag v-if="scope.row.status == 0   ">Pending</el-tag>
+            <el-tag v-if="scope.row.status == 0   ">{{ t("pending") }}</el-tag>
             <el-tag v-else type="success">{{ t("closedIssue") }}</el-tag>
           </template>
         </el-table-column>

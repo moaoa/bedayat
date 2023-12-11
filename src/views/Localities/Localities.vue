@@ -78,10 +78,19 @@
               <b> {{ scope.row.englishName }}</b>
             </template>
           </el-table-column>
-          <el-table-column prop="createdAt" :label="$t('createdAt')" :formatter="formatter('createdAt')" align="center"
-                           header-align="center"/>
-          <el-table-column prop="lastUpdated" :label="$t('lastUpdated')" :formatter="formatter('lastUpdated')"
-                           align="center" header-align="center"/>
+
+          <el-table-column prop="cityName" :label="$t('cityName')" align="center" header-align="center">
+            <template #default="scope">
+              <b> {{ scope.row.city.name}}</b>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="cityEnglishName" :label="$t('cityEnglishName')" align="center" header-align="center">
+            <template #default="scope">
+              <b> {{ scope.row.city.englishName }}</b>
+            </template>
+          </el-table-column>
+
           <el-table-column :label="$t('edit')" align="center" header-align="center">
             <template #default="scope">
               <a class="btn btn-icon btn-light-success btn-sm" @click="openUpdateLocalityDialog(scope.row)"
@@ -107,11 +116,11 @@
       </div>
       <br/>
       <!-- start::pagination -->
-      <el-pagination v-if="!localitiesStore.dataIsLoading && !localitiesStore.errorLoadingData
-        " background layout="total, sizes, prev, pager, next, jumper" :total="localitiesStore.total"
-                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"
-                     :page-sizes="[25, 100, 200, 300, 400]"/>
-      <!-- end::pagination -->
+<!--      <el-pagination v-if="!localitiesStore.dataIsLoading && !localitiesStore.errorLoadingData-->
+<!--        " background layout="total, sizes, prev, pager, next, jumper" :total="localitiesStore.total"-->
+<!--                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"-->
+<!--                     :page-sizes="[25, 100, 200, 300, 400]"/>-->
+<!--      &lt;!&ndash; end::pagination &ndash;&gt;-->
     </div>
 
     <AddLocalityForm @submit="createLocality" ref="addLocalityModalRef"></AddLocalityForm>

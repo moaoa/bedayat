@@ -300,12 +300,17 @@
           <!-- end::table -->
         </div>
         <br />
-        <!-- start::pagination -->
-        <!--      <el-pagination v-if="!localitiesStore.dataIsLoading && !localitiesStore.errorLoadingData-->
-        <!--        " background layout="total, sizes, prev, pager, next, jumper" :total="localitiesStore.total"-->
-        <!--                     current-page="{{currentPage}}" page-size="{{currentSize}}" pager-count="{{pageCount}}"-->
-        <!--                     :page-sizes="[25, 100, 200, 300, 400]"/>-->
-        <!-- end::pagination -->
+<!--         start::pagination-->
+              <el-pagination v-if="!coursesStore.dataIsLoading && !coursesStore.errorLoadingData
+                " background layout="total, sizes, prev, pager, next, jumper"
+                             :total="coursesStore.pagination.total"
+                             v-model:current-page="coursesStore.pagination.currentPage"
+                             v-model:page-size="coursesStore.pagination.currentSize"
+                             :page-sizes="[25, 100, 200, 300, 400]"/>
+
+
+
+<!--         end::pagination-->
       </div>
     </div>
   </div>
@@ -422,4 +427,8 @@ watch(
   () => searchFilter.packageStatus,
   async () => await coursesStore.loadPackages(searchFilter)
 );
+watch(()=>[coursesStore.pagination.currentSize, coursesStore.pagination.currentPage, coursesStore.pagination.total],
+    async() =>
+      await coursesStore.loadPackages(searchFilter)
+    );
 </script>
