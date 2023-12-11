@@ -1,4 +1,4 @@
-import { useI18n } from "vue-i18n";
+import i18n from "@/core/plugins/i18n";
 import { defineStore } from "pinia";
 
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
@@ -9,6 +9,8 @@ import {
   NotificationFilters,
   User,
 } from "@/types/Notifications";
+
+const t = i18n.global.t;
 
 export const useNotificationsStore = defineStore({
   id: "notificationsStore",
@@ -51,7 +53,7 @@ export const useNotificationsStore = defineStore({
           notificationPayload
         );
 
-        Toaster.Success("notificationWasSentSuccessfully");
+        Toaster.Success(t("notificationWasSentSuccessfully"));
       } catch (error) {
         Toaster.error((error as Error).message);
         console.log(error);
