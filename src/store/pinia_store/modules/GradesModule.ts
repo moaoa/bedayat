@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { Grade, NewGradeData } from "@/types/Grades";
-
 import gradesService from "@/core/repositories/GradesService";
 import Toaster from "@/core/services/Toaster";
-
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useGradesStore = defineStore({
   id: "gradesStore",
   state: () => ({
@@ -64,7 +64,7 @@ export const useGradesStore = defineStore({
         this.grades[index] = { ...this.selectedGrade, ...newValues };
         this.isUpdatingItem = false;
         console.log("in here")
-        Toaster.Success("Grade updated Successfully")
+        Toaster.Success(t("success"), t("updatedSuccessfully"));
       } catch (error) {
         this.isUpdatingItem = false;
         console.log(error);
@@ -76,7 +76,7 @@ export const useGradesStore = defineStore({
         const res = await gradesService.createGrade(gradeData);
         this.grades.push(res.data.data);
         this.isCreatingNewItem = false;
-        Toaster.Success("Grade added Successfully")
+        Toaster.Success(t("success"), t("createdSuccessfully"));
       } catch (error) {
         this.isCreatingNewItem = false;
         console.log(error);

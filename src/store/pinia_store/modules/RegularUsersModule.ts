@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import { User } from "@/types/User";
-
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import UsersService from "@/core/services/UsersService";
-import Toaster from "@/core/services/Toaster";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useRegularUsersStore = defineStore({
   id: "regularUsersStore",
 

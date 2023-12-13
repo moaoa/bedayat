@@ -19,6 +19,8 @@ import { PagedResult } from "@/types/ApiResponse";
 import toaster from "@/core/services/Toaster";
 import { loaderLogo } from "@/core/helpers/config";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useCoursesStore = defineStore({
   id: "coursesStore",
   state: () => ({
@@ -186,7 +188,8 @@ export const useCoursesStore = defineStore({
         }
 
         const result = await PackagesService.createPackage(formData);
-        toaster.Success("created successfully");
+
+        toaster.Success(t("success"), t("createdNewItem"));
         router.push({ name: "ViewPackages" });
       } catch (error) {
         console.log(error);
@@ -234,7 +237,8 @@ export const useCoursesStore = defineStore({
       this.dataIsLoading = true;
       try {
         await PackagesService.updatePackage(packageUpdate);
-        toaster.Success("updated successfully");
+
+        toaster.Success(t("success"), t("updatedSuccessfully"));
         router.push({ name: "ViewPackages" });
       } catch (error) {
         console.log(error);
@@ -250,7 +254,7 @@ export const useCoursesStore = defineStore({
           return;
         }
         await PackagesService.deletePackage(this.selectedPackage?.id);
-        toaster.Success("deleted successfully");
+        toaster.Success(t("deletedSuccessfully"));
       } catch (error) {
         console.log(error);
       } finally {
@@ -268,7 +272,7 @@ export const useCoursesStore = defineStore({
         await PackagesService.removeCourseFromPackage(request);
         this.selectedCoursesForPackage.filter((x) => x.id != id);
 
-        toaster.Success("Course remvoed Successfully");
+        toaster.Success(t("deletedSuccessfully"));
 
         if (!this.selectedPackage) {
           return;
@@ -292,7 +296,7 @@ export const useCoursesStore = defineStore({
         console.log(request);
 
         await PackagesService.addCoursesToPackage(request);
-        toaster.Success("Courses Added Successfully");
+        toaster.Success(t("success"), t("createdNewItem"));
 
         await this.getCoursesByPackageId(this.selectedPackage);
       } catch (error) {
@@ -317,7 +321,7 @@ export const useCoursesStore = defineStore({
     async changePackageActiveState(packageId: string) {
       try {
         await PackagesService.changeActiveState(packageId);
-        toaster.Success("state changed successfully");
+        toaster.Success(t("success"), t("updatedSuccessfully"));
       } catch (e) {
         console.log(e);
       }

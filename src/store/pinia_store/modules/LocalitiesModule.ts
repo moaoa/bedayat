@@ -5,6 +5,9 @@ import LocalitiesService from "@/core/services/LocalitiesService";
 import Toaster from "@/core/services/Toaster";
 import toaster from "@/core/services/Toaster";
 import localitiesService from "@/core/services/LocalitiesService";
+
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useLocalitiesStore = defineStore({
   id: "localitiesStore",
 
@@ -61,7 +64,7 @@ export const useLocalitiesStore = defineStore({
         }else{
           Toaster.info("No locality Selected")
         }
-        Toaster.Success("Locality Updated Succesfully!")
+        Toaster.Success(t("updatedSuccessfully!"))
       } catch (error) {
         console.error(error);
         Toaster.error("Failed to update locality!")
@@ -74,7 +77,7 @@ export const useLocalitiesStore = defineStore({
       this.isCreatingNewItem = true;
         await localitiesService.createLocality(newLocality)
 
-        Toaster.Success("Locality Created Successfully")
+        toaster.Success(t("success"), t("createdNewItem"));
         this.isCreatingNewItem = false;
       }catch (error) {
         console.error(error)
@@ -92,7 +95,7 @@ export const useLocalitiesStore = defineStore({
         await LocalitiesService.deleteLocality(localityToDelete.id);
 
         // this.localities.splice(index, 1);
-        Toaster.Success("Locality Deleted Successfully")
+        toaster.Success(t("deletedSuccessfully"));
       }catch (error){
         console.error(error)
         toaster.error((error as Error).message)

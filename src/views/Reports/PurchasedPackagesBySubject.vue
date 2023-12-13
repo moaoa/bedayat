@@ -50,19 +50,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="d-flex flex-column">
-          <label>{{ $t("packageType") }}</label>
-          <el-select v-model="filters.packageType" style="width: 300px">
-            <el-option
-              :value="AppConstants.PackageTypes.Course"
-              :label="$t('course')"
-            />
-            <el-option
-              :value="AppConstants.PackageTypes.Package"
-              :label="$t('package')"
-            />
-          </el-select>
-        </div>
+
         <div>
           <lable class="d-flex flex-column">
             {{ $t("fromDate") }}

@@ -1,17 +1,13 @@
 import { defineStore } from "pinia";
-import { CourseSection, NewCourseSectionData } from "@/types/CourseSection";
-
-import courseSectionService from "@/core/repositories/CourseSectionsService";
 import { useLocalStorage } from "@vueuse/core";
-import CourseSectionServise from "@/core/repositories/CourseSectionsService";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import {GetPackagesResponseDto, Package} from "@/types/Packages/Packages";
 import {NewSubscriptionData, Subscription} from "@/types/Subscription";
 import SubscriptionService from "@/core/repositories/SubscriptionService";
-import Subscriptions from "@/views/Packages/Subscriptions/Subscriptions.vue";
 import Toaster from "@/core/services/Toaster";
-import {t} from "element-plus/es/locale";
 import router from "@/router";
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 
 export const useSubscriptionStore = defineStore({
   id: "subscriptionStore",
@@ -77,6 +73,7 @@ export const useSubscriptionStore = defineStore({
 
         this.subscriptions.push(res.data.data);
         this.isCreatingNewItem = false;
+
         Toaster.Success(t("success"), t("createdNewItem"));
         await router.push({
           name:"Subscriptions"
@@ -143,7 +140,7 @@ export const useSubscriptionStore = defineStore({
           (item) => item.id !== this.selectedSubscription?.id
         );
         this.unselectSubscription();
-        Toaster.Success("success", "deletedItem");
+        Toaster.Success(t("success"), t("deletedItem"));
       } catch (error) {
         console.log(error);
       } finally {

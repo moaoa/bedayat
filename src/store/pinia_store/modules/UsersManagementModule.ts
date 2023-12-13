@@ -1,4 +1,3 @@
-import { useI18n } from "vue-i18n";
 import { defineStore } from "pinia";
 import {
   User,
@@ -10,8 +9,9 @@ import {
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 import UsersService from "@/core/services/UsersService";
 import Toaster from "@/core/services/Toaster";
-import NotificationsService from "@/core/repositories/NotificationsService";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useUsersStore = defineStore({
   id: "usersStore",
 
@@ -148,7 +148,7 @@ export const useUsersStore = defineStore({
           this.users.push(...res.data.results);
         }
 
-        Toaster.Success("User created successfully");
+        Toaster.Success(t("success"), t("createdSuccessfully"));
       } catch (error) {
         console.log(error);
       } finally {

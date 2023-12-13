@@ -407,6 +407,7 @@ const messages = {
 
     addNewCourseSection: "Add New Section",
     addNewPrepaidCard: "Add new prepaid card",
+    updatedSuccessfully: "updated Successfully",
   },
   ar: {
     cityName: "اسم المدينة",
@@ -759,6 +760,9 @@ const messages = {
     paidAt: "تاريخ الدفع",
     export: "تصدير",
     createdNewItem: "تم إنشاء عنصر جديد بنجاح",
+    createdSuccessfully: "تمت العملية بنجاح",
+    updatedSuccessfully: "تم تحديث البيانات بنجاح",
+    deletedSuccessfully: "تم الحذف بنجاح",
     success: "تمت العملية بنجاح",
     paid: "مدفوع",
     notPaid: "غير مدفوع",
