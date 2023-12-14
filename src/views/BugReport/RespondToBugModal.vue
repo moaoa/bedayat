@@ -2,7 +2,7 @@
   <!--begin::Form-->
   <el-form :model="formData" :rules="rules" ref="formRef">
     <!--begin::Modal body-->
-    <div class="modal-body py-10 px-lg-17">
+    <div class="modal-body px-lg-17">
       <!--begin::Scroll-->
       <div
           class="scroll-y me-n7 pe-7"
@@ -15,33 +15,79 @@
           data-kt-scroll-offset="400px"
       >
 
-        <div v-if="bugReportStore.selectedBugToRespond?.attachments"  class="row" >
-          <label class="required col-3">
-            {{ $t("attachedBugImages") }}
+        <div class="fv-row mb-7 ">
+          <!--begin::Label-->
+          <label class="required fs-6 fw-bold mb-2">
+            {{ $t("title") }}
           </label>
-          <div v-if="bugReportStore.selectedBugToRespond?.attachments?.length" class=" col-6">
-            <el-image
-                style="width: 200px; height: 100px"
-                :src="bugReportStore.selectedBugToRespond.attachments[0]"
-                :zoom-rate="1.2"
-                loading="eager"
-                :preview-src-list="bugReportStore.selectedBugToRespond.attachments"
-                :initial-index="2"
-                fit="cover"
-            />
+          <div>
+
           </div>
-            <div v-else >
-              <p>no attachemnts</p>
-            </div>
+          <!--begin::Input-->
+          <el-form-item prop="response">
+            <p>{{bugReportStore.selectedBugToRespond.title}}</p>
+          </el-form-item>
+          <!--end::Input-->
         </div>
 
-        <div class="fv-row mb-7">
+        <div class="fv-row mb-7 mt-10">
+          <!--begin::Label-->
+          <label class="required fs-6 fw-bold mb-2">
+            {{ $t("description") }}
+          </label>
+          <div>
+
+          </div>
+          <!--begin::Input-->
+          <el-form-item prop="response">
+            <p>{{bugReportStore.selectedBugToRespond.description}}</p>
+          </el-form-item>
+          <!--end::Input-->
+        </div>
+
+        <div v-if="bugReportStore.selectedBugToRespond?.attachmentPaths" class="row">
+          <!--          <label class="required col-3">-->
+          <!--            {{ $t("attachedBugImages") }}-->
+          <!--          </label>-->
+          <div v-if="bugReportStore.selectedBugToRespond?.attachmentPaths?.length" class=" col-12">
+            <swiper
+                :slides-per-view="1"
+                :space-between="30"
+                allow-slide-next
+                allow-slide-prev
+                :loop="true"
+                :navigation="true"
+                :modules="[Navigation, Pagination]"
+            >
+              <swiper-slide v-for="path in bugReportStore.selectedBugToRespond?.attachmentPaths"
+
+              >
+                <img style=""
+                     height="300"
+                     class="object-fit-contain"
+                     :src="path"
+                     loading="eager"
+                     alt=""
+                />
+              </swiper-slide>
+            </swiper>
+          </div>
+          <div v-if="bugReportStore.selectedBugToRespond?.attachmentPaths?.length" class=" col-6"
+               >
+
+          </div>
+          <div v-else>
+            <p>no attachments</p>
+          </div>
+        </div>
+
+
+        <div class="fv-row mb-7 mt-10">
           <!--begin::Label-->
           <label class="required fs-6 fw-bold mb-2">
             {{ $t("response") }}
           </label>
           <div>
-
 
           </div>
           <!--begin::Input-->
@@ -98,8 +144,15 @@
 <script lang="ts" setup>
 import {reactive, ref} from "vue";
 import {NewCountryData} from "@/types/Countries";
-import type {FormInstance, FormRules} from "element-plus";
+import {Swiper, SwiperSlide} from 'swiper/vue';
+
+import {Navigation, Pagination, Scrollbar, A11y} from 'swiper/modules';
 import {useBugReportsStore} from "@/store/pinia_store/modules/BugReportModule";
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 const bugReportStore = useBugReportsStore();
 const url =

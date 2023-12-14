@@ -3,7 +3,7 @@ export type BugReport = {
   id: string;
   title: string;
   description: string;
-  attachments: string[];
+  attachmentPaths: string[];
   bugResponse: string;
   department: BugDepartmentType;
   status: BugStatusSearch;
