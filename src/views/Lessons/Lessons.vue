@@ -59,7 +59,8 @@
         <el-table-column
           prop="description"
           :label="$t('description')"
-          width="120"
+          align="center"
+          min-width="200"
         />
         <el-table-column
           prop="createdAt"

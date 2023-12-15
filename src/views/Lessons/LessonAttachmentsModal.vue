@@ -189,7 +189,7 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input-item prop="titleOfUploadedContent">
+                  <el-form-item prop="titleOfUploadedContent">
                     <input
                       v-model="formData.titleOfUploadedContent"
                       type="text"
@@ -197,7 +197,7 @@
                       :placeholder="$t('title')"
                       style="width: 150px"
                     />
-                  </el-input-item>
+                  </el-form-item>
                   <!--end::Input-->
                 </div>
                 <div class="fv-row mb-7 col-md-6">
@@ -208,7 +208,7 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input-item prop="description">
+                  <el-form-item prop="description">
                     <input
                       v-model="formData.description"
                       type="text"
@@ -216,7 +216,7 @@
                       :placeholder="$t('description')"
                       style="width: 150px"
                     />
-                  </el-input-item>
+                  </el-form-item>
                   <!--end::Input-->
                 </div>
                 <div class="fv-row mb-7 col-md-6">
@@ -227,7 +227,7 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input-item prop="selectedTypeOfAttachment">
+                  <el-form-item prop="selectedTypeOfAttachment">
                     <el-select
                       v-model="formData.selectedTypeOfAttachment"
                       type="text"
@@ -249,7 +249,7 @@
                         "
                       />
                     </el-select>
-                  </el-input-item>
+                  </el-form-item>
                   <!--end::Input-->
                 </div>
                 <div class="fv-row mb-7 col-md-6">
@@ -260,8 +260,12 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input-item prop="resolution">
+                  <el-form-item prop="resolution">
                     <el-select
+                      v-if="
+                        formData.fileMimeType ===
+                        AppConstants.FILE_MIME_TYPES.Video
+                      "
                       v-model="formData.resolution"
                       type="text"
                       :placeholder="$t('previewImageTitle')"
@@ -271,7 +275,7 @@
                       <el-option :label="'720'" :value="'720'" />
                       <el-option :label="'1028'" :value="'1028'" />
                     </el-select>
-                  </el-input-item>
+                  </el-form-item>
                   <!--end::Input-->
                 </div>
                 <div class="fv-row mb-7 col-md-6">
@@ -282,7 +286,7 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input-item prop="fileMimeType">
+                  <el-form-item prop="fileMimeType">
                     <el-select
                       v-model="formData.fileMimeType"
                       type="text"
@@ -310,7 +314,7 @@
                         :value="AppConstants.FILE_MIME_TYPES.Other"
                       />
                     </el-select>
-                  </el-input-item>
+                  </el-form-item>
                   <!--end::Input-->
                 </div>
 
@@ -322,7 +326,7 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input-item prop="fileMimeType">
+                  <el-form-item prop="fileMimeType">
                     <FileInput
                       @change="handleImageChange"
                       :accept="'all'"
@@ -366,7 +370,7 @@
                         </div>
                       </template>
                     </FileInput>
-                  </el-input-item>
+                  </el-form-item>
 
                   <!--end::Input-->
                 </div>
@@ -515,7 +519,7 @@ const submit = () => {
     return;
   }
 
-  formRef.value.validate(async (valid) => {
+  formRef.value.validate(async (valid, arg) => {
     if (!valid) {
       return;
     }
