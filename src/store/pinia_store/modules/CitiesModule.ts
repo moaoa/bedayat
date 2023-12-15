@@ -7,6 +7,8 @@ import Toaster from "@/core/services/Toaster";
 import CountriesService from "@/core/repositories/CountriesService";
 import toaster from "@/core/services/Toaster";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useCitiesStore = defineStore({
   id: "citiesStore",
 
@@ -71,7 +73,7 @@ export const useCitiesStore = defineStore({
 
         this.cities[index] = { ...this.selectedCity, ...updateResult };
         this.cities[index] = { ...this.selectedCity, ...newValues };
-        toaster.Success("city updated successfully");
+        toaster.Success(t("success"), t("updatedSuccessfully"));
       } catch (error) {
         console.log(error);
       } finally {
@@ -106,7 +108,7 @@ export const useCitiesStore = defineStore({
         const result = await CitiesService.deleteCity(cityToDelete.id);
         this.cities = this.cities.filter((x) => x.id != cityToDelete.id);
 
-        toaster.Success("Success", "City deleted");
+        toaster.Success(t("success"), t("createdNewItem"));
       } catch (error) {
         console.log(error);
       } finally {

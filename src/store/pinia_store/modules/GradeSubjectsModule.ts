@@ -106,7 +106,7 @@ export const useGradeSubjectsStore = defineStore({
           (item) => item.id !== this.selectedGradeSubject?.id
         );
         this.unselectGradeSubject();
-        toaster.Success("item deleted")
+        toaster.Success(t("deletedSuccessfully"));
       } catch (error) {
         console.log(error);
 

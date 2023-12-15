@@ -29,7 +29,7 @@
 
       <div v-loading="bugReportStore.dataIsLoading">
       <!-- begin::table -->
-      <el-table :data="bugReportStore.bugReports" style="width: 100%" height="250">
+      <el-table :data="bugReportStore.bugReports" style="width: 100%" height="400">
 
         <el-table-column prop="title" :label="$t('title')" width="150" />
         <el-table-column

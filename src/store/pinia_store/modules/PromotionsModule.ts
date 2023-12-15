@@ -1,14 +1,11 @@
 import {defineStore} from "pinia";
-import {Locality, NewLocalityData} from "@/types/Localities";
-import {City} from "@/types/Cities";
-import LocalitiesService from "@/core/services/LocalitiesService";
 import Toaster from "@/core/services/Toaster";
 import toaster from "@/core/services/Toaster";
-import localitiesService from "@/core/services/LocalitiesService";
 import {AddUpdatePromotionDto, Promotion, PromotionDto} from "@/types/Promotions";
 import PromotionsService from "@/core/services/PromotionsService";
-import promotionsService from "@/core/services/PromotionsService";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const usePromotionsStore = defineStore({
     id: "promotionsStore",
 
@@ -54,7 +51,7 @@ export const usePromotionsStore = defineStore({
                 } else {
                     Toaster.info("No Promotion Selected")
                 }
-                Toaster.Success("Promotion Updated Succesfully!")
+                toaster.Success(t("success"), t("updatedSuccessfully"));
             } catch (error) {
                 console.error(error);
                 Toaster.error("Failed to update Promotion!")
@@ -67,7 +64,7 @@ export const usePromotionsStore = defineStore({
                 this.isCreatingNewItem = true;
                 await PromotionsService.createPromotion(newPromotion)
 
-                Toaster.Success("Promotion Created Successfully")
+                toaster.Success(t("success"), t("createdSuccessfully"));
                 this.isCreatingNewItem = false;
             } catch (error) {
                 console.error(error)
@@ -86,7 +83,7 @@ export const usePromotionsStore = defineStore({
                 await PromotionsService.deletePromotion(promotion.id);
                 this.promotions = this.promotions.filter(x => x.id != promotion.id)
 
-                Toaster.Success("Promotion Deleted Successfully")
+                toaster.Success(t("success"), t("deletedSuccessfully"));
             } catch (error) {
                 console.error(error)
                 toaster.error((error as Error).message)
@@ -103,7 +100,7 @@ export const usePromotionsStore = defineStore({
 
                 await PromotionsService.activatePromotion(promotion.id, promotionState);
 
-                Toaster.Success("Promotion status changed")
+               toaster.Success(t("success"), t("updatedSuccessfully"));
 
             } catch (error) {
                 console.error(error)

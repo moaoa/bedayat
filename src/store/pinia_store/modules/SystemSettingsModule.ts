@@ -8,6 +8,8 @@ import {
 import Toaster from "@/core/services/Toaster";
 import SystemSettingsService from "@/core/services/SystemSettings";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useSystemSettingsStore = defineStore({
   id: "systemSettingsStore",
 
@@ -30,7 +32,6 @@ export const useSystemSettingsStore = defineStore({
       try {
 
         this.errorOccured = false;
-        console.log("test test");
         
         const result = await SystemSettingsService.getSystemSettings();
         this.systemSettings = {

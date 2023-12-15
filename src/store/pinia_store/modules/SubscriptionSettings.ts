@@ -2,7 +2,8 @@ import { defineStore } from "pinia";
 import Toaster from "@/core/services/Toaster";
 import SubscriptionSettingsService from "@/core/services/SubscriptionSettings";
 import { SubscriptionSettings } from "@/types/SubscriptionSettings";
-
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useSubscriptionSettingsStore = defineStore({
   id: "subscriptionSettingsStore",
 
@@ -56,7 +57,7 @@ export const useSubscriptionSettingsStore = defineStore({
             numberOfDays
           );
 
-        Toaster.Success("Settings updated successfully !");
+        Toaster.Success(t("success"), t("createdSuccessfully"));
 
         const getResult = await SubscriptionSettingsService.getSubscriptionSettings();
        
@@ -87,10 +88,8 @@ export const useSubscriptionSettingsStore = defineStore({
           Toaster.error("count not update");
           return false;
         }
-        
 
-        Toaster.Success("Subscription Settings updated successfully !");
-        
+        Toaster.Success(t("success"), t("updatedSuccessfully"));
 
         const getResult = await SubscriptionSettingsService.getSubscriptionSettings();
        
@@ -114,7 +113,7 @@ export const useSubscriptionSettingsStore = defineStore({
         
         const result = await  SubscriptionSettingsService.deleteSubscriptionSettings(this.subsctiptionSettingToDelete.id);
 
-        Toaster.Success("Subscription Settings deleted successfully !");
+        Toaster.Success(t("success"), t("deletedSuccessfully"));
 
         const getResult = await SubscriptionSettingsService.getSubscriptionSettings();
 

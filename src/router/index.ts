@@ -311,16 +311,16 @@ const routes: Array<RouteRecordRaw> = [
           requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
         },
       },
-      {
-        path: "/dashboard/Reports/PurchasedPackagesBySpecificUser",
-        name: "PurchasedPackagesBySpecificUser",
-        component: () =>
-          import("@/views/Reports/AllPurchasedPackagesBySpecifcUser.vue"),
-        meta: {
-          authRequired: true,
-          requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
-        },
-      },
+      // {
+      //   path: "/dashboard/Reports/PurchasedPackagesBySpecificUser",
+      //   name: "PurchasedPackagesBySpecificUser",
+      //   component: () =>
+      //     import("@/views/Reports/AllPurchasedPackagesBySpecifcUser.vue"),
+      //   meta: {
+      //     authRequired: true,
+      //     requiredPermission: AppConstants.PERMISSIONS.ReadTermsAndPrivacy,
+      //   },
+      // },
       {
         path: "/dashboard/Reports/PurchasedPackagesBySubject",
         name: "PurchasedPackagesBySubject",

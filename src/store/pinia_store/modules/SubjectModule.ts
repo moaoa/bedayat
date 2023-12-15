@@ -3,7 +3,8 @@ import { Subject, NewSubjectData, SubjectType } from "@/types/Subjects";
 
 import subjectsService from "@/core/repositories/SubjectsService";
 import Toaster from "@/core/services/Toaster";
-import { t } from "element-plus/es/locale";
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 
 export const useSubjectsStore = defineStore({
   id: "subjectsStore",
@@ -64,7 +65,7 @@ export const useSubjectsStore = defineStore({
 
         await subjectsService.updateSubject(this.selectedSubject.id, newValues);
 
-        Toaster.Success("success", "itemUpdated");
+        Toaster.Success(t("success"), t("updatedSuccessfully"));
 
         this.subjects[index] = { ...this.selectedSubject, ...newValues };
         this.isUpdatingItem = false;
@@ -79,7 +80,7 @@ export const useSubjectsStore = defineStore({
         const res = await subjectsService.createSubject(subjectData);
         this.subjects.push(res.data.data);
         this.isCreatingNewItem = false;
-        Toaster.Success("success", "createdNewItem");
+        Toaster.Success(t("success"), t("createdSuccessfully"));
       } catch (error) {
         this.isCreatingNewItem = false;
         console.log(error);

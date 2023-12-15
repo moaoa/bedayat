@@ -1,17 +1,11 @@
 import { Faq, FaqCategory, NewFaqData } from "@/types/Faq";
-import { Country } from "@/types/Countries";
-import ApiService from "@/core/services/ApiService";
-import { ApiResponse } from "@/types/ApiResponse";
 import Toaster from "@/core/services/Toaster";
-import { AppConstants } from "@/core/constants/ApplicationsConstants";
-import i18n from "@/core/plugins/i18n";
-
 import { defineStore } from "pinia";
-
-import axios from "axios";
 import FaqService from "@/core/services/FaqService";
 import toaster from "@/core/services/Toaster";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useFaqsStore = defineStore({
   id: "useFaqsStore",
 
@@ -35,7 +29,7 @@ export const useFaqsStore = defineStore({
       try {
         const result = await FaqService.createFaq(faq);
         this.faqs.push(result.data);
-        Toaster.Success("Faq added Successfully ");
+        toaster.Success(t("success"), t("createdNewItem"));
       } catch (e: unknown) {
         Toaster.error(
           "حدث خطأ",
@@ -48,7 +42,8 @@ export const useFaqsStore = defineStore({
     async updateFaq(faq: NewFaqData) {
       try {
         const result = await FaqService.updateFaq(this.selectedFaq!.id, faq);
-        toaster.Success("Success", "Question Updated successfully");
+
+        toaster.Success(t("success"), t("createdNewItem"));
         await this.loadFaqs(this.selectedCategory);
       } catch (e) {
         Toaster.error(
@@ -64,7 +59,8 @@ export const useFaqsStore = defineStore({
         await FaqService.deleteFaq(this.selectedFaq!.id!);
 
         await this.loadFaqs(this.selectedCategory!);
-        toaster.Success("Success", "Question Deleted successfully");
+
+        toaster.Success(t("success"), t("createdNewItem"));
       } catch (e) {
         Toaster.error(
           "حدث خطأ",

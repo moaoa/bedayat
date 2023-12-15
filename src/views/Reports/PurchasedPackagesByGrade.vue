@@ -90,6 +90,8 @@
         v-loading="purchasedPackagesByGradeStore.dataIsLoading"
         class="card-body pt-2"
       >
+
+        <div class="mt-8 fs-4 fw-bold">{{ $t("totalOfPurchased") }} : {{ total }}</div>
         <el-table
           :data="tableData"
           class="table-responsive"
@@ -144,11 +146,7 @@
             :label="$t('price')"
           />
 
-          <!--          <el-table-column-->
-          <!--              prop="sumOfPrice"-->
-          <!--              :label="$t('sumOfPrice')"-->
 
-          <!--          />-->
 
           <el-table-column
             prop="purchasedAt"
@@ -175,14 +173,6 @@
             />
           </div>
 
-          <div class="col-3 flex">
-            <h3>
-              {{ t("sumOfPrice") }}
-            </h3>
-            <h2>
-              <b> {{ total }} </b>
-            </h2>
-          </div>
         </div>
 
         <!-- end::pagination -->

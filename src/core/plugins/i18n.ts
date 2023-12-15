@@ -407,8 +407,24 @@ const messages = {
 
     addNewCourseSection: "Add New Section",
     addNewPrepaidCard: "Add new prepaid card",
+    updatedSuccessfully: "updated Successfully",
+    noAttachment: "No Attachments",
+
+    monthlyPackagePrice: "Monthly Package Price",
+    filterByExpiryDate: "Filter By Expiry Date",
+    currentlyActiveCourses: "Currently Active Courses",
+
+    home: "Home",
+
+
   },
+  //////////////////////////////////////////////////////////////////////////
   ar: {
+    home: "الرئيسية",
+    currentlyActiveCourses: "الدورات المفعلة حاليا",
+    filterByExpiryDate: "تصفية حسب تاريخ الانتهاء",
+    monthlyPackagePrice: "سعر الحزمة الشهرية",
+    noAttachment: "لا يوجد مرفقات",
     cityName: "اسم المدينة",
     cityEnglishName: "اسم المدينة بالإنجليزي",
     response: "الرد",
@@ -562,7 +578,7 @@ const messages = {
     faq: "السوال",
     addNewCountry: "أضافة بلد جديد",
     addNewLocality: "أضافة حي جديد",
-    noNumber: "ق.م",
+    noNumber: "الترتيب",
     hash: "#",
     at: "@",
     citiesAndCountries: "البلدان و المدن",
@@ -759,6 +775,9 @@ const messages = {
     paidAt: "تاريخ الدفع",
     export: "تصدير",
     createdNewItem: "تم إنشاء عنصر جديد بنجاح",
+    createdSuccessfully: "تمت العملية بنجاح",
+    updatedSuccessfully: "تم تحديث البيانات بنجاح",
+    deletedSuccessfully: "تم الحذف بنجاح",
     success: "تمت العملية بنجاح",
     paid: "مدفوع",
     notPaid: "غير مدفوع",

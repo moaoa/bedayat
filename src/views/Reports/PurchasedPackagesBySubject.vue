@@ -50,19 +50,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="d-flex flex-column">
-          <label>{{ $t("packageType") }}</label>
-          <el-select v-model="filters.packageType" style="width: 300px">
-            <el-option
-              :value="AppConstants.PackageTypes.Course"
-              :label="$t('course')"
-            />
-            <el-option
-              :value="AppConstants.PackageTypes.Package"
-              :label="$t('package')"
-            />
-          </el-select>
-        </div>
+
         <div>
           <lable class="d-flex flex-column">
             {{ $t("fromDate") }}
@@ -85,15 +73,22 @@
             </el-date-picker>
           </lable>
         </div>
-        <div>
-          <lable class="d-flex flex-column">
-            {{ $t("checkExpiryDate") }}
-            <el-switch v-model="filters.checkExpiryDate" style="width: 300px">
+
+
+        <div class="d-flex flex-row is-justify-space-between">
+          <lable class="d-flex flex-column gap-2 align-items-center justify-content-center  p-2 ">
+            {{ $t("currentlyActiveCourses") }}
+            <el-switch
+                v-model="filters.checkExpiryDate"
+
+            >
             </el-switch>
           </lable>
         </div>
+
+
       </div>
-      <div class="mt-8">{{ $t("totalPurchases") }} : {{ totalPurchases }}</div>
+      <div class="mt-8 fs-4 fw-bold">{{ $t("totalOfPurchased") }} : {{ totalPurchases }}</div>
       <div
         v-loading="purchasedPackagesBySubjectStore.dataIsLoading"
         class="card-body pt-2"
@@ -115,44 +110,32 @@
               {{ scope.$index + 1 }}
             </template>
           </el-table-column>
-          <el-table-column prop="title" :label="$t('title')" width="120" />
+          <el-table-column prop="title"
+                           align="center"
+                           :label="$t('title')"  />
           <el-table-column
             prop="englishTitle"
+            align="center"
             :label="$t('englishTitle')"
-            width="120"
-          />
-          <el-table-column
-            prop="englishName"
-            :label="$t('englishName')"
-            width="120"
+
           />
           <el-table-column
             prop="userName"
+            align="center"
             :label="$t('userName')"
-            width="120"
+
           />
-          <el-table-column prop="price" :label="$t('price')" width="120" />
+          <el-table-column prop="price"
+                           align="center"
+                           :label="$t('price')"   />
           <el-table-column
+              align="center"
             prop="numberOfPurchases"
             :label="$t('numberOfPurchases')"
-            width="150"
+
           />
-          <el-table-column
-            prop="sumOfPrice"
-            :label="$t('sumOfPrice')"
-            width="120"
-          />
-          <el-table-column
-            prop="totalPurchases"
-            :label="$t('totalPurchases')"
-            width="120"
-          />
-          <el-table-column
-            prop="purchasedAt"
-            :label="$t('purchasedAt')"
-            width="120"
-            :formatter="formatter('purchasedAt')"
-          />
+
+
         </el-table>
         <!-- end::table -->
 
@@ -219,7 +202,7 @@ const tableData = computed(
 const totalPurchases = computed(() => {
   return (
     purchasedPackagesBySubjectStore.purchasedPackagesBySubject[0]
-      ?.totalOfPurchases ?? 0
+      ?.sumOfPrice ?? 0
   );
 });
 

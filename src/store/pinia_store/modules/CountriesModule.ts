@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
 import type { Country, NewCountryData } from "@/types/Countries";
-import type { ApiResponse, PagedList } from "@/types/ApiResponse";
+import type { ApiResponse } from "@/types/ApiResponse";
 
 import ApiService from "@/core/services/ApiService";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
-import i18n from "@/core/plugins/i18n";
 import Toaster from "@/core/services/Toaster";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 
 
 
@@ -65,7 +66,7 @@ export const useCountriesStore = defineStore({
 
         this.countries.push(data.data);
 
-        Toaster.Success(i18n.global.t('success'), i18n.global.t("createdNewItem"));
+        Toaster.Success(t('success'), t("createdNewItem"));
       } catch (error) {
         console.log(error);
         throw error;

@@ -1,13 +1,12 @@
 import { defineStore } from "pinia";
 import { City, NewCityData } from "@/types/Cities";
-import { Country } from "@/types/Countries";
-
 import CitiesService from "@/core/repositories/CitiesService";
 import Toaster from "@/core/services/Toaster";
-import CountriesService from "@/core/repositories/CountriesService";
 import {Faq, FaqCategory} from "@/types/Faq";
 import FaqService from "@/core/services/FaqService";
 
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 export const useFaqStore = defineStore({
   id: "faqStore",
 

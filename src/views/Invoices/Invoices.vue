@@ -49,7 +49,7 @@
         :data="invoicesTable"
         style="width: 100%"
         class="mt-8"
-        height="250"
+        height="450"
       >
         <el-table-column
           index="scope.$index"
@@ -157,14 +157,14 @@
       <!-- start::pagination -->
       <br />
       <!-- start::pagination -->
-      <el-pagination
-        v-if="
-          !prepaidCardsStore.dataIsLoading && prepaidCardsStore.prepaidCards
-        "
-        background
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="prepaidCardsStore.prepaidCards.length"
-      />
+<!--      <el-pagination-->
+<!--        v-if="-->
+<!--          !prepaidCardsStore.dataIsLoading && prepaidCardsStore.prepaidCards-->
+<!--        "-->
+<!--        background-->
+<!--        layout="total, sizes, prev, pager, next, jumper"-->
+<!--        :total="prepaidCardsStore.prepaidCards.length"-->
+<!--      />-->
       <!-- end::pagination -->
     </div>
     <!--end::Body-->

@@ -31,7 +31,7 @@
         >
           <li class="breadcrumb-item pe-3">
             <router-link to="/dashboard" class="text-muted text-hover-primary">
-              Home
+              {{$t("home")}}
             </router-link>
           </li>
           <li class="breadcrumb-item">
@@ -63,6 +63,7 @@
 import { defineComponent } from "vue";
 import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
 import KTModalCreateF from "@/components/modals/wizards/TwoFactorAuthModal.vue";
+import {useI18n} from "vue-i18n";
 
 export default defineComponent({
   name: "KToolbar",
