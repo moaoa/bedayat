@@ -73,15 +73,22 @@
             </el-date-picker>
           </lable>
         </div>
-        <div>
-          <lable class="d-flex flex-column">
-            {{ $t("checkExpiryDate") }}
-            <el-switch v-model="filters.checkExpiryDate" style="width: 300px">
+
+
+        <div class="d-flex flex-row is-justify-space-between">
+          <lable class="d-flex flex-column gap-2 align-items-center justify-content-center  p-2 ">
+            {{ $t("currentlyActiveCourses") }}
+            <el-switch
+                v-model="filters.checkExpiryDate"
+
+            >
             </el-switch>
           </lable>
         </div>
+
+
       </div>
-      <div class="mt-8">{{ $t("totalPurchases") }} : {{ totalPurchases }}</div>
+      <div class="mt-8 fs-4 fw-bold">{{ $t("totalOfPurchased") }} : {{ totalPurchases }}</div>
       <div
         v-loading="purchasedPackagesBySubjectStore.dataIsLoading"
         class="card-body pt-2"
@@ -103,23 +110,29 @@
               {{ scope.$index + 1 }}
             </template>
           </el-table-column>
-          <el-table-column prop="title" :label="$t('title')" width="120" />
+          <el-table-column prop="title"
+                           align="center"
+                           :label="$t('title')"  />
           <el-table-column
             prop="englishTitle"
+            align="center"
             :label="$t('englishTitle')"
-            width="120"
+
           />
           <el-table-column
             prop="userName"
+            align="center"
             :label="$t('userName')"
-            width="120"
+
           />
-          <el-table-column prop="price" :label="$t('price')" width="120" />
+          <el-table-column prop="price"
+                           align="center"
+                           :label="$t('price')"   />
           <el-table-column
               align="center"
             prop="numberOfPurchases"
             :label="$t('numberOfPurchases')"
-            width="150"
+
           />
 
 

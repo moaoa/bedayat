@@ -412,8 +412,16 @@ const messages = {
 
     monthlyPackagePrice: "Monthly Package Price",
     filterByExpiryDate: "Filter By Expiry Date",
+    currentlyActiveCourses: "Currently Active Courses",
+
+    home: "Home",
+
+
   },
+  //////////////////////////////////////////////////////////////////////////
   ar: {
+    home: "الرئيسية",
+    currentlyActiveCourses: "الدورات المفعلة حاليا",
     filterByExpiryDate: "تصفية حسب تاريخ الانتهاء",
     monthlyPackagePrice: "سعر الحزمة الشهرية",
     noAttachment: "لا يوجد مرفقات",
@@ -570,7 +578,7 @@ const messages = {
     faq: "السوال",
     addNewCountry: "أضافة بلد جديد",
     addNewLocality: "أضافة حي جديد",
-    noNumber: "ق.م",
+    noNumber: "الترتيب",
     hash: "#",
     at: "@",
     citiesAndCountries: "البلدان و المدن",

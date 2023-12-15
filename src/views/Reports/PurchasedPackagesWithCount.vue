@@ -80,6 +80,10 @@
           v-loading="purchasedPackagesWithCountStore.dataIsLoading"
           class="card-body pt-2"
       >
+
+
+        <div class="mt-8 fs-4 fw-bold">{{ $t("totalOfPurchased") }} : {{ total }}</div>
+
         <el-table :data="tableData" class="table-responsive" max-width style="width: 100%" height="400">
           <el-table-column
               index="scope.$index"
@@ -161,17 +165,6 @@
           </div>
 
 
-          <div class="col-3 flex ">
-            <h3>
-              {{ t('totalOfPurchased') }}
-            </h3>
-            <h2>
-
-
-              <b> {{ total }}
-              </b>
-            </h2>
-          </div>
 
         </div>
 
