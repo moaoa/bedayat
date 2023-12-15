@@ -17,7 +17,7 @@
 
         <div class="fv-row mb-7 ">
           <!--begin::Label-->
-          <label class="required fs-6 fw-bold mb-2">
+          <label class=" fs-6 fw-bold mb-2">
             {{ $t("title") }}
           </label>
           <div>
@@ -32,7 +32,7 @@
 
         <div class="fv-row mb-7 mt-10">
           <!--begin::Label-->
-          <label class="required fs-6 fw-bold mb-2">
+          <label class=" fs-6 fw-bold mb-2">
             {{ $t("description") }}
           </label>
           <div>
@@ -45,10 +45,8 @@
           <!--end::Input-->
         </div>
 
-        <div v-if="bugReportStore.selectedBugToRespond?.attachmentPaths" class="row">
-          <!--          <label class="required col-3">-->
-          <!--            {{ $t("attachedBugImages") }}-->
-          <!--          </label>-->
+        <div  class="row">
+
           <div v-if="bugReportStore.selectedBugToRespond?.attachmentPaths?.length" class=" col-12">
             <swiper
                 :slides-per-view="1"
@@ -62,9 +60,11 @@
               <swiper-slide v-for="path in bugReportStore.selectedBugToRespond?.attachmentPaths"
 
               >
-                <img style=""
+
+                <img style=" width: 100%"
+
                      height="300"
-                     class="object-fit-contain"
+                     class="object-fit-contain justify-content-center"
                      :src="path"
                      loading="eager"
                      alt=""
@@ -72,12 +72,8 @@
               </swiper-slide>
             </swiper>
           </div>
-          <div v-if="bugReportStore.selectedBugToRespond?.attachmentPaths?.length" class=" col-6"
-               >
-
-          </div>
-          <div v-else>
-            <p>no attachments</p>
+          <div class="d-flex justify-content-center fs-4" v-else>
+            <p>{{ $t("noAttachment") }}</p>
           </div>
         </div>
 

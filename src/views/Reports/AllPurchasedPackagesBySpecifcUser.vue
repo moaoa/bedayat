@@ -1,128 +1,128 @@
 <template>
   <!--begin::List Widget 3-->
 
-  <div class="card card-xxl-stretch mb-xl-3">
-    <!--begin::Header-->
-    <div class="card-header border-0">
-      <h3 class="card-title fw-bolder text-dark">
-        {{ $t("purchasedPackagesByUser") }}
-      </h3>
+<!--  <div class="card card-xxl-stretch mb-xl-3">-->
+<!--    &lt;!&ndash;begin::Header&ndash;&gt;-->
+<!--    <div class="card-header border-0">-->
+<!--      <h3 class="card-title fw-bolder text-dark">-->
+<!--        {{ $t("purchasedPackagesByUser") }}-->
+<!--      </h3>-->
 
-      <div class="card-toolbar">
-        <!--begin::Menu-->
+<!--      <div class="card-toolbar">-->
+<!--        &lt;!&ndash;begin::Menu&ndash;&gt;-->
 
-        <a
-          class="btn btn-icon btn-light-primary btn-sm me-3"
-          @click="loadPackagesReport"
-        >
-          <i class="bi bi-arrow-repeat"></i>
-        </a>
+<!--        <a-->
+<!--          class="btn btn-icon btn-light-primary btn-sm me-3"-->
+<!--          @click="loadPackagesReport"-->
+<!--        >-->
+<!--          <i class="bi bi-arrow-repeat"></i>-->
+<!--        </a>-->
 
-        <!--end::Menu-->
-      </div>
-    </div>
-    <!--end::Header-->
+<!--        &lt;!&ndash;end::Menu&ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;end::Header&ndash;&gt;-->
 
-    <!--begin::Body-->
-    <div
-      v-loading="purchasedPackagesBySpecificUserStore.dataIsLoading"
-      class="card-body pt-2"
-    >
-      <!-- begin::table -->
+<!--    &lt;!&ndash;begin::Body&ndash;&gt;-->
+<!--    <div-->
+<!--      v-loading="purchasedPackagesBySpecificUserStore.dataIsLoading"-->
+<!--      class="card-body pt-2"-->
+<!--    >-->
+<!--      &lt;!&ndash; begin::table &ndash;&gt;-->
 
-      <div class="d-flex gap-4 alig-items-center flex-wrap">
-        <div class="d-flex flex-column">
-          <label>{{ $t("user") }}</label>
-          <el-select
-            v-model="filters.userId"
-            clearable
-            filterable
-            remote
-            :remote-method="handleChange"
-            style="width: 300px"
-            :loading="isLoadingUsers"
-            :placeholder="$t('searchForUserWithPhoneEmail')"
-          >
-            <el-option
-              v-for="user in usersStore.users"
-              :key="user.id"
-              :value="user.id"
-              :label="user.fullName"
-            >
-            </el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="mt-8">{{ $t("totalPurchases") }} : {{ totalPurchases }}</div>
-      <div
-        v-loading="purchasedPackagesBySpecificUserStore.dataIsLoading"
-        class="card-body pt-2"
-      >
-        <el-table :data="tableData" style="width: 100%" height="400">
-          <el-table-column
-            index="scope.$index"
-            :label="t('noNumber')"
-            width="55"
-            align="center"
-            header-align="center"
-          >
-            <template
-              #default="scope: {
-                row: PurchasedPackageBySpecificUser,
-                $index: number,
-              }"
-            >
-              {{ scope.$index + 1 }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="title" :label="$t('title')" width="120" />
-          <el-table-column
-            prop="englishTitle"
-            :label="$t('englishTitle')"
-            width="120"
-          />
-          <el-table-column
-            prop="englishName"
-            :label="$t('englishName')"
-            width="120"
-          />
-          <el-table-column
-            prop="userName"
-            :label="$t('userName')"
-            width="120"
-          />
-          <el-table-column prop="price" :label="$t('price')" width="120" />
-          <el-table-column
-            prop="numberOfPurchases"
-            :label="$t('numberOfPurchases')"
-            width="150"
-          />
-          <el-table-column
-            prop="purchasedAt"
-            :label="$t('purchasedAt')"
-            width="120"
-            :formatter="formatter('purchasedAt')"
-          />
-        </el-table>
-        <!-- end::table -->
+<!--      <div class="d-flex gap-4 alig-items-center flex-wrap">-->
+<!--        <div class="d-flex flex-column">-->
+<!--          <label>{{ $t("user") }}</label>-->
+<!--          <el-select-->
+<!--            v-model="filters.userId"-->
+<!--            clearable-->
+<!--            filterable-->
+<!--            remote-->
+<!--            :remote-method="handleChange"-->
+<!--            style="width: 300px"-->
+<!--            :loading="isLoadingUsers"-->
+<!--            :placeholder="$t('searchForUserWithPhoneEmail')"-->
+<!--          >-->
+<!--            <el-option-->
+<!--              v-for="user in usersStore.users"-->
+<!--              :key="user.id"-->
+<!--              :value="user.id"-->
+<!--              :label="user.fullName"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="mt-8">{{ $t("totalPurchases") }} : {{ totalPurchases }}</div>-->
+<!--      <div-->
+<!--        v-loading="purchasedPackagesBySpecificUserStore.dataIsLoading"-->
+<!--        class="card-body pt-2"-->
+<!--      >-->
+<!--        <el-table :data="tableData" style="width: 100%" height="400">-->
+<!--          <el-table-column-->
+<!--            index="scope.$index"-->
+<!--            :label="t('noNumber')"-->
+<!--            width="55"-->
+<!--            align="center"-->
+<!--            header-align="center"-->
+<!--          >-->
+<!--            <template-->
+<!--              #default="scope: {-->
+<!--                row: PurchasedPackageBySpecificUser,-->
+<!--                $index: number,-->
+<!--              }"-->
+<!--            >-->
+<!--              {{ scope.$index + 1 }}-->
+<!--            </template>-->
+<!--          </el-table-column>-->
+<!--          <el-table-column prop="title" :label="$t('title')" width="120" />-->
+<!--          <el-table-column-->
+<!--            prop="englishTitle"-->
+<!--            :label="$t('englishTitle')"-->
+<!--            width="120"-->
+<!--          />-->
+<!--          <el-table-column-->
+<!--            prop="englishName"-->
+<!--            :label="$t('englishName')"-->
+<!--            width="120"-->
+<!--          />-->
+<!--          <el-table-column-->
+<!--            prop="userName"-->
+<!--            :label="$t('userName')"-->
+<!--            width="120"-->
+<!--          />-->
+<!--          <el-table-column prop="price" :label="$t('price')" width="120" />-->
+<!--          <el-table-column-->
+<!--            prop="numberOfPurchases"-->
+<!--            :label="$t('numberOfPurchases')"-->
+<!--            width="150"-->
+<!--          />-->
+<!--          <el-table-column-->
+<!--            prop="purchasedAt"-->
+<!--            :label="$t('purchasedAt')"-->
+<!--            width="120"-->
+<!--            :formatter="formatter('purchasedAt')"-->
+<!--          />-->
+<!--        </el-table>-->
+<!--        &lt;!&ndash; end::table &ndash;&gt;-->
 
-        <!-- start::pagination -->
-        <br />
-        <!-- start::pagination -->
-        <el-pagination
-          :loading="purchasedPackagesBySpecificUserStore.dataIsLoading"
-          background
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="purchasedPackagesBySpecificUserStore.total"
-          v-model:current-page="filters.pageNumber"
-          v-model:page-size="filters.pageSize"
-        />
-        <!-- end::pagination -->
-      </div>
-    </div>
+<!--        &lt;!&ndash; start::pagination &ndash;&gt;-->
+<!--        <br />-->
+<!--        &lt;!&ndash; start::pagination &ndash;&gt;-->
+<!--        <el-pagination-->
+<!--          :loading="purchasedPackagesBySpecificUserStore.dataIsLoading"-->
+<!--          background-->
+<!--          layout="total, sizes, prev, pager, next, jumper"-->
+<!--          :total="purchasedPackagesBySpecificUserStore.total"-->
+<!--          v-model:current-page="filters.pageNumber"-->
+<!--          v-model:page-size="filters.pageSize"-->
+<!--        />-->
+<!--        &lt;!&ndash; end::pagination &ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
 
-    <!--end::Body-->
-  </div>
+<!--    &lt;!&ndash;end::Body&ndash;&gt;-->
+<!--  </div>-->
   <!--end:List Widget 3-->
 </template>
 

@@ -122,7 +122,12 @@
 
           <el-table-column prop="price"
                            header-align="center"
-                           align="center" :label="$t('price')"/>
+                           align="center" :label="$t('monthlyPackagePrice')"/>
+          <el-table-column
+              prop="sumOfPrice"
+              :label="$t('totalPurchases')"
+              width="120"
+          />
           <el-table-column
               prop="numberOfPurchases"
               :label="$t('numberOfPurchases')"

@@ -82,6 +82,7 @@ export const useBugReportsStore = defineStore({
                 )!.bugResponse = message;
 
                 this.closeBugReport(this.selectedBugId);
+                Toaster.Success(t("Success"), t("createdSuccessfully"),)
 
                 return true;
             } catch (error) {

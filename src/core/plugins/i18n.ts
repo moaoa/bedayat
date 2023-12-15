@@ -408,8 +408,15 @@ const messages = {
     addNewCourseSection: "Add New Section",
     addNewPrepaidCard: "Add new prepaid card",
     updatedSuccessfully: "updated Successfully",
+    noAttachment: "No Attachments",
+
+    monthlyPackagePrice: "Monthly Package Price",
+    filterByExpiryDate: "Filter By Expiry Date",
   },
   ar: {
+    filterByExpiryDate: "تصفية حسب تاريخ الانتهاء",
+    monthlyPackagePrice: "سعر الحزمة الشهرية",
+    noAttachment: "لا يوجد مرفقات",
     cityName: "اسم المدينة",
     cityEnglishName: "اسم المدينة بالإنجليزي",
     response: "الرد",

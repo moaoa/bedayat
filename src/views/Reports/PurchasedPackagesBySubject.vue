@@ -110,37 +110,19 @@
             width="120"
           />
           <el-table-column
-            prop="englishName"
-            :label="$t('englishName')"
-            width="120"
-          />
-          <el-table-column
             prop="userName"
             :label="$t('userName')"
             width="120"
           />
           <el-table-column prop="price" :label="$t('price')" width="120" />
           <el-table-column
+              align="center"
             prop="numberOfPurchases"
             :label="$t('numberOfPurchases')"
             width="150"
           />
-          <el-table-column
-            prop="sumOfPrice"
-            :label="$t('sumOfPrice')"
-            width="120"
-          />
-          <el-table-column
-            prop="totalPurchases"
-            :label="$t('totalPurchases')"
-            width="120"
-          />
-          <el-table-column
-            prop="purchasedAt"
-            :label="$t('purchasedAt')"
-            width="120"
-            :formatter="formatter('purchasedAt')"
-          />
+
+
         </el-table>
         <!-- end::table -->
 
@@ -207,7 +189,7 @@ const tableData = computed(
 const totalPurchases = computed(() => {
   return (
     purchasedPackagesBySubjectStore.purchasedPackagesBySubject[0]
-      ?.totalOfPurchases ?? 0
+      ?.sumOfPrice ?? 0
   );
 });
 
