@@ -262,6 +262,9 @@
                   <!--begin::Input-->
                   <el-input-item prop="resolution">
                     <el-select
+                      v-if="
+                        formData.fileMimeType ===
+                        AppConstants.FILE_MIME_TYPES.Video"
                       v-model="formData.resolution"
                       type="text"
                       :placeholder="$t('previewImageTitle')"
