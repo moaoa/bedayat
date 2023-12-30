@@ -374,13 +374,13 @@ const rules = ref({
       message: t("required"),
       trigger: "blur",
     },
-    {
-      //TODO: ADD REGEX
-      max: 14,
-      min: 9,
-      message: t("phoneMustBe10Digits"),
-      trigger: ["blur", "change"],
-    },
+    // {
+    //   //TODO: ADD REGEX
+    //   max: 14,
+    //   min: 9,
+    //   message: t("phoneMustBe10Digits"),
+    //   trigger: ["blur"],
+    // },
   ],
   otherPhone: [{ required: false, message: t("required"), trigger: "blur" }],
   permissions: [{ required: false, message: t("required"), trigger: "blur" }],
