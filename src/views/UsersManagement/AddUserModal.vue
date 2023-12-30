@@ -153,7 +153,7 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-form-item prop="phoneNumber">
+                  <el-form-item prop="phone">
                     <el-input
                       v-model="formData.phone"
                       type="text"
@@ -367,11 +367,13 @@ const rules = ref({
     },
   ],
   gender: [{ required: true, message: t("required"), trigger: "blur" }],
-  phoneNumber: [
+  phone: [
     {
       required: true,
       // pattern: /^([2]{1}[1]{1}[8]{1}[9]{1}[1,2,4,5]{1}[0-9]{7})|([0]{1}[9]{1}[1,2,4,5]{1}[0-9]{7})+$/,
-      message: t("required"), trigger: "blur" },
+      message: t("required"),
+      trigger: "blur",
+    },
     {
       //TODO: ADD REGEX
       max: 14,
