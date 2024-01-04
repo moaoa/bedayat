@@ -16,7 +16,7 @@ class PackagesService {
     pageSize: Number
   ): Promise<PagedResult<GetPackagesResponseDto>> {
     const result = await ApiService.query(
-      `${AppConstants.Packages_URL}s/GetPackagesByGradeAndName/${params.gradeId}`,
+      `${AppConstants.Packages_URL}/GetPackagesByGradeAndName/${params.gradeId}`,
       {
         params: {
           gradeId: params.gradeId,
