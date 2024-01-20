@@ -225,7 +225,7 @@ export const useCoursesStore = defineStore({
       }
     },
     getPackageById(id: string) {
-      return this.packages.results.find((x) => x.id == id);
+      return this.packages.data.find((x) => x.id == id);
     },
     selectPackage(packageRow: GetPackagesResponseDto) {
       this.selectedPackage = packageRow;

@@ -38,7 +38,7 @@ export const useBugReportsStore = defineStore({
                 this.dataIsLoading = true;
                 const result = await BugReportService.getBugReports(this.selectedBugCategory, this.pagination.currentPage, this.pagination.currentSize);
 
-                this.bugReports = result.results;
+                this.bugReports = result.data;
                 this.pagination.total = result.rowsCount;
               } catch (error) {
                 Toaster.error(error.message)

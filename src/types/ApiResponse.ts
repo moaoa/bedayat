@@ -40,7 +40,7 @@ export type PagedList<T> = {
 };
 
 export interface PagedResult<T> {
-  results: T[];
+  data: T[];
   pageNumber: number;
   pageSize: number;
   pageItemsCount: number;

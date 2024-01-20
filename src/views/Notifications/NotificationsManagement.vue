@@ -164,7 +164,7 @@
               v-loading="coursesStore.dataIsLoading"
             >
               <el-option
-                v-for="item in coursesStore.packages.results"
+                v-for="item in coursesStore.packages.data"
                 :value="item.id"
                 :label="item.title"
                 :key="item.id"

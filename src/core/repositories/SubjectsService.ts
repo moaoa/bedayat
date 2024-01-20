@@ -9,7 +9,7 @@ class SubjectsService {
         const res = await ApiService.get<PagedResult<Subject>>(
             `${AppConstants.SUBJECTS_URL}`, `?SubjectType=${selectedSubjectType == null ? '' : selectedSubjectType}&IncludeCourses=false&PageNumber=1&PageSize=100`
         );
-        return res.data.results;
+        return res.data.data;
     }
 
     public static async deleteSubject(gradeId: string) {

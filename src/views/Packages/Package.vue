@@ -353,7 +353,7 @@ const { t } = useI18n();
 const coursesStore = useCoursesStore();
 const gradesStore = useGradesStore();
 const packagesTable = ref<GetPackagesResponseDto[]>(
-  coursesStore.packages.results
+  coursesStore.packages.data
 );
 
 const router = useRouter();
@@ -405,7 +405,7 @@ watch(
     return coursesStore.packages;
   },
   (value) => {
-    packagesTable.value = value.results; //?.filter(x=> x.packageStatus == searchFilter.status)
+    packagesTable.value = value.data; //?.filter(x=> x.packageStatus == searchFilter.status)
   }
 );
 watch(
