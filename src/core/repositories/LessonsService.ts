@@ -33,7 +33,7 @@ class LessonsService {
     if (validation.success === false) {
       console.log(red("issues: "), validation.issues);
     }
-    return res.data.results;
+    return res.data.data;
   }
   public static async deleteLesson(lessonId: string) {
     return await ApiService.delete<ApiResponse<unknown>>(

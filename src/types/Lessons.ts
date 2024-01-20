@@ -39,7 +39,7 @@ export type Lesson = Output<typeof LessonSchema>;
 export type Course = Output<typeof LessonSchema>;
 
 export const ResponseSchema = object({
-  results: nullable(array(LessonSchema)),
+  data: nullable(array(LessonSchema)),
   statusCode: number(),
   isSuccess: boolean(),
   message: nullable(string()),
