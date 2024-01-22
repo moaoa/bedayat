@@ -60,7 +60,7 @@ class LessonsService {
     return await ApiService.post<ApiResponse<Lesson>>(
       `${AppConstants.lESSONS_URL}/AddLesson/${sectionId}`,
       //TODO: when the backend swtich this to an object you need to switch as well
-      [data] // 👈
+       data
     );
   }
   public static async addAttachmentToLesson(params: NewLessonAttachmentData) {
