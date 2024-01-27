@@ -52,7 +52,7 @@
         <el-table-column
           prop="thumbnail"
           :label="$t('thumbnail')"
-          width="120"
+          width="200"
           align="center"
           header-align="center"
         >
@@ -60,7 +60,7 @@
             <img
               v-if="scope.row.thumbnail"
               :src="scope.row.thumbnail"
-              style="object-fit: contain; width: 400px"
+              style="object-fit: cover; width: 200px; height: 200px"
               alt="thumbnail"
             />
           </template>
