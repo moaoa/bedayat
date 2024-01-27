@@ -6,6 +6,7 @@ export class AppConstants {
   static AUTH_URL = `${AppConstants.PUBLIC_URL}/Authentications`;
 
   static USERS_URL = `${AppConstants.MANAGEMENT_URL}/UsersManagement`;
+  static AVATARS_URL = `${AppConstants.MANAGEMENT_URL}/Avatars`;
   static FAMILY_URL = `${AppConstants.MANAGEMENT_URL}/Family`;
 
   static CITIES_URL = `${AppConstants.MANAGEMENT_URL}/Cities`;

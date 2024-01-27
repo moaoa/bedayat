@@ -65,6 +65,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/UsersManagement/UsersManagement.vue"),
       },
       {
+        path: "/dashboard/Avatars",
+        name: "Avatars",
+        meta: {
+          authRequired: true,
+          requiredPermission: AppConstants.PERMISSIONS.None,
+        },
+        component: () => import("@/views/Avatars/AvatarsManagement.vue"),
+      },
+      {
         path: "/dashboard/RegularUsersManagement",
         name: "RegularUsersManagement",
         component: () =>

@@ -63,6 +63,13 @@ const DocMenuConfig = [
             fontIcon: "bi-layers",
             requiredPermission: AppConstants.PERMISSIONS.ReadUsers,
           },
+          {
+            heading: "avatar",
+            route: "/dashboard/Avatars",
+            svgIcon: "/media/icons/duotune/general/gen019.svg",
+            fontIcon: "bi-layers",
+            requiredPermission: AppConstants.PERMISSIONS.None, //TOOD: add permission for the avatar
+          },
         ],
       },
       {

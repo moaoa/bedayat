@@ -415,8 +415,8 @@ const messages = {
     currentlyActiveCourses: "Currently Active Courses",
 
     home: "Home",
-
-
+    avatar: "Avatar",
+    addAvatar: "Add Avatar",
   },
   //////////////////////////////////////////////////////////////////////////
   ar: {
@@ -833,6 +833,8 @@ const messages = {
     resolution: "الدقة",
     addNewCourseSection: "إضافة قسم جديد",
     addNewPrepaidCard: "إضافة بطاقة شحن جديدة",
+    avatar: "صورة المستخدم",
+    addAvatar: "إضافة صورة",
   },
 };
 
