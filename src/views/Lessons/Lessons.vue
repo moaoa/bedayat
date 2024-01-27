@@ -63,6 +63,9 @@
               style="object-fit: cover; width: 200px; height: 200px"
               alt="thumbnail"
             />
+            <div v-else>
+              {{ $t("noDataToDisplay") }}
+            </div>
           </template>
         </el-table-column>
         <el-table-column
