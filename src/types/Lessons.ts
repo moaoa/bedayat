@@ -30,6 +30,7 @@ export const LessonSchema = object({
   lastUpdated: string(),
   lessonAttachments: array(LessonAttachmentSchema),
   lessonType: number(),
+  thumbnail: nullable(string()),
   sectionId: string(),
   title: string(),
 });

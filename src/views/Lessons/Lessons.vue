@@ -50,6 +50,22 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="thumbnail"
+          :label="$t('thumbnail')"
+          width="120"
+          align="center"
+          header-align="center"
+        >
+          <template #default="scope: { row: Lesson, $index: number }">
+            <img
+              v-if="scope.row.thumbnail"
+              :src="scope.row.thumbnail"
+              style="object-fit: contain; width: 400px"
+              alt="thumbnail"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="title"
           :label="$t('title')"
           width="120"
