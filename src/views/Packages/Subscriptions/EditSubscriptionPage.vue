@@ -172,23 +172,6 @@
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("fakePrice") }}
-                </label>
-                <!--end::Label-->
-
-                <!--begin::Input-->
-                <el-form-item prop="fakePrice">
-                  <el-input
-                    v-model="formData.fakePrice"
-                    type="number"
-                    :placeholder="$t('fakePrice')"
-                  />
-                </el-form-item>
-                <!--end::Input-->
-              </div>
-              <div class="fv-row mb-7 col-md-6">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
                   {{ $t("period") }}
                 </label>
                 <!--end::Label-->
@@ -197,7 +180,9 @@
                   <el-select
                     v-model="formData.subscriptionSettingId"
                     type="text"
-                    :placeholder="subscriptionsStore.selectedSubscription.period"
+                    :placeholder="
+                      subscriptionsStore.selectedSubscription.period
+                    "
                     filterable
                     clearable
                   >
@@ -260,7 +245,7 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref, onMounted, computed, watch} from "vue";
+import { reactive, ref, onMounted, computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
@@ -287,7 +272,6 @@ const formData = reactive<NewSubscriptionData>({
   discount: subscriptionsStore.selectedSubscription.discount!,
   englishDetails: subscriptionsStore.selectedSubscription.englishDetails!,
   englishSubTitle: subscriptionsStore.selectedSubscription.englishSubTitle!,
-  fakePrice: subscriptionsStore.selectedSubscription.fakePrice!, //TODO: fix the type
   packageId: router.currentRoute.value.params.id as string,
   price: subscriptionsStore.selectedSubscription.price!,
   subTitle: subscriptionsStore.selectedSubscription.subTitle!,
@@ -347,7 +331,6 @@ const rules = ref<Record<keyof NewSubscriptionData, object[]>>({
   ],
 
   packageId: [{ required: true, message: t("required"), trigger: "blur" }],
-  fakePrice: [{ required: true, message: t("required"), trigger: "blur" }],
   subscriptionSettingId: [
     { required: true, message: t("required"), trigger: "blur" },
   ],
@@ -376,14 +359,19 @@ onMounted(() => {
     formRef.value?.resetFields();
   });
 });
-watch(()=> subscriptionSettingsStore.subscriptionSettings, ()=>{
-
-    console.log("test test")
-  if(subscriptionSettingsStore.subscriptionSettings.length > 0){
-    console.log("test test")
-    formData.subscriptionSettingId = subscriptionSettingsStore.subscriptionSettings.find(x=> x.period == subscriptionsStore.selectedSubscription.period!)?.id
+watch(
+  () => subscriptionSettingsStore.subscriptionSettings,
+  () => {
+    console.log("test test");
+    if (subscriptionSettingsStore.subscriptionSettings.length > 0) {
+      console.log("test test");
+      formData.subscriptionSettingId =
+        subscriptionSettingsStore.subscriptionSettings.find(
+          (x) => x.period == subscriptionsStore.selectedSubscription.period!
+        )?.id;
+    }
   }
-})
+);
 
 gradesStore.loadGrades();
 </script>

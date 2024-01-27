@@ -172,24 +172,6 @@
               <div class="fv-row mb-7 col-md-6">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
-                  {{ $t("fakePrice") }}
-                </label>
-                <!--end::Label-->
-
-                <!--begin::Input-->
-                <el-form-item prop="fakePrice">
-                  <el-input
-                    v-model="formData.fakePrice"
-                    type="number"
-                    :placeholder="$t('fakePrice')"
-                  />
-                </el-form-item>
-                <!--end::Input-->
-              </div>
-
-              <div class="fv-row mb-7 col-md-6">
-                <!--begin::Label-->
-                <label class="required fs-6 fw-bold mb-2">
                   {{ $t("periods") }}
                 </label>
                 <!--end::Label-->
@@ -289,7 +271,6 @@ const formData = reactive<NewSubscriptionData>({
   discount: 0,
   englishDetails: "",
   englishSubTitle: "",
-  fakePrice: 0,
   packageId: router.currentRoute.value.params.id as string,
   price: 0,
   subTitle: "",
@@ -348,7 +329,6 @@ const rules = ref<Record<keyof NewSubscriptionData, object[]>>({
   ],
 
   packageId: [{ required: true, message: t("required"), trigger: "blur" }],
-  fakePrice: [{ required: true, message: t("required"), trigger: "blur" }],
   subscriptionSettingId: [
     { required: true, message: t("required"), trigger: "blur" },
   ],

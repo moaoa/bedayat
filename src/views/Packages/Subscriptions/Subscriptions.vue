@@ -23,22 +23,19 @@
           :data-bs-target="`#kt_modal_add_item`"
         >
           <RouterLink
-              class="text-white"
-              :to="{
-                name: 'AddSubscription',
+            class="text-white"
+            :to="{
+              name: 'AddSubscription',
 
-                  params: { id: packageId },
-              }"
+              params: { id: packageId },
+            }"
           >
-
             {{ $t("addNewSubscription") }}
           </RouterLink>
         </a>
 
         <!--end::Menu-->
       </div>
-
-
     </div>
     <!--end::Header-->
 
@@ -58,8 +55,6 @@
             {{ scope.$index + 1 }}
           </template>
         </el-table-column>
-
-
 
         <el-table-column
           prop="title"
@@ -85,11 +80,11 @@
         </el-table-column>
 
         <el-table-column
-            prop="details"
-            :label="$t('details')"
-            width="150"
-            align="center"
-            header-align="center"
+          prop="details"
+          :label="$t('details')"
+          width="150"
+          align="center"
+          header-align="center"
         >
           <template v-slot="scope: { row: Subscription, $index: number }">
             <ClippedText :text="scope.row.details" />
@@ -97,25 +92,23 @@
         </el-table-column>
 
         <el-table-column
-            prop="englishDetails"
-            :label="$t('englishDetails')"
-            width="150"
-            align="center"
-            header-align="center"
+          prop="englishDetails"
+          :label="$t('englishDetails')"
+          width="150"
+          align="center"
+          header-align="center"
         >
           <template v-slot="scope: { row: Subscription, $index: number }">
             <ClippedText :text="scope.row.englishDetails" />
           </template>
         </el-table-column>
 
-
-
         <el-table-column
-            prop="subTitle"
-            :label="$t('subTitle')"
-            width="150"
-            align="center"
-            header-align="center"
+          prop="subTitle"
+          :label="$t('subTitle')"
+          width="150"
+          align="center"
+          header-align="center"
         >
           <template v-slot="scope: { row: Subscription, $index: number }">
             <ClippedText :text="scope.row.subTitle" />
@@ -123,11 +116,11 @@
         </el-table-column>
 
         <el-table-column
-            prop="englishSubTitle"
-            :label="$t('englishSubTitle')"
-            width="150"
-            align="center"
-            header-align="center"
+          prop="englishSubTitle"
+          :label="$t('englishSubTitle')"
+          width="150"
+          align="center"
+          header-align="center"
         >
           <template v-slot="scope: { row: Subscription, $index: number }">
             <ClippedText :text="scope.row.englishSubTitle" />
@@ -135,33 +128,26 @@
         </el-table-column>
 
         <el-table-column
-            prop="period"
-            :label="$t('period')"
-            width="150"
-            align="center"
-            header-align="center"
+          prop="period"
+          :label="$t('period')"
+          width="150"
+          align="center"
+          header-align="center"
         />
         <el-table-column
-            prop="price"
-            :label="$t('price')"
-            width="100"
-            align="center"
-            header-align="center"
+          prop="price"
+          :label="$t('price')"
+          width="100"
+          align="center"
+          header-align="center"
         />
 
         <el-table-column
-            prop="discount"
-            :label="$t('discount')"
-            width="100"
-            align="center"
-            header-align="center"
-        />
-        <el-table-column
-            prop="fakePrice"
-            :label="$t('fakePrice')"
-            width="100"
-            align="center"
-            header-align="center"
+          prop="discount"
+          :label="$t('discount')"
+          width="100"
+          align="center"
+          header-align="center"
         />
 
         <el-table-column
@@ -248,16 +234,16 @@ import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import ClippedText from "@/components/ClippedText.vue";
 import router from "@/router";
 import mapIndexToSectionLabel from "@/core/helpers/mapIndexToSectionLabel";
-import {useSubscriptionStore} from "@/store/pinia_store/modules/SubscriptionModule";
-import {Subscription} from "@/types/Subscription";
-import {useSubscriptionSettingsStore} from "@/store/pinia_store/modules/SubscriptionSettings";
+import { useSubscriptionStore } from "@/store/pinia_store/modules/SubscriptionModule";
+import { Subscription } from "@/types/Subscription";
+import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
 import DeleteSubscriptionModal from "@/views/Packages/Subscriptions/DeleteSubscriptionModal.vue";
 
 const { t } = useI18n();
 const subscriptionStore = useSubscriptionStore();
 const coursesStore = useCoursesStore();
 const subscriptionSettingsStore = useSubscriptionSettingsStore();
-subscriptionSettingsStore.getSubscriptionSettings()
+subscriptionSettingsStore.getSubscriptionSettings();
 const packageId = router.currentRoute.value.params.id as string;
 
 const subscriptionsTable = computed(() => subscriptionStore.subscriptions);

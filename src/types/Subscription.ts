@@ -5,34 +5,32 @@
 //   gradeTypeIndex: number;
 // };
 
-import {GetPackagesResponseDto} from "@/types/Packages/Packages";
+import { GetPackagesResponseDto } from "@/types/Packages/Packages";
 
 export interface NewSubscriptionData {
-  title: string
-  englishTitle: string
-  subTitle: string
-  englishSubTitle: string
-  details: string
-  englishDetails: string
-  subscriptionSettingId: string
-  packageId: string
-  price: number
-  fakePrice: number
-  discount: number
+  title: string;
+  englishTitle: string;
+  subTitle: string;
+  englishSubTitle: string;
+  details: string;
+  englishDetails: string;
+  subscriptionSettingId: string;
+  packageId: string;
+  price: number;
+  discount: number;
 }
 
-
 export interface Subscription {
-  id: string
-  title: string
-  englishTitle: string
-  subTitle: string
-  englishSubTitle: string
-  details: string
-  englishDetails: string
-  period: number
-  courseId: string
-  price: number
-  discount: number
-  package: GetPackagesResponseDto
+  id: string;
+  title: string;
+  englishTitle: string;
+  subTitle: string;
+  englishSubTitle: string;
+  details: string;
+  englishDetails: string;
+  period: number;
+  courseId: string;
+  price: number;
+  discount: number;
+  package: GetPackagesResponseDto;
 }
