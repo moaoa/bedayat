@@ -80,6 +80,61 @@
               <div class="fv-row mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("thumbnail") }}
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <el-form-item prop="thumbnail">
+                  <FileInput
+                    @change="handleFileChange"
+                    :accept="'all'"
+                    ref="fileInput"
+                  >
+                    <template #default="scope">
+                      <div class="d-flex align-items-center gap-4">
+                        <el-input
+                          @click.stop="scope.open()"
+                          :value="scope.fileName"
+                          readonly
+                          type="text"
+                          :placeholder="$t('file')"
+                          aria-label="Username"
+                          aria-describedby="basic-addon1"
+                          style="width: 100%"
+                        >
+                          <template #suffix>
+                            <AttachmentIcon class="cursor-pointer" />
+                          </template>
+                        </el-input>
+                        <div
+                          v-if="scope.fileName"
+                          class="d-flex align-items-center gap-2"
+                        >
+                          <a
+                            class="btn btn-icon btn-light-danger btn-sm"
+                            @click="scope.reset"
+                          >
+                            <i class="bi bi-trash"></i>
+                          </a>
+
+                          <span v-if="loading" class="indicator-progress">
+                            {{ $t("pleaseWait") }}...
+
+                            <span
+                              class="spinner-border spinner-border-sm align-middle ms-2"
+                            ></span>
+                          </span>
+                        </div>
+                      </div>
+                    </template>
+                  </FileInput>
+                </el-form-item>
+                <!--end::Input-->
+              </div>
+              <div class="fv-row mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
                   {{ $t("forPreview") }}
                 </label>
                 <!--end::Label-->
@@ -153,6 +208,8 @@ import { NewLessonData } from "@/types/Lessons";
 import Toaster from "@/core/services/Toaster";
 import router from "@/router";
 import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import FileInput from "@/components/FileInput.vue";
+import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 
 const { t } = useI18n();
 
@@ -164,6 +221,7 @@ const formData = reactive<NewLessonData>({
   description: "",
   lessonType: AppConstants.LESSON_TYPES.Lesson,
   title: "",
+  thumbnail: null,
 });
 
 const rules = ref<Record<keyof NewLessonData, object[]>>({
@@ -176,6 +234,7 @@ const rules = ref<Record<keyof NewLessonData, object[]>>({
     },
   ],
   lessonType: [{ required: true, message: t("required"), trigger: "blur" }],
+  thumbnail: [{ required: true, message: t("required"), trigger: "blur" }],
 });
 
 const submit = () => {
@@ -196,6 +255,10 @@ const submit = () => {
       console.log(error);
     }
   });
+};
+
+const handleFileChange = (file: File | null) => {
+  formData.thumbnail = file;
 };
 
 onMounted(() => {

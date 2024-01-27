@@ -79,6 +79,7 @@ export type CourseFilters = {
 export type NewLessonData = {
   title: string;
   description: string;
+  thumbnail: Blob | null;
   lessonType: number;
 };
 

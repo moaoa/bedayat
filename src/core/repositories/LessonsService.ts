@@ -49,18 +49,27 @@ class LessonsService {
     );
   }
   public static async updateLesson(itemId: string, data: NewLessonData) {
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+
     return await ApiService.put<ApiResponse<Lesson>>(
       `${AppConstants.lESSONS_URL}/EditLesson/${itemId}`,
-      {
-        ...data,
-      }
+      formData
     );
   }
   public static async createNewLesson(sectionId: string, data: NewLessonData) {
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+
     return await ApiService.post<ApiResponse<Lesson>>(
       `${AppConstants.lESSONS_URL}/AddLesson/${sectionId}`,
-      //TODO: when the backend swtich this to an object you need to switch as well
-       data
+      formData
     );
   }
   public static async addAttachmentToLesson(params: NewLessonAttachmentData) {
