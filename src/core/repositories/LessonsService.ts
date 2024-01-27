@@ -66,20 +66,16 @@ class LessonsService {
   public static async addAttachmentToLesson(params: NewLessonAttachmentData) {
     const data = new FormData();
     data.append("Attachment", params.file);
-
-    const queryParams = new URLSearchParams({
-      name: params.attachmentName,
-      description: params.description,
-      attachmentType: params.attachmentType.toString(),
-      lessonId: params.lessonId,
-      lessonContentType: params.mimeType,
-      title: params.title,
-      resolution: params.resolution,
-      size: params.size.toString(),
-    }).toString();
+    data.append("name", params.attachmentName);
+    data.append("attachmentType", params.attachmentType.toString());
+    data.append("lessonId", params.lessonId);
+    data.append("lessonContentType", params.mimeType);
+    data.append("title", params.title);
+    data.append("resolution", params.resolution);
+    data.append("size", params.size.toString());
 
     const res = await ApiService.post<ApiResponse<UploadedLessonAttachment>>(
-      `${AppConstants.lESSONS_URL}/AddAttachmentToLesson2?${queryParams}`,
+      `${AppConstants.lESSONS_URL}/AddAttachmentToLesson2`,
       data
     );
 
