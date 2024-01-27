@@ -33,69 +33,108 @@
         <!--begin::Modal body-->
         <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
           <!--begin::Form-->
-          <Form id="kt_modal_new_card_form" class="form" @submit="submit">
-            <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row">
-              <!--begin::Label-->
-              <label
-                class="d-flex align-items-center fs-6 fw-bold form-label mb-2"
-              >
-                <span class="required">{{ t("numberOfDays") }}</span>
-                <i
-                  class="fas fa-exclamation-circle ms-2 fs-7"
-                  data-bs-toggle="tooltip"
-                  title="Specify a card holder's name"
-                ></i>
-              </label>
-              <!--end::Label-->
-              <Field
-                v-model="cardData"
-                name="numberOfDays"
-                :validate-on-blur="true"
-                :validate-on-change="true"
-                type="number"
-                class="form-control form-control-solid"
-                data-placeholder="Month"
-                :rules="mustBeValidNumber"
-              />
+          <el-form
+            @submit.prevent="submit()"
+            :model="formData"
+            :rules="rules"
+            ref="formRef"
+          >
+            <div class="row">
+              <div class="col-6">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("period") }}
+                </label>
+                <!--end::Label-->
 
-              <div class="fv-plugins-message-container">
-                <div class="fv-help-block">
-                  <ErrorMessage name="numberOfDays" />
-                </div>
+                <!--begin::Input-->
+                <el-form-item prop="period">
+                  <el-input
+                    v-model="formData.period"
+                    type="number"
+                    placeholder=""
+                    :min="0"
+                    :max="365"
+                  />
+                </el-form-item>
+                <!--end::Input-->
+              </div>
+
+              <div class="col-6">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("arabicName") }}
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <el-form-item prop="arabicName">
+                  <el-input
+                    v-model="formData.arabicName"
+                    type="text"
+                    :placeholder="$t('arabicName')"
+                  />
+                </el-form-item>
+                <!--end::Input-->
               </div>
             </div>
-            <!--end::Input group-->
 
-            <!--begin::Actions-->
-            <div class="text-center pt-15">
+            <div class="row">
+              <div class="col-6 mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("englishName") }}
+                </label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <el-form-item prop="description">
+                  <el-input
+                    v-model="formData.englishName"
+                    :placeholder="$t('englishName')"
+                  />
+                </el-form-item>
+                <!--end::Input-->
+              </div>
+            </div>
+
+            <!--begin::Modal footer-->
+            <div class="modal-footer flex-center">
+              <!--begin::Button-->
               <button
                 type="reset"
-                id="kt_modal_new_card_cancel"
-                data-bs-toggle="modal"
-                :data-bs-target="`#kt_modal_new_subscription_settings`"
-                class="btn btn-white me-3"
+                id="kt_modal_add_customer_cancel"
+                class="btn btn-light me-3 btn-sm"
+                style="width: 100px"
               >
-                {{ $t("discard") }}
+                {{ $t("cancel") }}
               </button>
+              <!--end::Button-->
 
+              <!--begin::Button-->
               <button
-                ref="submitButtonRef"
+                :data-kt-indicator="store.dataLoading ? 'on' : null"
+                class="btn btn-sm btn-primary"
                 type="submit"
-                id="kt_modal_new_card_submit"
-                class="btn btn-primary"
+                style="width: 200px"
               >
-                <span class="indicator-label"> {{ $t("submit") }}</span>
-                <span class="indicator-progress">
+                <span v-if="!store.dataLoading" class="indicator-label">
+                  {{ $t("save") }}
+                  <span class="svg-icon svg-icon-3 ms-2 me-0">
+                    <inline-svg src="icons/duotune/arrows/arr064.svg" />
+                  </span>
+                </span>
+                <span v-if="store.dataLoading" class="indicator-progress">
                   {{ $t("pleaseWait") }}...
+
                   <span
                     class="spinner-border spinner-border-sm align-middle ms-2"
                   ></span>
                 </span>
               </button>
+              <!--end::Button-->
             </div>
-            <!--end::Actions-->
-          </Form>
+            <!--end::Modal footer-->
+          </el-form>
           <!--end::Form-->
         </div>
         <!--end::Modal body-->
@@ -108,26 +147,52 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, defineEmits, defineExpose, VNodeRef } from "vue";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import * as yup from "yup";
+import { onMounted, ref, defineEmits, defineExpose, reactive } from "vue";
 import { Modal } from "bootstrap";
 import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
 import { useI18n } from "vue-i18n";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
 
 const store = useSubscriptionSettingsStore();
 
-const submitButtonRef = ref<null | HTMLButtonElement>(null);
 const { t } = useI18n();
 
 const addSubscriptionSettingsModalRef = ref<null | HTMLElement>(null);
-const cardData = ref<number>(0);
+
+const formData = reactive({
+  period: 0,
+  arabicName: "",
+  englishName: "",
+});
+
+const rules = ref<Record<keyof typeof formData, object[]>>({
+  period: [{ required: true, message: t("required"), trigger: "blur" }],
+  arabicName: [
+    { required: true, message: t("required"), trigger: "blur" },
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  englishName: [
+    {
+      required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    },
+  ],
+});
 
 onMounted(() => {
   addSubscriptionSettingsModalRef.value?.addEventListener(
     "hidden.bs.modal",
-    (e) => {
-      cardData.value = 0;
+    () => {
+      formData.period = 0;
+      formData.arabicName = "";
+      formData.englishName = "";
     }
   );
 });
@@ -136,26 +201,16 @@ const emit = defineEmits<{ (event: "submit", isSuccess: boolean) }>();
 defineExpose({ addSubscriptionSettingsModalRef });
 
 const submit = async () => {
-  // here run the validation
-  if (!submitButtonRef.value || cardData.value == 0) return;
-
-  submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-  submitButtonRef.value.disabled = true;
-
-  const added = await store.addSubscriptionSettings(cardData.value);
-
-  if (submitButtonRef.value) {
-    submitButtonRef.value.disabled = false;
-
-    submitButtonRef.value?.removeAttribute("data-kt-indicator");
-  }
+  const added = await store.addSubscriptionSettings({
+    arabicName: formData.arabicName,
+    englishName: formData.englishName,
+    period: formData.period,
+  });
 
   if (added) {
     hideModal(addSubscriptionSettingsModalRef.value);
   }
 };
-
-const mustBeValidNumber = yup.number().required().min(1).max(365);
 
 /////////////////////// helpers
 const hideModal = (modalEl): void => {

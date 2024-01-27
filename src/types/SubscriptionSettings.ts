@@ -1,7 +1,8 @@
 export type SubscriptionSettings = {
-    id: string;
-    period: number;
-    createdAt: string;
-    lastUpdated: string;
-  };
-  
+  period: number;
+  periodArabicName: string;
+  periodEnglishName: string;
+  id: string;
+  createdAt: string;
+  lastUpdated: string;
+};

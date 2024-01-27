@@ -26,44 +26,47 @@ export const useSubscriptionSettingsStore = defineStore({
       try {
         this.dataLoading = true;
         const result =
-        await SubscriptionSettingsService.getSubscriptionSettings();
-        
+          await SubscriptionSettingsService.getSubscriptionSettings();
+
         if (!result.isSuccess)
-        Toaster.error("count not get Subscription Settings");
-      
-      this.subscriptionSettings = result.data.sort((a, b)=>a.period - b.period);
-      
-      this.dataLoading = false;
-      return;
-      
-    } catch (error) {
-      
-      Toaster.error((error as Error).message)
-      this.dataLoading = false;
+          Toaster.error("count not get Subscription Settings");
+
+        this.subscriptionSettings = result.data.sort(
+          (a, b) => a.period - b.period
+        );
+
+        this.dataLoading = false;
+        return;
+      } catch (error) {
+        Toaster.error((error as Error).message);
+        this.dataLoading = false;
       }
-      
-
     },
-    selectSubsctiptionSetting(selectedSubsctiptionSettings: SubscriptionSettings) {
-
+    selectSubsctiptionSetting(
+      selectedSubsctiptionSettings: SubscriptionSettings
+    ) {
       // @ts-ignore
-      this.subsctiptionSettingToUpdate = structuredClone({ ...selectedSubsctiptionSettings });
+      this.subsctiptionSettingToUpdate = structuredClone({
+        ...selectedSubsctiptionSettings,
+      });
     },
-    async addSubscriptionSettings(numberOfDays: number) {
+    async addSubscriptionSettings(params: {
+      period: number;
+      arabicName: string;
+      englishName: string;
+    }) {
       try {
         this.dataLoading = true;
-        const result =
-          await SubscriptionSettingsService.addSubscriptionSettings(
-            numberOfDays
-          );
+        await SubscriptionSettingsService.addSubscriptionSettings(params);
 
         Toaster.Success(t("success"), t("createdSuccessfully"));
 
-        const getResult = await SubscriptionSettingsService.getSubscriptionSettings();
-       
+        const getResult =
+          await SubscriptionSettingsService.getSubscriptionSettings();
+
         if (!getResult.isSuccess)
           Toaster.error("count not get Subscription Settings");
-  
+
         this.subscriptionSettings = getResult.data;
 
         return true;
@@ -74,52 +77,59 @@ export const useSubscriptionSettingsStore = defineStore({
       } finally {
         this.dataLoading = false;
       }
-      return true;
     },
 
-    async updateSubscriptionSettings() : Promise<boolean> {
+    async updateSubscriptionSettings(params: {
+      period: number;
+      arabicName: string;
+      englishName: string;
+    }): Promise<boolean> {
       try {
+        const result =
+          await SubscriptionSettingsService.updateSubscriptionSettings({
+            ...this.subsctiptionSettingToUpdate,
+            period: params.period,
+            periodArabicName: params.arabicName,
+            periodEnglishName: params.englishName,
+          });
 
-        
-        const result = await  SubscriptionSettingsService.updateSubscriptionSettings(this.subsctiptionSettingToUpdate);
-
-        if (!result.isSuccess)
-        {
+        if (!result.isSuccess) {
           Toaster.error("count not update");
           return false;
         }
 
         Toaster.Success(t("success"), t("updatedSuccessfully"));
 
-        const getResult = await SubscriptionSettingsService.getSubscriptionSettings();
-       
+        const getResult =
+          await SubscriptionSettingsService.getSubscriptionSettings();
+
         if (!getResult.isSuccess)
           Toaster.error("count not get Subscription Settings");
-  
+
         this.subscriptionSettings = getResult.data;
-
-
+        return true;
       } catch (error) {
-        Toaster.error((error as Error).message)
+        Toaster.error((error as Error).message);
+        return false;
       } finally {
         this.dataLoading = false;
       }
-
-      return true;
-    },  
-      async deleteSubscriptionSettings() : Promise<boolean> {
+    },
+    async deleteSubscriptionSettings(): Promise<boolean> {
       try {
-
-        
-        const result = await  SubscriptionSettingsService.deleteSubscriptionSettings(this.subsctiptionSettingToDelete.id);
+        const result =
+          await SubscriptionSettingsService.deleteSubscriptionSettings(
+            this.subsctiptionSettingToDelete.id
+          );
 
         Toaster.Success(t("success"), t("deletedSuccessfully"));
 
-        const getResult = await SubscriptionSettingsService.getSubscriptionSettings();
+        const getResult =
+          await SubscriptionSettingsService.getSubscriptionSettings();
 
         this.subscriptionSettings = getResult.data;
       } catch (error) {
-        console.error(error)
+        console.error(error);
       } finally {
         this.dataLoading = false;
       }

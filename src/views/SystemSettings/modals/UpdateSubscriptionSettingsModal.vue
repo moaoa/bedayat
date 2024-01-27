@@ -1,6 +1,12 @@
 <template>
   <!--begin::Modal - New Card-->
-  <div id="kt_modal_update_subscription_settings" ref="modalRef" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div
+    id="kt_modal_update_subscription_settings"
+    ref="modalRef"
+    class="modal fade"
+    tabindex="-1"
+    aria-hidden="true"
+  >
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <!--begin::Modal content-->
@@ -12,7 +18,10 @@
           <!--end::Modal title-->
 
           <!--begin::Close-->
-          <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+          <div
+            class="btn btn-sm btn-icon btn-active-color-primary"
+            data-bs-dismiss="modal"
+          >
             <span class="svg-icon svg-icon-1">
               <inline-svg src="/media/icons/duotune/arrows/arr061.svg" />
             </span>
@@ -24,60 +33,108 @@
         <!--begin::Modal body-->
         <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
           <!--begin::Form-->
-          <Form id="kt_modal_new_card_form" class="form" @submit="submit">
-            <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row">
-              <!--begin::Label-->
-              <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                <span class="required">{{$t("numberOfDays")}} </span>
-                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
-                  title="Specify a card holder's name"></i>
-              </label>
-              <!--end::Label-->
-              <Field v-model="store.subsctiptionSettingToUpdate.period" name="numberOfDays" 
-              :validate-on-blur="true"
-              :validate-on-change="true" 
-              type="number" 
-              class="form-select form-select-solid" 
-              data-control="select2"
-                data-hide-search="true" data-placeholder="Month" as="select" :rules="mustBeValidNumber">
-                <option></option>
-                <template v-for="i in 365" :key="i">
-                  <option v-if="!store.subscriptionSettings.map(x=> x.period).includes(i) || store.subsctiptionSettingToUpdate.period == i " :value="i">{{ i }}</option>
-                </template>
-              </Field>
-              <!-- <Field type="text" class="form-control form-control-solid" placeholder="" name="nameOnCard"
-                v-model="cardData.nameOnCard" /> -->
-              <div class="fv-plugins-message-container">
-                <div class="fv-help-block">
-                  <ErrorMessage name="numberOfDays" />
-                </div>
+          <el-form
+            @submit.prevent="submit()"
+            :model="formData"
+            :rules="rules"
+            ref="formRef"
+          >
+            <div class="row">
+              <div class="col-6">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("period") }}
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <el-form-item prop="period">
+                  <el-input
+                    v-model="formData.period"
+                    type="number"
+                    placeholder=""
+                    :min="0"
+                    :max="365"
+                  />
+                </el-form-item>
+                <!--end::Input-->
+              </div>
+
+              <div class="col-6">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("arabicName") }}
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <el-form-item prop="arabicName">
+                  <el-input
+                    v-model="formData.arabicName"
+                    type="text"
+                    :placeholder="$t('arabicName')"
+                  />
+                </el-form-item>
+                <!--end::Input-->
               </div>
             </div>
-            <!--end::Input group-->
 
+            <div class="row">
+              <div class="col-6 mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("englishName") }}
+                </label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <el-form-item prop="description">
+                  <el-input
+                    v-model="formData.englishName"
+                    :placeholder="$t('englishName')"
+                  />
+                </el-form-item>
+                <!--end::Input-->
+              </div>
+            </div>
 
-            <!--begin::Actions-->
-            <div class="text-center pt-15">
-
-              <button id="kt_modal_new_card_cancel" type="reset" data-bs-toggle="modal"
-                :data-bs-target="`#kt_modal_update_subscription_settings`" class="btn btn-white me-3">
-                {{ $t("discard") }}
+            <!--begin::Modal footer-->
+            <div class="modal-footer flex-center">
+              <!--begin::Button-->
+              <button
+                type="reset"
+                id="kt_modal_add_customer_cancel"
+                class="btn btn-light me-3 btn-sm"
+                style="width: 100px"
+              >
+                {{ $t("cancel") }}
               </button>
+              <!--end::Button-->
 
-              <button id="kt_modal_new_card_submit" 
-              ref="submitButtonRef" 
-              type="submit" 
-              class="btn btn-primary">
-                <span class="indicator-label"> {{$t("submit")}} </span>
-                <span class="indicator-progress">
-                  {{$t("pleaseWait")}}
-                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+              <!--begin::Button-->
+              <button
+                :data-kt-indicator="store.dataLoading ? 'on' : null"
+                class="btn btn-sm btn-primary"
+                type="submit"
+                style="width: 200px"
+              >
+                <span v-if="!store.dataLoading" class="indicator-label">
+                  {{ $t("save") }}
+                  <span class="svg-icon svg-icon-3 ms-2 me-0">
+                    <inline-svg src="icons/duotune/arrows/arr064.svg" />
+                  </span>
+                </span>
+                <span v-if="store.dataLoading" class="indicator-progress">
+                  {{ $t("pleaseWait") }}...
+
+                  <span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                  ></span>
                 </span>
               </button>
+              <!--end::Button-->
             </div>
-            <!--end::Actions-->
-          </Form>
+            <!--end::Modal footer-->
+          </el-form>
           <!--end::Form-->
         </div>
         <!--end::Modal body-->
@@ -90,59 +147,64 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, defineEmits, defineExpose } from "vue";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import * as yup from "yup";
+import { ref, defineEmits, defineExpose, reactive, watch } from "vue";
 import { Modal } from "bootstrap";
 import { useSubscriptionSettingsStore } from "@/store/pinia_store/modules/SubscriptionSettings";
+import { AppConstants } from "@/core/constants/ApplicationsConstants";
+import i18n from "@/core/plugins/i18n";
+const t = i18n.global.t;
 
 const store = useSubscriptionSettingsStore();
 
-const submitButtonRef = ref<null | HTMLButtonElement>(null);
-
 const modalRef = ref<null | HTMLElement>(null);
-
-onMounted(() => {
-  modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
-    store.subsctiptionSettingToUpdate.period = store.subscriptionSettings.find(v=> v.id == store.subsctiptionSettingToUpdate.id)?.period??0;
-  });
-});
-
+const formRef = ref<HTMLFormElement | null>(null);
 
 const emit = defineEmits<{ (event: "submit", isSuccess: boolean) }>();
 defineExpose({ modalRef });
 
-
-
 const submit = async () => {
+  formRef.value!.validate((valid) => {
+    if (!valid) {
+      return;
+    }
+  });
+  const success = await store.updateSubscriptionSettings({
+    arabicName: formData.arabicName!,
+    englishName: formData.englishName!,
+    period: formData.period!,
+  });
 
-  console.log("update submitted");
-  console.log(submitButtonRef.value);
-  
-  
-  // here run the validation
-  if (!submitButtonRef.value)
-    return;
-
-  submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-  submitButtonRef.value.disabled = true;
-
-  const added = await store.updateSubscriptionSettings();
-
-
-  if (submitButtonRef.value) {
-    submitButtonRef.value.disabled = false;
-
-    submitButtonRef.value?.removeAttribute("data-kt-indicator");
-  }
-
-  if (added) {
+  if (success) {
     hideModal(modalRef.value);
   }
-}
+};
 
-const mustBeValidNumber = yup.number().required().min(1).max(365);
+const formData = reactive({
+  period: 0,
+  arabicName: "",
+  englishName: "",
+});
 
+const rules = ref<Record<keyof typeof formData, object[]>>({
+  period: [{ required: true, message: t("required"), trigger: "blur" }],
+  arabicName: [
+    { required: true, message: t("required"), trigger: "blur" },
+    {
+      required: true,
+      pattern: AppConstants.ARABIC_LETTERS_REGEX,
+      message: t("nameMustBeArabic"),
+      trigger: ["blur", "change"],
+    },
+  ],
+  englishName: [
+    {
+      required: true,
+      pattern: AppConstants.ENGLISH_LETTERS_REGEX,
+      message: t("nameMustBeEnglish"),
+      trigger: ["blur", "change"],
+    },
+  ],
+});
 
 /////////////////////// helpers
 const hideModal = (modalEl): void => {
@@ -156,4 +218,15 @@ const hideModal = (modalEl): void => {
   myModal.hide();
 };
 
+watch(
+  () => store.subsctiptionSettingToUpdate,
+  (item) => {
+    if (item) {
+      formData.period = store.subsctiptionSettingToUpdate.period;
+      formData.arabicName = store.subsctiptionSettingToUpdate.periodArabicName;
+      formData.englishName =
+        store.subsctiptionSettingToUpdate.periodEnglishName;
+    }
+  }
+);
 </script>
