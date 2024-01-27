@@ -59,43 +59,99 @@
               <div class="fv-row mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("action") }}
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <el-form-item prop="action">
+                  <el-input
+                    v-model="formData.action"
+                    type="text"
+                    placeholder=""
+                  />
+                </el-form-item>
+
+                <!--end::Input-->
+              </div>
+              <div class="fv-row mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("actionDetails") }}
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <el-form-item prop="actionDetails">
+                  <el-input
+                    v-model="formData.actionDetails"
+                    type="text"
+                    placeholder=""
+                  />
+                </el-form-item>
+
+                <!--end::Input-->
+              </div>
+              <label for="subjects" class="col-sm-4 mt-4 d-flex flex-column">
+                {{ $t("subjects") }}
+                <el-form-item prop="gradeId">
+                  <el-select
+                    v-model="formData.gradeId"
+                    filterable
+                    :placeholder="$t('subjects')"
+                    class="col-sm-4"
+                    style="width: 300px"
+                    v-loading="gradeStore.dataIsLoading"
+                  >
+                    <el-option
+                      v-for="item in gradeStore.grades"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </label>
+
+              <div class="fv-row mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
                   {{ $t("image") }}</label
                 >
                 <!--end::Label-->
 
                 <!--begin::Input-->
                 <el-form-item prop="image">
-                  <div >
-
+                  <div>
                     <FileInput
-                        v-if="!imagePath"
-                        @change="handleImageUpload"
-                        :accept="'image'"
+                      v-if="!imagePath"
+                      @change="handleImageUpload"
+                      :accept="'image'"
                     >
                       <template #default="scope">
                         <div class="d-flex align-items-center gap-4">
                           <AttachmentIcon
-                              class="cursor-pointer"
-                              @click.stop="scope.open()"
+                            class="cursor-pointer"
+                            @click.stop="scope.open()"
                           />
                           <input
-                              :value="scope.fileName"
-                              readonly
-                              type="text"
-                              class="form-control"
-                              :placeholder="$t('image')"
-                              aria-label="Username"
-                              aria-describedby="basic-addon1"
-                              @click.stop="scope.open()"
-                              style="width: 200px"
+                            :value="scope.fileName"
+                            readonly
+                            type="text"
+                            class="form-control"
+                            :placeholder="$t('image')"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                            @click.stop="scope.open()"
+                            style="width: 200px"
                           />
                           <div
-                              v-if="scope.fileName"
-                              class="d-flex align-items-center gap-2"
+                            v-if="scope.fileName"
+                            class="d-flex align-items-center gap-2"
                           >
                             <a
-                                class="btn btn-icon btn-light-danger btn-sm"
-                                @click="scope.reset"
+                              class="btn btn-icon btn-light-danger btn-sm"
+                              @click="scope.reset"
                             >
                               <i class="bi bi-trash"></i>
                             </a>
@@ -104,26 +160,34 @@
                       </template>
                     </FileInput>
                     <div v-else class="row">
-                  <span
-                      :href="imagePath"
-                      class="col-2 mx-10 my-2  justify-content-center align-content-center"
-                  >
-                <a :href="imagePath" target="_blank"
-                   class=" justify-content-center align-content-center">
-                  <img style="width: 50px;" src="/public/media/icons/duotune/files/fil016.svg" >
-                  <p class="">{{ imagePath.slice(-15) ?? '' }}</p>
-                </a>
-                  </span>
                       <span
-                          class="btn btn-danger col-2 mx-10 my-2"
-                          style="width: min-content; height: min-content"
-                          @click="()=> {
-                          imagePath = '';
-                          formData.image = null;
-                        }"
+                        :href="imagePath"
+                        class="col-2 mx-10 my-2 justify-content-center align-content-center"
                       >
-                    {{ $t("delete") }}
-                  </span>
+                        <a
+                          :href="imagePath"
+                          target="_blank"
+                          class="justify-content-center align-content-center"
+                        >
+                          <img
+                            style="width: 50px"
+                            src="/public/media/icons/duotune/files/fil016.svg"
+                          />
+                          <p class="">{{ imagePath.slice(-15) ?? "" }}</p>
+                        </a>
+                      </span>
+                      <span
+                        class="btn btn-danger col-2 mx-10 my-2"
+                        style="width: min-content; height: min-content"
+                        @click="
+                          () => {
+                            imagePath = '';
+                            formData.image = null;
+                          }
+                        "
+                      >
+                        {{ $t("delete") }}
+                      </span>
                     </div>
                   </div>
                 </el-form-item>
@@ -138,7 +202,7 @@
           <div class="modal-footer flex-center">
             <!--begin::Button-->
             <button
-            id="update_locality_modal_close"
+              id="update_locality_modal_close"
               type="reset"
               class="btn btn-light me-3 btn-sm"
               style="width: 100px"
@@ -154,10 +218,16 @@
               type="submit"
               style="width: 200px"
             >
-              <span v-if="!promotionStore.isUpdatingItem" class="indicator-label">
+              <span
+                v-if="!promotionStore.isUpdatingItem"
+                class="indicator-label"
+              >
                 {{ $t("save") }}
               </span>
-              <span v-if="promotionStore.isUpdatingItem" class="indicator-progress">
+              <span
+                v-if="promotionStore.isUpdatingItem"
+                class="indicator-progress"
+              >
                 {{ $t("pleaseWait") }}...
                 <span
                   class="spinner-border spinner-border-sm align-middle ms-2"
@@ -174,39 +244,42 @@
   </div>
 </template>
 
-
 <script lang="ts" setup>
-import {computed, onMounted, reactive, ref, watch} from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import {AddUpdatePromotionDto} from "@/types/Promotions";
-import {usePromotionsStore} from "@/store/pinia_store/modules/PromotionsModule";
+import { AddUpdatePromotionDto } from "@/types/Promotions";
+import { usePromotionsStore } from "@/store/pinia_store/modules/PromotionsModule";
 import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 import FileInput from "@/components/FileInput.vue";
+import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 const { t } = useI18n();
 
 const promotionStore = usePromotionsStore();
+const gradeStore = useGradesStore();
 
 const formRef = ref<null | HTMLFormElement>(null);
 const modalRef = ref<null | HTMLElement>(null);
 
-const imagePath = ref<string>(promotionStore.selectedPromotion?.image ??  '')
+const imagePath = ref<string>(promotionStore.selectedPromotion?.image ?? "");
 
 const loading = computed(() => {
   return promotionStore.isUpdatingItem;
 });
 
 const formData = reactive<AddUpdatePromotionDto>({
+  action: "",
+  actionDetails: "",
+  gradeId: "",
   information: "",
-  image:  promotionStore.selectedPromotion?.image?? '',
+  image: promotionStore.selectedPromotion?.image ?? "",
 });
 
 const handleImageUpload = async (file: File | null) => {
   if (!file) return;
-  imagePath.value = file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
+  imagePath.value =
+    file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
   formData.image = file;
-}
-
-
+};
 
 const emit = defineEmits<{
   (event: "submit", data: AddUpdatePromotionDto);
@@ -217,9 +290,7 @@ defineExpose({
 });
 
 const rules = ref({
-  information: [
-    { required: true, message: t("required"), trigger: "blur" },
-  ],
+  information: [{ required: true, message: t("required"), trigger: "blur" }],
 });
 
 const submit = () => {
@@ -236,19 +307,20 @@ const submit = () => {
   });
 };
 
-onMounted(()=> {
-  console.log(promotionStore.selectedPromotion?.image)
- imagePath.value = promotionStore.selectedPromotion?.image ?? ""
-})
+onMounted(() => {
+  console.log(promotionStore.selectedPromotion?.image);
+  imagePath.value = promotionStore.selectedPromotion?.image ?? "";
+});
 
 watch(
   () => promotionStore.selectedPromotion,
   (value) => {
     formData.information = value?.information ?? "";
     formData.image = value?.image ?? "";
-    imagePath.value = value?.image ??""
+    imagePath.value = value?.image ?? "";
   }
 );
+gradeStore.loadGrades();
 </script>
 
 <style lang="scss">

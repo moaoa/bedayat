@@ -38,7 +38,6 @@
               data-kt-scroll-wrappers="#kt_modal_add_customer_scroll"
               data-kt-scroll-offset="300px"
             >
-
               <div class="fv-row mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
@@ -60,43 +59,79 @@
               <div class="fv-row mb-7">
                 <!--begin::Label-->
                 <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("action") }}
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <el-form-item prop="action">
+                  <el-input
+                    v-model="formData.action"
+                    type="text"
+                    placeholder=""
+                  />
+                </el-form-item>
+
+                <!--end::Input-->
+              </div>
+              <div class="fv-row mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
+                  {{ $t("actionDetails") }}
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <el-form-item prop="actionDetails">
+                  <el-input
+                    v-model="formData.actionDetails"
+                    type="text"
+                    placeholder=""
+                  />
+                </el-form-item>
+
+                <!--end::Input-->
+              </div>
+
+              <div class="fv-row mb-7">
+                <!--begin::Label-->
+                <label class="required fs-6 fw-bold mb-2">
                   {{ $t("image") }}</label
                 >
                 <!--end::Label-->
 
                 <!--begin::Input-->
                 <el-form-item prop="image">
-                  <div >
-
+                  <div>
                     <FileInput
-                        v-if="!imagePath"
-                        @change="handleLogoUpload"
-                        :accept="'image'"
+                      v-if="!imagePath"
+                      @change="handleLogoUpload"
+                      :accept="'image'"
                     >
                       <template #default="scope">
                         <div class="d-flex align-items-center gap-4">
                           <AttachmentIcon
-                              class="cursor-pointer"
-                              @click.stop="scope.open()"
+                            class="cursor-pointer"
+                            @click.stop="scope.open()"
                           />
                           <input
-                              :value="scope.fileName"
-                              readonly
-                              type="text"
-                              class="form-control"
-                              :placeholder="$t('logo')"
-                              aria-label="Username"
-                              aria-describedby="basic-addon1"
-                              @click.stop="scope.open()"
-                              style="width: 200px"
+                            :value="scope.fileName"
+                            readonly
+                            type="text"
+                            class="form-control"
+                            :placeholder="$t('logo')"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                            @click.stop="scope.open()"
+                            style="width: 200px"
                           />
                           <div
-                              v-if="scope.fileName"
-                              class="d-flex align-items-center gap-2"
+                            v-if="scope.fileName"
+                            class="d-flex align-items-center gap-2"
                           >
                             <a
-                                class="btn btn-icon btn-light-danger btn-sm"
-                                @click="scope.reset"
+                              class="btn btn-icon btn-light-danger btn-sm"
+                              @click="scope.reset"
                             >
                               <i class="bi bi-trash"></i>
                             </a>
@@ -105,35 +140,60 @@
                       </template>
                     </FileInput>
                     <div v-else class="row">
-                  <span
-                      :href="imagePath"
-                      class="col-2 mx-10 my-2  justify-content-center align-content-center"
-                  >
-                <a :href="imagePath" target="_blank"
-                   class=" justify-content-center align-content-center">
-                  <img style="width: 50px;" src="/public/media/icons/duotune/files/fil016.svg" >
-                  <p class="">{{ imagePath.slice(-10) ?? '' }}</p>
-                </a>
-                  </span>
                       <span
-                          class="btn btn-danger col-2 mx-10 my-2"
-                          style="width: min-content; height: min-content"
-                          @click="()=> {
-                          imagePath = '';
-                          formData.image = null;
-                        }"
+                        :href="imagePath"
+                        class="col-2 mx-10 my-2 justify-content-center align-content-center"
                       >
-                    {{ $t("delete") }}
-                  </span>
+                        <a
+                          :href="imagePath"
+                          target="_blank"
+                          class="justify-content-center align-content-center"
+                        >
+                          <img
+                            style="width: 50px"
+                            src="/public/media/icons/duotune/files/fil016.svg"
+                          />
+                          <p class="">{{ imagePath.slice(-10) ?? "" }}</p>
+                        </a>
+                      </span>
+                      <span
+                        class="btn btn-danger col-2 mx-10 my-2"
+                        style="width: min-content; height: min-content"
+                        @click="
+                          () => {
+                            imagePath = '';
+                            formData.image = null;
+                          }
+                        "
+                      >
+                        {{ $t("delete") }}
+                      </span>
                     </div>
-
-
-
-
                   </div>
                 </el-form-item>
                 <!--end::Input-->
               </div>
+
+              <label for="subjects" class="col-sm-4 mt-4 d-flex flex-column">
+                {{ $t("subjects") }}
+                <el-form-item prop="gradeId">
+                  <el-select
+                    v-model="formData.gradeId"
+                    filterable
+                    :placeholder="$t('subjects')"
+                    class="col-sm-4"
+                    style="width: 300px"
+                    v-loading="gradeStore.dataIsLoading"
+                  >
+                    <el-option
+                      v-for="item in gradeStore.grades"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </label>
             </div>
             <!--end::Scroll-->
           </div>
@@ -183,31 +243,33 @@
   </div>
 </template>
 
-
-
 <script lang="ts" setup>
-import {ref, computed, reactive, onMounted, watch, onUnmounted} from "vue";
+import { ref, computed, reactive, onMounted, watch, onUnmounted } from "vue";
 
 import { useI18n } from "vue-i18n";
-import {AddUpdatePromotionDto} from "@/types/Promotions";
-import {usePromotionsStore} from "@/store/pinia_store/modules/PromotionsModule";
+import { AddUpdatePromotionDto } from "@/types/Promotions";
+import { usePromotionsStore } from "@/store/pinia_store/modules/PromotionsModule";
 import AttachmentIcon from "@/components/icons/AttachmentIcon.vue";
 import FileInput from "@/components/FileInput.vue";
+import { useGradesStore } from "@/store/pinia_store/modules/GradesModule";
 
 const { t } = useI18n();
 
 const promotionStore = usePromotionsStore();
+const gradeStore = useGradesStore();
 
 const loading = computed(() => promotionStore.isCreatingNewItem);
 
 const formRef = ref<null | HTMLFormElement>(null);
 
 const modalRef = ref<null | HTMLElement>(null);
-// let logoName = ref<string>(t('uploadLogo'))
-const imagePath = ref<string>("")
+const imagePath = ref<string>("");
 const formData = reactive<AddUpdatePromotionDto>({
   information: "",
   image: "",
+  action: "",
+  actionDetails: "",
+  gradeId: "",
 });
 
 const emit = defineEmits<{
@@ -218,14 +280,12 @@ defineExpose({
   modalRef,
 });
 
-
 const handleLogoUpload = async (file: File | null) => {
   if (!file) return;
-  imagePath.value = file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
+  imagePath.value =
+    file.name.length > 15 ? file.name.substring(0, 15) + "..." : file.name;
   formData.image = file;
-
-}
-
+};
 
 const submit = () => {
   if (!formRef.value) {
@@ -235,31 +295,25 @@ const submit = () => {
   formRef.value.validate((valid) => {
     if (valid) {
       emit("submit", formData);
-      formData.information = '';
-
+      formData.information = "";
     }
   });
 };
 
 onMounted(() => {
   modalRef.value?.addEventListener("hidden.bs.modal", (e) => {
-    if (formRef.value)
-      promotionStore.unselectPromotion();
+    if (formRef.value) promotionStore.unselectPromotion();
   });
 });
-onUnmounted(()=> {
-  formData.information  =""
-  formData.image = null
-})
-
-
-const rules = ref({
-  information: [
-    { required: true, message: t("required"), trigger: "blur" },
-  ],
+onUnmounted(() => {
+  formData.information = "";
+  formData.image = null;
 });
 
-
+const rules = ref({
+  information: [{ required: true, message: t("required"), trigger: "blur" }],
+});
+gradeStore.loadGrades();
 </script>
 <style lang="scss">
 .el-select {
