@@ -85,7 +85,7 @@ class UsersService {
     if (!validation.success) {
       console.log(red("issues: "), validation.issues);
     }
-    return res.data.results;
+    return res.data.data;
   }
   public static async createUser(newUserData: NewUserData) {
     return await ApiService.post<Response>(`${AppConstants.USERS_URL}`, {

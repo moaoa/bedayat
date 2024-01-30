@@ -36,7 +36,7 @@ export const UserSchema = object({
 export type User = Output<typeof UserSchema>;
 
 export const ResponseSchema = object({
-  results: nullable(array(UserSchema)),
+  data: nullable(array(UserSchema)),
   statusCode: number(),
   isSuccess: boolean(),
   message: nullable(string()),
